@@ -13,7 +13,45 @@ Furles 旨在构建下一代业务模型框架，将所有的业务以函数维�
 
 ## 项目运行环境和项目依赖
 
-## 业务规则流程基本组装
+## 业务规则流程
+
+## 表达式基本语法
+
+
+### 变量声明描述
+
+```
+var item_name[desc][type]{
+    var1_name[desc][type],var2[desc][type];
+}
+```
+
+ 参数名称|参数作用
+---|---
+var|描述声明的变量类型
+item_name|变量的变量名
+desc|描述符号用来输出log
+var1_name,var2_name|循环嵌套变量,furule的数据结构是可以嵌套的
+
+### 函数声明描述
+
+```
+f[function_name](var1_name,var2_name)->
+    f[function_name2](var1_name,var2_name)
+```
+
+参数名称|参数作用
+---|---
+f|声明此种类型是一个函数变量
+function_name|指定当前函数所使用的在代码中声明的函数变量名称
+var1_name,var2_name|指定在当前框架中声明的变量名称
+->|表示将前一个函数的返回
+
+
+
+
+
+
 
 ## 安装运行方法
 
