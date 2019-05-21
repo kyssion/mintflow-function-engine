@@ -1,4 +1,10 @@
 package com.kyssion.galaxy.exception;
 
-public class BaseException {
+/**
+ * base exception
+ */
+public class BaseException extends Exception {
+    public BaseException(String msg) {
+        super(msg);
+    }
 }
