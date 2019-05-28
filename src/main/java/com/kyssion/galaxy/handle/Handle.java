@@ -1,6 +1,8 @@
 package com.kyssion.galaxy.handle;
 
-public interface Handle<T,P> {
+import com.kyssion.galaxy.param.ParamWrapper;
+
+public interface Handle {
 
     default void before(){ }
 
@@ -8,5 +10,5 @@ public interface Handle<T,P> {
 
     default void error(){}
 
-    T handle(P p);
+    ParamWrapper handle(ParamWrapper p);
 }

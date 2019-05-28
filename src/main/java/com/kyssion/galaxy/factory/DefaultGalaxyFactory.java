@@ -15,6 +15,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
 
     @Override
     public Galaxy create() {
+
         return new Galaxy();
     }
 }
