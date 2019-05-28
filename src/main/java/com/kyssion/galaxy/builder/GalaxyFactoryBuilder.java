@@ -8,10 +8,10 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GalaxyFactoryBuilder {
-    public AtomicReference<GalaxyFactory> factory =
+    private static final AtomicReference<GalaxyFactory> factory =
             new AtomicReference<>();
 
-    public GalaxyFactory build(Reader reader) {
+    public static GalaxyFactory build(Reader reader) {
         Properties properties = new Properties();
         try {
             properties.load(reader);
@@ -21,7 +21,7 @@ public class GalaxyFactoryBuilder {
         return build(properties);
     }
 
-    public GalaxyFactory build(Properties properties) {
+    public static GalaxyFactory build(Properties properties) {
         GalaxyFactory galaxyFactory = factory.get();
         if (galaxyFactory == null) {
             galaxyFactory = new DefaultGalaxyFactory(
@@ -35,11 +35,11 @@ public class GalaxyFactoryBuilder {
         }
     }
 
-    public GalaxyFactory build(InputStream inputStream) {
+    public static GalaxyFactory build(InputStream inputStream) {
         return build(new InputStreamReader(inputStream));
     }
 
-    private String getPropString(Properties properties, String key) {
+    private static String getPropString(Properties properties, String key) {
         return (String) properties.get("key");
     }
 }
