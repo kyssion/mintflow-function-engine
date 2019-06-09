@@ -7,6 +7,9 @@ import java.io.*;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * read config file build factory
+ */
 public class GalaxyFactoryBuilder {
     private static final AtomicReference<GalaxyFactory> factory =
             new AtomicReference<>();
