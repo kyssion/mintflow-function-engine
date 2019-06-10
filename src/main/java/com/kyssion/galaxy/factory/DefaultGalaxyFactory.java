@@ -25,15 +25,21 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
 
     @Override
     public Galaxy create() {
-        Galaxy galaxy = galaxyCache.get();
-        if (galaxy == null) {
-            Map<String, Handle> handleMap = HandleMapBuilder.build(this.handlePath);
-            Map<String, Process> processMap = ProcessMapBuilder.build(this.processPath);
-            galaxy = new Galaxy(handleMap, processMap);
-            galaxyCache.compareAndSet(null, galaxy);
-            return galaxyCache.get();
-        } else {
-            return galaxy;
+        try {
+            Galaxy galaxy = galaxyCache.get();
+            if (galaxy == null) {
+                Map<String, Handle> handleMap = null;
+                handleMap = HandleMapBuilder.build(this.handlePath);
+                Map<String, Process> processMap = ProcessMapBuilder.build(this.processPath);
+                galaxy = new Galaxy(handleMap, processMap);
+                galaxyCache.compareAndSet(null, galaxy);
+                return galaxyCache.get();
+            } else {
+                return galaxy;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

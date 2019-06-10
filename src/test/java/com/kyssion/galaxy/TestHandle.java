@@ -1,29 +1,15 @@
 package com.kyssion.galaxy;
 
 
-import com.kyssion.galaxy.annotation.HandleId;
+import com.kyssion.galaxy.annotation.Handler;
 import com.kyssion.galaxy.handle.Handle;
+import com.kyssion.galaxy.param.ParamWrapper;
 
-@HandleId("testId")
-public class TestHandle implements Handle<String, String> {
-
-    @Override
-    public void before() {
-
-    }
+@Handler("testId")
+public class TestHandle implements Handle {
 
     @Override
-    public void after() {
-
-    }
-
-    @Override
-    public void error() {
-
-    }
-
-    @Override
-    public String handle(String s) {
+    public ParamWrapper handle(ParamWrapper p) {
         return null;
     }
 }

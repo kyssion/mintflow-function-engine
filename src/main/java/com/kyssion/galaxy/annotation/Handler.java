@@ -1,5 +1,8 @@
 package com.kyssion.galaxy.annotation;
 
-public @interface ProcessId {
+/**
+ * Designation handle item
+ */
+public @interface Handler{
     String value() default "";
 }

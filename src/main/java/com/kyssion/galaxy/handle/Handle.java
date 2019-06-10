@@ -4,7 +4,7 @@ import com.kyssion.galaxy.param.ParamWrapper;
 
 public interface Handle {
 
-    default void before(){ }
+    default void before(){}
 
     default void after(){ }
 

@@ -1,8 +1,8 @@
 package com.kyssion.galaxy;
 
-import com.kyssion.galaxy.annotation.ProcessId;
+import com.kyssion.galaxy.annotation.Processer;
 
-@ProcessId("xxx")
+@Processer(id = "xxx")
 public interface ProcessOne {
     String test(Object string);
 
