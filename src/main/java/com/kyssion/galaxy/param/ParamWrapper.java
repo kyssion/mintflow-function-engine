@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class ParamWrapper {
 
+
+
     private Map<Class, Object> param;
     public ParamWrapper() {
         this.param = new HashMap<>();
