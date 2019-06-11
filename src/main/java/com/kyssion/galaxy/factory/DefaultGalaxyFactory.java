@@ -4,6 +4,7 @@ import com.kyssion.galaxy.Galaxy;
 import com.kyssion.galaxy.builder.HandleMapBuilder;
 import com.kyssion.galaxy.builder.ProcessMapBuilder;
 import com.kyssion.galaxy.handle.Handle;
+import com.kyssion.galaxy.process.Process;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -30,7 +31,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
             if (galaxy == null) {
                 Map<String, Handle> handleMap = null;
                 handleMap = HandleMapBuilder.build(this.handlePath);
-                Map<String, Process> processMap = ProcessMapBuilder.build(this.processPath);
+                Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
                 galaxy = new Galaxy(handleMap, processMap);
                 galaxyCache.compareAndSet(null, galaxy);
                 return galaxyCache.get();
