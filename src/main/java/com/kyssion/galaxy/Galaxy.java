@@ -19,6 +19,7 @@ public class Galaxy {
         proxy = new HashMap<>();
         initProxy();
     }
+
     private void initProxy() {
 
     }
