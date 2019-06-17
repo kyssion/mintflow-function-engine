@@ -29,8 +29,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
         try {
             Galaxy galaxy = galaxyCache.get();
             if (galaxy == null) {
-                Map<String, Handle> handleMap = null;
-                handleMap = HandleMapBuilder.build(this.handlePath);
+                Map<String, Handle> handleMap = HandleMapBuilder.build(this.handlePath);
                 Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
                 galaxy = new Galaxy(handleMap, processMap);
                 galaxyCache.compareAndSet(null, galaxy);
