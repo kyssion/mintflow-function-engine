@@ -36,9 +36,9 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
                 Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
 
                 //创建handle调用链
-                Map<String, StartHander> headHanderMap = new HashMap<>();
+                Map<String, StartHander> startHanderMap = new HashMap<>();
 
-                galaxy = new Galaxy(headHanderMap, processMap);
+                galaxy = new Galaxy(startHanderMap, processMap);
 
                 galaxyCache.compareAndSet(null, galaxy);
                 return galaxyCache.get();
