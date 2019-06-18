@@ -19,20 +19,20 @@ public class GalaxyFactoryBuilder {
         try {
             properties.load(reader);
         } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return build(properties);
+            e.printStackTrace();
         }
+        return build(properties);
+    }
 
-        public static GalaxyFactory build(Properties properties) {
-            GalaxyFactory galaxyFactory = factory.get();
-            if (galaxyFactory == null) {
-                galaxyFactory = new DefaultGalaxyFactory(
-                        getPropString(properties, "galaxy.handle-path"),
-                        getPropString(properties, "galaxy.map-path"),
-                        getPropString(properties, "galaxy.process-path"));
-                factory.compareAndSet(null, galaxyFactory);
-                return factory.get();
+    public static GalaxyFactory build(Properties properties) {
+        GalaxyFactory galaxyFactory = factory.get();
+        if (galaxyFactory == null) {
+            galaxyFactory = new DefaultGalaxyFactory(
+                    getPropString(properties, "galaxy.handle-path"),
+                    getPropString(properties, "galaxy.map-path"),
+                    getPropString(properties, "galaxy.process-path"));
+            factory.compareAndSet(null, galaxyFactory);
+            return factory.get();
         } else {
             return galaxyFactory;
         }
