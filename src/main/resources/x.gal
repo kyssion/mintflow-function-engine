@@ -1,0 +1,20 @@
+namespace(xxxx.xxxx){
+    process(processid)->h:{xxx}->h:{ppp}->h:{zzz};
+    process(processid)->h:{xxx}->h:{ppp}->h:{zzz};
+}
+
+
+
+a = vvv
+b = spaceId
+c = processid
+e = handleid;
+
+Z = SZ|#
+
+S = a(s){K}
+
+K = process(b)P;K|#
+
+
+P = ->h:{b}P|#
