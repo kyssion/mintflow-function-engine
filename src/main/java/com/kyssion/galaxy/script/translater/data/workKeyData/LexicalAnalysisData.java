@@ -1,4 +1,4 @@
-package com.kyssion.galaxy.script.translater.data;
+package com.kyssion.galaxy.script.translater.data.workKeyData;
 
 import com.kyssion.galaxy.script.translater.symbol.SymbolType;
 
@@ -6,6 +6,20 @@ public class LexicalAnalysisData {
     private String code;
     private int index;
     private SymbolType type;
+
+    public LexicalAnalysisData() {
+        super();
+    }
+
+    public LexicalAnalysisData(String code, int index, SymbolType type) {
+        this.code = code;
+        this.index = index;
+        this.type = type;
+    }
+
+    public static LexicalAnalysisData create(String code, int index, SymbolType type) {
+        return new LexicalAnalysisData(code, index, type);
+    }
 
     public String getCode() {
         return code;
