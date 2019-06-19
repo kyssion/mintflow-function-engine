@@ -1,23 +1,23 @@
 package com.kyssion.galaxy.script.translater.data.workKeyData;
 
-import com.kyssion.galaxy.script.translater.symbol.SymbolType;
+import com.kyssion.galaxy.script.translater.symbol.LexicalType;
 
 public class LexicalAnalysisData {
     private String code;
     private int index;
-    private SymbolType type;
+    private LexicalType type;
 
     public LexicalAnalysisData() {
         super();
     }
 
-    public LexicalAnalysisData(String code, int index, SymbolType type) {
+    public LexicalAnalysisData(String code, int index, LexicalType type) {
         this.code = code;
         this.index = index;
         this.type = type;
     }
 
-    public static LexicalAnalysisData create(String code, int index, SymbolType type) {
+    public static LexicalAnalysisData create(String code, int index, LexicalType type) {
         return new LexicalAnalysisData(code, index, type);
     }
 
@@ -37,11 +37,11 @@ public class LexicalAnalysisData {
         this.index = index;
     }
 
-    public SymbolType getType() {
+    public LexicalType getType() {
         return type;
     }
 
-    public void setType(SymbolType type) {
+    public void setType(LexicalType type) {
         this.type = type;
     }
 }
