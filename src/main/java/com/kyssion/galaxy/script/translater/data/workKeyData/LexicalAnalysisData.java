@@ -3,7 +3,7 @@ package com.kyssion.galaxy.script.translater.data.workKeyData;
 import com.kyssion.galaxy.script.translater.symbol.LexicalType;
 
 public class LexicalAnalysisData {
-    private String code;
+    private String value;
     private int index;
     private LexicalType type;
 
@@ -11,22 +11,22 @@ public class LexicalAnalysisData {
         super();
     }
 
-    public LexicalAnalysisData(String code, int index, LexicalType type) {
-        this.code = code;
+    public LexicalAnalysisData(String value, int index, LexicalType type) {
+        this.value = value;
         this.index = index;
         this.type = type;
     }
 
-    public static LexicalAnalysisData create(String code, int index, LexicalType type) {
-        return new LexicalAnalysisData(code, index, type);
+    public static LexicalAnalysisData create(String value, int index, LexicalType type) {
+        return new LexicalAnalysisData(value, index, type);
     }
 
-    public String getCode() {
-        return code;
+    public String getValue() {
+        return value;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public int getIndex() {

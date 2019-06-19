@@ -2,7 +2,7 @@ package com.kyssion.galaxy.script.translater.analysis;
 
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.data.workKeyData.StopNoteMap;
-import com.kyssion.galaxy.script.translater.symbol.SymbolType;
+import com.kyssion.galaxy.script.translater.symbol.LexicalType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class LexicalAnalysis {
                 if (StopNoteMap.isBeforeNote(lineTxt.charAt(a)) ||
                         StopNoteMap.isEndNote(lineTxt.charAt(a))) {
                     String value = note.toString();
-                    SymbolType symbolType = SymbolType.getTypeByKeyWord(value);
+                    LexicalType symbolType = LexicalType.getTypeByKeyWord(value);
                     analysisDataList.add(LexicalAnalysisData.create(value, a, symbolType));
                 } else {
                     note.append(lineTxt.charAt(a));

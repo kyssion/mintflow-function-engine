@@ -5,10 +5,14 @@ namespace(xxxx.xxxx){
 
 
 
-a = namespaceId
-b = processid
-c = handleid
+A = namespaceId
+B = processid
+C = handleid
+
 Z = SZ|#
-S = namespace(a){K}
-K = process(b)P;K|#
-P = ->h:{c}P|#
+
+S = namespace(A){K}
+
+K = process(B)P;K|#
+
+P = ->h:{C}P|#
