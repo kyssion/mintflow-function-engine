@@ -30,4 +30,8 @@ public class Galaxy {
         }
         return null;
     }
+
+    public static void main(String[] args) {
+
+    }
 }

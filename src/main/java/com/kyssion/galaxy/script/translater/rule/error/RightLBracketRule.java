@@ -1,7 +1,7 @@
-package com.kyssion.galaxy.script.translater.rule;
+package com.kyssion.galaxy.script.translater.rule.error;
 
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
-import com.kyssion.galaxy.script.translater.rule.base.Rule;
+import com.kyssion.galaxy.script.translater.rule.error.base.Rule;
 
 import java.util.List;
 

@@ -32,7 +32,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
             Galaxy galaxy = galaxyCache.get();
             if (galaxy == null) {
                 //所有处理方法的集合
-                Map<String, Handle> handleMap = HandleMapBuilder.build(this.handlePath);
+                Map<String, Handle> handleMap = HandleMapBuilder.handleMapbuild(this.handlePath);
                 Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
 
                 //创建handle调用链

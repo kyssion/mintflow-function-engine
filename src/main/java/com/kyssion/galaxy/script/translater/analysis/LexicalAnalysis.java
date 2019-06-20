@@ -29,16 +29,30 @@ public class LexicalAnalysis {
                 mapperAnalysisList.add(analysisDataList);
                 analysisDataList = new ArrayList<>();
             }
+            if(lineTxt.startsWith("#")){
+                continue;
+            }
             for (int a = 0; a < lineTxt.length(); a++) {
+                if(lineTxt.charAt(a)==' '||lineTxt.charAt(a)=='\n'){
+                    continue;
+                }
                 if (stopNoteMap.isBeforeNote(lineTxt.charAt(a)) ||
                         stopNoteMap.isEndNote(lineTxt.charAt(a))) {
-                    String value = note.toString();
-                    LexicalType symbolType = LexicalType.getTypeByKeyWord(value);
-                    analysisDataList.add(LexicalAnalysisData.create(value, a, symbolType));
+                    if(note.length()!=0) {
+                        String value = note.toString();
+                        LexicalType symbolType = LexicalType.getTypeByKeyWord(value);
+                        analysisDataList.add(LexicalAnalysisData.create(value, a, symbolType));
+                        note = new StringBuilder();
+                    }
+                    LexicalType symbolType = LexicalType.getTypeByKeyWord(String.valueOf(lineTxt.charAt(a)));
+                    analysisDataList.add(LexicalAnalysisData.create(String.valueOf(lineTxt.charAt(a)), a, symbolType));
                 } else {
                     note.append(lineTxt.charAt(a));
                 }
             }
+        }
+        if(analysisDataList.size()>0){
+            mapperAnalysisList.add(analysisDataList);
         }
         return mapperAnalysisList;
     }

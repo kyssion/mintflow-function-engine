@@ -1,18 +1,19 @@
-package com.kyssion.galaxy.script.translater.rule;
+package com.kyssion.galaxy.script.translater.rule.error;
 
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
-import com.kyssion.galaxy.script.translater.rule.base.Rule;
-import com.kyssion.galaxy.script.translater.rule.typeCheck.IdTypeRule;
+import com.kyssion.galaxy.script.translater.rule.error.base.Rule;
 
 import java.util.List;
 
-/**
- * C = handleid
- */
-public class CRule  extends Rule {
+public class LeftLBracketRule extends Rule {
+    @Override
+    public void init() {
+
+    }
+
     @Override
     public int tryChild(int index , List<LexicalAnalysisData> dataList) {
-        if (IdTypeRule.isTrue(dataList.get(index).getValue())) {
+        if (dataList.get(index).getValue().equals(")")) {
             return index+1;
         }
         return -1;
@@ -25,6 +26,6 @@ public class CRule  extends Rule {
 
     @Override
     public boolean isMatch(LexicalAnalysisData data) {
-        return data.getType().getCode() == 10 && IdTypeRule.isTrue(data.getValue());
+        return data.getValue().equals("{");
     }
 }

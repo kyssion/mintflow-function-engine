@@ -1,28 +1,31 @@
-package com.kyssion.galaxy.script.translater.rule;
+package com.kyssion.galaxy.script.translater.rule.error;
 
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
-import com.kyssion.galaxy.script.translater.rule.base.Rule;
+import com.kyssion.galaxy.script.translater.rule.error.base.Rule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * S = namespace(A){K}
+ * P = ->h:{C}P|#
  */
-public class SRule extends Rule {
+public class PRule extends Rule {
 
-
-    public SRule(){
+    @Override
+    public void init() {
         this.rulesList = new ArrayList<>();
         List<Rule> list = new ArrayList<>();
-        list.add(new ARule());
-        list.add(new LeftBracketRule());
-        list.add(new KeyWordRule("namespace"));
-        list.add(new RightBracketRule());
+        list.add(new UnderlineRule());
+        list.add(new ArrowRule());
+        list.add(new ColonRule());
         list.add(new LeftLBracketRule());
-        list.add(new KRule());
+        list.add(new CRule());
         list.add(new RightLBracketRule());
+        list.add(new PRule());
         rulesList.add(list);
+        List<Rule> emple = new ArrayList<>();
+        emple.add(new EmpleRule());
+        rulesList.add(emple);
     }
 
     @Override

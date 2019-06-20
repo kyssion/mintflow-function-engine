@@ -1,10 +1,12 @@
-package com.kyssion.galaxy.script.translater.rule.base;
+package com.kyssion.galaxy.script.translater.rule.error.base;
 
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 
 import java.util.List;
 
 public abstract class Rule {
+
+//    public abstract void init();
 
     protected List<List<Rule>> rulesList;
 
