@@ -6,7 +6,9 @@ import com.kyssion.galaxy.script.translater.rule.base.Rule;
 import java.util.ArrayList;
 import java.util.List;
 
-// process(B)P;K|#
+/**
+ * K = process(B)P;K|#
+ */
 public class KRule extends MiddleRule {
 
     private List<Rule> list;

@@ -18,6 +18,7 @@ public class LexicalAnalysis {
      * @throws IOException
      */
     public static List<List<LexicalAnalysisData>> analysis(BufferedReader reader) throws IOException {
+        StopNoteMap stopNoteMap = new StopNoteMap();
         List<List<LexicalAnalysisData>> mapperAnalysisList =
                 new ArrayList<>();
         String lineTxt;
@@ -29,8 +30,8 @@ public class LexicalAnalysis {
                 analysisDataList = new ArrayList<>();
             }
             for (int a = 0; a < lineTxt.length(); a++) {
-                if (StopNoteMap.isBeforeNote(lineTxt.charAt(a)) ||
-                        StopNoteMap.isEndNote(lineTxt.charAt(a))) {
+                if (stopNoteMap.isBeforeNote(lineTxt.charAt(a)) ||
+                        stopNoteMap.isEndNote(lineTxt.charAt(a))) {
                     String value = note.toString();
                     LexicalType symbolType = LexicalType.getTypeByKeyWord(value);
                     analysisDataList.add(LexicalAnalysisData.create(value, a, symbolType));
