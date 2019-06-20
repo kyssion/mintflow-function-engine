@@ -1,13 +1,20 @@
 package com.kyssion.galaxy.script.translater.rule;
 
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
-import com.kyssion.galaxy.script.translater.rule.base.EndRule;
+import com.kyssion.galaxy.script.translater.rule.base.Rule;
 
-public class EmpleRule extends EndRule {
+import java.util.List;
+
+public class EmpleRule extends Rule {
 
     @Override
     public boolean isMatch(LexicalAnalysisData data) {
         return true;
+    }
+
+    @Override
+    public int tryChild(int index, List<LexicalAnalysisData> dataList) {
+        return index + 1;
     }
 
     @Override
