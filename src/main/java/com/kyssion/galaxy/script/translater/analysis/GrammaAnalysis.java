@@ -24,124 +24,131 @@ public class GrammaAnalysis {
 
     public GrammaAnalysis() {
         pKey = new String[]{
-                "process", "(", "b", ")", "P", ";", "K"
+                "-", ">", "h", ":", "{", "c", "}", "P"
         };
         kKey = new String[]{
                 "process", "(", "b", ")", "P", ";", "K"
         };
         sKey = new String[]{
-                "namespace", "(", "a", ")", "P", "{", "K", "}"
+                "namespace", "(", "a", ")", "{", "K", "}"
         };
     }
 
-    public boolean analysis(List<LexicalAnalysisData> dataList) {
+    public int analysis(List<LexicalAnalysisData> dataList) {
         return analysis(dataList, GrammaType.ROOT, 0);
     }
 
-    private boolean analysis(List<LexicalAnalysisData> dataList, GrammaType nodeType, int index) {
+    private int analysis(List<LexicalAnalysisData> dataList, GrammaType nodeType, int index) {
         if (index >= dataList.size()) {
-            return true;
+            return dataList.size();
         }
+        int itemIndex;
         switch (nodeType) {
             case ROOT:
                 return analysis(dataList, GrammaType.Z, 0);
             case a:
             case b:
             case c:
-                return IdTypeRule.isTrue(dataList.get(index).getValue());
-            case Z:
-                return analysis(dataList, GrammaType.S, index) &&
-                        analysis(dataList, GrammaType.Z, index + 1) ||
-                        analysis(dataList, GrammaType.EMPLE, index);
-            case S:
-
-            case K:
-
-            case P:
-
-        }
-        return true;
-    }
-
-    private int analysisS(List<LexicalAnalysisData> dataList, int index) {
-        if (index >= dataList.size()) {
-            return dataList.size();
-        }
-        label:
-        for (int a = 0; a < sKey.length && index < dataList.size(); a++, index++) {
-            switch (sKey[a]) {
-                case "P":
-                    index = analysisP(dataList, index);
-                    if (index == -1) {
-                        break label;
-                    }
-                    break;
-                case "K":
-                    index = analysisK(dataList, index);
-                    if (index == -1) {
-                        break label;
-                    }
-                    break;
-                case "a":
-                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
-                        index = -1;
-                        break label;
-                    }
-                    break;
-                default:
-                    if (!dataList.get(index).getValue().equals(sKey[a])) {
-                        index = -1;
-                        break label;
-                    }
-                    break;
-            }
-        }
-        return index;
-    }
-
-    private int analysisK(List<LexicalAnalysisData> dataList, int index) {
-        String[] key = new String[]{
-                "process", "(", "b", ")", "P", ";", "K"
-        };
-        for (int a = 0; a < kKey.length && index < dataList.size(); a++, index++) {
-            if (kKey[a].equals("b")) {
-                if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
-                    index = -1;
-                    break;
+                return IdTypeRule.isTrue(dataList.get(index).getValue()) ? index + 1 : -1;
+            case Z: //Z = SZ|#
+                itemIndex = analysis(dataList, GrammaType.S, index);
+                if (itemIndex != -1) {
+                    itemIndex = analysis(dataList, GrammaType.Z, itemIndex);
                 }
-            } else if (kKey[a].equals("P")) {
-                index = analysisP(dataList, index + 1);
+                if (itemIndex == -1) {
+                    return analysis(dataList, GrammaType.EMPLE, index);
+                }
+                return itemIndex;
+            case S: //S = namespace(a){K}
+                label:
+                for (int a = 0; a < sKey.length && index < dataList.size(); a++, index++) {
+                    switch (sKey[a]) {
+                        case "K":
+                            index = analysis(dataList, GrammaType.K, index);
+                            if (index == -1) {
+                                break label;
+                            }
+                            break;
+                        case "a":
+                            if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                                index = -1;
+                                break label;
+                            }
+                            break;
+                        default:
+                            if (!dataList.get(index).getValue().equals(sKey[a])) {
+                                index = -1;
+                                break label;
+                            }
+                            break;
+                    }
+                }
+                return index;
+            case K: // K = process(b)P;K|#
+                itemIndex = index;
+                label:
+                for (int a = 0; a < kKey.length && index < dataList.size(); a++, index++) {
+                    switch (kKey[a]) {
+                        case "K":
+                            index = analysis(dataList, GrammaType.K, index);
+                            if (index == -1) {
+                                break label;
+                            }
+                            break;
+                        case "b":
+                            if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                                index = -1;
+                                break label;
+                            }
+                            break;
+                        case "P":
+                            index = analysis(dataList, GrammaType.P, index);
+                            if (index == -1) {
+                                break label;
+                            }
+                            break;
+                        default:
+                            if (!dataList.get(index).getValue().equals(kKey[a])) {
+                                index = -1;
+                                break label;
+                            }
+                            break;
+                    }
+                }
                 if (index == -1) {
-                    break;
+                    return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
-            } else if (kKey[a].equals("K")) {
-                index = analysisK(dataList, index + 1);
+                return index;
+            case P: //P = ->h:{c}P|#
+                itemIndex = index;
+                label:
+                for (int a = 0; a < pKey.length && index < dataList.size(); a++, index++) {
+                    switch (pKey[a]) {
+                        case "c":
+                            if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                                index = -1;
+                                break label;
+                            }
+                            break;
+                        case "P":
+                            index = analysis(dataList, GrammaType.P, index);
+                            if (index == -1) {
+                                break label;
+                            }
+                            break;
+                        default:
+                            if (!dataList.get(index).getValue().equals(pKey[a])) {
+                                index = -1;
+                                break label;
+                            }
+                            break;
+                    }
+                }
                 if (index == -1) {
-                    break;
+                    return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
-            } else {
-                if (!kKey[a].equals(dataList.get(index).getValue())) {
-                    index = -1;
-                    break;
-                }
-            }
+                return index;
         }
-        return index;
-    }
-
-    private int analysisP(List<LexicalAnalysisData> dataList, int index) {
-        String[] key = new String[]{
-                "process", "(", "b", ")", "P", ";", "K"
-        };
-        for (int a = 0; a < key.length && index < dataList.size(); a++, index++) {
-            if (key[a].equals("b")) {
-                if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
-                    return -1;
-                }
-            } else if (key[a].equals("P")) {
-                analysis(dataList, GrammaType.P, index + 1);
-            }
-        }
-        return 123;
+        return -1;
     }
 }

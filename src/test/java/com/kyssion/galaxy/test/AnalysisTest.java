@@ -3,24 +3,26 @@ package com.kyssion.galaxy.test;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
-import com.kyssion.galaxy.script.translater.rule.error.ZRule;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnalysisTest {
     public static void main(String[] args) throws IOException {
         System.out.println(new File("").getAbsolutePath());
+//        BufferedReader reader = new BufferedReader(
+//                new InputStreamReader(new FileInputStream("D:/project/java-project/Galaxy/src/test/resources/x.gal"))
+//        );
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream("D:/project/java-project/Galaxy/src/test/resources/x.gal"))
+                new InputStreamReader(new FileInputStream("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal"))
         );
-        List<List<LexicalAnalysisData>> lists = LexicalAnalysis.analysis(reader);
+        LexicalAnalysis lexicalAnalysis = new LexicalAnalysis();
+        List<List<LexicalAnalysisData>> lists = lexicalAnalysis.analysis(reader);
         System.out.println();
-        List<ZRule> list = new ArrayList<>();
-        for(List<LexicalAnalysisData> dataList:lists){
-            list.add(GrammaAnalysis.analysis(dataList));
+        GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
+        for (List<LexicalAnalysisData> list: lists) {
+            int a = grammaAnalysis.analysis(list);
+            System.out.println(a);
         }
-        System.out.println(list);
     }
 }
