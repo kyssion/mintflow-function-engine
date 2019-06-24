@@ -17,7 +17,7 @@ public class LexicalAnalysis {
      * @return
      * @throws IOException
      */
-    public static List<List<LexicalAnalysisData>> analysis(BufferedReader reader) throws IOException {
+    public List<List<LexicalAnalysisData>> analysis(BufferedReader reader) throws IOException {
         StopNoteMap stopNoteMap = new StopNoteMap();
         List<List<LexicalAnalysisData>> mapperAnalysisList =
                 new ArrayList<>();

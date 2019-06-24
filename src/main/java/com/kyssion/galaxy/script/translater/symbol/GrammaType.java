@@ -1,14 +1,17 @@
 package com.kyssion.galaxy.script.translater.symbol;
 
-public enum  GrammaType {
-    a("namespaceId","a",0),
-    b("processId","b",1),
-    c("handleId","c",2),
-    Z("SZ|#","Z",3),
-    S("namespace(a){K}","S",4),
-    K("process(b)P;K|#","K",5),
-    P("->h:{c}P|#","P",6);
-    GrammaType(String rule,String name,int id){
+public enum GrammaType {
+    a("namespaceId", "a", 0),
+    b("processId", "b", 1),
+    c("handleId", "c", 2),
+    Z("SZ|#", "Z", 3),
+    S("namespace(a){K}", "S", 4),
+    K("process(b)P;K|#", "K", 5),
+    P("->h:{c}P|#", "P", 6),
+    ROOT("ROOT", "ROOT", 7),
+    EMPLE("EMPLE", "EMP:E", 8);
+
+    GrammaType(String rule, String name, int id) {
         this.rule = rule;
         this.name = name;
         this.id = id;
