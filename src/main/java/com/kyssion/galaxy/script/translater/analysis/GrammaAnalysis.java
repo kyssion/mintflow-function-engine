@@ -1,6 +1,5 @@
 package com.kyssion.galaxy.script.translater.analysis;
 
-import com.kyssion.galaxy.param.ParamWrapper;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.rule.typeCheck.IdTypeRule;
 import com.kyssion.galaxy.script.translater.symbol.GrammaType;
@@ -54,7 +53,6 @@ public class GrammaAnalysis {
                 return analysis(dataList, GrammaType.S, index) &&
                         analysis(dataList, GrammaType.Z, index + 1) ||
                         analysis(dataList, GrammaType.EMPLE, index);
-
             case S:
 
             case K:
@@ -62,27 +60,43 @@ public class GrammaAnalysis {
             case P:
 
         }
+        return true;
     }
 
     private int analysisS(List<LexicalAnalysisData> dataList, int index) {
         if (index >= dataList.size()) {
             return dataList.size();
         }
-
+        label:
         for (int a = 0; a < sKey.length && index < dataList.size(); a++, index++) {
-            if (sKey[a].equals("P")) {
-                index = analysisP(dataList,index);
-                if(index==-1){
+            switch (sKey[a]) {
+                case "P":
+                    index = analysisP(dataList, index);
+                    if (index == -1) {
+                        break label;
+                    }
                     break;
-                }
-            } else if (sKey[a].equals("K")) {
-
-            } else if (sKey[a].equals("namespace")) {
-
-            } else {
-
+                case "K":
+                    index = analysisK(dataList, index);
+                    if (index == -1) {
+                        break label;
+                    }
+                    break;
+                case "a":
+                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                        index = -1;
+                        break label;
+                    }
+                    break;
+                default:
+                    if (!dataList.get(index).getValue().equals(sKey[a])) {
+                        index = -1;
+                        break label;
+                    }
+                    break;
             }
         }
+        return index;
     }
 
     private int analysisK(List<LexicalAnalysisData> dataList, int index) {
@@ -112,25 +126,7 @@ public class GrammaAnalysis {
                 }
             }
         }
-        if (index == -1 &&) {
-
-        }
         return index;
-    }
-
-    private int analysisS(List<LexicalAnalysisData> dataList, int index) {
-        String[] key = new String[]{
-                "process", "(", "b", ")", "P", ";", "K"
-        };
-        for (int a = 0; a < key.length && index < dataList.size(); a++, index++) {
-            if (key[a].equals("b")) {
-                if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
-                    return -1;
-                }
-            } else if (key[a].equals("P")) {
-                analysis(dataList, GrammaType.P, index + 1);
-            }
-        }
     }
 
     private int analysisP(List<LexicalAnalysisData> dataList, int index) {
@@ -146,5 +142,6 @@ public class GrammaAnalysis {
                 analysis(dataList, GrammaType.P, index + 1);
             }
         }
+        return 123;
     }
 }
