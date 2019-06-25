@@ -1,5 +1,6 @@
 package com.kyssion.galaxy.test;
 
+import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
 import com.kyssion.galaxy.handle.header.StartHander;
 import com.kyssion.galaxy.param.ParamWrapper;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AnalysisTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, AnalysisNoHandleException {
         System.out.println(new File("").getAbsolutePath());
 //        File file = new File("D:/project/java-project/Galaxy/src/test/resources/x.gal");
         File file = new File("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal");

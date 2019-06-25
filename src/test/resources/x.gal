@@ -1,5 +1,5 @@
 namespace(namespace1){
-    process(process1)->h:{one}->h:{two}->h:{three};
+    process(process1)->h:{one}->h:{two}->h:{threee};
 }namespace(namespace2){
      process(process2)->h:{four}->h:{five}->h:{one}->h:{two};
  }

@@ -1,5 +1,6 @@
 package com.kyssion.galaxy.script.translater.analysis;
 
+import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
 import com.kyssion.galaxy.handle.header.StartHander;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
@@ -38,13 +39,13 @@ public class SemanticAnalysis {
         };
     }
 
-    public int analysis(List<LexicalAnalysisData> dataList, Map<String, Handle> map) {
+    public int analysis(List<LexicalAnalysisData> dataList, Map<String, Handle> map) throws AnalysisNoHandleException {
         this.handleMap = map;
         this.startHanderMap = new HashMap<>();
         return analysis(dataList, GrammaType.ROOT, 0);
     }
 
-    private int analysis(List<LexicalAnalysisData> dataList, GrammaType nodeType, int index) {
+    private int analysis(List<LexicalAnalysisData> dataList, GrammaType nodeType, int index) throws AnalysisNoHandleException {
         if (index >= dataList.size()) {
             return dataList.size();
         }
@@ -145,6 +146,11 @@ public class SemanticAnalysis {
                                 break label;
                             }
                             Handle handle = this.handleMap.get(dataList.get(index).getValue());
+                            if(handle==null){
+                                throw new AnalysisNoHandleException("no handle name {"+dataList.get(index).getValue()+
+                                        "} in process {"+this.namespaceData.getValue()+"}"+"which namespace is {"
+                                        +this.processData.getValue()+"}");
+                            }
                             StartHander startHander = this.startHanderMap.get(this.startMapKey);
                             startHander.addHandle(handle);
                             index++;
