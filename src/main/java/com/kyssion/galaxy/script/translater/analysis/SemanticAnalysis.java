@@ -6,6 +6,9 @@ import com.kyssion.galaxy.script.translater.symbol.GrammaType;
 
 import java.util.List;
 
+/**
+ * createStartHandler
+ */
 public class SemanticAnalysis {
 
     private String[] pKey;

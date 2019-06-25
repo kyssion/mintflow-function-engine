@@ -10,13 +10,8 @@ import java.util.List;
 public class AnalysisTest {
     public static void main(String[] args) throws IOException {
         System.out.println(new File("").getAbsolutePath());
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream("D:/project/java-project/Galaxy/src/test/resources/x.gal"))
-        );
-//        BufferedReader reader = new BufferedReader(
-//                new InputStreamReader(new FileInputStream("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal"))
-//        );
-        File file = new File("D:/project/java-project/Galaxy/src/test/resources/x.gal");
+//        File file = new File("D:/project/java-project/Galaxy/src/test/resources/x.gal");
+        File file = new File("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal");
         LexicalAnalysis lexicalAnalysis = new LexicalAnalysis();
         List<LexicalAnalysisData> list = lexicalAnalysis.analysis(file);
         System.out.println(list.size());

@@ -6,11 +6,7 @@ namespace(xxxx.xxxx){
 #A = namespaceId
 #B = processid
 #C = handleid
-
 #Z = SZ|#
-
 #S = namespace(A){K}
-
 #K = process(B)P;K|#
-
 #P = ->h:{C}P|#
