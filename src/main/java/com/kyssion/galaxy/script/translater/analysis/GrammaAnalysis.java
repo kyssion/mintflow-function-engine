@@ -148,6 +148,8 @@ public class GrammaAnalysis {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
                 return index;
+            case EMPLE:
+                return index;
         }
         return -1;
     }

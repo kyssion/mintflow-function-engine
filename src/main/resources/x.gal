@@ -2,17 +2,10 @@ namespace(xxxx.xxxx){
     process(processid)->h:{xxx}->h:{ppp}->h:{zzz};
     process(processid)->h:{xxx}->h:{ppp}->h:{zzz};
 }
-
-
-
-A = namespaceId
-B = processid
-C = handleid
-
-Z = SZ|#
-
-S = namespace(A){K}
-
-K = process(B)P;K|#
-
-P = ->h:{C}P|#
+#A = namespaceId
+#B = processid
+#C = handleid
+#Z = SZ|#
+#S = namespace(A){K}
+#K = process(B)P;K|#
+#P = ->h:{C}P|#
