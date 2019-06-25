@@ -18,6 +18,8 @@ import java.util.List;
  */
 public class GrammaAnalysis {
 
+    private LexicalAnalysisData errorItem;
+
     private String[] pKey;
     private String[] kKey;
     private String[] sKey;
@@ -35,6 +37,7 @@ public class GrammaAnalysis {
     }
 
     public int analysis(List<LexicalAnalysisData> dataList) {
+        this.errorItem = null;
         return analysis(dataList, GrammaType.ROOT, 0);
     }
 
@@ -61,11 +64,11 @@ public class GrammaAnalysis {
                 return itemIndex;
             case S: //S = namespace(a){K}
                 label:
-                for (int a = 0; a < sKey.length && index < dataList.size(); a++, index++) {
+                for (int a = 0; a < sKey.length && index < dataList.size(); a++) {
                     switch (sKey[a]) {
                         case "K":
                             index = analysis(dataList, GrammaType.K, index);
-                            if (index == -1) {
+                            if (index < 0) {
                                 break label;
                             }
                             break;
@@ -74,12 +77,15 @@ public class GrammaAnalysis {
                                 index = -1;
                                 break label;
                             }
+                            index++;
                             break;
                         default:
                             if (!dataList.get(index).getValue().equals(sKey[a])) {
+                                this.errorItem=dataList.get(index);
                                 index = -1;
                                 break label;
                             }
+                            index++;
                             break;
                     }
                 }
@@ -87,7 +93,7 @@ public class GrammaAnalysis {
             case K: // K = process(b)P;K|#
                 itemIndex = index;
                 label:
-                for (int a = 0; a < kKey.length && index < dataList.size(); a++, index++) {
+                for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
                     switch (kKey[a]) {
                         case "K":
                             index = analysis(dataList, GrammaType.K, index);
@@ -100,6 +106,7 @@ public class GrammaAnalysis {
                                 index = -1;
                                 break label;
                             }
+                            index++;
                             break;
                         case "P":
                             index = analysis(dataList, GrammaType.P, index);
@@ -109,9 +116,11 @@ public class GrammaAnalysis {
                             break;
                         default:
                             if (!dataList.get(index).getValue().equals(kKey[a])) {
+                                this.errorItem=dataList.get(index);
                                 index = -1;
                                 break label;
                             }
+                            index++;
                             break;
                     }
                 }
@@ -122,13 +131,14 @@ public class GrammaAnalysis {
             case P: //P = ->h:{c}P|#
                 itemIndex = index;
                 label:
-                for (int a = 0; a < pKey.length && index < dataList.size(); a++, index++) {
+                for (int a = 0; a < pKey.length && index < dataList.size(); a++) {
                     switch (pKey[a]) {
                         case "c":
                             if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
                                 index = -1;
                                 break label;
                             }
+                            index++;
                             break;
                         case "P":
                             index = analysis(dataList, GrammaType.P, index);
@@ -138,9 +148,11 @@ public class GrammaAnalysis {
                             break;
                         default:
                             if (!dataList.get(index).getValue().equals(pKey[a])) {
+                                this.errorItem=dataList.get(index);
                                 index = -1;
                                 break label;
                             }
+                            index++;
                             break;
                     }
                 }
@@ -152,5 +164,33 @@ public class GrammaAnalysis {
                 return index;
         }
         return -1;
+    }
+
+    public LexicalAnalysisData getErrorItem() {
+        return errorItem;
+    }
+
+    public String[] getpKey() {
+        return pKey;
+    }
+
+    public void setpKey(String[] pKey) {
+        this.pKey = pKey;
+    }
+
+    public String[] getkKey() {
+        return kKey;
+    }
+
+    public void setkKey(String[] kKey) {
+        this.kKey = kKey;
+    }
+
+    public String[] getsKey() {
+        return sKey;
+    }
+
+    public void setsKey(String[] sKey) {
+        this.sKey = sKey;
     }
 }
