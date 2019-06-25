@@ -52,6 +52,7 @@ public class GalaxyFactoryBuilder {
             return build(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
