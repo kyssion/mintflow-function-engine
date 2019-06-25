@@ -10,19 +10,23 @@ import java.util.List;
 public class AnalysisTest {
     public static void main(String[] args) throws IOException {
         System.out.println(new File("").getAbsolutePath());
-//        BufferedReader reader = new BufferedReader(
-//                new InputStreamReader(new FileInputStream("D:/project/java-project/Galaxy/src/test/resources/x.gal"))
-//        );
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal"))
+                new InputStreamReader(new FileInputStream("D:/project/java-project/Galaxy/src/test/resources/x.gal"))
         );
+//        BufferedReader reader = new BufferedReader(
+//                new InputStreamReader(new FileInputStream("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal"))
+//        );
+        File file = new File("D:/project/java-project/Galaxy/src/test/resources/x.gal");
         LexicalAnalysis lexicalAnalysis = new LexicalAnalysis();
-        List<List<LexicalAnalysisData>> lists = lexicalAnalysis.analysis(reader);
-        System.out.println();
+        List<LexicalAnalysisData> list = lexicalAnalysis.analysis(file);
+        System.out.println(list.size());
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
-        for (List<LexicalAnalysisData> list: lists) {
-            int a = grammaAnalysis.analysis(list);
-            System.out.println(a);
+        int a = grammaAnalysis.analysis(list);
+        if (a != list.size()) {
+            if (grammaAnalysis.getErrorItem() != null) {
+                System.out.println(grammaAnalysis.getErrorItem().getLineIndex() + " " +
+                        grammaAnalysis.getErrorItem().getFileName());
+            }
         }
     }
 }

@@ -6,19 +6,38 @@ public class LexicalAnalysisData {
     private String value;
     private int index;
     private LexicalType type;
+    private int lineIndex;
+    private String fileName;
 
     public LexicalAnalysisData() {
         super();
     }
 
-    public LexicalAnalysisData(String value, int index, LexicalType type) {
+    public LexicalAnalysisData(String value, LexicalType type,int lineIndex,String fileName) {
         this.value = value;
-        this.index = index;
         this.type = type;
+        this.lineIndex = lineIndex;
+        this.fileName = fileName;
     }
 
-    public static LexicalAnalysisData create(String value, int index, LexicalType type) {
-        return new LexicalAnalysisData(value, index, type);
+    public static LexicalAnalysisData create(String value, LexicalType type,int lineIndex,String fileName) {
+        return new LexicalAnalysisData(value, type,lineIndex,fileName);
+    }
+
+    public int getLineIndex() {
+        return lineIndex;
+    }
+
+    public void setLineIndex(int lineIndex) {
+        this.lineIndex = lineIndex;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getValue() {

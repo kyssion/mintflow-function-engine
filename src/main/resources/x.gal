@@ -1,6 +1,5 @@
 namespace(xxxx.xxxx){
     process(processid)->h:{xxx}->h:{ppp}->h:{zzz};
-    process(processid)->h:{xxx}->h:{ppp}->h:{zzz};
 }
 
 
