@@ -18,4 +18,8 @@ public class StartHander implements Handle {
     public ParamWrapper handle(ParamWrapper p) {
         return null;
     }
+
+    public void addHandle(Handle handle){
+        this.handlerList.add(handle);
+    }
 }

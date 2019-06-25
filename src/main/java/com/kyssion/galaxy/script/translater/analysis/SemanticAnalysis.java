@@ -1,10 +1,14 @@
 package com.kyssion.galaxy.script.translater.analysis;
 
+import com.kyssion.galaxy.handle.Handle;
+import com.kyssion.galaxy.handle.header.StartHander;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.rule.typeCheck.IdTypeRule;
 import com.kyssion.galaxy.script.translater.symbol.GrammaType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * createStartHandler
@@ -14,6 +18,13 @@ public class SemanticAnalysis {
     private String[] pKey;
     private String[] kKey;
     private String[] sKey;
+
+    private Map<String, Handle> handleMap;
+    private Map<String, StartHander> startHanderMap;
+
+    private LexicalAnalysisData namespaceData;
+    private LexicalAnalysisData processData;
+    private String startMapKey;
 
     public SemanticAnalysis() {
         pKey = new String[]{
@@ -27,7 +38,9 @@ public class SemanticAnalysis {
         };
     }
 
-    public int analysis(List<LexicalAnalysisData> dataList) {
+    public int analysis(List<LexicalAnalysisData> dataList, Map<String, Handle> map) {
+        this.handleMap = map;
+        this.startHanderMap = new HashMap<>();
         return analysis(dataList, GrammaType.ROOT, 0);
     }
 
@@ -67,6 +80,7 @@ public class SemanticAnalysis {
                                 index = -1;
                                 break label;
                             }
+                            this.namespaceData = dataList.get(index);
                             index++;
                             break;
                         default:
@@ -95,6 +109,10 @@ public class SemanticAnalysis {
                                 index = -1;
                                 break label;
                             }
+                            this.processData = dataList.get(index);
+                            StartHander startHander = new StartHander();
+                            this.startMapKey = this.namespaceData.getValue() + "." + this.processData.getValue();
+                            this.startHanderMap.put(startMapKey, startHander);
                             index++;
                             break;
                         case "P":
@@ -126,6 +144,9 @@ public class SemanticAnalysis {
                                 index = -1;
                                 break label;
                             }
+                            Handle handle = this.handleMap.get(dataList.get(index).getValue());
+                            StartHander startHander = this.startHanderMap.get(this.startMapKey);
+                            startHander.addHandle(handle);
                             index++;
                             break;
                         case "P":
@@ -151,5 +172,9 @@ public class SemanticAnalysis {
                 return index;
         }
         return -1;
+    }
+
+    public Map<String, StartHander> getMap() {
+        return this.startHanderMap;
     }
 }
