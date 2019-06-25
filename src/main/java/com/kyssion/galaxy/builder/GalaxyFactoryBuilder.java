@@ -45,4 +45,13 @@ public class GalaxyFactoryBuilder {
     private static String getPropString(Properties properties, String key) {
         return (String) properties.get("key");
     }
+
+    public static GalaxyFactory build(String configPath){
+        File file = new File(configPath);
+        try {
+            return build(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
