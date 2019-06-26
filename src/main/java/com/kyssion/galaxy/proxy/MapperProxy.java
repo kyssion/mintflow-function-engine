@@ -15,23 +15,38 @@
  */
 package com.kyssion.galaxy.proxy;
 
+import com.kyssion.galaxy.handle.header.StartHander;
+import com.kyssion.galaxy.scheduler.HandlerScheduler;
+import com.kyssion.galaxy.scheduler.Scheduler;
+import org.mirror.reflection.Reflector;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  *
  */
-public class MapperProxy<T> implements InvocationHandler{
+public class MapperProxy<T> implements InvocationHandler {
 
     private static final long serialVersionUID = -6424540398559729838L;
-    private final Class<T> mapperInterface;
 
-    public MapperProxy(Class<T> mapperInterface) {
-        this.mapperInterface = mapperInterface;
+    private Map<String, StartHander> startHanderMap;
+    private Scheduler scheduler;
+
+    public MapperProxy(Class<?> mapperClass, Map<String, StartHander> startHanderMap) {
+        this(mapperClass, startHanderMap, null);
+    }
+
+    public MapperProxy(Class<?> mapperClass,
+                       Map<String, StartHander> startHanderMap, Scheduler scheduler) {
+        this.startHanderMap = startHanderMap;
+        this.scheduler = scheduler == null ? new HandlerScheduler() : scheduler;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
+
         return null;
     }
 

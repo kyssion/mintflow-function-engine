@@ -11,7 +11,7 @@ public class MapperProxyFactory {
 
     @SuppressWarnings("unchecked")
     public <T> T newInstance(Class<T> mapperInterface){
-        MapperProxy<T> mapperProxy = new MapperProxy<>(mapperInterface);
+        MapperProxy<T> mapperProxy = new MapperProxy<T>(mapperInterface);
         return (T) Proxy.newProxyInstance(
                 mapperInterface.getClassLoader(), new Class[]{mapperInterface.getClass()},mapperProxy
         );
