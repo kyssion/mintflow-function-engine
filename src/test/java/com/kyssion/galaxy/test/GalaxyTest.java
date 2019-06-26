@@ -10,9 +10,8 @@ public class GalaxyTest {
         GalaxyFactory factory = GalaxyFactoryBuilder.build("galaxy_config.properties");
         Galaxy galaxy = factory.create();
 
-
-
         TestProcess process = galaxy.getProcess(TestProcess.class);
+
         String name = process.sayName("test");
     }
 }
