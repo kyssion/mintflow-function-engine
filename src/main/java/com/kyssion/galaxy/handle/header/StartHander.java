@@ -22,4 +22,8 @@ public class StartHander implements Handle {
     public void addHandle(Handle handle){
         this.handlerList.add(handle);
     }
+
+    public List<Handle> getHandleList (){
+        return this.handlerList;
+    }
 }
