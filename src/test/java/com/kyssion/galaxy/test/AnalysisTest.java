@@ -2,7 +2,6 @@ package com.kyssion.galaxy.test;
 
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.handle.header.StartHander;
 import com.kyssion.galaxy.param.ParamWrapper;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
@@ -46,22 +45,8 @@ public class AnalysisTest {
 
         int index = semanticAnalysis.analysis(list, map);
 
-        Map<String, StartHander> map1 = semanticAnalysis.getMap();
-        System.out.println(map1);
-        List<Handle> testOne = map1.get("namespace1.process1").getHandleList();
-        List<Handle> testTwo = map1.get("namespace2.process2").getHandleList();
-
         String name = "test1";
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.put(name);
-
-        for (Handle handle1:  testOne) {
-            System.out.println(paramWrapper.get(String.class));
-            paramWrapper = handle1.handle(paramWrapper);
-        }
-        for (Handle handle2:testTwo){
-            System.out.println(paramWrapper.get(String.class));
-            paramWrapper = handle2.handle(paramWrapper);
-        }
     }
 }

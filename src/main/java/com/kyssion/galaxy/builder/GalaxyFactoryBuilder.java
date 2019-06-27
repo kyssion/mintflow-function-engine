@@ -43,7 +43,7 @@ public class GalaxyFactoryBuilder {
     }
 
     private static String getPropString(Properties properties, String key) {
-        return (String) properties.get("key");
+        return (String) properties.get(key);
     }
 
     public static GalaxyFactory build(String configPath){

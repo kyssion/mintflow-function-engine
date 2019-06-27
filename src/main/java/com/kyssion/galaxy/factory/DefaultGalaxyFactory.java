@@ -20,6 +20,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
     private String[] processPath;
     private String[] mapperPath;
 
+
     public DefaultGalaxyFactory(String handPath, String mapperPath, String processPath) {
         this.handlePath = (handPath == null) ? null : handPath.split(",");
         this.mapperPath = (mapperPath == null) ? null : mapperPath.split(",");

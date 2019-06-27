@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'com.galaxy'
@@ -16,4 +17,15 @@ repositories {
 dependencies {
     implementation 'org.mirror:mirror-reflection:1.0-SNAPSHOT'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+//利用publishing启动项目打包
+publishing {
+    //发布内容
+    publications {
+        //自命名"myPublish"为一个发布任务
+        myPublish(MavenPublication) {
+            //jar来源
+            from components.java
+        }
+    }
 }

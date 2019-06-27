@@ -4,6 +4,7 @@ import com.kyssion.galaxy.handle.header.StartHandler;
 import com.kyssion.galaxy.process.Process;
 import com.kyssion.galaxy.proxy.ProcessMapperProxyFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Galaxy {
@@ -19,6 +20,7 @@ public class Galaxy {
 
     private void initProxy(Map<String, StartHandler> startHandlerMap,
                            Map<String, Class<? extends Process>> processMap) {
+        this.processProxy = new HashMap<>();
         ProcessMapperProxyFactory mapperProxyFactory = new ProcessMapperProxyFactory();
         for (Map.Entry<String, Class<? extends Process>> entry : processMap.entrySet()) {
             processProxy.put(entry.getValue(), mapperProxyFactory.newInstance(

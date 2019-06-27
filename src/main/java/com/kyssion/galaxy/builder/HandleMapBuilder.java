@@ -2,7 +2,8 @@ package com.kyssion.galaxy.builder;
 
 import com.kyssion.galaxy.annotation.Handler;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.handle.header.StartHander;
+import com.kyssion.galaxy.handle.header.StartHandler;
+import org.mirror.reflection.Reflector;
 import org.mirror.reflection.io.ClassFindleUtil;
 import org.mirror.reflection.io.test.IsA;
 import org.mirror.reflection.mirror.MirrorClass;
@@ -27,8 +28,8 @@ public class HandleMapBuilder {
         Set<Class<? extends Handle>> handlerSet = handleResolverUtil.getClasses();
 
         handlerSet.forEach((handle) -> {
-            MirrorClass handerClass = MirrorClass.forClass(handle);
-            Handler handlerAnno = handerClass.getAnnotation(Handler.class);
+            Reflector reflector = new Reflector(handle);
+            Handler handlerAnno = reflector.getAnnotation(Handler.class);
             Handle item = null;
             try {
                 item = handle.getDeclaredConstructor().newInstance();
@@ -41,15 +42,15 @@ public class HandleMapBuilder {
             if (handlerAnno != null) {
                 map.put(handlerAnno.value(), item);
             } else {
-                map.put(handerClass.getClassName(), item);
+                map.put(reflector.getClassName(), item);
             }
         });
         return map;
     }
 
 
-    public static Map<String, StartHander> startHanderMapBuilder(Map<String,Handle> handleMap,
-                                                                 String...mapperPath){
+    public static Map<String, StartHandler> startHanderMapBuilder(Map<String,Handle> handleMap,
+                                                                  String...mapperPath){
 
         return null;
     }

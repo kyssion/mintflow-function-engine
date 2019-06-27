@@ -12,7 +12,7 @@ public class ProcessMapperProxyFactory {
     public <T extends Process> T newInstance(String nameSpace, Class<? extends Process> mapperInterface, Map<String, StartHandler> startHandleMap) {
         MapperProxy<T> mapperProxy = new MapperProxy<>(nameSpace, mapperInterface, startHandleMap);
         return (T) Proxy.newProxyInstance(
-                mapperInterface.getClassLoader(), new Class[]{mapperInterface.getClass()}, mapperProxy
+                mapperInterface.getClassLoader(), new Class[]{mapperInterface}, mapperProxy
         );
     }
 }

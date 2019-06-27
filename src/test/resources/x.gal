@@ -1,7 +1,5 @@
-@xxxx: h:{one}->h:{two}
-
 namespace(namespace1){
-    process(process1)->@xxxx;
+    process(process1)->h:{one}->h:{two};
 }
 
 namespace(namespace2){

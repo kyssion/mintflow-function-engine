@@ -64,6 +64,7 @@ public class MapperProxy<T extends Process> implements InvocationHandler {
                 throw new NoProcessIException("this is no namespace Recording which name is :" + key.toString());
             } catch (NoProcessIException e) {
                 e.printStackTrace();
+                return null;
             }
         }
         ParamWrapper paramWrapper = new ParamWrapper();

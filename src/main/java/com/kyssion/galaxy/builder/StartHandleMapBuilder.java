@@ -6,6 +6,7 @@ import com.kyssion.galaxy.script.ScriptAnalysis;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,11 @@ public class StartHandleMapBuilder {
     public static Map<String, StartHandler> build(Map<String, Handle> handleMap, String... paths) throws IOException {
         Map<String,StartHandler> startHanderMap = new HashMap<>();
         for (String path : paths) {
-            File file = new File(path);
+            URL uri = StartHandler.class.getClassLoader().getResource("x.gal");
+            if(uri==null){
+                continue;
+            }
+            File file = new File(uri.getFile());
             startHanderMap.putAll(ScriptAnalysis.analysis(file,handleMap));
         }
         return startHanderMap;

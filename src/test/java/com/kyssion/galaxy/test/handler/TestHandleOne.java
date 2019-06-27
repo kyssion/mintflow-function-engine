@@ -1,14 +1,11 @@
 package com.kyssion.galaxy.test.handler;
 
+import com.kyssion.galaxy.annotation.Handler;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.mark.Type;
 import com.kyssion.galaxy.param.ParamWrapper;
 
+@Handler(value = "one")
 public class TestHandleOne implements Handle {
-    @Override
-    public Type type() {
-        return Type.HANDLE;
-    }
 
     @Override
     public void before() {
