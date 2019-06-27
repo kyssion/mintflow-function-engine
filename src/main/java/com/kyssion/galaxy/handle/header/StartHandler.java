@@ -6,11 +6,11 @@ import com.kyssion.galaxy.param.ParamWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartHander implements Handle {
+public class StartHandler implements Handle {
 
     private List<Handle> handlerList;
 
-    public StartHander(){
+    public StartHandler(){
         this.handlerList = new ArrayList<>();
     }
 

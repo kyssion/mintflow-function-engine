@@ -2,7 +2,7 @@ package com.kyssion.galaxy.script.translater.analysis;
 
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.handle.header.StartHander;
+import com.kyssion.galaxy.handle.header.StartHandler;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.rule.typeCheck.IdTypeRule;
 import com.kyssion.galaxy.script.translater.symbol.GrammaType;
@@ -21,7 +21,7 @@ public class SemanticAnalysis {
     private String[] sKey;
 
     private Map<String, Handle> handleMap;
-    private Map<String, StartHander> startHanderMap;
+    private Map<String, StartHandler> startHanderMap;
 
     private LexicalAnalysisData namespaceData;
     private LexicalAnalysisData processData;
@@ -111,7 +111,7 @@ public class SemanticAnalysis {
                                 break label;
                             }
                             this.processData = dataList.get(index);
-                            StartHander startHander = new StartHander();
+                            StartHandler startHander = new StartHandler();
                             this.startMapKey = this.namespaceData.getValue() + "." + this.processData.getValue();
                             this.startHanderMap.put(startMapKey, startHander);
                             index++;
@@ -151,7 +151,7 @@ public class SemanticAnalysis {
                                         "} in process {"+this.namespaceData.getValue()+"}"+"which namespace is {"
                                         +this.processData.getValue()+"}");
                             }
-                            StartHander startHander = this.startHanderMap.get(this.startMapKey);
+                            StartHandler startHander = this.startHanderMap.get(this.startMapKey);
                             startHander.addHandle(handle);
                             index++;
                             break;
@@ -180,7 +180,7 @@ public class SemanticAnalysis {
         return -1;
     }
 
-    public Map<String, StartHander> getMap() {
+    public Map<String, StartHandler> getMap() {
         return this.startHanderMap;
     }
 }

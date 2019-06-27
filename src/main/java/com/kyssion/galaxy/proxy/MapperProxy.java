@@ -15,10 +15,14 @@
  */
 package com.kyssion.galaxy.proxy;
 
-import com.kyssion.galaxy.handle.header.StartHander;
+import com.kyssion.galaxy.annotation.ProcessMethod;
+import com.kyssion.galaxy.annotation.ProcessNameSpace;
+import com.kyssion.galaxy.exception.NoProcessIException;
+import com.kyssion.galaxy.handle.header.StartHandler;
+import com.kyssion.galaxy.param.ParamWrapper;
+import com.kyssion.galaxy.process.Process;
 import com.kyssion.galaxy.scheduler.HandlerScheduler;
 import com.kyssion.galaxy.scheduler.Scheduler;
-import org.mirror.reflection.Reflector;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -27,27 +31,47 @@ import java.util.Map;
 /**
  *
  */
-public class MapperProxy<T> implements InvocationHandler {
+public class MapperProxy<T extends Process> implements InvocationHandler {
 
     private static final long serialVersionUID = -6424540398559729838L;
 
-    private Map<String, StartHander> startHanderMap;
+    private Map<String, StartHandler> startHanderMap;
     private Scheduler scheduler;
+    private StringBuilder key;
 
-    public MapperProxy(Class<?> mapperClass, Map<String, StartHander> startHanderMap) {
-        this(mapperClass, startHanderMap, null);
+    public MapperProxy(String nameSpace, Class<? extends Process> mapperClass, Map<String, StartHandler> startHanderMap) {
+        this(nameSpace, mapperClass, startHanderMap, null);
     }
 
-    public MapperProxy(Class<?> mapperClass,
-                       Map<String, StartHander> startHanderMap, Scheduler scheduler) {
+    public MapperProxy(String nameSpace, Class<? extends Process> mapperClass,
+                       Map<String, StartHandler> startHanderMap, Scheduler scheduler) {
         this.startHanderMap = startHanderMap;
         this.scheduler = scheduler == null ? new HandlerScheduler() : scheduler;
+        key = new StringBuilder(nameSpace);
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-
-        return null;
+        ProcessMethod process = method.getAnnotation(ProcessMethod.class);
+        if (process != null) {
+            key.append(".").append(process.id());
+        } else {
+            key.append(".").append(method.getName());
+        }
+        StartHandler startHandler = startHanderMap.get(key.toString());
+        if (startHandler == null) {
+            try {
+                throw new NoProcessIException("this is no namespace Recording which name is :" + key.toString());
+            } catch (NoProcessIException e) {
+                e.printStackTrace();
+            }
+        }
+        ParamWrapper paramWrapper = new ParamWrapper();
+        for (Object item : args) {
+            paramWrapper.put(item);
+        }
+        paramWrapper = this.scheduler.run(paramWrapper, startHandler.getHandleList());
+        return paramWrapper.get(method.getReturnType());
     }
 
 }

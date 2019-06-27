@@ -1,19 +1,30 @@
 package com.kyssion.galaxy;
 
-import com.kyssion.galaxy.handle.header.StartHander;
+import com.kyssion.galaxy.handle.header.StartHandler;
 import com.kyssion.galaxy.process.Process;
+import com.kyssion.galaxy.proxy.ProcessMapperProxyFactory;
 
-import java.lang.reflect.Proxy;
 import java.util.Map;
 
 public class Galaxy {
 
-    private Map<String, StartHander> headHanderMap;
-    private Map<Class<? extends Process>, Proxy> processProxy;
+    private Map<String, StartHandler> headHanderMap;
+    private Map<Class<? extends Process>, ? extends Process> processProxy;
 
-    public Galaxy(Map<String, StartHander> headHanderMap, Map<String, Class<? extends Process>> processMap) {
+    public Galaxy(Map<String, StartHandler> headHanderMap, Map<String, Class<? extends Process>> processMap) {
         this.headHanderMap = headHanderMap;
         //创建代理
+        initProxy(headHanderMap, processMap);
+    }
+
+    private void initProxy(Map<String, StartHandler> startHandlerMap,
+                           Map<String, Class<? extends Process>> processMap) {
+        ProcessMapperProxyFactory mapperProxyFactory = new ProcessMapperProxyFactory();
+        for (Map.Entry<String, Class<? extends Process>> entry : processMap.entrySet()) {
+            processProxy.put(entry.getValue(), mapperProxyFactory.newInstance(
+                    entry.getKey(),entry.getValue(),startHandlerMap
+            ));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -24,14 +35,10 @@ public class Galaxy {
         return null;
     }
 
-    public StartHander getStartHandle(String name){
-        if(headHanderMap!=null){
+    public StartHandler getStartHandle(String name) {
+        if (headHanderMap != null) {
             return this.headHanderMap.get(name);
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-
     }
 }

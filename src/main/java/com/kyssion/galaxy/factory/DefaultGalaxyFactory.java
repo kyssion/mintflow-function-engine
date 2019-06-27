@@ -5,10 +5,9 @@ import com.kyssion.galaxy.builder.HandleMapBuilder;
 import com.kyssion.galaxy.builder.ProcessMapBuilder;
 import com.kyssion.galaxy.builder.StartHandleMapBuilder;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.handle.header.StartHander;
+import com.kyssion.galaxy.handle.header.StartHandler;
 import com.kyssion.galaxy.process.Process;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,7 +35,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
                 Map<String, Handle> handleMap = HandleMapBuilder.handleMapbuild(this.handlePath);
                 Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
                 //创建handle调用链
-                Map<String, StartHander> startHanderMap = StartHandleMapBuilder.build(handleMap,this.mapperPath);
+                Map<String, StartHandler> startHanderMap = StartHandleMapBuilder.build(handleMap,this.mapperPath);
                 galaxy = new Galaxy(startHanderMap, processMap);
                 galaxyCache.compareAndSet(null, galaxy);
                 return galaxyCache.get();
