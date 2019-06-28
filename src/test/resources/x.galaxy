@@ -1,10 +1,12 @@
 namespace(namespace1){
-    process(process1)->h:{one}->h:{two};
+    ---process(process1)->h:{one}->h:{two};
 }
 
 namespace(namespace2){
     process(process2)->h:{two};
 }
+
+
 
 #A = namespaceId
 #B = processid
