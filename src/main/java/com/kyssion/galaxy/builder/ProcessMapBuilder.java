@@ -2,8 +2,8 @@ package com.kyssion.galaxy.builder;
 
 import com.kyssion.galaxy.annotation.ProcessNameSpace;
 import com.kyssion.galaxy.process.Process;
+import org.mirror.reflection.Reflector;
 import org.mirror.reflection.io.ClassFindleUtil;
-import org.mirror.reflection.mirror.MirrorClass;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +23,12 @@ public class ProcessMapBuilder {
         handleResolverUtil.findImplementations(Process.class, processPath);
         Set<Class<? extends Process>> processSet = handleResolverUtil.getClasses();
         processSet.forEach((process) -> {
-            MirrorClass handerClass = MirrorClass.forClass(process);
-            ProcessNameSpace processerAnno = handerClass.getAnnotation(ProcessNameSpace.class);
+            Reflector reflector = new Reflector(process);
+            ProcessNameSpace processerAnno = reflector.getAnnotation(ProcessNameSpace.class);
             if(processerAnno!=null){
                 map.put(processerAnno.id(),process);
             }else{
-                map.put(handerClass.getClassName(),process);
+                map.put(reflector.getClassName(),process);
             }
         });
         return map;
