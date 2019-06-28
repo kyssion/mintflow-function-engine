@@ -18,8 +18,8 @@ import java.util.Map;
 public class AnalysisTest {
     public static void main(String[] args) throws IOException, AnalysisNoHandleException {
         System.out.println(new File("").getAbsolutePath());
-        File file = new File("D:/project/java-project/Galaxy/src/test/resources/x.gal");
-//        File file = new File("/home/kyssion/project/java-project/galaxy/src/test/resources/x.gal");
+        File file = new File("D:/project/java-project/Galaxy/src/test/resources/x.galaxy");
+//        File file = new File("/home/kyssion/project/java-project/galaxy/src/test/resources/x.galaxy");
         LexicalAnalysis lexicalAnalysis = new LexicalAnalysis();
         List<LexicalAnalysisData> list = lexicalAnalysis.analysis(file);
         System.out.println(list.size());

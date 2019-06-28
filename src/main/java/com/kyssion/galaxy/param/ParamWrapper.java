@@ -8,6 +8,7 @@ public class ParamWrapper {
 
 
     private Map<Class, Object> param;
+    private Map<Class,Object> common;
     public ParamWrapper() {
         this.param = new HashMap<>();
     }

@@ -27,6 +27,7 @@ public class TestHandleOne implements Handle {
         String name = p.get(String.class);
         name = name+"this.is.handler.one";
         p.put(name);
+        p.put(123123);
         return p;
     }
 }
