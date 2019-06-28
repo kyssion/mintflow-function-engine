@@ -10,5 +10,4 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 public @interface ProcessNameSpace {
     String id() default "";
-    boolean isAll() default false;
 }
