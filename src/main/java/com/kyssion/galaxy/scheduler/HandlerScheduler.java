@@ -9,7 +9,11 @@ public class HandlerScheduler implements Scheduler {
     @Override
     public ParamWrapper run(ParamWrapper paramWrapper, List<Handle> handleList) {
         for (Handle handle:handleList){
-            paramWrapper = handle.handle(paramWrapper);
+            try {
+                paramWrapper = handle.handle(paramWrapper);
+            }catch (Exception e){
+                handle.error(e);
+            }
         }
         return paramWrapper;
     }

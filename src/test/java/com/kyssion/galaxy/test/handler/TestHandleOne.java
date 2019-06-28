@@ -18,8 +18,8 @@ public class TestHandleOne implements Handle {
     }
 
     @Override
-    public void error() {
-
+    public void error(Exception e) {
+        System.out.println("no need handle");
     }
 
     @Override

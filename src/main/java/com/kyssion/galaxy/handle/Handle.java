@@ -9,7 +9,7 @@ public interface Handle {
 
     default void after(){ }
 
-    default void error(){}
+    default void error(Exception e){}
 
     ParamWrapper handle(ParamWrapper p);
 }
