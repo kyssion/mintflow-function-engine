@@ -35,7 +35,7 @@ public class GrammaAnalysis {
                 "-", ">", "r ", "(", "c", ")", "P"
         };
         pKey3 = new String[]{
-                "-", ">", "if", "(", "c", ")","{","P","}", "E", "el", "{", "P", "}"
+                "-", ">", "if", "(", "c", ")", "{", "P", "}", "E", "el", "{", "P", "}"
         };
         elKey = new String[]{
                 "-", ">", "elif", "(", "c", ")", "E"
@@ -104,7 +104,7 @@ public class GrammaAnalysis {
                 return index;
             case K: // K = process(b)P;K|#
                 itemIndex = index;
-                index = kAnalysis(dataList,index);
+                index = kAnalysis(dataList, index);
                 if (index == -1) {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
@@ -125,7 +125,7 @@ public class GrammaAnalysis {
 
             case E://->elif(c){P}E|#
                 itemIndex = index;
-                index = eAnalysis(dataList,index);
+                index = eAnalysis(dataList, index);
                 if (index == -1) {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
@@ -135,8 +135,9 @@ public class GrammaAnalysis {
         }
         return -1;
     }
+
     // K = process(b)P;K|#
-    private int kAnalysis(List<LexicalAnalysisData> dataList, int index){
+    private int kAnalysis(List<LexicalAnalysisData> dataList, int index) {
         label:
         for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
             switch (kKey[a]) {
@@ -173,7 +174,7 @@ public class GrammaAnalysis {
     }
 
     //->elif(c){P}E|#
-    private int eAnalysis(List<LexicalAnalysisData> dataList, int index){
+    private int eAnalysis(List<LexicalAnalysisData> dataList, int index) {
         label:
         for (int a = 0; a < elKey.length && index < dataList.size(); a++) {
             switch (elKey[a]) {
@@ -228,17 +229,17 @@ public class GrammaAnalysis {
                     }
                     break;
                 case "E":
-                    index = analysis(dataList,GrammaType.E,index);
-                    if(index==-1){
+                    index = analysis(dataList, GrammaType.E, index);
+                    if (index == -1) {
                         break label;
                     }
-                    break ;
+                    break;
                 case "h":
                 case "r":
                 case "if":
                 default:
                     if (!dataList.get(index).getValue().equals(key[a])) {
-                        if (kKey[a].equals("else")) {
+                        if (key == elKey && key[a].equals("el")) {
                             return index;
                         }
                         this.errorItem = dataList.get(index);

@@ -1,10 +1,7 @@
 namespace(namespace1){
-    process(process1)->handle(one)->handle(two);
+    process(process1)->if(xxx){};
 }
 
-namespace(namespace2){
-    process(process2)->handle(two);
-}
 
 
 
