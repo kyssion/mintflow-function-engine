@@ -15,7 +15,5 @@ namespace(namespace2){
 #Z = SZ|#
 #S = namespace(A){K}
 #K = process(B)P;K|#
-#P = ->h(C)P|
-#    ->if(xxx){P}E el(){}|#qws
-#    ->r(c){handleIdList}P|#
+#P = ->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
 #E = ->elif(c){P}E|#

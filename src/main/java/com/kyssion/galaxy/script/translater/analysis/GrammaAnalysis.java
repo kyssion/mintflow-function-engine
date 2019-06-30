@@ -104,41 +104,7 @@ public class GrammaAnalysis {
                 return index;
             case K: // K = process(b)P;K|#
                 itemIndex = index;
-                label:
-                for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
-                    switch (kKey[a]) {
-                        case "K":
-                            index = analysis(dataList, GrammaType.K, index);
-                            if (index == -1) {
-                                break label;
-                            }
-                            break;
-                        case "b":
-                            if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
-                                index = -1;
-                                break label;
-                            }
-                            index++;
-                            break;
-                        case "P":
-                            index = analysis(dataList, GrammaType.P, index);
-                            if (index == -1) {
-                                break label;
-                            }
-                            break;
-                        default:
-                            if (!dataList.get(index).getValue().equals(kKey[a])) {
-                                if (kKey[a].equals("else")) {
-                                    return index;
-                                }
-                                this.errorItem = dataList.get(index);
-                                index = -1;
-                                break label;
-                            }
-                            index++;
-                            break;
-                    }
-                }
+                index = kAnalysis(dataList,index);
                 if (index == -1) {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
@@ -156,12 +122,94 @@ public class GrammaAnalysis {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
                 return index;
+
+            case E://->elif(c){P}E|#
+                itemIndex = index;
+                index = eAnalysis(dataList,index);
+                if (index == -1) {
+                    return analysis(dataList, GrammaType.EMPLE, itemIndex);
+                }
+                return index;
             case EMPLE:
                 return index;
         }
         return -1;
     }
+    // K = process(b)P;K|#
+    private int kAnalysis(List<LexicalAnalysisData> dataList, int index){
+        label:
+        for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
+            switch (kKey[a]) {
+                case "K":
+                    index = analysis(dataList, GrammaType.K, index);
+                    if (index == -1) {
+                        break label;
+                    }
+                    break;
+                case "b":
+                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                        index = -1;
+                        break label;
+                    }
+                    index++;
+                    break;
+                case "P":
+                    index = analysis(dataList, GrammaType.P, index);
+                    if (index == -1) {
+                        break label;
+                    }
+                    break;
+                default:
+                    if (!dataList.get(index).getValue().equals(kKey[a])) {
+                        this.errorItem = dataList.get(index);
+                        index = -1;
+                        break label;
+                    }
+                    index++;
+                    break;
+            }
+        }
+        return index;
+    }
 
+    //->elif(c){P}E|#
+    private int eAnalysis(List<LexicalAnalysisData> dataList, int index){
+        label:
+        for (int a = 0; a < elKey.length && index < dataList.size(); a++) {
+            switch (elKey[a]) {
+                case "P":
+                    index = analysis(dataList, GrammaType.P, index);
+                    if (index == -1) {
+                        break label;
+                    }
+                    break;
+                case "b":
+                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                        index = -1;
+                        break label;
+                    }
+                    index++;
+                    break;
+                case "E":
+                    index = analysis(dataList, GrammaType.E, index);
+                    if (index == -1) {
+                        break label;
+                    }
+                    break;
+                default:
+                    if (!dataList.get(index).getValue().equals(elKey[a])) {
+                        this.errorItem = dataList.get(index);
+                        index = -1;
+                        break label;
+                    }
+                    index++;
+                    break;
+            }
+        }
+        return index;
+    }
+
+    //->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
     private int pAnalysis(List<LexicalAnalysisData> dataList, int index, String[] key) {
         label:
         for (int a = 0; a < key.length && index < dataList.size(); a++) {
@@ -190,6 +238,9 @@ public class GrammaAnalysis {
                 case "if":
                 default:
                     if (!dataList.get(index).getValue().equals(key[a])) {
+                        if (kKey[a].equals("else")) {
+                            return index;
+                        }
                         this.errorItem = dataList.get(index);
                         index = -1;
                         break label;
