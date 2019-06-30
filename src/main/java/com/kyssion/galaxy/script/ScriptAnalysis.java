@@ -2,8 +2,7 @@ package com.kyssion.galaxy.script;
 
 import com.kyssion.galaxy.exception.AnalysisLexicalAnalysisException;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.handle.header.StartHandler;
-import com.kyssion.galaxy.param.ParamWrapper;
+import com.kyssion.galaxy.handle.StartHandler;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.SemanticAnalysis;

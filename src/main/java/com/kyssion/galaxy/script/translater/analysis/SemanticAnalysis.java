@@ -2,7 +2,7 @@ package com.kyssion.galaxy.script.translater.analysis;
 
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.handle.header.StartHandler;
+import com.kyssion.galaxy.handle.StartHandler;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.rule.typeCheck.IdTypeRule;
 import com.kyssion.galaxy.script.translater.symbol.GrammaType;
