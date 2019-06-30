@@ -15,7 +15,7 @@ public class StartHandleMapBuilder {
     public static Map<String, StartHandler> build(Map<String, Handle> handleMap, String... paths) throws IOException {
         Map<String,StartHandler> startHanderMap = new HashMap<>();
         for (String path : paths) {
-            URL uri = StartHandler.class.getClassLoader().getResource("x.gal");
+            URL uri = StartHandler.class.getClassLoader().getResource(path);
             if(uri==null){
                 continue;
             }

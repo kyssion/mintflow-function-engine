@@ -13,7 +13,6 @@ public class GalaxyTest {
         GalaxyFactory factory = GalaxyFactoryBuilder.build(GalaxyTest.class.getClassLoader().getResource("galaxy-test.properties").getFile());
         Galaxy galaxy = factory.create();
         //-------------------
-
         TestProcess process = galaxy.getProcess(TestProcess.class);
         String name = process.sayName("test");
         System.out.println(name);
