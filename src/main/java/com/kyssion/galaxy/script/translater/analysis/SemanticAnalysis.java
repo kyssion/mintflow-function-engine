@@ -29,7 +29,7 @@ public class SemanticAnalysis {
 
     public SemanticAnalysis() {
         pKey = new String[]{
-                "-", ">", "h", ":", "{", "c", "}", "P"
+                "-", ">", "handle", "(", "c", ")", "P"
         };
         kKey = new String[]{
                 "process", "(", "b", ")", "P", ";", "K"

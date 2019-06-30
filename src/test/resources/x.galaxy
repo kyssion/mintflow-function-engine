@@ -1,9 +1,9 @@
 namespace(namespace1){
-    process(process1)->h:{one}->h:{two};
+    process(process1)->handle(one)->handle(two);
 }
 
 namespace(namespace2){
-    process(process2)->h:{two};
+    process(process2)->handle(two);
 }
 
 
@@ -11,7 +11,11 @@ namespace(namespace2){
 #A = namespaceId
 #B = processid
 #C = handleid
+#D = handleIdList
 #Z = SZ|#
 #S = namespace(A){K}
 #K = process(B)P;K|#
-#P = ->h:{C}P|#
+#P = ->h(C)P|
+#    ->if(xxx){P}E el(){}|#qws
+#    ->r(c){handleIdList}P|#
+#E = ->elif(c){P}E|#
