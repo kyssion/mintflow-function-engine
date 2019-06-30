@@ -32,7 +32,7 @@ public class GrammaAnalysis {
                 "-", ">", "h", "(", "c", ")", "P"
         };
         pKey2 = new String[]{
-                "-", ">", "r ", "(", "c", ")", "P"
+                "-", ">", "r", "(", "c", ")", "{", "d", "}", "P"
         };
         pKey3 = new String[]{
                 "-", ">", "if", "(", "c", ")", "{", "P", "}", "E", "el", "{", "P", "}"
@@ -111,12 +111,12 @@ public class GrammaAnalysis {
                 return index;
             case P: //P = ->h(c)P|#
                 itemIndex = index;
-                index = pAnalysis(dataList, index, pKey1);
+                index = pAnalysis(dataList, index, pKey1, 1);
                 if (index == -1) {
-                    index = pAnalysis(dataList, itemIndex, pKey2);
+                    index = pAnalysis(dataList, itemIndex, pKey2, 2);
                 }
                 if (index == -1) {
-                    index = pAnalysis(dataList, itemIndex, pKey3);
+                    index = pAnalysis(dataList, itemIndex, pKey3, 3);
                 }
                 if (index == -1) {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
@@ -211,7 +211,7 @@ public class GrammaAnalysis {
     }
 
     //->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
-    private int pAnalysis(List<LexicalAnalysisData> dataList, int index, String[] key) {
+    private int pAnalysis(List<LexicalAnalysisData> dataList, int index, String[] key, int keyIndex) {
         label:
         for (int a = 0; a < key.length && index < dataList.size(); a++) {
             switch (key[a]) {
@@ -220,6 +220,9 @@ public class GrammaAnalysis {
                         index = -1;
                         break label;
                     }
+                    index++;
+                    break;
+                case "d":
                     index++;
                     break;
                 case "P":
@@ -239,7 +242,8 @@ public class GrammaAnalysis {
                 case "if":
                 default:
                     if (!dataList.get(index).getValue().equals(key[a])) {
-                        if (key == elKey && key[a].equals("el")) {
+                        this.errorItem = dataList.get(index);
+                        if (keyIndex == 3 && key[a].equals("el")) {
                             return index;
                         }
                         this.errorItem = dataList.get(index);

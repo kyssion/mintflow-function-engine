@@ -1,8 +1,6 @@
 package com.kyssion.galaxy.test;
 
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
-import com.kyssion.galaxy.handle.Handle;
-import com.kyssion.galaxy.param.ParamWrapper;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
