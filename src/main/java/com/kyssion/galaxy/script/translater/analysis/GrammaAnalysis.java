@@ -152,36 +152,6 @@ public class GrammaAnalysis {
                 if (index == -1) {
                     index = pAnalysis(dataList, itemIndex, pKey3);
                 }
-                //P = ->h(c)P|#
-//                label:
-//                for (int a = 0; a < pKey1.length && index < dataList.size(); a++) {
-//                    switch (pKey1[a]) {
-//                        case "c":
-//                            if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
-//                                index = -1;
-//                                break label;
-//                            }
-//                            index++;
-//                            break;
-//                        case "P":
-//                            index = analysis(dataList, GrammaType.P, index);
-//                            if (index == -1) {
-//                                break label;
-//                            }
-//                            break;
-//                        case "h":
-//                        case "r":
-//                        case "if":
-//                        default:
-//                            if (!dataList.get(index).getValue().equals(pKey1[a])) {
-//                                this.errorItem = dataList.get(index);
-//                                index = -1;
-//                                break label;
-//                            }
-//                            index++;
-//                            break;
-//                    }
-//                }
                 if (index == -1) {
                     return analysis(dataList, GrammaType.EMPLE, itemIndex);
                 }
