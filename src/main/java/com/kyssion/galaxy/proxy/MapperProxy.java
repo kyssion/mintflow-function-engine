@@ -16,6 +16,7 @@
 package com.kyssion.galaxy.proxy;
 
 import com.kyssion.galaxy.annotation.ProcessMethod;
+import com.kyssion.galaxy.annotation.ProcessNameSpace;
 import com.kyssion.galaxy.exception.NoProcessIException;
 import com.kyssion.galaxy.handle.StartHandler;
 import com.kyssion.galaxy.param.ParamWrapper;
@@ -36,31 +37,32 @@ public class MapperProxy<T extends Process> implements InvocationHandler {
 
     private Map<String, StartHandler> startHanderMap;
     private Scheduler scheduler;
-    private StringBuilder key;
-
-    public MapperProxy(String nameSpace, Class<? extends Process> mapperClass, Map<String, StartHandler> startHanderMap) {
-        this(nameSpace, mapperClass, startHanderMap, null);
+    Class<? extends Process> mapperClass;
+    public MapperProxy(Class<? extends Process> mapperClass, Map<String, StartHandler> startHanderMap) {
+        this(mapperClass, startHanderMap, null);
     }
 
-    public MapperProxy(String nameSpace, Class<? extends Process> mapperClass,
+    public MapperProxy(Class<? extends Process> mapperClass,
                        Map<String, StartHandler> startHanderMap, Scheduler scheduler) {
         this.startHanderMap = startHanderMap;
         this.scheduler = scheduler == null ? new HandlerScheduler() : scheduler;
-        key = new StringBuilder(nameSpace);
+        this.mapperClass=mapperClass;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
+        StringBuilder key = new StringBuilder();
         ProcessMethod process = method.getAnnotation(ProcessMethod.class);
-        if (process != null) {
-            key.append(".").append(process.id());
+        ProcessNameSpace nameSpace = this.mapperClass.getAnnotation(ProcessNameSpace.class);
+        if (process != null&&nameSpace!=null) {
+           key.append(nameSpace.id()).append(".").append(process.id());
         } else {
-            key.append(".").append(method.getName());
+            key.append(this.mapperClass.getName()).append(".").append(method.getName());
         }
         StartHandler startHandler = startHanderMap.get(key.toString());
         if (startHandler == null) {
             try {
-                throw new NoProcessIException("this is no namespace Recording which name is :" + key.toString());
+                throw new NoProcessIException("this is no namespace Recording which name is :" + key);
             } catch (NoProcessIException e) {
                 e.printStackTrace();
                 return null;

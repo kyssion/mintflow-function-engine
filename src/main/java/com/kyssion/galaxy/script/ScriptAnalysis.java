@@ -27,7 +27,13 @@ public class ScriptAnalysis {
             }
         }
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
-        semanticAnalysis.analysis(list, handleMap);
+        a=semanticAnalysis.analysis(list, handleMap);
+        if (a != list.size()) {
+            if (grammaAnalysis.getErrorItem() != null) {
+                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItem().getLineIndex() + " " +
+                        grammaAnalysis.getErrorItem().getFileName());
+            }
+        }
         Map<String, StartHandler> startHanderMap = semanticAnalysis.getMap();
         return startHanderMap;
     }
