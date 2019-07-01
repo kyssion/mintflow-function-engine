@@ -7,9 +7,8 @@ import com.kyssion.galaxy.param.ParamWrapper;
 public class TestHandlerTwo implements Handle {
     @Override
     public ParamWrapper handle(ParamWrapper p) {
-        String name = p.get(String.class);
-        name = name+"this.is.handler.two";
-        p.put(name);
+        Integer integer = p.get(Integer.class);
+        p.put(integer+1);
         return p;
     }
 }
