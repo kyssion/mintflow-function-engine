@@ -1,11 +1,6 @@
+@ xxxx = ->if(){}else{}
 namespace(namespace1){
-    process(process1)->if(xxx){
-        ->r(xxx){xx,xx,xxx}
-    }el{
-        ->if(xxx){
-            -->h(xxx)
-        }
-    };
+    process(process1)->if(){}else{}
 }
 
 
