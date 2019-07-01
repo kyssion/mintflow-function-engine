@@ -9,6 +9,9 @@ public class ParamWrapper {
 
     private Map<Class, Object> param;
     private Map<Class,Object> common;
+
+    private Map<Class,Object> status;
+
     public ParamWrapper() {
         this.param = new HashMap<>();
     }
