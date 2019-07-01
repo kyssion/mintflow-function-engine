@@ -21,9 +21,9 @@ public class ScriptAnalysis {
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
         int a = grammaAnalysis.analysis(list);
         if (a != list.size()) {
-            if (grammaAnalysis.getErrorItem() != null) {
-                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItem().getLineIndex() + " " +
-                        grammaAnalysis.getErrorItem().getFileName());
+            if (grammaAnalysis.getErrorItemDuque() != null) {
+//                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItemDuque().getLineIndex() + " " +
+//                        grammaAnalysis.getErrorItemDuque().getFileName());
             }
         }
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();

@@ -1,13 +1,11 @@
 namespace(namespace1){
-    process(process1)->h(xxxx)->if(xxx){
-
+    process(process1)->if(xxx){
+        ->r(xxx){xx,xx,xxx}
+    }el{
+        ->if(xxx){
+            -->h(xxx)
+        }
     };
-
-
-    process(process1)->h(xxxx)->if(xxx){
-
-    }
-    # 这种文法是判断不出来的因为process可空
 }
 
 

@@ -11,8 +11,8 @@ public enum GrammaType {
     P("->h(c)P|->if(c){P}Eel{P}|r(c){d}|#", "P", 7),
     E("->elif(c){P}E|#", "P", 7),
     ROOT("ROOT", "ROOT", 8),
-    EMPLE("EMPLE", "EMP:E", 9);
-
+    EMPLE("EMPLE", "EMP:E", 9),
+    HAS_ERROR_EMPLE("HAS_ERROR_EMPLE", "EMP:E", 10);
     GrammaType(String rule, String name, int id) {
         this.rule = rule;
         this.name = name;

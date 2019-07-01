@@ -19,9 +19,13 @@ public class AnalysisTest {
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
         int a = grammaAnalysis.analysis(list);
         if (a != list.size()) {
-            if (grammaAnalysis.getErrorItem() != null) {
-                System.err.println(grammaAnalysis.getErrorItem().getLineIndex() + " " +
-                        grammaAnalysis.getErrorItem().getFileName());
+            if (grammaAnalysis.getErrorItemDuque().size() != 0) {
+                while (!grammaAnalysis.getErrorItemDuque().isEmpty()) {
+                    LexicalAnalysisData data = grammaAnalysis.getErrorItemDuque().removeLast();
+                    System.out.println(data.getLineIndex()+" "+
+                            data.getValue()+" "+
+                            data.getIndex()+" ");
+                }
             }
         }
     }

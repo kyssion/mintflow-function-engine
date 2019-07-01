@@ -4,7 +4,10 @@ import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData
 import com.kyssion.galaxy.script.translater.rule.typeCheck.IdTypeRule;
 import com.kyssion.galaxy.script.translater.symbol.GrammaType;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * a = namespaceId
@@ -18,7 +21,7 @@ import java.util.List;
  */
 public class GrammaAnalysis {
 
-    private LexicalAnalysisData errorItem;
+    private Deque<LexicalAnalysisData> errorItemStack;
 
     private String[] pKey1;
     private String[] pKey2;
@@ -38,7 +41,7 @@ public class GrammaAnalysis {
                 "-", ">", "if", "(", "c", ")", "{", "P", "}", "E", "el", "{", "P", "}"
         };
         elKey = new String[]{
-                "-", ">", "elif", "(", "c", ")", "E"
+                "elif", "(", "d", ")", "{", "P", "}", "E"
         };
         kKey = new String[]{
                 "process", "(", "b", ")", "P", ";", "K"
@@ -49,7 +52,7 @@ public class GrammaAnalysis {
     }
 
     public int analysis(List<LexicalAnalysisData> dataList) {
-        this.errorItem = null;
+        this.errorItemStack = new LinkedList<>();
         return analysis(dataList, GrammaType.ROOT, 0);
     }
 
@@ -71,7 +74,7 @@ public class GrammaAnalysis {
                     itemIndex = analysis(dataList, GrammaType.Z, itemIndex);
                 }
                 if (itemIndex == -1) {
-                    return analysis(dataList, GrammaType.EMPLE, index);
+                    return analysis(dataList,GrammaType.HAS_ERROR_EMPLE,index);
                 }
                 return itemIndex;
             case S: //S = namespace(a){K}
@@ -93,7 +96,7 @@ public class GrammaAnalysis {
                             break;
                         default:
                             if (!dataList.get(index).getValue().equals(sKey[a])) {
-                                this.errorItem = dataList.get(index);
+                                this.errorItemStack.addLast(dataList.get(index));
                                 index = -1;
                                 break label;
                             }
@@ -106,20 +109,22 @@ public class GrammaAnalysis {
                 itemIndex = index;
                 index = kAnalysis(dataList, index);
                 if (index == -1) {
-                    return analysis(dataList, GrammaType.EMPLE, itemIndex);
+                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, itemIndex);
                 }
                 return index;
             case P: //P = ->h(c)P|#
                 itemIndex = index;
                 index = pAnalysis(dataList, index, pKey1, 1);
                 if (index == -1) {
+                    errorItemStack.removeLast();
                     index = pAnalysis(dataList, itemIndex, pKey2, 2);
                 }
                 if (index == -1) {
+                    errorItemStack.removeLast();
                     index = pAnalysis(dataList, itemIndex, pKey3, 3);
                 }
                 if (index == -1) {
-                    return analysis(dataList, GrammaType.EMPLE, itemIndex);
+                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, itemIndex);
                 }
                 return index;
 
@@ -127,10 +132,13 @@ public class GrammaAnalysis {
                 itemIndex = index;
                 index = eAnalysis(dataList, index);
                 if (index == -1) {
-                    return analysis(dataList, GrammaType.EMPLE, itemIndex);
+                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, itemIndex);
                 }
                 return index;
             case EMPLE:
+                errorItemStack.removeLast();
+                return index;
+            case HAS_ERROR_EMPLE:
                 return index;
         }
         return -1;
@@ -162,7 +170,7 @@ public class GrammaAnalysis {
                     break;
                 default:
                     if (!dataList.get(index).getValue().equals(kKey[a])) {
-                        this.errorItem = dataList.get(index);
+                        this.errorItemStack.addLast(dataList.get(index));
                         index = -1;
                         break label;
                     }
@@ -184,7 +192,7 @@ public class GrammaAnalysis {
                         break label;
                     }
                     break;
-                case "b":
+                case "d":
                     if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
                         index = -1;
                         break label;
@@ -199,7 +207,7 @@ public class GrammaAnalysis {
                     break;
                 default:
                     if (!dataList.get(index).getValue().equals(elKey[a])) {
-                        this.errorItem = dataList.get(index);
+                        this.errorItemStack.addLast(dataList.get(index));
                         index = -1;
                         break label;
                     }
@@ -242,11 +250,10 @@ public class GrammaAnalysis {
                 case "if":
                 default:
                     if (!dataList.get(index).getValue().equals(key[a])) {
-                        this.errorItem = dataList.get(index);
                         if (keyIndex == 3 && key[a].equals("el")) {
                             return index;
                         }
-                        this.errorItem = dataList.get(index);
+                        this.errorItemStack.addLast(dataList.get(index));
                         index = -1;
                         break label;
                     }
@@ -257,7 +264,7 @@ public class GrammaAnalysis {
         return index;
     }
 
-    public LexicalAnalysisData getErrorItem() {
-        return errorItem;
+    public Deque<LexicalAnalysisData> getErrorItemDuque() {
+        return errorItemStack;
     }
 }
