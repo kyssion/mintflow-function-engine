@@ -39,7 +39,7 @@ public class GrammaAnalysis {
                 "-", ">", "r", "(", "c", ")", "{", "d", "}", "P"
         };
         pKey3 = new String[]{
-                "-", ">", "if", "(", "c", ")", "{", "P", "}", "E", "el", "{", "P", "}","P"
+                "-", ">", "if", "(", "c", ")", "{", "P", "}", "E", "el", "{", "P", "}", "P"
         };
         elKey = new String[]{
                 "elif", "(", "d", ")", "{", "P", "}", "E"
@@ -152,7 +152,7 @@ public class GrammaAnalysis {
         for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
             switch (kKey[a]) {
                 case "K":
-                    tryItemStack=new LinkedList<>();
+                    tryItemStack = new LinkedList<>();
                     index = analysis(dataList, GrammaType.K, index);
                     if (index == -1) {
                         break label;
@@ -247,6 +247,13 @@ public class GrammaAnalysis {
                     if (index == -1) {
                         break label;
                     }
+                    break;
+                case "el":
+                    if (!dataList.get(index).getValue().equals(key[a])) {
+                        index = analysis(dataList, GrammaType.P, index);
+                        return index;
+                    }
+                    index++;
                     break;
                 case "h":
                 case "r":
