@@ -1,10 +1,6 @@
-@ xxxx = ->if(){}else{}
 namespace(namespace1){
-    process(process1)->if(){}else{}
+    process(process1)->if(xxx){}el{};
 }
-
-
-
 
 #A = namespaceId
 #B = processid

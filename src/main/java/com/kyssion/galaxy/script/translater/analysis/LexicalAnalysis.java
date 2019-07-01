@@ -50,6 +50,11 @@ public class LexicalAnalysis {
             }
             lineIndex++;
         }
+        int index = 0;
+        for (LexicalAnalysisData data:analysisDataList){
+            data.setIndex(index);
+            index++;
+        }
         return analysisDataList;
     }
 }

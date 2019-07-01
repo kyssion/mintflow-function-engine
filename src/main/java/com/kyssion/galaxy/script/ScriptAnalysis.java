@@ -21,7 +21,7 @@ public class ScriptAnalysis {
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
         int a = grammaAnalysis.analysis(list);
         if (a != list.size()) {
-            if (grammaAnalysis.getErrorItemDuque() != null) {
+            if (grammaAnalysis.getTryItemDuque() != null) {
 //                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItemDuque().getLineIndex() + " " +
 //                        grammaAnalysis.getErrorItemDuque().getFileName());
             }
