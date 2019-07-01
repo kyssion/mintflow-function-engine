@@ -1,5 +1,11 @@
 namespace(namespace1){
-    process(process1)->if(xxx){}el{};
+    process(process1)->if(isChannelHandle){
+        ->h(goHandle1)->r(selectOneToRun){handle1,handle2,handle3}
+    }elif(isChannelForZZ){
+        ->h(goHandle1)->r(selectOneToRun){handle1,handle2,handle3}
+    }el{
+        ->r(gogogo){gohandle1,gohandle2,gohandle3}
+    };
 }
 
 #A = namespaceId
