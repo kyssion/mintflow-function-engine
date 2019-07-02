@@ -23,7 +23,7 @@ import java.util.List;
 public class GrammaAnalysis {
 
     private Deque<ErrorInfoData> tryItemStack;
-
+    private int index;
     private String[] pKey1;
     private String[] pKey2;
     private String[] pKey3;
@@ -54,6 +54,7 @@ public class GrammaAnalysis {
 
     public int analysis(List<LexicalAnalysisData> dataList) {
         this.tryItemStack = new LinkedList<>();
+        this.index = 0;
         return analysis(dataList, GrammaType.ROOT, 0);
     }
 
