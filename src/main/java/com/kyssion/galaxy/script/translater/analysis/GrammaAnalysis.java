@@ -55,37 +55,43 @@ public class GrammaAnalysis {
     public int analysis(List<LexicalAnalysisData> dataList) {
         this.tryItemStack = new LinkedList<>();
         this.index = 0;
-        return analysis(dataList, GrammaType.ROOT, 0);
+        analysis(dataList, GrammaType.ROOT);
+        return index;
     }
 
-    private int analysis(List<LexicalAnalysisData> dataList, GrammaType nodeType, int index) {
+    private void analysis(List<LexicalAnalysisData> dataList, GrammaType nodeType) {
         if (index >= dataList.size()) {
-            return dataList.size();
+            index = dataList.size();
+            return;
         }
         int itemIndex;
         switch (nodeType) {
             case ROOT:
-                return analysis(dataList, GrammaType.Z, 0);
+                analysis(dataList, GrammaType.Z);
+                return;
             case a:
             case b:
             case c:
-                return IdTypeRule.isTrue(dataList.get(index).getValue()) ? index + 1 : -1;
+                index = IdTypeRule.isTrue(dataList.get(index).getValue()) ? index + 1 : -1;
+                return;
             case Z: //Z = SZ|#
-                itemIndex = analysis(dataList, GrammaType.S, index);
+                analysis(dataList, GrammaType.S);
+                itemIndex = index;
                 if (itemIndex != -1) {
                     tryItemStack = new LinkedList<>();
-                    itemIndex = analysis(dataList, GrammaType.Z, itemIndex);
+                    analysis(dataList, GrammaType.Z);
                 }
-                if (itemIndex == -1) {
-                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, index);
+                if (index == -1) {
+                    analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
+                    return;
                 }
-                return itemIndex;
+                return;
             case S: //S = namespace(a){K}
                 label:
                 for (int a = 0; a < sKey.length && index < dataList.size(); a++) {
                     switch (sKey[a]) {
                         case "K":
-                            index = analysis(dataList, GrammaType.K, index);
+                            analysis(dataList, GrammaType.K);
                             if (index < 0) {
                                 break label;
                             }
@@ -107,54 +113,62 @@ public class GrammaAnalysis {
                             break;
                     }
                 }
-                return index;
+                return;
             case K: // K = process(b)P;K|#
                 itemIndex = index;
-                index = kAnalysis(dataList, index);
+                index = kAnalysis(dataList);
                 if (index == -1) {
-                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, itemIndex);
+                    index = itemIndex;
+                    analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
+                    return;
                 }
-                return index;
+                return;
             case P: //P = ->h(c)P|#
                 itemIndex = index;
-                index = pAnalysis(dataList, index, pKey1, 1);
+                pAnalysis(dataList, pKey1, 1);
                 if (index == -1) {
                     tryItemStack.removeLast();
-                    index = pAnalysis(dataList, itemIndex, pKey2, 2);
+                    index = itemIndex;
+                    pAnalysis(dataList, pKey2, 2);
                 }
                 if (index == -1) {
                     tryItemStack.removeLast();
-                    index = pAnalysis(dataList, itemIndex, pKey3, 3);
+                    index = itemIndex;
+                    pAnalysis(dataList, pKey3, 3);
                 }
                 if (index == -1) {
-                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, itemIndex);
+                    index = itemIndex;
+                    analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
+                    return;
                 }
-                return index;
+                return;
 
             case E://->elif(c){P}E|#
                 itemIndex = index;
-                index = eAnalysis(dataList, index);
+                eAnalysis(dataList);
                 if (index == -1) {
-                    return analysis(dataList, GrammaType.HAS_ERROR_EMPLE, itemIndex);
+                    index = itemIndex;
+                    analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
+                    return;
                 }
-                return index;
+                return;
             case EMPLE:
                 tryItemStack.removeLast();
-                return index;
+                return;
             case HAS_ERROR_EMPLE:
-                return index;
+                return;
         }
-        return -1;
+        index = -1;
     }
 
     // K = process(b)P;K|#
-    private int kAnalysis(List<LexicalAnalysisData> dataList, int index) {
+    private int kAnalysis(List<LexicalAnalysisData> dataList) {
         label:
         for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
             switch (kKey[a]) {
                 case "K":
                     tryItemStack = new LinkedList<>();
-                    index = analysis(dataList, GrammaType.K, index);
+                    analysis(dataList, GrammaType.K);
                     if (index == -1) {
                         break label;
                     }
@@ -167,7 +181,7 @@ public class GrammaAnalysis {
                     index++;
                     break;
                 case "P":
-                    index = analysis(dataList, GrammaType.P, index);
+                    analysis(dataList, GrammaType.P);
                     if (index == -1) {
                         break label;
                     }
@@ -186,12 +200,12 @@ public class GrammaAnalysis {
     }
 
     //->elif(c){P}E|#
-    private int eAnalysis(List<LexicalAnalysisData> dataList, int index) {
+    private void eAnalysis(List<LexicalAnalysisData> dataList) {
         label:
         for (int a = 0; a < elKey.length && index < dataList.size(); a++) {
             switch (elKey[a]) {
                 case "P":
-                    index = analysis(dataList, GrammaType.P, index);
+                    analysis(dataList, GrammaType.P);
                     if (index == -1) {
                         break label;
                     }
@@ -204,7 +218,7 @@ public class GrammaAnalysis {
                     index++;
                     break;
                 case "E":
-                    index = analysis(dataList, GrammaType.E, index);
+                    analysis(dataList, GrammaType.E);
                     if (index == -1) {
                         break label;
                     }
@@ -219,11 +233,10 @@ public class GrammaAnalysis {
                     break;
             }
         }
-        return index;
     }
 
     //->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
-    private int pAnalysis(List<LexicalAnalysisData> dataList, int index, String[] key, int keyIndex) {
+    private void pAnalysis(List<LexicalAnalysisData> dataList, String[] key, int keyIndex) {
         label:
         for (int a = 0; a < key.length && index < dataList.size(); a++) {
             switch (key[a]) {
@@ -238,21 +251,21 @@ public class GrammaAnalysis {
                     index++;
                     break;
                 case "P":
-                    index = analysis(dataList, GrammaType.P, index);
+                    analysis(dataList, GrammaType.P);
                     if (index == -1) {
                         break label;
                     }
                     break;
                 case "E":
-                    index = analysis(dataList, GrammaType.E, index);
+                    analysis(dataList, GrammaType.E);
                     if (index == -1) {
                         break label;
                     }
                     break;
                 case "el":
                     if (!dataList.get(index).getValue().equals(key[a])) {
-                        index = analysis(dataList, GrammaType.P, index);
-                        return index;
+                        analysis(dataList, GrammaType.P);
+                        return;
                     }
                     index++;
                     break;
@@ -262,7 +275,7 @@ public class GrammaAnalysis {
                 default:
                     if (!dataList.get(index).getValue().equals(key[a])) {
                         if (keyIndex == 3 && key[a].equals("el")) {
-                            return index;
+                            return;
                         }
                         LanguageErrorType type = keyIndex == 1 ?
                                 LanguageErrorType.HANDLE : keyIndex == 2 ?
@@ -275,7 +288,6 @@ public class GrammaAnalysis {
                     break;
             }
         }
-        return index;
     }
 
     public Deque<ErrorInfoData> getTryItemDuque() {
