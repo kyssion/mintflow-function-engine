@@ -10,6 +10,7 @@ import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class ScriptAnalysis {
         }
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
         semanticAnalysis.analysis(list, handleMap);
-        Map<String, StartHandler> startHanderMap = semanticAnalysis.getMap();
+        Map<String, StartHandler> startHanderMap =new HashMap<>();
         return startHanderMap;
     }
 }

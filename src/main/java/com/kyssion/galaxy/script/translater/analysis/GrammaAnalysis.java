@@ -116,7 +116,7 @@ public class GrammaAnalysis {
                 return;
             case K: // K = process(b)P;K|#
                 itemIndex = index;
-                index = kAnalysis(dataList);
+                kAnalysis(dataList);
                 if (index == -1) {
                     index = itemIndex;
                     analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
@@ -162,7 +162,7 @@ public class GrammaAnalysis {
     }
 
     // K = process(b)P;K|#
-    private int kAnalysis(List<LexicalAnalysisData> dataList) {
+    private void kAnalysis(List<LexicalAnalysisData> dataList) {
         label:
         for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
             switch (kKey[a]) {
@@ -196,7 +196,6 @@ public class GrammaAnalysis {
                     break;
             }
         }
-        return index;
     }
 
     //->elif(c){P}E|#
