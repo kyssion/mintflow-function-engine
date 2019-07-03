@@ -4,14 +4,20 @@ import com.kyssion.galaxy.handle.Handle;
 import com.kyssion.galaxy.param.ParamWrapper;
 import com.kyssion.galaxy.scheduler.Scheduler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectorStartHandle implements Handle {
 
     private List<SelectorHandle> otherSelector;
     private Scheduler scheduler;
-    public void setOtherSelector(List<SelectorHandle> otherSelector){
-        this.otherSelector = otherSelector;
+
+    public SelectorStartHandle(){
+        this.otherSelector = new ArrayList<>();
+    }
+
+    public List<SelectorHandle> getOtherSelector() {
+        return otherSelector;
     }
 
     public void setScheduler(Scheduler scheduler){
