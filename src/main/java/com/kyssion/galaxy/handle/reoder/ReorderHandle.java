@@ -15,7 +15,7 @@ public abstract class ReorderHandle implements Handle {
     private Scheduler scheduler;
     private List<Handle> handleList;
 
-    public abstract void reorderHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper);
+    public abstract void buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper);
 
     public void setScheduler(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -26,10 +26,10 @@ public abstract class ReorderHandle implements Handle {
     }
 
     private ParamWrapper reorderHandle(ParamWrapper p) {
+        buildHandleSteam(this.handleList, p);
         if (handleList == null) {
             return p;
         }
-        reorderHandleSteam(this.handleList, p);
         return this.scheduler.run(p, handleList);
     }
 

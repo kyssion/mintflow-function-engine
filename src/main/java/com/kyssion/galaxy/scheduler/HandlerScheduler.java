@@ -8,10 +8,13 @@ import java.util.List;
 public class HandlerScheduler implements Scheduler {
     @Override
     public ParamWrapper run(ParamWrapper paramWrapper, List<Handle> handleList) {
-        for (Handle handle:handleList){
+        if (handleList == null) {
+            return paramWrapper;
+        }
+        for (Handle handle : handleList) {
             try {
                 paramWrapper = handle.handle(paramWrapper);
-            }catch (Exception e){
+            } catch (Exception e) {
                 handle.error(e);
             }
         }

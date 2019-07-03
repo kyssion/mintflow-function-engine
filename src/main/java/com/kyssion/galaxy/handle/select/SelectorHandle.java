@@ -13,24 +13,23 @@ public abstract class SelectorHandle implements Handle {
 
     List<Handle> handleList;
 
-    List<SelectorHandle> otherSelect;
-
     public void setHandleList(List<Handle> handleList) {
         this.handleList = handleList;
     }
 
-    public void setOtherSelect(List<SelectorHandle> otherSelects) {
-        this.otherSelect = otherSelects;
+    public List<Handle> getHandleList() {
+        return handleList;
     }
 
     public abstract boolean select(ParamWrapper p);
 
     public ParamWrapper selectHandle(ParamWrapper p) {
-        if (handleList == null || otherSelect == null) {
+        if (handleList == null) {
             return p;
         }
         return p;
     }
+
 
     @Override
     public ParamWrapper handle(ParamWrapper p) {
