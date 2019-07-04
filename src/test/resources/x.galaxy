@@ -1,5 +1,16 @@
 namespace(namespace1){
-    process(process1)->r(rone){one,two};
+    process(process1)->r(rone){one,two}
+    ->if(sone){
+        ->if(sone){
+            ->r(rone){one,two}
+        }el{
+            ->h(one)
+        }
+    }elif(sone){
+        ->h(one)
+    }el{
+        ->r(rone){one,two}
+    };
 }
 
 #A = namespaceId
