@@ -5,9 +5,7 @@ public enum Type {
     HANDLE("handle", "handle"),
     REODER_HANDLE("reorder_handle", "reorder_handle"),
     Selector_HANDLE("selector_handle", "selector_handle"),
-    IF_HANDLE("if_handle", "if_handle"),
-    ELSE_IF_HANDLE("else_if_handle", "else_if_handle"),
-    ELSE_HANDLE("else_handle", "else_handle");
+    IF_HANDLE("if_handle", "if_handle");
 
     private String desc;
     private String name;

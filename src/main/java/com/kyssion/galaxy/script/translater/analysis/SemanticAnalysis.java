@@ -3,10 +3,13 @@ package com.kyssion.galaxy.script.translater.analysis;
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
 import com.kyssion.galaxy.handle.StartHandler;
+import com.kyssion.galaxy.handle.reoder.ReorderActuatorHandle;
 import com.kyssion.galaxy.handle.reoder.ReorderHandle;
+import com.kyssion.galaxy.handle.select.ElseSelectHandle;
 import com.kyssion.galaxy.handle.select.SelectorHandle;
 import com.kyssion.galaxy.handle.select.SelectorStartHandle;
 import com.kyssion.galaxy.handle.type.Type;
+import com.kyssion.galaxy.param.ParamWrapper;
 import com.kyssion.galaxy.script.translater.data.error.ErrorInfoData;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.rule.languageErrorType.LanguageErrorType;
@@ -32,13 +35,13 @@ public class SemanticAnalysis {
 
     public SemanticAnalysis() {
         pKey1 = new String[]{
-                "-", ">", "h", "(", "c", ")", "P"
+                "-", ">", "h", "(", "x", ")", "P"
         };
         pKey2 = new String[]{
-                "-", ">", "r", "(", "c", ")", "{", "d", "}", "P"
+                "-", ">", "r", "(", "y", ")", "{", "w", "}", "P"
         };
         pKey3 = new String[]{
-                "-", ">", "if", "(", "c", ")", "{", "P", "}", "E", "el", "{", "P", "}", "P"
+                "-", ">", "if", "(", "z", ")", "{", "P", "}", "E", "el", "{", "P", "}", "P"
         };
         elKey = new String[]{
                 "elif", "(", "d", ")", "{", "P", "}", "E"
@@ -51,13 +54,18 @@ public class SemanticAnalysis {
         };
     }
 
-    private Map<String, StartHandler> startHandlerMap;
+    private Map<String, StartHandler> startHandleMap;
     private Deque<List<Handle>> handleListStack;
+    private LexicalAnalysisData namespaceData;
+    private LexicalAnalysisData processData;
+    private String startMapKey;
+    private Map<String, Handle> handleMap;
 
-    public int analysis(List<LexicalAnalysisData> dataList) {
+    public int analysis(List<LexicalAnalysisData> dataList, Map<String, Handle> map) {
         this.tryItemStack = new LinkedList<>();
         this.index = 0;
-        this.startHandlerMap = new HashMap<>();
+        handleMap = map;
+        this.startHandleMap = new HashMap<>();
         handleListStack = new LinkedList<>();
         analysis(dataList, GrammaType.ROOT);
         return index;
@@ -72,11 +80,6 @@ public class SemanticAnalysis {
         switch (nodeType) {
             case ROOT:
                 analysis(dataList, GrammaType.Z);
-                return;
-            case a:
-            case b:
-            case c:
-                index = IdTypeRule.isTrue(dataList.get(index).getValue()) ? index + 1 : -1;
                 return;
             case Z: //Z = SZ|#
                 analysis(dataList, GrammaType.S);
@@ -105,6 +108,7 @@ public class SemanticAnalysis {
                                 index = -1;
                                 break label;
                             }
+                            this.namespaceData = dataList.get(index);
                             index++;
                             break;
                         default:
@@ -121,6 +125,9 @@ public class SemanticAnalysis {
             case K: // K = process(b)P;K|#
                 itemIndex = index;
                 kAnalysis(dataList);
+                if(!handleListStack.isEmpty()){
+                    handleListStack.removeLast();
+                }
                 if (index == -1) {
                     index = itemIndex;
                     analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
@@ -146,16 +153,6 @@ public class SemanticAnalysis {
                     return;
                 }
                 return;
-
-            case E://->elif(c){P}E|#
-                itemIndex = index;
-                eAnalysis(dataList);
-                if (index == -1) {
-                    index = itemIndex;
-                    analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
-                    return;
-                }
-                return;
             case EMPLE:
                 tryItemStack.removeLast();
                 return;
@@ -167,6 +164,7 @@ public class SemanticAnalysis {
 
     // K = process(b)P;K|#
     private void kAnalysis(List<LexicalAnalysisData> dataList) {
+        StartHandler startHander;
         label:
         for (int a = 0; a < kKey.length && index < dataList.size(); a++) {
             switch (kKey[a]) {
@@ -182,10 +180,19 @@ public class SemanticAnalysis {
                         index = -1;
                         break label;
                     }
+                    //初始化构建list
+                    startHander = new StartHandler();
+                    this.processData = dataList.get(index);
+                    this.startMapKey = this.namespaceData.getValue() + "." + this.processData.getValue();
+                    this.startHandleMap.put(startMapKey, startHander);
+                    handleListStack.addLast(startHander.getHandleList());
                     index++;
                     break;
                 case "P":
                     analysis(dataList, GrammaType.P);
+                    if(!handleListStack.isEmpty()){
+                        handleListStack.removeLast();
+                    }
                     if (index == -1) {
                         break label;
                     }
@@ -203,12 +210,18 @@ public class SemanticAnalysis {
     }
 
     //->elif(c){P}E|#
-    private void eAnalysis(List<LexicalAnalysisData> dataList) {
+    private void eAnalysis(List<LexicalAnalysisData> dataList, SelectorStartHandle selectorStartHandle) {
+        int itemIndex = index;
+        SelectorHandle selectorHandle = null;
+        Handle handleItem;
         label:
         for (int a = 0; a < elKey.length && index < dataList.size(); a++) {
             switch (elKey[a]) {
                 case "P":
                     analysis(dataList, GrammaType.P);
+                    if(!handleListStack.isEmpty()){
+                        handleListStack.removeLast();
+                    }
                     if (index == -1) {
                         break label;
                     }
@@ -218,10 +231,21 @@ public class SemanticAnalysis {
                         index = -1;
                         break label;
                     }
+                    handleItem = this.handleMap.get(dataList.get(index).getValue());
+                    if (handleItem == null || handleItem.getType() != Type.Selector_HANDLE) {
+                        throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
+                                "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
+                                + this.processData.getValue() + "}");
+                    }
+                    selectorHandle = (SelectorHandle) handleItem;
+                    selectorStartHandle.getOtherSelector().add(selectorHandle);
+                    List<Handle> list = new ArrayList<>();
+                    selectorStartHandle.getSelectorItemList().add(list);
+                    handleListStack.addLast(list);
                     index++;
                     break;
                 case "E":
-                    analysis(dataList, GrammaType.E);
+                    eAnalysis(dataList, selectorStartHandle);
                     if (index == -1) {
                         break label;
                     }
@@ -236,21 +260,101 @@ public class SemanticAnalysis {
                     break;
             }
         }
+        if (index == -1) {
+            index = itemIndex;
+            analysis(dataList, GrammaType.HAS_ERROR_EMPLE);
+        }
     }
 
     //->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
     private void pAnalysis(List<LexicalAnalysisData> dataList, String[] key, int keyIndex) {
+        List<Handle> handles = null;
+        List<Handle> itemhandleList = null;
+        Handle handleItem = null;
+        SelectorHandle selectorHandle = null;
+        SelectorStartHandle selectorStartHandle = null;
+        ReorderActuatorHandle reorderActuatorHandle=null;
+        ReorderHandle reorderHandle = null;
+        List<Handle> list;
         label:
         for (int a = 0; a < key.length && index < dataList.size(); a++) {
             switch (key[a]) {
-                case "c":
+                case "x":
                     if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
                         index = -1;
                         break label;
                     }
+                    handleItem = this.handleMap.get(dataList.get(index).getValue());
+                    if (handleItem == null) {
+                        throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
+                                "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
+                                + this.processData.getValue() + "}");
+                    }
+                    handles = handleListStack.getLast();
+                    handles.add(handleItem);
                     index++;
                     break;
-                case "d":
+                case "y":
+                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                        index = -1;
+                        break label;
+                    }
+                    handleItem = this.handleMap.get(dataList.get(index).getValue());
+                    if (handleItem == null || handleItem.getType() != Type.REODER_HANDLE) {
+                        throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
+                                "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
+                                + this.processData.getValue() + "}");
+                    }
+                    reorderActuatorHandle = new ReorderActuatorHandle();
+                    reorderHandle = (ReorderHandle) handleItem;
+                    reorderActuatorHandle.setReorderHandle(reorderHandle);
+                    handles = handleListStack.getLast();
+                    handles.add(reorderActuatorHandle);
+                    list = new ArrayList<>();
+                    reorderActuatorHandle.setListHandle(list);
+                    handleListStack.addLast(list);
+                    index++;
+                    break;
+                case "z":
+                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                        index = -1;
+                        break label;
+                    }
+                    selectorStartHandle = new SelectorStartHandle();
+                    handleItem = this.handleMap.get(dataList.get(index).getValue());
+                    if (handleItem == null || handleItem.getType() != Type.Selector_HANDLE) {
+                        throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
+                                "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
+                                + this.processData.getValue() + "}");
+                    }
+                    selectorHandle = (SelectorHandle) handleItem;
+                    handles = handleListStack.getLast();
+                    handles.add(selectorStartHandle);
+                    selectorStartHandle.getOtherSelector().add(selectorHandle);
+                    list = new ArrayList<>();
+                    selectorStartHandle.getSelectorItemList().add(list);
+                    handleListStack.addLast(list);
+                    index++;
+                    break;
+                case "w":
+                    if (!IdTypeRule.isTrue(dataList.get(index).getValue())) {
+                        index = -1;
+                        break label;
+                    }
+                    String[] rHandleArr = dataList.get(index).getValue().split(",");
+                    handles = handleListStack.getLast();
+                    for (String handleId : rHandleArr) {
+                        handleItem = this.handleMap.get(handleId);
+                        if (handleItem == null || handleItem.getType() != Type.HANDLE) {
+                            throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
+                                    "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
+                                    + this.processData.getValue() + "}");
+                        }
+                        handles.add(handleItem);
+                    }
+                    if(!handleListStack.isEmpty()){
+                        handleListStack.removeLast();
+                    }
                     index++;
                     break;
                 case "P":
@@ -258,9 +362,14 @@ public class SemanticAnalysis {
                     if (index == -1) {
                         break label;
                     }
+                    if (keyIndex == 3) {
+                        if(!handleListStack.isEmpty()){
+                            handleListStack.removeLast();
+                        }
+                    }
                     break;
                 case "E":
-                    analysis(dataList, GrammaType.E);
+                    eAnalysis(dataList, selectorStartHandle);
                     if (index == -1) {
                         break label;
                     }
@@ -270,6 +379,14 @@ public class SemanticAnalysis {
                         analysis(dataList, GrammaType.P);
                         return;
                     }
+                    if (selectorStartHandle == null) {
+                        index = -1;
+                        break label;
+                    }
+                    selectorStartHandle.getOtherSelector().add(new ElseSelectHandle());
+                    list = new ArrayList<>();
+                    selectorStartHandle.getSelectorItemList().add(list);
+                    handleListStack.addLast(list);
                     index++;
                     break;
                 case "h":
@@ -296,4 +413,9 @@ public class SemanticAnalysis {
     public Deque<ErrorInfoData> getTryItemDuque() {
         return tryItemStack;
     }
+
+    public Map<String, StartHandler> getStartHandleMap() {
+        return this.startHandleMap;
+    }
+
 }

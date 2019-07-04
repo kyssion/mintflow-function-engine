@@ -1,6 +1,9 @@
 package com.kyssion.galaxy.scheduler;
 
 import com.kyssion.galaxy.handle.Handle;
+import com.kyssion.galaxy.handle.reoder.ReorderActuatorHandle;
+import com.kyssion.galaxy.handle.select.SelectorHandle;
+import com.kyssion.galaxy.handle.select.SelectorStartHandle;
 import com.kyssion.galaxy.param.ParamWrapper;
 
 import java.util.List;
@@ -11,9 +14,22 @@ public class HandlerScheduler implements Scheduler {
         if (handleList == null) {
             return paramWrapper;
         }
+        SelectorStartHandle selectorStartHandles=null;
+        ReorderActuatorHandle reorderActuatorHandle = null;
         for (Handle handle : handleList) {
             try {
-                paramWrapper = handle.handle(paramWrapper);
+                switch (handle.getType()) {
+                    case REODER_HANDLE:
+
+                        break;
+                    case Selector_HANDLE:
+                        selectorStartHandles = (SelectorStartHandle) handle;
+                        selectorStartHandles.setScheduler(this);
+
+                        break;
+                    case HANDLE:
+                        break;
+                }
             } catch (Exception e) {
                 handle.error(e);
             }

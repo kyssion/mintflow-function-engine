@@ -1,13 +1,23 @@
 package com.kyssion.galaxy.test;
 
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
+import com.kyssion.galaxy.handle.Handle;
+import com.kyssion.galaxy.handle.StartHandler;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
+import com.kyssion.galaxy.script.translater.analysis.SemanticAnalysis;
 import com.kyssion.galaxy.script.translater.data.error.ErrorInfoData;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
+import com.kyssion.galaxy.test.handler.TestHandleOne;
+import com.kyssion.galaxy.test.handler.TestHandlerTwo;
+import com.kyssion.galaxy.test.handler.reoader.ReoaderOne;
+import com.kyssion.galaxy.test.handler.select.SelectOne;
+import com.kyssion.galaxy.test.handler.select.SelectTwo;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnalysisTest {
     public static void main(String[] args) throws IOException, AnalysisNoHandleException {
@@ -28,6 +38,17 @@ public class AnalysisTest {
                             "可能存在问题" + " " + data.getType().getDesc());
                 }
             }
+            return;
         }
+        SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
+        Map<String, Handle> stringHandleMap = new HashMap<>();
+        stringHandleMap.put("one",new TestHandleOne());
+        stringHandleMap.put("two",new TestHandlerTwo());
+        stringHandleMap.put("rone",new ReoaderOne());
+        stringHandleMap.put("sone",new SelectOne());
+        stringHandleMap.put("stwo",new SelectTwo());
+        int i = semanticAnalysis.analysis(list,stringHandleMap);
+        Map<String, StartHandler> map = semanticAnalysis.getStartHandleMap();
+        System.out.println();
     }
 }
