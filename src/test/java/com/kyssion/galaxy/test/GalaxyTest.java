@@ -14,7 +14,7 @@ public class GalaxyTest {
         Galaxy galaxy = factory.create();
         //-------------------
         TestProcess process = galaxy.getProcess(TestProcess.class);
-        int name = process.sayName(0);
+        String name = process.sayName("");
         System.out.println(name);
     }
 }

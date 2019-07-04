@@ -4,13 +4,15 @@ public enum GrammaType {
     a("namespaceId", "a", 0),
     b("processId", "b", 1),
     c("handleId", "c", 2),
-    Z("SZ|#", "Z", 3),
-    S("namespace(a){K}", "S", 4),
-    K("process(b)P;K|#", "K", 5),
-    P("->h:{c}P|#", "P", 6),
-    ROOT("ROOT", "ROOT", 7),
-    EMPLE("EMPLE", "EMP:E", 8);
-
+    d("handleList", "d", 3),
+    Z("SZ|#", "Z", 4),
+    S("namespace(a){K}", "S", 5),
+    K("process(b)P;K|#", "K", 6),
+    P("->h(c)P|->if(c){P}Eel{P}|r(c){d}|#", "P", 7),
+    E("->elif(c){P}E|#", "P", 7),
+    ROOT("ROOT", "ROOT", 8),
+    EMPLE("EMPLE", "EMP:E", 9),
+    HAS_ERROR_EMPLE("HAS_ERROR_EMPLE", "EMP:E", 10);
     GrammaType(String rule, String name, int id) {
         this.rule = rule;
         this.name = name;

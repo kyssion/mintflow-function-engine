@@ -1,3 +1,13 @@
 namespace(namespace1){
-    process(process1)->h(one)->h(two);
+    process(process1)->r(rone){one,two};
 }
+
+#A = namespaceId
+#B = processid
+#C = handleid
+#D = handleIdList
+#Z = SZ|#
+#S = namespace(A){K}
+#K = process(B)P;K|#
+#P = ->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
+#E = ->elif(c){P}E|#

@@ -1,15 +1,23 @@
 package com.kyssion.galaxy.handle;
 
+import com.kyssion.galaxy.handle.type.Type;
 import com.kyssion.galaxy.param.ParamWrapper;
 
 
 public interface Handle {
 
-    default void before(){}
+    default Type getType() {
+        return Type.HANDLE;
+    }
 
-    default void after(){ }
+    default void before() {
+    }
 
-    default void error(Exception e){}
+    default void after() {
+    }
+
+    default void error(Exception e) {
+    }
 
     ParamWrapper handle(ParamWrapper p);
 }

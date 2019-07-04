@@ -10,6 +10,7 @@ import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,20 +22,14 @@ public class ScriptAnalysis {
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
         int a = grammaAnalysis.analysis(list);
         if (a != list.size()) {
-            if (grammaAnalysis.getErrorItem() != null) {
-                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItem().getLineIndex() + " " +
-                        grammaAnalysis.getErrorItem().getFileName());
+            if (grammaAnalysis.getTryItemDuque() != null) {
+//                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItemDuque().getLineIndex() + " " +
+//                        grammaAnalysis.getErrorItemDuque().getFileName());
             }
         }
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
-        a=semanticAnalysis.analysis(list, handleMap);
-        if (a != list.size()) {
-            if (grammaAnalysis.getErrorItem() != null) {
-                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItem().getLineIndex() + " " +
-                        grammaAnalysis.getErrorItem().getFileName());
-            }
-        }
-        Map<String, StartHandler> startHanderMap = semanticAnalysis.getMap();
+        semanticAnalysis.analysis(list, handleMap);
+        Map<String, StartHandler> startHanderMap =new HashMap<>();
         return startHanderMap;
     }
 }
