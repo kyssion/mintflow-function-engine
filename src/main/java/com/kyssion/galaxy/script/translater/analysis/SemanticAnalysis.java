@@ -209,7 +209,7 @@ public class SemanticAnalysis {
         }
     }
 
-    //->elif(c){P}E|#
+    //->elif(d){P}E|#
     private void eAnalysis(List<LexicalAnalysisData> dataList, SelectorStartHandle selectorStartHandle) {
         int itemIndex = index;
         SelectorHandle selectorHandle = null;
@@ -232,7 +232,7 @@ public class SemanticAnalysis {
                         break label;
                     }
                     handleItem = this.handleMap.get(dataList.get(index).getValue());
-                    if (handleItem == null || handleItem.getType() != Type.Selector_HANDLE) {
+                    if (handleItem == null || handleItem.getType() != Type.SELEECT_ITEM) {
                         throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
                                 "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
                                 + this.processData.getValue() + "}");
@@ -300,7 +300,7 @@ public class SemanticAnalysis {
                         break label;
                     }
                     handleItem = this.handleMap.get(dataList.get(index).getValue());
-                    if (handleItem == null || handleItem.getType() != Type.REODER_HANDLE) {
+                    if (handleItem == null || handleItem.getType() != Type.REODER_ITEM) {
                         throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
                                 "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
                                 + this.processData.getValue() + "}");
@@ -322,7 +322,7 @@ public class SemanticAnalysis {
                     }
                     selectorStartHandle = new SelectorStartHandle();
                     handleItem = this.handleMap.get(dataList.get(index).getValue());
-                    if (handleItem == null || handleItem.getType() != Type.Selector_HANDLE) {
+                    if (handleItem == null || handleItem.getType() != Type.SELEECT_ITEM) {
                         throw new AnalysisNoHandleException("no handle name {" + dataList.get(index).getValue() +
                                 "} in process {" + this.namespaceData.getValue() + "}" + "which namespace is {"
                                 + this.processData.getValue() + "}");

@@ -20,18 +20,21 @@ public class HandlerScheduler implements Scheduler {
             try {
                 switch (handle.getType()) {
                     case REODER_HANDLE:
-
+                        reorderActuatorHandle = (ReorderActuatorHandle) handle;
+                        reorderActuatorHandle.setScheduler(this);
+                        paramWrapper = reorderActuatorHandle.handle(paramWrapper);
                         break;
                     case Selector_HANDLE:
                         selectorStartHandles = (SelectorStartHandle) handle;
                         selectorStartHandles.setScheduler(this);
-
+                        paramWrapper = selectorStartHandles.handle(paramWrapper);
                         break;
                     case HANDLE:
+                        paramWrapper = handle.handle(paramWrapper);
                         break;
                 }
             } catch (Exception e) {
-                handle.error(e);
+                e.printStackTrace();
             }
         }
         return paramWrapper;

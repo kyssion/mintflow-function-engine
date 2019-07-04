@@ -18,6 +18,14 @@ public class ReorderActuatorHandle implements Handle {
         return reorderHandle;
     }
 
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
     public void setReorderHandle(ReorderHandle reorderHandle) {
         this.reorderHandle = reorderHandle;
     }
@@ -40,11 +48,11 @@ public class ReorderActuatorHandle implements Handle {
 
     @Override
     public ParamWrapper handle(ParamWrapper p) {
-        return null;
+        return reorderHandleRun(p);
     }
 
     @Override
     public Type getType() {
-        return Type.Selector_HANDLE;
+        return Type.REODER_HANDLE;
     }
 }

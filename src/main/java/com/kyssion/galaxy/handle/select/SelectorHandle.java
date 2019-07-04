@@ -19,4 +19,8 @@ public abstract class SelectorHandle implements Handle {
         return p;
     }
 
+    @Override
+    public Type getType() {
+        return Type.SELEECT_ITEM;
+    }
 }

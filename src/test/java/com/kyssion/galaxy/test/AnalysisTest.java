@@ -3,6 +3,8 @@ package com.kyssion.galaxy.test;
 import com.kyssion.galaxy.exception.AnalysisNoHandleException;
 import com.kyssion.galaxy.handle.Handle;
 import com.kyssion.galaxy.handle.StartHandler;
+import com.kyssion.galaxy.param.ParamWrapper;
+import com.kyssion.galaxy.scheduler.HandlerScheduler;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.SemanticAnalysis;
@@ -49,6 +51,9 @@ public class AnalysisTest {
         stringHandleMap.put("stwo",new SelectTwo());
         int i = semanticAnalysis.analysis(list,stringHandleMap);
         Map<String, StartHandler> map = semanticAnalysis.getStartHandleMap();
+        System.out.println();
+        ParamWrapper paramWrapper = new ParamWrapper();
+        paramWrapper = new HandlerScheduler().run(paramWrapper,map.get("namespace1.process1").getHandleList());
         System.out.println();
     }
 }
