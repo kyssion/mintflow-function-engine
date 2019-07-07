@@ -30,6 +30,7 @@ public class AnalysisTest {
         System.out.println(list.size());
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
         int a = grammaAnalysis.analysis(list);
+
         if (a != list.size()) {
             if (grammaAnalysis.getTryItemDuque().size() != 0) {
                 while (!grammaAnalysis.getTryItemDuque().isEmpty()) {
@@ -42,6 +43,7 @@ public class AnalysisTest {
             }
             return;
         }
+
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
         Map<String, Handle> stringHandleMap = new HashMap<>();
         stringHandleMap.put("one",new TestHandleOne());

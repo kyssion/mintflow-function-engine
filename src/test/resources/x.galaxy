@@ -9,7 +9,7 @@ namespace(namespace1){
     }elif(sone){
         ->h(one)
     }el{
-        ->r(rone){one,two}
+        ->r(rone){one,two}->h(xxx)->h(xxx)
     };
 }
 
