@@ -58,7 +58,6 @@ public class SemanticAnalysis {
     private Deque<List<Handle>> handleListStack;
     private LexicalAnalysisData namespaceData;
     private LexicalAnalysisData processData;
-    private String startMapKey;
     private Map<String, Handle> handleMap;
 
     public int analysis(List<LexicalAnalysisData> dataList, Map<String, Handle> map) {
@@ -183,7 +182,7 @@ public class SemanticAnalysis {
                     //初始化构建list
                     startHander = new StartHandler();
                     this.processData = dataList.get(index);
-                    this.startMapKey = this.namespaceData.getValue() + "." + this.processData.getValue();
+                    String startMapKey = this.namespaceData.getValue() + "." + this.processData.getValue();
                     this.startHandleMap.put(startMapKey, startHander);
                     handleListStack.addLast(startHander.getHandleList());
                     index++;
