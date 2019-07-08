@@ -225,4 +225,7 @@ public class GalaxyTest {
 
 通过 Galaxy 框架提供的factory 可以快速构建出Galaxy 核心类，然后使用get方法可以拿到映射接口对应的代理，然后通过代理执行对应的流程
 
+# 未来规划
 
+1. 整合进spring体系
+2. 构建流程可视化
