@@ -1,61 +1,228 @@
 # Galaxy
 
-## Galaxy 是什么
+Galaxy是一个轻量级流程调度引擎，它的处理逻辑是将所有的功能都抽象成一个一个的方法，
+然后通过DSL领域语言中指定的函数调用过程然后传递进入调度引擎中，从而实现业务逻辑
 
-Galaxy 旨在构建下一代业务模型框架，将所有的业务以函数维度进行抽象，基于流式编程的方法，组合成业务逻辑。通过这种方法实现业务规则的实现和组装的分离，显著降低开发和运维成本。
+# Galaxy和传统规则引擎的相似性和不同性
 
-## Galaxy 功能模块
+|对比项|Galaxy|规则引擎|
+|---|---|---|
+|处理的最小颗粒度|handle（函数）|if else等流程控制语句|
+|规则植入的方法|手动编写java handle函数|方法不等（输入值，配置语句等）|
+|使用方法|在java中使用接口中的函数进行调用|提供调用的通用类或其他犯法|
+|接入成本|非常低（只编写处理逻辑即可）|高（有复杂的api和页面需要学习和掌握）|
+|可控性|非常高（核心逻辑是自己编写的函数）|低以来框架自己提供的规则）|
 
-- util 辅助功能模块 - 提供基本的数据函数化操作方法，基本反射功能操作方法，其他额外功能等。
-- net 网络功能模块 - 通过基本网络操作封装
-- core 核心功能模块 - 包含整体业务规则的数据结构，业务规则的解析逻辑，和对外暴露的调用接口
-- data 数据库io操作模块 - 提供异步化 mysql postgresql等数据库支持
-
-## 项目运行环境和项目依赖
-
-## 业务规则流程
-
-## 表达式基本语法
-
-
-### 变量声明描述
+# Galaxy DSL语言文法
 
 ```
-var item_name[desc][type]{
-    var1_name[desc][type],var2[desc][type];
+A = 命名空间Id
+B = 流程Id
+C = 处理器Id
+D = 迭代器Id
+Z = SZ或#
+S = namespace(A){K}
+K = process(B)P;K或#
+P = ->h(C)P或
+    ->if(xxx){P}Eel(){}或 
+    ->r(c){handleIdList}P或#
+E = ->elif(c){P}E或#
+``` 
+
+> 解释：
+
+1. 一个文件中可以拥有多个namespace作用域
+2. 一个namespace可以拥有多个process
+3. 一个process表示一个流程，后接一个handle的调用链路
+4. P文法中 h 表示一个handle r 表示一个重排序器 if-elif-el 表示基本if，else选择流
+
+> 引申 : Galaxy 领域编程语言依赖一个或者多个galaxy后缀的配置文件，每个配置文件遵从上述文法标准
+
+# Galaxy DSL 例子
+
+```
+namespace(namespace1){
+    process(process1)->r(rone){one,two}
+    ->if(sone){
+        ->if(sone){
+            ->r(rone){one,two}
+        }el{
+            ->h(one)
+        }
+    }elif(sone){
+        ->h(one)
+    }el{
+        ->r(rone){one,two}->h(one)->h(two)
+    };
 }
 ```
 
- 参数名称|参数作用
----|---
-var|描述声明的变量类型
-item_name|变量的变量名
-desc|描述符号用来输出log
-var1_name,var2_name|循环嵌套变量,furule的数据结构是可以嵌套的
+> 关键词解释 :
 
-### 函数声明描述
+ID|解释
+---|---
+namespace1|namespace Id
+process1|process Id
+rone| 重排序器id rone
+sone| 选择器Id sone
+one，two|基本处理器Id one，two
+
+# 编写一个Galaxy DSL文件
 
 ```
-f[function_name](var1_name,var2_name)->
-    f[function_name2](var1_name,var2_name)
+namespace(namespace1){
+    process(process1)->r(rone){one,two}
+    ->if(sone){
+        ->if(sone){
+            ->r(rone){one,two}
+        }el{
+            ->h(one)
+        }
+    }elif(sone){
+        ->h(one)
+    }el{
+        ->r(rone){one,two}->h(one)->h(two)
+    };
+}
+
+#A = namespaceId
+#B = processid
+#C = handleid
+#D = handleIdList
+#Z = SZ|#
+#S = namespace(A){K}
+#K = process(B)P;K|#
+#P = ->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
+#E = ->elif(c){P}E|#
 ```
 
-参数名称|参数作用
+# 编写一个基本处理器handle
+
+编写一个基本处理器非常简单，只需要继承handle接口，并且使用@Handle注解指定handle的名称
+
+```java
+@Handler(value = "one")
+public class TestHandleOne implements Handle {
+    @Override
+    public void before() {}
+    @Override
+    public void after() {}
+    @Override
+    public void error(Exception e) {
+        System.out.println("no need handle");
+    }
+    @Override
+    public ParamWrapper handle(ParamWrapper p) {
+        // do someThing xxx
+        return p;
+    }
+}
+```
+
+handle 接口中拥有一些方法和作用 
+
+方法名|作用
 ---|---
-f|声明此种类型是一个函数变量
-function_name|指定当前函数所使用的在代码中声明的函数变量名称
-var1_name,var2_name|指定在当前框架中声明的变量名称
-->|表示将前一个函数的返回
+before|交给迭代器之前调用的方法
+after|交个迭代器之后调用的方法
+error|出现异常调用的方法
+handle|普通调用的方法
+
+# 编写一个迭代器
+
+迭代器的作用是可以引用大量的handle然后在内部处理handle的顺序，然后将处理好的handle流交给迭代器处理
+
+```java
+@Handler(value = "rone")
+public class ReoaderOne extends ReorderHandle {
+    @Override
+    public void buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper) {
+        handleList.sort(new Comparator<Handle>() {
+            @Override
+            public int compare(Handle o1, Handle o2) {
+                return 0;
+            }
+        });
+    }
+}
+```
+
+# 编写一个选择器
+
+选择器的作用是可以返回boolean类型的结果来判断运行那一个工作流程
+
+```java
+@Handler("sone")
+public class SelectOne extends SelectorHandle {
+    @Override
+    public boolean select(ParamWrapper p) {
+        Integer integer = p.get(Integer.class);
+        return integer != null && integer > 1000;
+    }
+}
+```
+
+# 设置一个namespace 和 process 映射接口
+
+```java
+@ProcessNameSpace(id = "namespace1")
+public interface TestProcess extends Process {
+    @ProcessMethod(id="process1")
+    String sayName(String name);
+}
+```
+
+ProcessNameSpace ： 表示命名空间
+ProcessMethod ： 表示流程管理
+
+# 设置Galaxy参数配置文件
+
+参数配置文件中可以制定Galaxy需要读取的handle process 和 DSL文件的路径，支持 ',' 号分割的字符串表示的数组
 
 
-## 安装运行方法
+```properties
+galaxy.handle-path: com.kyssion.galaxy.test.handler
+galaxy.map-path: x.galaxy
+galaxy.process-path: com.kyssion.galaxy.test.process
+```
 
-## 基本使用方法
+# 使用factoryBuild和factory 构建Galaxy类
 
-## 案例演示
+Galaxy提供工厂来初始化 Galaxy核心类
 
-## 支持和联系方法
+```java
 
-如果您对本项目有什么建议，欢迎提出issure或者发送邮件给我 kysskymail@Gmail.com
+public class GalaxyTest {
+    public static void main(String[] args) {
+        GalaxyFactory factory = GalaxyFactoryBuilder.build(
+                GalaxyTest.class.getClassLoader().getResource("galaxy-test.properties").getFile());
+        Galaxy galaxy = factory.create();
+    }
+}
+```
 
-## 更新日志
+# 使用Galaxy核心类和namespace process 映射接口来映射流程
+
+```java
+
+@ProcessNameSpace(id = "namespace1")
+public interface TestProcess extends Process {
+    @ProcessMethod(id="process1")
+    String sayName(String name);
+}
+public class GalaxyTest {
+    public static void main(String[] args) {
+        System.out.println(Objects.requireNonNull(GalaxyTest.class.getClassLoader().getResource("galaxy-test.properties")).getFile());
+        GalaxyFactory factory = GalaxyFactoryBuilder.build(GalaxyTest.class.getClassLoader().getResource("galaxy-test.properties").getFile());
+        Galaxy galaxy = factory.create();
+        //-------------------
+        TestProcess process = galaxy.getProcess(TestProcess.class);
+        String name = process.sayName("");
+        System.out.println(name);
+    }
+}
+```
+
+通过 Galaxy 框架提供的factory 可以快速构建出Galaxy 核心类，然后使用get方法可以拿到映射接口对应的代理，然后通过代理执行对应的流程
+
+

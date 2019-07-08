@@ -8,6 +8,7 @@ import com.kyssion.galaxy.param.ParamWrapper;
 public class SelectOne extends SelectorHandle {
     @Override
     public boolean select(ParamWrapper p) {
-        return false;
+        Integer integer = p.get(Integer.class);
+        return integer != null && integer > 1000;
     }
 }
