@@ -9,7 +9,6 @@ import com.kyssion.galaxy.handle.select.ElseSelectHandle;
 import com.kyssion.galaxy.handle.select.SelectorHandle;
 import com.kyssion.galaxy.handle.select.SelectorStartHandle;
 import com.kyssion.galaxy.handle.type.Type;
-import com.kyssion.galaxy.param.ParamWrapper;
 import com.kyssion.galaxy.script.translater.data.error.ErrorInfoData;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 import com.kyssion.galaxy.script.translater.rule.languageErrorType.LanguageErrorType;
