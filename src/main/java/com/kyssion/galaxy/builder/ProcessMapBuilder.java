@@ -22,6 +22,7 @@ public class ProcessMapBuilder {
         ClassFindleUtil<Process> handleResolverUtil = new ClassFindleUtil<>();
         handleResolverUtil.findImplementations(Process.class, processPath);
         Set<Class<? extends Process>> processSet = handleResolverUtil.getClasses();
+
         processSet.forEach((process) -> {
             Reflector reflector = new Reflector(process);
             ProcessNameSpace processerAnno = reflector.getAnnotation(ProcessNameSpace.class);
@@ -31,6 +32,7 @@ public class ProcessMapBuilder {
                 map.put(reflector.getClassName(),process);
             }
         });
+
         return map;
     }
 }
