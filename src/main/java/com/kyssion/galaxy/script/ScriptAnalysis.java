@@ -6,6 +6,7 @@ import com.kyssion.galaxy.handle.StartHandler;
 import com.kyssion.galaxy.script.translater.analysis.GrammaAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.LexicalAnalysis;
 import com.kyssion.galaxy.script.translater.analysis.SemanticAnalysis;
+import com.kyssion.galaxy.script.translater.data.error.ErrorInfoData;
 import com.kyssion.galaxy.script.translater.data.workKeyData.LexicalAnalysisData;
 
 import java.io.File;
@@ -21,15 +22,23 @@ public class ScriptAnalysis {
         System.out.println(list.size());
         GrammaAnalysis grammaAnalysis = new GrammaAnalysis();
         int a = grammaAnalysis.analysis(list);
+
         if (a != list.size()) {
-            if (grammaAnalysis.getTryItemDuque() != null) {
-//                throw new AnalysisLexicalAnalysisException(grammaAnalysis.getErrorItemDuque().getLineIndex() + " " +
-//                        grammaAnalysis.getErrorItemDuque().getFileName());
+            if (grammaAnalysis.getTryItemDuque().size() != 0) {
+                while (!grammaAnalysis.getTryItemDuque().isEmpty()) {
+                    ErrorInfoData data = grammaAnalysis.getTryItemDuque().removeLast();
+                    System.err.println("第"+data.getLineId()+"行" +
+                            " "+"第" + data.getWordId()+"个字符"+"" +
+                            " " + "字符:"+data.getValue() + " " +
+                            "可能存在问题" + " " + data.getType().getDesc());
+                }
             }
+            return new HashMap<>();
         }
+
         SemanticAnalysis semanticAnalysis = new SemanticAnalysis();
-        semanticAnalysis.analysis(list, handleMap);
-        Map<String, StartHandler> startHanderMap =new HashMap<>();
-        return startHanderMap;
+        int i = semanticAnalysis.analysis(list,handleMap);
+        Map<String, StartHandler> map = semanticAnalysis.getStartHandleMap();
+        return map;
     }
 }

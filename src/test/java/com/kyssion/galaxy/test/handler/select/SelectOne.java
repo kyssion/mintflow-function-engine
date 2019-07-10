@@ -9,6 +9,6 @@ public class SelectOne extends SelectorHandle {
     @Override
     public boolean select(ParamWrapper p) {
         Integer integer = p.get(Integer.class);
-        return integer != null && integer > 1000;
+        return true;
     }
 }

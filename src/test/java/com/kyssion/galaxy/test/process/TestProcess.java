@@ -8,6 +8,6 @@ import com.kyssion.galaxy.process.Process;
 public interface TestProcess extends Process {
 
     @ProcessMethod(id="process1")
-    String sayName(String name);
+    Integer sayName(Integer name);
 
 }
