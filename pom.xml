@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>galaxy_core</module>
+        <module>galaxy_spring</module>
+        <module>galaxy_tool</module>
+        <module>galaxy_spring_boot_starter</module>
     </modules>
     <dependencies>
         <dependency>
