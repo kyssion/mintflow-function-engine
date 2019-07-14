@@ -1,11 +1,17 @@
 namespace(namespace1){
-    process(process1)
+    process(process1)->r(rone){one,two}
     ->if(sone){
         ->if(sone){
-        }el{}
-    }->h(one);
+            ->r(rone){one,two}
+        }el{
+            ->h(one)
+        }
+    }elif(sone){
+        ->h(one)
+    }el{
+        ->r(rone){one,two}->h(one)->h(two)
+    }->r(rone){one,two}->h(one)->h(two);
 }
-
 #A = namespaceId
 #B = processid
 #C = handleid
