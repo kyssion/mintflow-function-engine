@@ -123,7 +123,7 @@ public class SemanticAnalysis {
             case K: // K = process(b)P;K|#
                 itemIndex = index;
                 kAnalysis(dataList);
-                if(!handleListStack.isEmpty()){
+                if (!handleListStack.isEmpty()) {
                     handleListStack.removeLast();
                 }
                 if (index == -1) {
@@ -188,7 +188,7 @@ public class SemanticAnalysis {
                     break;
                 case "P":
                     analysis(dataList, GrammaType.P);
-                    if(!handleListStack.isEmpty()){
+                    if (!handleListStack.isEmpty()) {
                         handleListStack.removeLast();
                     }
                     if (index == -1) {
@@ -217,7 +217,7 @@ public class SemanticAnalysis {
             switch (elKey[a]) {
                 case "P":
                     analysis(dataList, GrammaType.P);
-                    if(!handleListStack.isEmpty()){
+                    if (!handleListStack.isEmpty()) {
                         handleListStack.removeLast();
                     }
                     if (index == -1) {
@@ -271,9 +271,10 @@ public class SemanticAnalysis {
         Handle handleItem = null;
         SelectorHandle selectorHandle = null;
         SelectorStartHandle selectorStartHandle = null;
-        ReorderActuatorHandle reorderActuatorHandle=null;
+        ReorderActuatorHandle reorderActuatorHandle = null;
         ReorderHandle reorderHandle = null;
         List<Handle> list;
+        int ifElseRemo = 0;
         label:
         for (int a = 0; a < key.length && index < dataList.size(); a++) {
             switch (key[a]) {
@@ -350,7 +351,7 @@ public class SemanticAnalysis {
                         }
                         handles.add(handleItem);
                     }
-                    if(!handleListStack.isEmpty()){
+                    if (!handleListStack.isEmpty()) {
                         handleListStack.removeLast();
                     }
                     index++;
@@ -360,9 +361,12 @@ public class SemanticAnalysis {
                     if (index == -1) {
                         break label;
                     }
-                    if (keyIndex == 3) {
-                        if(!handleListStack.isEmpty()){
+                    if (keyIndex == 3 && (ifElseRemo == 1 || ifElseRemo == 0)) {
+                        if (!handleListStack.isEmpty()) {
                             handleListStack.removeLast();
+                        }
+                        if (ifElseRemo == 1) {
+                            ifElseRemo = 2;
                         }
                     }
                     break;
@@ -381,6 +385,7 @@ public class SemanticAnalysis {
                         index = -1;
                         break label;
                     }
+                    ifElseRemo = 1;
                     selectorStartHandle.getOtherSelector().add(new ElseSelectHandle());
                     list = new ArrayList<>();
                     selectorStartHandle.getSelectorItemList().add(list);
