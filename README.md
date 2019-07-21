@@ -1,11 +1,11 @@
-# Galaxy
+# MELKWEG
 
-Galaxy是一个轻量级流程调度引擎，它的处理逻辑是将所有的功能都抽象成一个一个的方法，
+Melkweg是一个轻量级流程调度引擎，它的处理逻辑是将所有的功能都抽象成一个一个的方法，
 然后通过DSL领域语言中指定的函数调用过程然后传递进入调度引擎中，从而实现业务逻辑
 
-# Galaxy和传统规则引擎的相似性和不同性
+# Melkweg和传统规则引擎的相似性和不同性
 
-|对比项|Galaxy|规则引擎|
+|对比项|Melkweg|规则引擎|
 |---|---|---|
 |处理的最小颗粒度|handle（函数）|if else等流程控制语句|
 |规则植入的方法|手动编写java handle函数|方法不等（输入值，配置语句等）|
@@ -13,7 +13,7 @@ Galaxy是一个轻量级流程调度引擎，它的处理逻辑是将所有的�
 |接入成本|非常低（只编写处理逻辑即可）|高（有复杂的api和页面需要学习和掌握）|
 |可控性|非常高（核心逻辑是自己编写的函数）|低以来框架自己提供的规则）|
 
-# Galaxy DSL语言文法
+# Melkweg DSL语言文法
 
 ```
 A = 命名空间Id
@@ -36,9 +36,9 @@ E = ->elif(c){P}E或#
 3. 一个process表示一个流程，后接一个handle的调用链路
 4. P文法中 h 表示一个handle r 表示一个重排序器 if-elif-el 表示基本if，else选择流
 
-> 引申 : Galaxy 领域编程语言依赖一个或者多个galaxy后缀的配置文件，每个配置文件遵从上述文法标准
+> 引申 : Melkweg 领域编程语言依赖一个或者多个Melkweg后缀的配置文件，每个配置文件遵从上述文法标准
 
-# Galaxy DSL 例子
+# Melkweg DSL 例子
 
 ```
 namespace(namespace1){
@@ -67,7 +67,7 @@ rone| 重排序器id rone
 sone| 选择器Id sone
 one，two|基本处理器Id one，two
 
-# 编写一个Galaxy DSL文件
+# 编写一个Melkweg DSL文件
 
 ```
 namespace(namespace1){
@@ -175,9 +175,9 @@ public interface TestProcess extends Process {
 ProcessNameSpace ： 表示命名空间
 ProcessMethod ： 表示流程管理
 
-# 设置Galaxy参数配置文件
+# 设置Melkweg参数配置文件
 
-参数配置文件中可以制定Galaxy需要读取的handle process 和 DSL文件的路径，支持 ',' 号分割的字符串表示的数组
+参数配置文件中可以制定Melkweg需要读取的handle process 和 DSL文件的路径，支持 ',' 号分割的字符串表示的数组
 
 
 ```properties
@@ -186,21 +186,21 @@ org.mekweg.map-path: x.org.mekweg
 org.mekweg.process-path: com.kyssion.org.mekweg.test.process
 ```
 
-# 使用factoryBuild和factory 构建Galaxy类
+# 使用factoryBuild和factory 构建Melkweg类
 
-Galaxy提供工厂来初始化 Galaxy核心类
+Melkweg提供工厂来初始化 Melkweg核心类
 
 ```java
 
-public class GalaxyTest {
+public class MelkwegTest {
     public static void main(String[] args) {
-        GalaxyFactory factory = GalaxyFactoryBuilder.build(
-                GalaxyTest.class.getClassLoader().getResource(morg.mekwegFile());
-        Galaxy org.melkweg = factory.corg.mekweg   }
+        MelkwegFactory factory = MelkwegFactoryBuilder.build(
+                MelkwegTest.class.getClassLoader().getResource(morg.mekwegFile());
+        Melkweg org.melkweg = factory.corg.mekweg   }
 }
 ```
 
-# 使用Galaxy核心类和namespace process 映射接口来映射流程
+# 使用Melkweg核心类和namespace process 映射接口来映射流程
 
 ```java
 
@@ -209,11 +209,11 @@ public interface TestProcess extends Process {
     @ProcessMethod(id="process1")
     String sayName(String name);
 }
-public class GalaxyTest {
+public class MelkwegTest {
     public static void main(String[] args) {
-        System.out.println(Objects.requireNonNull(GalaxyTest.class.getClassLoader().getResource(mekweg)).getFile());
-  org.mekwegxyFactory factory = GalaxyFactoryBuilder.build(GalaxyTest.class.getClassLoader().getResource(mekweg).getFile());
-        Galaxy org.galaxyorg.mekweg.create();
+        System.out.println(Objects.requireNonNull(MelkwegTest.class.getClassLoader().getResource(mekweg)).getFile());
+  org.mekwegxyFactory factory = MelkwegFactoryBuilder.build(MelkwegTest.class.getClassLoader().getResource(mekweg).getFile());
+        Melkweg org.Melkwegorg.mekweg.create();
         //-------------------
      org.mekwegcess process = org.melkweg.getProcess(TestProcess.class);
         String name = prorg.mekwegame("");
@@ -222,7 +222,7 @@ public class GalaxyTest {
 }
 ```
 
-通过 Galaxy 框架提供的factory 可以快速构建出Galaxy 核心类，然后使用get方法可以拿到映射接口对应的代理，然后通过代理执行对应的流程
+通过 Melkweg 框架提供的factory 可以快速构建出Melkweg 核心类，然后使用get方法可以拿到映射接口对应的代理，然后通过代理执行对应的流程
 
 # 未来规划
 
