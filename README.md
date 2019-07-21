@@ -181,9 +181,9 @@ ProcessMethod ： 表示流程管理
 
 
 ```properties
-org.galaxy.handle-path: com.kyssion.org.galaxy.test.handler
-org.galaxy.map-path: x.org.galaxy
-org.galaxy.process-path: com.kyssion.org.galaxy.test.process
+org.mekweg.handle-path: com.kyssion.org.mekweg.test.handler
+org.mekweg.map-path: x.org.mekweg
+org.mekweg.process-path: com.kyssion.org.mekweg.test.process
 ```
 
 # 使用factoryBuild和factory 构建Galaxy类
@@ -195,9 +195,8 @@ Galaxy提供工厂来初始化 Galaxy核心类
 public class GalaxyTest {
     public static void main(String[] args) {
         GalaxyFactory factory = GalaxyFactoryBuilder.build(
-                GalaxyTest.class.getClassLoader().getResource("org.galaxy-test.properties").getFile());
-        Galaxy org.galaxy = factory.create();
-    }
+                GalaxyTest.class.getClassLoader().getResource(morg.mekwegFile());
+        Galaxy org.melkweg = factory.corg.mekweg   }
 }
 ```
 
@@ -212,12 +211,12 @@ public interface TestProcess extends Process {
 }
 public class GalaxyTest {
     public static void main(String[] args) {
-        System.out.println(Objects.requireNonNull(GalaxyTest.class.getClassLoader().getResource("org.galaxy-test.properties")).getFile());
-        GalaxyFactory factory = GalaxyFactoryBuilder.build(GalaxyTest.class.getClassLoader().getResource("org.galaxy-test.properties").getFile());
-        Galaxy org.galaxy = factory.create();
+        System.out.println(Objects.requireNonNull(GalaxyTest.class.getClassLoader().getResource(mekweg)).getFile());
+  org.mekwegxyFactory factory = GalaxyFactoryBuilder.build(GalaxyTest.class.getClassLoader().getResource(mekweg).getFile());
+        Galaxy org.galaxyorg.mekweg.create();
         //-------------------
-        TestProcess process = org.galaxy.getProcess(TestProcess.class);
-        String name = process.sayName("");
+     org.mekwegcess process = org.melkweg.getProcess(TestProcess.class);
+        String name = prorg.mekwegame("");
         System.out.println(name);
     }
 }
