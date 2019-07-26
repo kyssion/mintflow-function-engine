@@ -10,8 +10,6 @@ import java.util.List;
  * 重排序handle
  */
 public abstract class ReorderHandle implements Handle {
-
-
     public abstract void buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper);
 
     @Override
