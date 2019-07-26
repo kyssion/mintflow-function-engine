@@ -11,7 +11,7 @@ import org.mekweg.process.Process;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class DefaultGalaxyFactory implements GalaxyFactory {
+public class DefaultMelkwegFactory implements MelkwegFactory {
 
     private static final AtomicReference<Melkweg> galaxyCache =
             new AtomicReference<>();
@@ -21,7 +21,7 @@ public class DefaultGalaxyFactory implements GalaxyFactory {
     private String[] mapperPath;
 
 
-    public DefaultGalaxyFactory(String handPath, String mapperPath, String processPath) {
+    public DefaultMelkwegFactory(String handPath, String mapperPath, String processPath) {
         this.handlePath = (handPath == null) ? null : handPath.split(",");
         this.mapperPath = (mapperPath == null) ? null : mapperPath.split(",");
         this.processPath = (processPath == null) ? null : processPath.split(",");

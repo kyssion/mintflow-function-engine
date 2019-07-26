@@ -3,6 +3,6 @@ package org.mekweg.factory;
 import org.mekweg.Melkweg;
 
 
-public interface GalaxyFactory {
+public interface MelkwegFactory {
     Melkweg create();
 }
