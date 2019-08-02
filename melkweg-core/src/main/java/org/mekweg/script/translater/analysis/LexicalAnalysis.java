@@ -12,7 +12,6 @@ public class LexicalAnalysis {
 
     /**
      * 构建词法表
-     *
      * @param file
      * @return
      * @throws IOException
