@@ -21,8 +21,6 @@ import java.util.*;
  * createStartHandler
  */
 public class SemanticAnalysis {
-
-
     private Deque<ErrorInfoData> tryItemStack;
     private int index;
     private String[] pKey1;
@@ -267,12 +265,11 @@ public class SemanticAnalysis {
     //->h(C)P|->if(xxx){P}E el(){}|->r(c){handleIdList}P|#
     private void pAnalysis(List<LexicalAnalysisData> dataList, String[] key, int keyIndex) {
         List<Handle> handles = null;
-        List<Handle> itemhandleList = null;
-        Handle handleItem = null;
-        SelectorHandle selectorHandle = null;
+        Handle handleItem;
+        SelectorHandle selectorHandle;
         SelectorStartHandle selectorStartHandle = null;
-        ReorderActuatorHandle reorderActuatorHandle = null;
-        ReorderHandle reorderHandle = null;
+        ReorderActuatorHandle reorderActuatorHandle;
+        ReorderHandle reorderHandle;
         List<Handle> list;
         int ifElseRemo = 0;
         label:
@@ -413,10 +410,6 @@ public class SemanticAnalysis {
                     break;
             }
         }
-    }
-
-    public Deque<ErrorInfoData> getTryItemDuque() {
-        return tryItemStack;
     }
 
     public Map<String, StartHandler> getStartHandleMap() {
