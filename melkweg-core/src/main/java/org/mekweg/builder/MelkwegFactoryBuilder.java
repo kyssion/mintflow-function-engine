@@ -1,5 +1,6 @@
 package org.mekweg.builder;
 
+import org.mekweg.Melkweg;
 import org.mekweg.factory.DefaultMelkwegFactory;
 import org.mekweg.factory.MelkwegFactory;
 
@@ -10,11 +11,12 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * read config file build factory
  */
-public class MelkwegFactoryBuilder {
+public class MelkwegFactoryBuilder implements AbstractMelkwegFactoryBuilder {
     private static final AtomicReference<MelkwegFactory> factory =
             new AtomicReference<>();
 
-    public static MelkwegFactory build(Reader reader) {
+    @Override
+    public MelkwegFactory build(Reader reader) {
         Properties properties = new Properties();
         try {
             properties.load(reader);
@@ -24,29 +26,32 @@ public class MelkwegFactoryBuilder {
         return build(properties);
     }
 
-    public static MelkwegFactory build(Properties properties) {
-        MelkwegFactory galaxyFactory = factory.get();
-        if (galaxyFactory == null) {
-            galaxyFactory = new DefaultMelkwegFactory(
+    @Override
+    public MelkwegFactory build(Properties properties) {
+        MelkwegFactory melkwegFactory = factory.get();
+        if (melkwegFactory == null) {
+            melkwegFactory = new DefaultMelkwegFactory(
                     getPropString(properties, "galaxy.handle-path"),
                     getPropString(properties, "galaxy.map-path"),
                     getPropString(properties, "galaxy.process-path"));
-            factory.compareAndSet(null, galaxyFactory);
+            factory.compareAndSet(null, melkwegFactory);
             return factory.get();
         } else {
-            return galaxyFactory;
+            return melkwegFactory;
         }
     }
 
-    public static MelkwegFactory build(InputStream inputStream) {
+    @Override
+    public MelkwegFactory build(InputStream inputStream) {
         return build(new InputStreamReader(inputStream));
     }
 
-    private static String getPropString(Properties properties, String key) {
+    private String getPropString(Properties properties, String key) {
         return (String) properties.get(key);
     }
 
-    public static MelkwegFactory build(String configPath){
+    @Override
+    public MelkwegFactory build(String configPath) {
         File file = new File(configPath);
         try {
             return build(new FileInputStream(file));
