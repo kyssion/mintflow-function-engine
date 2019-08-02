@@ -21,6 +21,7 @@ import java.util.*;
  * createStartHandler
  */
 public class SemanticAnalysis {
+
     private Deque<ErrorInfoData> tryItemStack;
     private int index;
     private String[] pKey1;
@@ -31,24 +32,31 @@ public class SemanticAnalysis {
     private String[] elKey;
 
     public SemanticAnalysis() {
+
         pKey1 = new String[]{
                 "-", ">", "h", "(", "x", ")", "P"
         };
+
         pKey2 = new String[]{
                 "-", ">", "r", "(", "y", ")", "{", "w", "}", "P"
         };
+
         pKey3 = new String[]{
                 "-", ">", "if", "(", "z", ")", "{", "P", "}", "E", "el", "{", "P", "}", "P"
         };
+
         elKey = new String[]{
                 "elif", "(", "d", ")", "{", "P", "}", "E"
         };
+
         kKey = new String[]{
                 "process", "(", "b", ")", "P", ";", "K"
         };
+
         sKey = new String[]{
                 "namespace", "(", "a", ")", "{", "K", "}"
         };
+
     }
 
     private Map<String, StartHandler> startHandleMap;
