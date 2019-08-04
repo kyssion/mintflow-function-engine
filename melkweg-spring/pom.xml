@@ -11,5 +11,11 @@
 
     <artifactId>melkweg-spring</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.func-engine</groupId>
+            <artifactId>melkweg-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
