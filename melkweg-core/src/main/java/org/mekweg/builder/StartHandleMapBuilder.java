@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StartHandleMapBuilder {
-
     public static Map<String, StartHandler> build(Map<String, Handle> handleMap, String... paths) throws IOException {
         Map<String,StartHandler> startHanderMap = new HashMap<>();
         for (String path : paths) {
