@@ -9,12 +9,8 @@ import org.mekweg.handle.StartHandler;
 import org.mekweg.process.Process;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class DefaultMelkwegFactory implements MelkwegFactory {
-
-    private static final AtomicReference<Melkweg> galaxyCache =
-            new AtomicReference<>();
 
     private String[] handlePath;
     private String[] processPath;
@@ -30,22 +26,42 @@ public class DefaultMelkwegFactory implements MelkwegFactory {
     @Override
     public Melkweg create() {
         try {
-            Melkweg melkweg = galaxyCache.get();
-            if (melkweg == null) {
-                //所有处理方法的集合
-                Map<String, Handle> handleMap = HandleMapBuilder.handleMapbuild(this.handlePath);
-                Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
-                //创建handle调用链
-                Map<String, StartHandler> startHanderMap = StartHandleMapBuilder.build(handleMap,this.mapperPath);
-                melkweg = new Melkweg(startHanderMap, processMap);
-                galaxyCache.compareAndSet(null, melkweg);
-                return galaxyCache.get();
-            } else {
-                return melkweg;
-            }
+            Melkweg melkwegOld = finalMelweg.get();
+            //所有处理方法的集合
+            Map<String, Handle> handleMap = HandleMapBuilder.handleMapbuild(this.handlePath);
+            Map<String, Class<? extends Process>> processMap = ProcessMapBuilder.build(this.processPath);
+            //创建handle调用链
+            Map<String, StartHandler> startHanderMap = StartHandleMapBuilder.build(handleMap, this.mapperPath);
+            Melkweg melkwegNew = new Melkweg(startHanderMap, processMap);
+            finalMelweg.compareAndSet(melkwegOld, melkwegNew);
+            return finalMelweg.get();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String[] getHandlePath() {
+        return handlePath;
+    }
+
+    public void setHandlePath(String[] handlePath) {
+        this.handlePath = handlePath;
+    }
+
+    public String[] getProcessPath() {
+        return processPath;
+    }
+
+    public void setProcessPath(String[] processPath) {
+        this.processPath = processPath;
+    }
+
+    public String[] getMapperPath() {
+        return mapperPath;
+    }
+
+    public void setMapperPath(String[] mapperPath) {
+        this.mapperPath = mapperPath;
     }
 }
