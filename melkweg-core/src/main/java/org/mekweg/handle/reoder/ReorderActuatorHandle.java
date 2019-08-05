@@ -8,6 +8,9 @@ import org.mekweg.scheduler.Scheduler;
 
 import java.util.List;
 
+/**
+ * reorder的包装类用来定义Reorder的位置
+ */
 public class ReorderActuatorHandle implements Handle {
 
     private ReorderHandle reorderHandle;
