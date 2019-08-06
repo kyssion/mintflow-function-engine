@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class ParamWrapper {
 
-
-
     private Map<Class, Object> param;
     private Map<Class,Object> common;
 
