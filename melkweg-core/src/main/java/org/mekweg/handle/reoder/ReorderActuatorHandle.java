@@ -45,8 +45,8 @@ public class ReorderActuatorHandle implements Handle {
         if (reorderHandle == null || listHandle == null || scheduler == null) {
             return p;
         }
-        reorderHandle.buildHandleSteam(this.listHandle, p);
-        return this.scheduler.run(p, this.listHandle);
+        List<Handle> list = reorderHandle.buildHandleSteam(this.listHandle, p);
+        return this.scheduler.run(p, list);
     }
 
     @Override
