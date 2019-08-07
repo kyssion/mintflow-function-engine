@@ -4,11 +4,13 @@ import org.mekweg.handle.Handle;
 import org.mekweg.handle.reoder.ReorderHandle;
 import org.mekweg.param.ParamWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReoaderTwo extends ReorderHandle {
 
     @Override
-    public void buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper) {
+    public List<Handle> buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper) {
+        return new ArrayList<>();
     }
 }
