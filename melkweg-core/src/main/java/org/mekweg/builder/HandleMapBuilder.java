@@ -25,7 +25,6 @@ public class HandleMapBuilder {
         ClassFindleUtil<Handle> handleResolverUtil = new ClassFindleUtil<>();
         handleResolverUtil.find(new IsA(Handle.class), handlePath);
         Set<Class<? extends Handle>> handlerSet = handleResolverUtil.getClasses();
-
         handlerSet.forEach((handle) -> {
             Reflector reflector = new Reflector(handle);
             Handler handlerAnno = reflector.getAnnotation(Handler.class);

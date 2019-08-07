@@ -11,12 +11,13 @@ import java.util.List;
 @Handler(value = "rone")
 public class ReoaderOne extends ReorderHandle {
     @Override
-    public void buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper) {
+    public List<Handle> buildHandleStream(List<Handle> handleList, ParamWrapper paramWrapper) {
         handleList.sort(new Comparator<Handle>() {
             @Override
             public int compare(Handle o1, Handle o2) {
                 return 0;
             }
         });
+        return handleList;
     }
 }
