@@ -1,4 +1,4 @@
-package org.mekweg.spring.factory;
+package org.melkweg.spring.factory;
 
 import org.mekweg.Melkweg;
 import org.mekweg.factory.DefaultMelkwegFactory;

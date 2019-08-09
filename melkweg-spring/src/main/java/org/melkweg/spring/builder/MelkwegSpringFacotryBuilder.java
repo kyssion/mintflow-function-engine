@@ -1,8 +1,8 @@
-package org.mekweg.spring.builder;
+package org.melkweg.spring.builder;
 
 import org.mekweg.builder.AbstractMelkwegFactoryBuilder;
 import org.mekweg.factory.MelkwegFactory;
-import org.mekweg.spring.factory.MelkwegSpringFactory;
+import org.melkweg.spring.factory.MelkwegSpringFactory;
 
 import java.util.Properties;
 
