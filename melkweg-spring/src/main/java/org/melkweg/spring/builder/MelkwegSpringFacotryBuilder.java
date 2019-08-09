@@ -16,5 +16,6 @@ public class MelkwegSpringFacotryBuilder implements AbstractMelkwegFactoryBuilde
         finalMelkwegFactory.compareAndSet(melkwegFactoryOld,melkwegFactoryNew);
         return finalMelkwegFactory.get();
     }
+
 }
 
