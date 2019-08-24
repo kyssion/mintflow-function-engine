@@ -1,27 +1,66 @@
 package org.mekweg.param;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ParamWrapper {
 
-    private Map<Class, Object> param;
-    private Map<Class,Object> common;
+    private Map<String, Object> origalParams;
 
-    private Map<Class,Object> status;
+    private Map<String,Object> contextParams;
+
+    private Map<Class<?>,Object> returnParams;
+
+    private Set<String> deleteKeys;
 
     public ParamWrapper() {
-        this.param = new HashMap<>();
+        this.origalParams = new HashMap<>();
+        this.contextParams = new HashMap<>();
+        this.returnParams = new HashMap<>();
+        this.deleteKeys = new HashSet<>();
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T get(Class<T> item) {
-        return (T) param.get(item);
+    public void putOrigalParams(String key,Object item){
+        this.putOrigalParams(key,item);
     }
 
-    public void put(Object item) {
-        if (item != null) {
-            this.param.put(item.getClass(), item);
-        }
+    public <T> T getOrigalParams(String key ,Class<T> params) {
+        return (T) this.origalParams.get(key);
     }
+
+    public void putContextParams(String key,Object item){
+        this.putOrigalParams(key,item);
+    }
+
+    public void putContextParamsEndRemove(String key,Object item){
+        this.deleteKeys.add(key);
+        putContextParams(key,item);
+    }
+
+    public <T> T getContextParams(String key,Class<T> params){
+        return (T) this.contextParams.get(key);
+    }
+
+    public void addRemoveKey(String key){
+        this.deleteKeys.add(key);
+    }
+
+    public Set<String> getDeleteKeys(){
+        return this.deleteKeys;
+    }
+
+    public <T> T getReturnParams(Class<T> key){
+        return (T) returnParams.get(key);
+    }
+
+    public void addReturnParams(Object item){
+        this.returnParams.put(item.getClass(),item);
+    }
+
+    public void removeReturnParams(Class<?> key){
+        this.returnParams.remove(key);
+    }
+
 }

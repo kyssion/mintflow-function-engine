@@ -24,8 +24,6 @@ public class TestHandleOne implements Handle {
 
     @Override
     public ParamWrapper handle(ParamWrapper p) {
-        Integer integer = p.get(Integer.class);
-        p.put(integer + 1);
         return p;
     }
 }

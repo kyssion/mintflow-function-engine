@@ -26,7 +26,7 @@ public class ProcessMapBuilder {
             Reflector reflector = new Reflector(process);
             ProcessNameSpace processerAnno = reflector.getAnnotation(ProcessNameSpace.class);
             if(processerAnno!=null){
-                map.put(processerAnno.id(),process);
+                map.put(processerAnno.value(),process);
             }else{
                 map.put(reflector.getClassName(),process);
             }

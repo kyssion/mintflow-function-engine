@@ -1,6 +1,7 @@
 
 package org.mekweg.proxy;
 
+import org.mekweg.annotation.ParamKey;
 import org.mekweg.annotation.ProcessMethod;
 import org.mekweg.annotation.ProcessNameSpace;
 import org.mekweg.exception.NoProcessIException;
@@ -10,6 +11,7 @@ import org.mekweg.scheduler.HandlerScheduler;
 import org.mekweg.scheduler.Scheduler;
 import org.mekweg.process.Process;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -41,7 +43,7 @@ public class MapperProxy<T extends Process> implements InvocationHandler {
         ProcessMethod process = method.getAnnotation(ProcessMethod.class);
         ProcessNameSpace nameSpace = this.mapperClass.getAnnotation(ProcessNameSpace.class);
         if (process != null&&nameSpace!=null) {
-           key.append(nameSpace.id()).append(".").append(process.id());
+           key.append(nameSpace.value()).append(".").append(process.value());
         } else {
             key.append(this.mapperClass.getName()).append(".").append(method.getName());
         }
@@ -55,11 +57,18 @@ public class MapperProxy<T extends Process> implements InvocationHandler {
             }
         }
         ParamWrapper paramWrapper = new ParamWrapper();
-        for (Object item : args) {
-            paramWrapper.put(item);
+        Annotation[][] annotations = method.getParameterAnnotations();
+        for (int a=0;a<args.length;a++) {
+            String keyName = args[a].getClass().getSimpleName();
+            for (Annotation annotation : annotations[a]){
+                if(annotation instanceof ParamKey){
+                    keyName = ((ParamKey) annotation).value();
+                }
+            }
+            paramWrapper.putOrigalParams(keyName,args[a]);
         }
         paramWrapper = this.scheduler.run(paramWrapper, startHandler.getHandleList());
-        return paramWrapper.get(method.getReturnType());
+        return paramWrapper.getReturnParams(method.getReturnType());
     }
 
 }
