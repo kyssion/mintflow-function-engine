@@ -2,12 +2,10 @@ package org.mekweg.builder;
 
 import org.mekweg.annotation.ProcessNameSpace;
 import org.mirror.reflection.Reflector;
-import org.mirror.reflection.io.ClassFindleUtil;
+import org.mirror.reflection.io.ClassFindUtil;
 import org.mekweg.process.Process;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ProcessMapBuilder {
 
@@ -19,10 +17,11 @@ public class ProcessMapBuilder {
      */
     public static Map<String, Class<? extends Process>> build(String... processPath) {
         Map<String, Class<? extends Process>> map = new HashMap<>();
-        ClassFindleUtil<Process> handleResolverUtil = new ClassFindleUtil<>();
-        handleResolverUtil.findImplementations(Process.class, processPath);
-        Set<Class<? extends Process>> processSet = handleResolverUtil.getClasses();
-        processSet.forEach((process) -> {
+        Set<Class<? extends Process>> allProcessSet= new HashSet<>();
+        for (String process: processPath){
+            allProcessSet.addAll((Collection<? extends Class<? extends Process>>) ClassFindUtil.getClassSet(process));
+        }
+        allProcessSet.forEach((process) -> {
             Reflector reflector = new Reflector(process);
             ProcessNameSpace processerAnno = reflector.getAnnotation(ProcessNameSpace.class);
             if(processerAnno!=null){
