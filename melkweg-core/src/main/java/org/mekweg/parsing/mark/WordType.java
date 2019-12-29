@@ -1,12 +1,13 @@
 package org.mekweg.parsing.mark;
 
-import java.util.logging.Handler;
-
 public enum WordType {
-    DELIMITER_KEY_WORD("delimiter",0),TERMINATOR("End symbol",1),
-    STATEMENT_KEY_WORD("statement Key word",2),SAMEPLE_WORD("basic type",3),
-    HANDLE_KEY_WORD("handle key word",4),OTHER_KEY_WORD("Other key word",5);
-    private WordType(String name,int code){
+
+    STATEMENT_KEY_WORD("statement Key word", 1), SAMEPLE_WORD("basic type", 2),
+    HANDLE_KEY_WORD("handle key word", 3), OTHER_KEY_WORD("Other key word", 4),
+    NAME_SPLIT_START_KEY("name split start key", 5), NAME_SPLIT_END_KEY("name splite end key", 6),
+    BLOCKE_START_KEY("block start key", 7), BLOCKE_END_KEY("blocke end key", 8),HANDLE_LINK_KEY("handle link key",9);
+
+    WordType(String name, int code) {
         this.name = name;
         this.code = code;
     }
@@ -28,21 +29,5 @@ public enum WordType {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public static boolean isStatementKeyWord(WordType keyWordType){
-        return keyWordType==STATEMENT_KEY_WORD;
-    }
-
-    public static boolean isHandleKeyWord(WordType keyWordType){
-        return keyWordType== HANDLE_KEY_WORD;
-    }
-
-    public static boolean isTerminator(WordType keyWordType){
-        return keyWordType == TERMINATOR;
-    }
-
-    public static boolean isDelimiter(WordType wordType){
-        return wordType==DELIMITER_KEY_WORD;
     }
 }

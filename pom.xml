@@ -23,20 +23,19 @@
     </modules>
     <dependencies>
         <dependency>
-            <groupId>org.mirror</groupId>
-            <artifactId>mirror-reflection</artifactId>
-            <version>1.0</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     <build>

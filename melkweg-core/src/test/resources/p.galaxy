@@ -1,13 +1,14 @@
-namesapce xxxxxx;
+namespace(xxxx){
 
-process(xxxx){
-    handle(xxxx)->reorder(xxxx){
-        handle(xxxx)->handle(xxxx)
-    }->if(xxxxx){
+process(xxxx1){
+    ->handle(x2xxx)->reorder(x3xxx){
+        ->handle(xxx4x)->handle(xx5xx)
+    }->if(xxx6xx){
 
-    }elif(xxxx){
+    }elif(xxx7x){
 
     }else{
 
-    }
+    }->handle(xx8xx)->handle(xx9xx)
+}
 }
