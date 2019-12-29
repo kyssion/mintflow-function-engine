@@ -9,8 +9,7 @@ public class KeyworkItem extends Word {
         super();
     }
 
-    public KeyworkItem(String name, String value, WordType wordType) {
-        this.setName(name);
+    public KeyworkItem(String value, WordType wordType) {
         this.setType(wordType);
         this.setValue(value);
     }
@@ -18,18 +17,18 @@ public class KeyworkItem extends Word {
     private static Map<String, KeyworkItem> keyworkItemMap = new HashMap<>();
 
     static {
-        keyworkItemMap.put("namespace", new KeyworkItem("namespace", "namespace", WordType.STATEMENT_KEY_WORD));
-        keyworkItemMap.put("process", new KeyworkItem("process", "process", WordType.STATEMENT_KEY_WORD));
-        keyworkItemMap.put("handle", new KeyworkItem("handle", "handle", WordType.HANDLE_KEY_WORD));
-        keyworkItemMap.put("reorder", new KeyworkItem("reorder", "reorder", WordType.HANDLE_KEY_WORD));
-        keyworkItemMap.put("if", new KeyworkItem("if", "if", WordType.HANDLE_KEY_WORD));
-        keyworkItemMap.put("elif", new KeyworkItem("else if", "else if", WordType.OTHER_KEY_WORD));
-        keyworkItemMap.put("else", new KeyworkItem("else", "namespace", WordType.OTHER_KEY_WORD));
-        keyworkItemMap.put("(", new KeyworkItem("(", "(", WordType.NAME_SPLIT_START_KEY));
-        keyworkItemMap.put(")", new KeyworkItem(")", ")", WordType.NAME_SPLIT_END_KEY));
-        keyworkItemMap.put("{", new KeyworkItem("{", "{", WordType.BLOCKE_START_KEY));
-        keyworkItemMap.put("}", new KeyworkItem("}", "}", WordType.BLOCKE_END_KEY));
-        keyworkItemMap.put("->", new KeyworkItem("->", "->", WordType.HANDLE_LINK_KEY));
+        keyworkItemMap.put("namespace", new KeyworkItem("namespace", WordType.NAMESPACE));
+        keyworkItemMap.put("process", new KeyworkItem("process", WordType.PROCESS));
+        keyworkItemMap.put("handle", new KeyworkItem("handle", WordType.HANDLE));
+        keyworkItemMap.put("reorder", new KeyworkItem("reorder", WordType.REORDER_HANDLE));
+        keyworkItemMap.put("if", new KeyworkItem("if", WordType.CONDITION_IF_HANDLE));
+        keyworkItemMap.put("elif", new KeyworkItem("else if", WordType.CONDITION_ELSE_IF_HANDLE));
+        keyworkItemMap.put("else", new KeyworkItem("else", WordType.CONDITION_ELSE_HANDLE));
+        keyworkItemMap.put("(", new KeyworkItem("(", WordType.NAME_SPLIT_START_KEY));
+        keyworkItemMap.put(")", new KeyworkItem(")", WordType.NAME_SPLIT_END_KEY));
+        keyworkItemMap.put("{", new KeyworkItem("{", WordType.BLOCKE_START_KEY));
+        keyworkItemMap.put("}", new KeyworkItem("}", WordType.BLOCKE_END_KEY));
+        keyworkItemMap.put("->", new KeyworkItem("->", WordType.HANDLE_LINK_KEY));
     }
 
     public static boolean isNameStartKey(String key) {
@@ -48,7 +47,7 @@ public class KeyworkItem extends Word {
         return ')' == key;
     }
 
-    public static KeyworkItem getKeyWorkItem(String key){
+    public static KeyworkItem getKeyWorkItem(String key) {
         return keyworkItemMap.get(key);
     }
 }
