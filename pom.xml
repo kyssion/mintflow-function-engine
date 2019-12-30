@@ -26,13 +26,7 @@
         </dependency>
     </dependencies>
     <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring.boot.version}</version>
-            </dependency>
-        </dependencies>
+
     </dependencyManagement>
     <build>
         <plugins>
