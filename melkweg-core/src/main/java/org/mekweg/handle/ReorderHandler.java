@@ -5,9 +5,8 @@ import org.mekweg.param.ParamWrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-public class ReorderHandler extends Handler {
+public abstract class ReorderHandler extends Handler {
 
     public ReorderHandler() {
         this.setType(HandleType.REORDER_HANDLE);
@@ -25,8 +24,18 @@ public class ReorderHandler extends Handler {
 
     @Override
     public ParamWrapper handle(ParamWrapper params) {
-        return null;
+        if (this.childHandlrs == null || this.childHandlrs.size() == 0) {
+            return params;
+        }
+        if (this.getScheduler() != null) {
+            reorderHandlerList(this.childHandlrs);
+            return this.getScheduler().run(params, this.childHandlrs);
+        } else {
+            return params;
+        }
     }
+
+    public abstract void reorderHandlerList(List<Handler> handlers);
 
     @Override
     public ReorderHandler clone() throws CloneNotSupportedException {
