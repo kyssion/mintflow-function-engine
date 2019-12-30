@@ -1,14 +1,73 @@
-namespace(xxxx){
-
-process(xxxx1){
-    ->handle(x2xxx)->reorder(x3xxx){
-        ->handle(xxx4x)->handle(xx5xx)
-    }->if(xxx6xx){
-
-    }elif(xxx7x){
-
-    }else{
-
-    }->handle(xx8xx)->handle(xx9xx)
+namespace(x1){
+    process(x2){
+        ->handle(x3)->reorder(x4){
+            ->handle(x5)->handle(x6)
+        }->if(x7){
+            ->reorder(x4){
+                ->handle(x5)->handle(x6)
+            }
+        }elif(x8){
+            ->if(x7){
+                ->reorder(x4){
+                    ->handle(x5)->handle(x6)
+                }
+            }
+        }else{
+            ->handle(x9)->handle(x10)
+        }->handle(x9)->handle(x10)
+    }
+    process(xx2){
+        ->handle(x3)->reorder(x4){
+            ->handle(x5)->handle(x6)
+        }->if(x7){
+            ->reorder(x4){
+                ->handle(x5)->handle(x6)
+            }
+        }elif(x8){
+            ->if(x7){
+                ->reorder(x4){
+                    ->handle(x5)->handle(x6)
+                }
+            }
+        }else{
+            ->handle(x9)->handle(x10)
+        }->handle(x9)->handle(x10)
+    }
 }
+
+namespace(nx1){
+    process(x2){
+        ->handle(x3)->reorder(x4){
+            ->handle(x5)->handle(x6)
+        }->if(x7){
+            ->reorder(x4){
+                ->handle(x5)->handle(x6)
+            }
+        }elif(x8){
+            ->if(x7){
+                ->reorder(x4){
+                    ->handle(x5)->handle(x6)
+                }
+            }
+        }else{
+            ->handle(x9)->handle(x10)
+        }->handle(x9)->handle(x10)
+    }
+    process(xx2){
+        ->handle(x3)->reorder(x4){
+            ->handle(x5)->handle(x6)
+        }->if(x7){
+            ->reorder(x4){
+                ->handle(x5)->handle(x6)
+            }
+        }elif(x8){
+            ->if(x7){
+                ->reorder(x4){
+                    ->handle(x5)->handle(x6)
+                }
+            }
+        }else{
+            ->handle(x9)->handle(x10)
+        }->handle(x9)->handle(x10)
+    }
 }

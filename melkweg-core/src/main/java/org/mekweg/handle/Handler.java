@@ -2,7 +2,7 @@ package org.mekweg.handle;
 
 import java.util.Map;
 
-public abstract class Handler {
+public abstract class Handler implements Cloneable{
     private HandleType type;
 
     public HandleType getType() {

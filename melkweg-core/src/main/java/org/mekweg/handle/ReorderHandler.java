@@ -7,6 +7,10 @@ import java.util.Map;
 
 public class ReorderHandler extends Handler {
 
+    public ReorderHandler() {
+        this.setType(HandleType.REORDER_HANDLE);
+    }
+
     private List<Handler> childHandlrs = new ArrayList<>();
 
     public void addChilds(Handler... handlers) {
@@ -20,5 +24,12 @@ public class ReorderHandler extends Handler {
     @Override
     public Map<Class<?>, Object> handle(Map<Class<?>, Object> params) {
         return null;
+    }
+
+    @Override
+    public ReorderHandler clone() throws CloneNotSupportedException {
+        ReorderHandler reorderHandler = (ReorderHandler) super.clone();
+        reorderHandler.childHandlrs = new ArrayList<>();
+        return reorderHandler;
     }
 }

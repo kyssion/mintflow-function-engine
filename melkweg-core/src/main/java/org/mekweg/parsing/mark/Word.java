@@ -5,7 +5,6 @@ public class Word {
     private WordType type;
     private int lineNum;
     private int wordStartNum;
-
     public int getLineNum() {
         return lineNum;
     }

@@ -5,6 +5,7 @@ import org.mekweg.handle.ConditionHandlerWrapper;
 import org.mekweg.handle.HandleType;
 import org.mekweg.handle.Handler;
 import org.mekweg.handle.ReorderHandler;
+import org.mekweg.handle.SampleHandler;
 import org.mekweg.parsing.mark.Word;
 import org.mekweg.parsing.mark.WordType;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FnEngineDataStructureTool extends Exception {
+public class FnEngineDataStructureTool {
 
     private Map<String, Handler> handlerDataMap;
 
@@ -53,7 +54,7 @@ public class FnEngineDataStructureTool extends Exception {
             throw new ParsingRuntimeError("当前值命名错误,不可为关键字", name);
         }
         Word nameEndKey = list.get(start);
-        if (nameEndKey.getType() != WordType.NAME_SPLIT_START_KEY) {
+        if (nameEndKey.getType() != WordType.NAME_SPLIT_END_KEY) {
             throw new ParsingRuntimeError("当前未发命名终止标记')'", nameEndKey);
         }
         return name.getValue();
@@ -65,15 +66,19 @@ public class FnEngineDataStructureTool extends Exception {
             throw new ParsingRuntimeError("当前未发现块起始字符'{'", blockStartWord);
         }
         int blockStartNum = 1;
-        while (blockStartNum != 0 && start <= end) {
+        start++;
+        while (start <= end) {
             if (list.get(start).getType() == WordType.BLOCKE_START_KEY) {
                 blockStartNum++;
             } else if (list.get(start).getType() == WordType.BLOCKE_END_KEY) {
                 blockStartNum--;
             }
+            if(blockStartNum==0){
+                break;
+            }
             start++;
         }
-        if (start > end) {
+        if (blockStartNum != 0) {
             throw new ParsingRuntimeError("当前namespace块没有闭合,未发现对应的'}'字符", blockStartWord);
         }
         return start;
@@ -82,11 +87,11 @@ public class FnEngineDataStructureTool extends Exception {
     private Map<String, List<Handler>> processHandleListBuild(List<Word> list, int start, int end) {
         Map<String, List<Handler>> processMap = new HashMap<>();
         while (start <= end) {
-            Word processword = list.get(start + 1);
+            Word processword = list.get(start);
             if (processword.getType() != WordType.PROCESS) {
                 throw new ParsingRuntimeError("当前位置错误,没有发现process标记'", processword);
             }
-            String processName = findName(list, start);
+            String processName = findName(list, start+1);
             List<Handler> handlerList = new ArrayList<>();
             processMap.put(processName, handlerList);
             int processBlockEnd = findBlockEndIndex(list, start + 4, end);
@@ -115,11 +120,16 @@ public class FnEngineDataStructureTool extends Exception {
                         if (handler.getType() != HandleType.SAMPLE_HANDLE) {
                             throw new ParsingRuntimeError("当前handle类型不正确,此处应为基本类型handler", handlerWord);
                         }
-                        handlerList.add(handler);
+                        SampleHandler sampleHandler = (SampleHandler) handler;
+                        try {
+                            handlerList.add(sampleHandler.clone());
+                        } catch (CloneNotSupportedException e) {
+                            throw new ParsingRuntimeError("当前handle 初始化失败 , handle 名称 :"+handleName, handlerWord);
+                        }
                     } else {
                         throw new ParsingRuntimeError("当前handler未找到,handler 名称" + handleName, handlerWord);
                     }
-                    start = start + 3;
+                    start = start + 4;
                     break;
                 case REORDER_HANDLE:
                     handleName = findName(list, start + 1);
@@ -128,9 +138,14 @@ public class FnEngineDataStructureTool extends Exception {
                         if (handler.getType() != HandleType.REORDER_HANDLE) {
                             throw new ParsingRuntimeError("当前handle类型不正确,此处应为reorder类型handler", handlerWord);
                         }
-                        ReorderHandler reorderHandler = (ReorderHandler) handler;
-                        int reorderEnd = findBlockEndIndex(list, start, end);
-                        List<Handler> childs = handleListBuild(list, start + 4, reorderEnd - 1);
+                        ReorderHandler reorderHandler = null;
+                        try {
+                            reorderHandler = ((ReorderHandler) handler).clone();
+                        } catch (CloneNotSupportedException e) {
+                            throw new ParsingRuntimeError("当前handle 初始化失败 , handle 名称 :"+handleName, handlerWord);
+                        }
+                        int reorderEnd = findBlockEndIndex(list, start+4, end);
+                        List<Handler> childs = handleListBuild(list, start + 5, reorderEnd - 1);
                         reorderHandler.addChilds(childs);
                         handlerList.add(reorderHandler);
                         start = reorderEnd + 1;
@@ -143,7 +158,7 @@ public class FnEngineDataStructureTool extends Exception {
                     handlerList.add(conditionHandlerWrapper);
                     int endIndex =
                             conditionHandleListBuild(list, start, end, conditionHandlerWrapper);
-                    start = endIndex + 1;
+                    start = endIndex;
                     break;
                 default:
                     throw new ParsingRuntimeError("当前语法发生错误,此处应该为流程标记符号", handlerWord);
@@ -161,7 +176,7 @@ public class FnEngineDataStructureTool extends Exception {
             switch (wordKey.getType()) {
                 case CONDITION_IF_HANDLE:
                 case CONDITION_ELSE_IF_HANDLE:
-                    if(wordKey.getType()==WordType.CONDITION_IF_HANDLE){
+                    if (wordKey.getType() == WordType.CONDITION_IF_HANDLE) {
                         findIf = true;
                     }
                     if (!findIf) {
@@ -171,7 +186,12 @@ public class FnEngineDataStructureTool extends Exception {
                     handler = handlerDataMap.get(handlerName);
                     if (handler != null) {
                         ConditionHandlerWrapper.ConditionHander conditionHander =
-                                (ConditionHandlerWrapper.ConditionHander) handler;
+                                null;
+                        try {
+                            conditionHander = ((ConditionHandlerWrapper.ConditionHander) handler).clone();
+                        } catch (CloneNotSupportedException e) {
+                            throw new ParsingRuntimeError("当前handle 初始化失败 , handle 名称 :"+handlerName, wordKey);
+                        }
                         int endIndex = findBlockEndIndex(list, start + 4, end);
                         List<Handler> childers = handleListBuild(list, start + 5, endIndex - 1);
                         conditionHander.addChilds(childers);
@@ -192,8 +212,8 @@ public class FnEngineDataStructureTool extends Exception {
                                     return true;
                                 }
                             };
-                    int endIndex = findBlockEndIndex(list, start + 4, end);
-                    List<Handler> childers = handleListBuild(list, start + 5, endIndex - 1);
+                    int endIndex = findBlockEndIndex(list, start + 1, end);
+                    List<Handler> childers = handleListBuild(list, start + 2, endIndex - 1);
                     conditionHander.addChilds(childers);
                     wrapper.addChilds(conditionHander);
                     start = endIndex + 1;

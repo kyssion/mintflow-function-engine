@@ -26,7 +26,15 @@ public class ConditionHandlerWrapper extends Handler {
         public Map<Class<?>, Object> handle(Map<Class<?>, Object> params) {
             return params;
         }
+
+        @Override
+        public ConditionHander clone() throws CloneNotSupportedException {
+            ConditionHander conditionHander = (ConditionHander) super.clone();
+            conditionHander.childs = new ArrayList<>();
+            return conditionHander;
+        }
     }
+
     public void addChilds(ConditionHander... handlers) {
         conditionHanders.addAll(Arrays.asList(handlers));
     }
@@ -34,6 +42,7 @@ public class ConditionHandlerWrapper extends Handler {
     public void addChilds(List<ConditionHander> handlers) {
         conditionHanders.addAll(handlers);
     }
+
     @Override
     public Map<Class<?>, Object> handle(Map<Class<?>, Object> params) {
         return null;
