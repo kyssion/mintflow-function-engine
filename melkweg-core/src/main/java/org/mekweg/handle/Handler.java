@@ -1,9 +1,18 @@
 package org.mekweg.handle;
 
-import java.util.Map;
+import org.mekweg.param.ParamWrapper;
+import org.mekweg.scheduler.Scheduler;
 
 public abstract class Handler implements Cloneable{
     private HandleType type;
+    private Scheduler scheduler;
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     public HandleType getType() {
         return type;
@@ -13,5 +22,5 @@ public abstract class Handler implements Cloneable{
         this.type = type;
     }
 
-    public abstract Map<Class<?>,Object> handle(Map<Class<?>,Object> params);
+    public abstract ParamWrapper handle(ParamWrapper params);
 }

@@ -1,5 +1,7 @@
 package org.mekweg.handle;
 
+import org.mekweg.param.ParamWrapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +24,7 @@ public class ReorderHandler extends Handler {
     }
 
     @Override
-    public Map<Class<?>, Object> handle(Map<Class<?>, Object> params) {
+    public ParamWrapper handle(ParamWrapper params) {
         return null;
     }
 

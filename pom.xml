@@ -16,10 +16,6 @@
 
     <modules>
         <module>melkweg-core</module>
-        <module>melkweg-spring</module>
-        <module>melkweg-tool</module>
-        <module>melkweg-spring-boot-starter</module>
-        <module>melkweg-api</module>
     </modules>
     <dependencies>
         <dependency>

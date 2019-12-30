@@ -1,6 +1,6 @@
 package org.mekweg.handle;
 
-import java.util.Map;
+import org.mekweg.param.ParamWrapper;
 
 public class SampleHandler extends Handler{
 
@@ -9,7 +9,7 @@ public class SampleHandler extends Handler{
     }
 
     @Override
-    public Map<Class<?>, Object> handle(Map<Class<?>, Object> params) {
+    public ParamWrapper handle(ParamWrapper params) {
         return null;
     }
 
