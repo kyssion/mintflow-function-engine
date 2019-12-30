@@ -6,6 +6,7 @@ import org.mekweg.handle.HandleType;
 import org.mekweg.handle.Handler;
 import org.mekweg.handle.ReorderHandler;
 import org.mekweg.handle.SampleHandler;
+import org.mekweg.param.ParamWrapper;
 import org.mekweg.parsing.mark.Word;
 import org.mekweg.parsing.mark.WordType;
 
@@ -208,7 +209,7 @@ public class FnEngineDataStructureTool {
                     ConditionHandlerWrapper.ConditionHander conditionHander =
                             new ConditionHandlerWrapper.ConditionHander() {
                                 @Override
-                                public boolean condition(Map<Class<?>, Object> params) {
+                                public boolean condition(ParamWrapper params) {
                                     return true;
                                 }
                             };
