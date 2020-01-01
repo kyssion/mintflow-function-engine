@@ -1,5 +1,6 @@
 package org.mekweg.parsing;
 
+import org.mekweg.exception.ParsingRuntimeError;
 import org.mekweg.parsing.mark.KeyworkItem;
 import org.mekweg.parsing.mark.SymbolItem;
 import org.mekweg.parsing.mark.Word;
@@ -51,6 +52,13 @@ public class WordParticipleTool {
                         keyWord = new StringBuilder();
                     }
                 }
+            }
+            if(keyWord.length()!=0){
+                Word word = new Word();
+                word.setWordStartNum(itemFile.length()-keyWord.length());
+                word.setLineNum(line);
+                word.setValue(keyWord.toString());
+                throw new ParsingRuntimeError("此处关键字出现异常，存在非法字符:{"+word.getValue()+"}",word);
             }
             line++;
         }
