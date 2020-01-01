@@ -157,9 +157,7 @@ public class FnEngineDataStructureTool {
                 case CONDITION_IF_HANDLE:
                     ConditionHandlerWrapper conditionHandlerWrapper = new ConditionHandlerWrapper();
                     handlerList.add(conditionHandlerWrapper);
-                    int endIndex =
-                            conditionHandleListBuild(list, start, end, conditionHandlerWrapper);
-                    start = endIndex;
+                    start = conditionHandleListBuild(list, start, end, conditionHandlerWrapper);
                     break;
                 default:
                     throw new ParsingRuntimeError("当前语法发生错误,此处应该为流程标记符号", handlerWord);
