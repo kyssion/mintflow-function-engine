@@ -1,6 +1,7 @@
 package org.mekweg.parsing;
 
 import org.mekweg.exception.ParsingRuntimeError;
+import org.mekweg.exception.UserMekwegRuntimeError;
 import org.mekweg.parsing.mark.KeyworkItem;
 import org.mekweg.parsing.mark.SymbolItem;
 import org.mekweg.parsing.mark.Word;
@@ -15,7 +16,7 @@ public class WordParticipleTool {
     public static List<Word> createWordParticipleList(String path) throws Exception {
         InputStream fileStream = WordParticipleTool.class.getClassLoader().getResourceAsStream(path);
         if (fileStream == null) {
-            throw new Exception();
+            throw new UserMekwegRuntimeError("");
         }
 
         BufferedReader fileBufferReader = new BufferedReader(new InputStreamReader(fileStream));

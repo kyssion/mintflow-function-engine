@@ -8,6 +8,7 @@ import org.mekweg.param.ParamWrapper;
 import org.mekweg.scheduler.FnEngineScheduler;
 import org.mekweg.scheduler.Scheduler;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,26 +18,28 @@ public class Mekweg {
     private Map<String, Map<String, List<Handler>>> fnMapper;
     private Map<String, Handler> handlerDataMap;
 
-    public static Mekweg build() {
-        return new Mekweg();
+    private Mekweg() {
+        super();
     }
 
-    public Mekweg initScheduler() {
-        this.scheduler = new FnEngineScheduler();
-        return this;
+    public static Mekweg create(Map<String, Handler> handlerDataMap) {
+        return create(handlerDataMap, new FnEngineScheduler());
     }
 
-    public Mekweg inithandlerDataMap(Map<String, Handler> handlerDataMap) {
-        this.handlerDataMap = handlerDataMap;
-        return this;
+    public static Mekweg create(Map<String, Handler> handlerDataMap, Scheduler scheduler) {
+        Mekweg mekweg = new Mekweg();
+        mekweg.handlerDataMap = handlerDataMap;
+        mekweg.scheduler = scheduler;
+        mekweg.fnMapper = new HashMap<>();
+        return mekweg;
     }
 
-    public Mekweg initFnMapper(String fnFilePath) {
+    public Mekweg addFnMapper(String fnFilePath) {
         if (this.handlerDataMap == null) {
             throw new InitMekwegError("handlerDataMap没有初始化,请调用inithandlerDataMap初始化信息....");
         }
         try {
-            this.fnMapper = FnMapperBuilder.build(fnFilePath, handlerDataMap);
+            this.fnMapper.putAll(FnMapperBuilder.build(fnFilePath, handlerDataMap));
         } catch (Exception e) {
             e.printStackTrace();
             throw new InitMekwegError("初始化FnMapper失败....");

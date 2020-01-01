@@ -1,10 +1,14 @@
 package org.mekweg.builder;
 
+import org.mekweg.Mekweg;
+import org.mekweg.exception.UserMekwegRuntimeError;
 import org.mekweg.handle.Handler;
 import org.mekweg.parsing.FnEngineDataStructureTool;
 import org.mekweg.parsing.WordParticipleTool;
 import org.mekweg.parsing.mark.Word;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,15 +16,26 @@ import java.util.Map;
 
 public class FnMapperBuilder {
 
-    public static Map<String, Map<String, List<Handler>>> build(String path,Map<String, Handler> handlerDataMap) throws Exception {
+    public static Map<String, Map<String, List<Handler>>> build(String path, Map<String, Handler> handlerDataMap) throws Exception {
         FnEngineDataStructureTool fnEngineDataStructureTool = new FnEngineDataStructureTool(handlerDataMap);
-        //TODO 发现所有的文件
-
+        URL url = Mekweg.class.getClassLoader().getResource(path);
+        if (url == null) {
+            throw new UserMekwegRuntimeError("未发现指定文件:{" + path + "}，请修正");
+        }
+        String abstartPath = url.getPath();
+        File file = new File(url.toURI());
         Map<String, Map<String, List<Handler>>> valueMap = new HashMap<>();
-        List<String> filePathList = new ArrayList<>();
-        for (String filePath : filePathList) {
-            List<Word> words = WordParticipleTool.createWordParticipleList(filePath);
-            valueMap.putAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
+        File[] fs = file.listFiles();
+        if (fs != null && fs.length > 0) {
+            for (File f : fs) {                    //遍历File[]数组
+                if (!f.isDirectory()) {        //若非目录(即文件)，则打印
+                    String pathNow = f.getAbsolutePath();
+                    if(pathNow.endsWith(".fn")) {
+                        List<Word> words = WordParticipleTool.createWordParticipleList(pathNow.substring(abstartPath.length()));
+                        valueMap.putAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
+                    }
+                }
+            }
         }
         return valueMap;
     }

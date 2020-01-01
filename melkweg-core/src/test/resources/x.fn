@@ -1,0 +1,19 @@
+namespace(x111){
+    process(x2){
+        ->handle(x3)->reorder(x4){
+            ->handle(x5)->handle(x6)
+        }->if(x7){
+            ->reorder(x4){
+                ->handle(x5)->handle(x6)
+            }
+        }elif(x8){
+            ->if(x7){
+                ->reorder(x4){
+                    ->handle(x5)->handle(x6)
+                }
+            }
+        }else{
+            ->handle(x9)->handle(x10)
+        }->handle(x9)->handle(x10)
+    }
+}
