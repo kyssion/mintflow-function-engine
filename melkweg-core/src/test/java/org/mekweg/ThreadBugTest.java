@@ -27,7 +27,8 @@ public class ThreadBugTest {
     }
 
     public void run(){
-        ExecutorWrapper.create().execute();
+        Executor future = ExecutorWrapper.create();
+        future.execute();
     }
     //实际运行的类
     static class Executor{
@@ -49,6 +50,10 @@ public class ThreadBugTest {
 
         public void shutdown() {
             ctl.compareAndSet(false,true);
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
         }
     }
 
