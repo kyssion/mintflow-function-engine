@@ -27,8 +27,8 @@ public class FnMapperBuilder {
         Map<String, Map<String, List<Handler>>> valueMap = new HashMap<>();
         File[] fs = file.listFiles();
         if (fs != null && fs.length > 0) {
-            for (File f : fs) {                    //遍历File[]数组
-                if (!f.isDirectory()) {        //若非目录(即文件)，则打印
+            for (File f : fs) {
+                if (!f.isDirectory()) {
                     String pathNow = f.getAbsolutePath();
                     if(pathNow.endsWith(".fn")) {
                         List<Word> words = WordParticipleTool.createWordParticipleList(pathNow.substring(abstartPath.length()));
