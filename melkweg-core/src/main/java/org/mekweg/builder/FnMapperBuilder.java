@@ -9,12 +9,13 @@ import org.mekweg.parsing.mark.Word;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class FnMapperBuilder {
+
+    private static String fnFileName = ".fn";
 
     public static Map<String, Map<String, List<Handler>>> build(String path, Map<String, Handler> handlerDataMap) throws Exception {
         FnEngineDataStructureTool fnEngineDataStructureTool = new FnEngineDataStructureTool(handlerDataMap);
@@ -30,8 +31,9 @@ public class FnMapperBuilder {
             for (File f : fs) {
                 if (!f.isDirectory()) {
                     String pathNow = f.getAbsolutePath();
-                    if(pathNow.endsWith(".fn")) {
-                        List<Word> words = WordParticipleTool.createWordParticipleList(pathNow.substring(abstartPath.length()));
+                    if(pathNow.endsWith(fnFileName)) {
+                        List<Word> words =
+                                WordParticipleTool.createWordParticipleList(pathNow.substring(abstartPath.length()));
                         valueMap.putAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
                     }
                 }
