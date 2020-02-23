@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class FnMapperBuilder {
 
-    private static String fnFileName = ".fn";
+    private static final String fnFileName = ".fn";
 
     public static Map<String, Map<String, List<Handler>>> build(String path, Map<String, Handler> handlerDataMap) throws Exception {
         FnEngineDataStructureTool fnEngineDataStructureTool = new FnEngineDataStructureTool(handlerDataMap);
