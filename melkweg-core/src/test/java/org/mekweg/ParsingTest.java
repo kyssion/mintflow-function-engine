@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ParsingTest {
+
+
     @Test
     public void readFileAndParsingTest() throws Exception {
         List<Word> list = WordParticipleTool.createWordParticipleList("p.fn");

@@ -33,7 +33,7 @@ public class FnMapperBuilder {
                     String pathNow = f.getAbsolutePath();
                     if(pathNow.endsWith(fnFileName)) {
                         List<Word> words =
-                                WordParticipleTool.createWordParticipleList(pathNow.substring(abstartPath.length()));
+                                WordParticipleTool.createWordParticipleListByFile(pathNow.substring(abstartPath.length()));
                         valueMap.putAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
                     }
                 }
