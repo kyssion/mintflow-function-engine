@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Reorder Handler -> used to sub-pack all washable handle components
+ */
 public class ReorderHandler extends Handler {
 
     public ReorderHandler() {

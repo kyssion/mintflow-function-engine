@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Comparing processors . Used to encapsulate comparable collections
+ */
 public class ConditionHandlerWrapper extends Handler {
 
     private List<ConditionHander> conditionHanders = new ArrayList<>();

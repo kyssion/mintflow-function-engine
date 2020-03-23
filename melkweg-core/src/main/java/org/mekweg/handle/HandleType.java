@@ -1,5 +1,8 @@
 package org.mekweg.handle;
 
+/**
+ * Used to describe the type that the current handler belongs to
+ */
 public enum  HandleType {
 
     SAMPLE_HANDLE("sample handle",1),CONDITION_HANDLE("condition handle",2),

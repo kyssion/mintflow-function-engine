@@ -3,6 +3,9 @@ package org.mekweg.handle;
 import org.mekweg.param.ParamWrapper;
 import org.mekweg.scheduler.Scheduler;
 
+/**
+ * process Node -> used to dealing with a small part of the logic
+ */
 public abstract class Handler implements Cloneable{
     private HandleType type;
     private Scheduler scheduler;

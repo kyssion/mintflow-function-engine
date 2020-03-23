@@ -2,6 +2,9 @@ package org.mekweg.handle;
 
 import org.mekweg.param.ParamWrapper;
 
+/**
+ * Implementation class of abstract classes
+ */
 public class SampleHandler extends Handler{
 
     public SampleHandler(){

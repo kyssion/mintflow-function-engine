@@ -203,7 +203,7 @@ public class FnEngineDataStructureTool {
                     break;
                 case CONDITION_ELSE_HANDLE:
                     if (!findIf) {
-                        throw new ParsingRuntimeError("当前流程判断语法错误 , if-else if-else 语法块格式不正确", wordKey);
+                        throw new ParsingRuntimeError("当前流程判断语法错误 , if-else if-elif-else 语法块格式不正确", wordKey);
                     }
                     ConditionHandlerWrapper.ConditionHander conditionHander =
                             new ConditionHandlerWrapper.ConditionHander() {
