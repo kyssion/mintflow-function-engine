@@ -6,6 +6,7 @@ import org.mekweg.handle.HandleType;
 import org.mekweg.handle.Handler;
 import org.mekweg.handle.ReorderHandler;
 import org.mekweg.handle.SampleHandler;
+import org.mekweg.param.ParamWrapper;
 import org.mekweg.parsing.mark.Word;
 import org.mekweg.parsing.mark.WordType;
 
@@ -156,9 +157,7 @@ public class FnEngineDataStructureTool {
                 case CONDITION_IF_HANDLE:
                     ConditionHandlerWrapper conditionHandlerWrapper = new ConditionHandlerWrapper();
                     handlerList.add(conditionHandlerWrapper);
-                    int endIndex =
-                            conditionHandleListBuild(list, start, end, conditionHandlerWrapper);
-                    start = endIndex;
+                    start = conditionHandleListBuild(list, start, end, conditionHandlerWrapper);
                     break;
                 default:
                     throw new ParsingRuntimeError("当前语法发生错误,此处应该为流程标记符号", handlerWord);
@@ -185,8 +184,7 @@ public class FnEngineDataStructureTool {
                     handlerName = findName(list, start + 1);
                     handler = handlerDataMap.get(handlerName);
                     if (handler != null) {
-                        ConditionHandlerWrapper.ConditionHander conditionHander =
-                                null;
+                        ConditionHandlerWrapper.ConditionHander conditionHander;
                         try {
                             conditionHander = ((ConditionHandlerWrapper.ConditionHander) handler).clone();
                         } catch (CloneNotSupportedException e) {
@@ -208,7 +206,7 @@ public class FnEngineDataStructureTool {
                     ConditionHandlerWrapper.ConditionHander conditionHander =
                             new ConditionHandlerWrapper.ConditionHander() {
                                 @Override
-                                public boolean condition(Map<Class<?>, Object> params) {
+                                public boolean condition(ParamWrapper params) {
                                     return true;
                                 }
                             };

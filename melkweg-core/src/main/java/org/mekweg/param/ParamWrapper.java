@@ -2,7 +2,11 @@ package org.mekweg.param;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Used to describe data parameters in the process
+ *
+ * In the future, it will be a bridge for linking function parameters and process context data
+ */
 public class ParamWrapper<T extends TreeParams> {
     private T paramsTree;
     private Map<Class<?>,Object> params = new HashMap<>();

@@ -5,7 +5,6 @@ import org.mekweg.param.ParamWrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Comparing processors . Used to encapsulate comparable collections
@@ -26,10 +25,17 @@ public class ConditionHandlerWrapper extends Handler {
             childs.addAll(handlers);
         }
 
-        public abstract boolean condition(Map<Class<?>, Object> params);
+        public abstract boolean condition(ParamWrapper params);
 
         public ParamWrapper handle(ParamWrapper params) {
-            return params;
+            if(this.childs==null||this.childs.size()==0){
+                return params;
+            }
+            if(this.getScheduler()!=null){
+                return this.getScheduler().run(params,this.childs);
+            }else{
+                return params;
+            }
         }
 
         @Override
@@ -50,6 +56,18 @@ public class ConditionHandlerWrapper extends Handler {
 
     @Override
     public ParamWrapper handle(ParamWrapper params) {
-        return null;
+        if(this.conditionHanders==null||this.conditionHanders.size()==0){
+            return params;
+        }
+        if(this.getScheduler()!=null){
+            for (ConditionHander conditionHander: conditionHanders){
+                if(conditionHander.condition(params)){
+                    conditionHander.setScheduler(this.getScheduler());
+                    params = conditionHander.handle(params);
+                    break;
+                }
+            }
+        }
+        return params;
     }
 }
