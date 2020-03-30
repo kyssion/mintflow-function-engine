@@ -23,7 +23,7 @@ public class WordParticipleTool {
         return createWordParticipleList(new ByteArrayInputStream(code.getBytes()));
     }
 
-    private static List<Word> createWordParticipleList(InputStream codeInput) throws IOException {
+    public static List<Word> createWordParticipleList(InputStream codeInput) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(codeInput));
         String itemFile = "";

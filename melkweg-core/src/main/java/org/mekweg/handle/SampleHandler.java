@@ -7,13 +7,17 @@ import org.mekweg.param.ParamWrapper;
  */
 public class SampleHandler extends Handler{
 
-    public SampleHandler(){
+    String id;
+
+    public SampleHandler(String id){
         this.setType(HandleType.SAMPLE_HANDLE);
+        this.id = id;
     }
 
     @Override
     public ParamWrapper handle(ParamWrapper params) {
-        return null;
+        System.out.println("run handle + {"+id+"}");
+        return params;
     }
 
     @Override

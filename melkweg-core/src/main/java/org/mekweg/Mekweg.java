@@ -5,6 +5,7 @@ import org.mekweg.exception.InitMekwegError;
 import org.mekweg.exception.UserMekwegException;
 import org.mekweg.handle.Handler;
 import org.mekweg.param.ParamWrapper;
+import org.mekweg.param.TreeParams;
 import org.mekweg.scheduler.FnEngineScheduler;
 import org.mekweg.scheduler.Scheduler;
 
@@ -41,7 +42,7 @@ public class Mekweg {
             throw new InitMekwegError("handlerDataMap没有初始化,请调用inithandlerDataMap初始化信息....");
         }
         try {
-            this.fnMapper.putAll(FnMapperBuilder.build(fnFilePath, handlerDataMap));
+            this.fnMapper.putAll(FnMapperBuilder.build(handlerDataMap, fnFilePath));
         } catch (Exception e) {
             e.printStackTrace();
             throw new InitMekwegError("初始化FnMapper失败....");
@@ -49,7 +50,7 @@ public class Mekweg {
         return this;
     }
 
-    public ParamWrapper run(String namespace, String process, ParamWrapper paramWrapper) throws UserMekwegException {
+    public <R,T extends TreeParams<R>> ParamWrapper<R,T> run(String namespace, String process, ParamWrapper<R,T> paramWrapper) throws UserMekwegException {
         if (this.fnMapper == null) {
             throw new UserMekwegException("fnMapper没有初始化,请使用initFnMapper方法初始化....");
         }

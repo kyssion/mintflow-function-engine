@@ -7,7 +7,7 @@ namespace(x1){
                 ->handle(x5)->handle(x6)
             }
         }elif(x8){
-            ->if(x7){
+            ->if(x8){
                 ->reorder(x4){
                     ->handle(x5)->handle(x6)
                 }

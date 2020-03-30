@@ -1,6 +1,6 @@
 package org.mekweg.param;
 
-public class TreeParams {
+public class TreeParams<R> {
     private Object returnObject;
 
     public void set(Object value){
@@ -8,7 +8,7 @@ public class TreeParams {
     }
 
     @SuppressWarnings("unchecked")
-    public <R> R getReturn(){
+    public R getReturn(){
         return (R) returnObject;
     }
 }

@@ -7,10 +7,20 @@ import java.util.Map;
  *
  * In the future, it will be a bridge for linking function parameters and process context data
  */
-public class ParamWrapper<T extends TreeParams> {
+public class ParamWrapper<R,T extends TreeParams<R>> {
     private T paramsTree;
     private Map<Class<?>,Object> params = new HashMap<>();
     private Map<String,Object> contextParams = new HashMap<>();
+
+    public ParamWrapper (T paramsTree){
+        this.paramsTree = paramsTree;
+    }
+
+    @SuppressWarnings("unchecked")
+    public ParamWrapper(){
+        this.paramsTree = (T) new TreeParams<>();
+    }
+
     public Map<Class<?>, Object> getParams() {
         return params;
     }
@@ -26,11 +36,8 @@ public class ParamWrapper<T extends TreeParams> {
     public T getparamsTree(){
         return paramsTree;
     }
-    public void setParamsTree(T t){
-        this.paramsTree = t;
-    }
 
-    public <R> R getReturn(){
+    public R getReturn(){
         return paramsTree.getReturn();
     }
 }
