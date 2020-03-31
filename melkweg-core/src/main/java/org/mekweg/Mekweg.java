@@ -50,7 +50,7 @@ public class Mekweg {
         return this;
     }
 
-    public <R,T extends TreeParams<R>> ParamWrapper<R,T> run(String namespace, String process, ParamWrapper<R,T> paramWrapper) throws UserMekwegException {
+    public ParamWrapper run(String namespace, String process, ParamWrapper paramWrapper) throws UserMekwegException {
         if (this.fnMapper == null) {
             throw new UserMekwegException("fnMapper没有初始化,请使用initFnMapper方法初始化....");
         }

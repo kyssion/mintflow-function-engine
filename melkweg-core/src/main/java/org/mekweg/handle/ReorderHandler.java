@@ -10,11 +10,16 @@ import java.util.List;
  */
 public abstract class ReorderHandler extends Handler {
 
-    public ReorderHandler() {
-        this.setType(HandleType.REORDER_HANDLE);
-    }
 
     private List<Handler> childHandlrs = new ArrayList<>();
+
+    public ReorderHandler(String name){
+        this(name,HandleType.REORDER_HANDLE);
+    }
+
+    public ReorderHandler(String name, HandleType handleType) {
+        super(name, handleType);
+    }
 
     public void addChilds(Handler... handlers) {
         childHandlrs.addAll(Arrays.asList(handlers));

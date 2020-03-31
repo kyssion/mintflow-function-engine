@@ -13,9 +13,25 @@ public class ConditionHandlerWrapper extends Handler {
 
     private List<ConditionHander> conditionHanders = new ArrayList<>();
 
+    public ConditionHandlerWrapper(){
+        this(ConditionHandlerWrapper.class.getName(),HandleType.CONDITION_HANDLE_WRAPPER);
+    }
+
+    public ConditionHandlerWrapper(String name, HandleType handleType) {
+        super(name, handleType);
+    }
+
     public abstract static class ConditionHander extends Handler {
 
         private List<Handler> childs = new ArrayList<>();
+
+        public ConditionHander(String name){
+            this(name,HandleType.CONDITION_HANDLE);
+        }
+
+        public ConditionHander(String name, HandleType handleType) {
+            super(name, handleType);
+        }
 
         public void addChilds(Handler... handlers) {
             childs.addAll(Arrays.asList(handlers));

@@ -8,16 +8,12 @@ import org.mekweg.scheduler.Scheduler;
  */
 public abstract class Handler implements Cloneable{
     private String name;
-    private int code;
     private HandleType type;
     private Scheduler scheduler;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
+    public Handler(String name,HandleType handleType){
+        this.name = name;
+        this.type= handleType;
     }
 
     public String getName() {

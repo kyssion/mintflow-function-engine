@@ -19,6 +19,7 @@ public class FnEngineScheduler implements Scheduler {
                     break;
                 case REORDER_HANDLE:
                 case CONDITION_HANDLE:
+                case CONDITION_HANDLE_WRAPPER:
                     handler.setScheduler(this);
                     paramWrapper = handler.handle(paramWrapper);
                     break;

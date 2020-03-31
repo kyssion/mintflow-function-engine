@@ -6,7 +6,7 @@ package org.mekweg.handle;
 public enum  HandleType {
 
     SAMPLE_HANDLE("sample handle",1),CONDITION_HANDLE("condition handle",2),
-    REORDER_HANDLE("reorder handle",3);
+    REORDER_HANDLE("reorder handle",3),CONDITION_HANDLE_WRAPPER("condition handle wrapper",4);
 
     HandleType(String name,int code){
         this.name = name;

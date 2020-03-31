@@ -2,21 +2,24 @@ package org.mekweg.handle;
 
 import org.mekweg.param.ParamWrapper;
 
+import static org.mekweg.handle.HandleType.SAMPLE_HANDLE;
+
 /**
  * Implementation class of abstract classes
  */
 public class SampleHandler extends Handler{
 
-    String id;
+    public SampleHandler(String name){
+        this(name,SAMPLE_HANDLE);
+    }
 
-    public SampleHandler(String id){
-        this.setType(HandleType.SAMPLE_HANDLE);
-        this.id = id;
+    public SampleHandler(String name, HandleType handleType) {
+        super(name, handleType);
     }
 
     @Override
     public ParamWrapper handle(ParamWrapper params) {
-        System.out.println("run handle + {"+id+"}");
+        System.out.println("run handle + {"+getName()+"}");
         return params;
     }
 

@@ -204,7 +204,7 @@ public class FnEngineDataStructureTool {
                         throw new ParsingRuntimeError("当前流程判断语法错误 , if-else if-elif-else 语法块格式不正确", wordKey);
                     }
                     ConditionHandlerWrapper.ConditionHander conditionHander =
-                            new ConditionHandlerWrapper.ConditionHander() {
+                            new ConditionHandlerWrapper.ConditionHander("CONDITION:ELSE") {
                                 @Override
                                 public boolean condition(ParamWrapper params) {
                                     return true;
