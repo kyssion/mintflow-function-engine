@@ -6,5 +6,6 @@ import java.lang.annotation.*;
 @Target(ElementType.PARAMETER)
 @Documented
 @Inherited
-public @interface MelkwegParam {
+public @interface MelkwegContextParam {
+    String key();
 }

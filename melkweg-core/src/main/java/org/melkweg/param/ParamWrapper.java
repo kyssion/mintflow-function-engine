@@ -28,6 +28,13 @@ public class ParamWrapper {
         this.contextParams = contextParams;
     }
 
+    public void setContextParam(String key,Object value){
+        this.contextParams.put(key,value);
+    }
+
+    public void setParam(Class<?> itemClass,Object object){
+        this.params.put(itemClass,object);
+    }
 
     public <T> T getResult(Class<T> type){
         return (T) params.get(type);
