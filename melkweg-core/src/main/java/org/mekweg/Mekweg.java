@@ -5,7 +5,6 @@ import org.mekweg.exception.InitMekwegError;
 import org.mekweg.exception.UserMekwegException;
 import org.mekweg.handle.Handler;
 import org.mekweg.param.ParamWrapper;
-import org.mekweg.param.TreeParams;
 import org.mekweg.scheduler.FnEngineScheduler;
 import org.mekweg.scheduler.Scheduler;
 
