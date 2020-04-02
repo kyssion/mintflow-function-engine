@@ -49,6 +49,8 @@ public class Melkweg {
         return this;
     }
 
+
+
     public ParamWrapper run(String namespace, String process, ParamWrapper paramWrapper) throws UserMelkwegException {
         if (this.fnMapper == null) {
             throw new UserMelkwegException("fnMapper没有初始化,请使用initFnMapper方法初始化....");

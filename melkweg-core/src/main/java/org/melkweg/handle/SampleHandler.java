@@ -7,7 +7,7 @@ import static org.melkweg.handle.HandleType.SAMPLE_HANDLE;
 /**
  * Implementation class of abstract classes
  */
-public class SampleHandler extends Handler{
+public abstract class SampleHandler extends Handler{
 
     public SampleHandler(String name){
         this(name,SAMPLE_HANDLE);
@@ -15,12 +15,6 @@ public class SampleHandler extends Handler{
 
     private SampleHandler(String name, HandleType handleType) {
         super(name, handleType);
-    }
-
-    @Override
-    public ParamWrapper handle(ParamWrapper params) {
-        System.out.println("run handle + {"+getName()+"}");
-        return params;
     }
 
     @Override

@@ -11,7 +11,11 @@ public abstract class Handler implements Cloneable{
     private HandleType type;
     private Scheduler scheduler;
 
-    public Handler(String name,HandleType handleType){
+    protected Handler(String name) {
+        this(name,HandleType.SAMPLE_HANDLE);
+    }
+
+    protected Handler(String name,HandleType handleType){
         this.name = name;
         this.type= handleType;
     }

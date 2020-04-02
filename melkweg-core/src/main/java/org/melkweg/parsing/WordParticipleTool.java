@@ -1,7 +1,7 @@
 package org.melkweg.parsing;
 
 import org.melkweg.exception.ParsingRuntimeError;
-import org.melkweg.exception.UsermelkwegRuntimeError;
+import org.melkweg.exception.UserMelkwegRuntimeError;
 import org.melkweg.parsing.mark.KeyworkItem;
 import org.melkweg.parsing.mark.SymbolItem;
 import org.melkweg.parsing.mark.Word;
@@ -14,7 +14,7 @@ public class WordParticipleTool {
     public static List<Word> createWordParticipleListByFile(String path) throws Exception {
         InputStream fileStream = WordParticipleTool.class.getClassLoader().getResourceAsStream(path);
         if (fileStream == null) {
-            throw new UsermelkwegRuntimeError("");
+            throw new UserMelkwegRuntimeError("");
         }
         return createWordParticipleList(fileStream);
     }

@@ -1,6 +1,6 @@
 package org.melkweg.handle.util;
 
-import org.melkweg.annotation.melkwegHander;
+import org.melkweg.annotation.MelkwegHander;
 import org.melkweg.exception.BaseRuntimeError;
 import org.melkweg.exception.HandleRepeatRuntimeError;
 import org.melkweg.handle.*;
@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 /**
  * Scan all implementation classes of the handler interface and generate map mappings
  */
-public class FindHandleDataMapUtil {
+public class MelkwegHandleDataMapFinder {
 
-    private static final Logger logger = Logger.getLogger(FindHandleDataMapUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(MelkwegHandleDataMapFinder.class.getName());
 
     public static Map<String, Handler> findHandleDataMap(String...pkgNames){
         Map<String,Handler> map = new HashMap<>();
@@ -41,24 +41,17 @@ public class FindHandleDataMapUtil {
                 continue;
             }
             Class<Handler> handlerClass = (Class<Handler>) itemClass;
-            melkwegHander hander = handlerClass.getAnnotation(melkwegHander.class);
-            if(hander==null){
+            MelkwegHander melkwegHander = handlerClass.getAnnotation(MelkwegHander.class);
+            if(melkwegHander==null){
                 continue;
             }
-            String name = hander.name().equals("")?handlerClass.getName():hander.name();
-
-            HandleType handleType;
-            if (SampleHandler.class.isAssignableFrom(handlerClass)){
-                handleType = HandleType.SAMPLE_HANDLE;
-            }else if(ReorderHandler.class.isAssignableFrom(handlerClass)){
-                handleType = HandleType.REORDER_HANDLE;
-            }else if(ConditionHandlerWrapper.ConditionHander.class.isAssignableFrom(handlerClass)){
-                handleType = HandleType.CONDITION_HANDLE;
-            }else{
-                handleType = hander.type();
-            }
+            String name = melkwegHander.name().equals("")?handlerClass.getName():melkwegHander.name();
+            Handler handler = handlerClass.getConstructor(String.class).newInstance(name);
             if(!map.containsKey(name)){
-                map.put(name,handlerClass.getConstructor(String.class,HandleType.class).newInstance(name,handleType));
+                if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE){
+                    handler.setType(melkwegHander.type());
+                }
+                map.put(name, handler);
             }else{
                 throw new HandleRepeatRuntimeError("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
             }

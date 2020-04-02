@@ -7,6 +7,7 @@ import org.melkweg.annotation.MelkwegParam;
 import org.melkweg.annotation.MelkwegProcess;
 import org.melkweg.param.ParamWrapper;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -32,18 +33,22 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
             process = method.getName();
         }
         ParamWrapper paramWrapper = new ParamWrapper();
-        for(Object object: objects){
-            Class<?> item = object.getClass();
-            MelkwegContextParam melkwegContextParam = item.getAnnotation(MelkwegContextParam.class);
-            if(melkwegContextParam!=null){
-                paramWrapper.setContextParam(melkwegContextParam.key(),object);
-            }
-            MelkwegParam melkwegParam = item.getAnnotation(MelkwegParam.class);
-            if(melkwegParam!=null){
-                paramWrapper.setParam(object.getClass(),object);
+        Annotation[][] annotations = method.getParameterAnnotations();
+        for (int a=0;a<objects.length;a++){
+            Annotation[] argAnnotion = annotations[a];
+            for(Annotation annotation: argAnnotion){
+                if(annotation instanceof  MelkwegParam){
+                    paramWrapper.getParams().put(objects[a].getClass(),objects[a]);
+                }
+                if(annotation instanceof MelkwegContextParam){
+                    String key = ((MelkwegContextParam) annotation).key();
+                    paramWrapper.getContextParams().put(key,objects[a]);
+                }
             }
         }
         paramWrapper =  this.melkweg.run(nameSpace,process,paramWrapper);
         return paramWrapper.getResult(method.getReturnType());
     }
+
+
 }
