@@ -20,7 +20,7 @@ public class Melkweg {
     //Represents a collection of processors, used for logic consumption graphs and processor mapping
     private Map<String, Handler> handlerDataMap;
 
-    private Melkweg() {
+    protected Melkweg() {
         super();
     }
 

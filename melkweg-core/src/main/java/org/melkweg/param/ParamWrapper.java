@@ -32,8 +32,8 @@ public class ParamWrapper {
         this.contextParams.put(key,value);
     }
 
-    public void setParam(Class<?> itemClass,Object object){
-        this.params.put(itemClass,object);
+    public void setParam(Class<?> type,Object object){
+        this.params.put(type,object);
     }
 
     public <T> T getResult(Class<T> type){

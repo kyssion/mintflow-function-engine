@@ -11,5 +11,21 @@
 
     <artifactId>melkweg-vertx</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.func-engine</groupId>
+            <artifactId>melkweg-core</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-mysql-client</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+    </dependencies>
 </project>

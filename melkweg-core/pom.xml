@@ -7,7 +7,6 @@
         <artifactId>melkweg-fn-engine</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>melkweg-core</artifactId>
-
+    <version>${version}</version>
 </project>
