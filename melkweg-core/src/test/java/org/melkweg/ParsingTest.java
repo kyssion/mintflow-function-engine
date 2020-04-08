@@ -73,7 +73,7 @@ public class ParsingTest {
                 return params;
             }
         });
-        Melkweg melkweg = Melkweg.create(dataMap).addFnMapper("p.fn");
+        Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("p.fn").build();
         ParamWrapper paramWrapper = melkweg.run("x1","x2", new ParamWrapper());
     }
 
@@ -85,8 +85,8 @@ public class ParsingTest {
         Map<String,Handler> dataMap = MelkwegHandleDataMapFinder.findHandleDataMap(
                 "org.melkweg.handler"
         );
-        Melkweg melkweg = Melkweg.create(dataMap).addFnMapper("test.fn");
-        MelkwegTemplate melkwegTemplate = MelkwegTemplate.create(melkweg,"org.melkweg.templateFunction");
+        Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("test.fn").build();
+        MelkwegTemplate melkwegTemplate = MelkwegTemplate.newBuilder().addInterface(melkweg,"org.melkweg.templateFunction").build();
         Function1 function1 = melkwegTemplate.getTemplateFunction(Function1.class);
         Function2 function2 = melkwegTemplate.getTemplateFunction(Function2.class);
         System.out.println(function1.test("x1","x2"));
