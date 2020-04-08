@@ -10,6 +10,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>melkweg-spring</artifactId>
-
-
+    <packaging>pom</packaging>
+    <modules>
+        <module>melkweg-spring-boot-starter</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.func-engine</groupId>
+            <artifactId>melkweg-core</artifactId>
+            <version>${version}</version>
+        </dependency>
+    </dependencies>
 </project>
