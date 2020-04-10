@@ -3,22 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>melkweg-fn-engine</artifactId>
+        <artifactId>melkweg-spring</artifactId>
         <groupId>org.func-engine</groupId>
         <version>${version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>melkweg-spring</artifactId>
-    <version>${version}</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>melkweg-spring-boot-starter</module>
-    </modules>
+
+    <artifactId>melkweg-spring-boot-starter</artifactId>
+
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
         <dependency>
-            <groupId>org.func-engine</groupId>
-            <artifactId>melkweg-core</artifactId>
-            <version>${version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>2.2.6.RELEASE</version>
         </dependency>
     </dependencies>
 </project>
