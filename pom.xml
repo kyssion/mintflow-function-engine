@@ -17,7 +17,7 @@
     </properties>
     <modules>
         <module>melkweg-core</module>
-        <module>melkweg-portal</module>
+        <module>melkweg-dev-tools</module>
         <module>melkweg-spring</module>
         <module>melkweg-vertx</module>
     </modules>
