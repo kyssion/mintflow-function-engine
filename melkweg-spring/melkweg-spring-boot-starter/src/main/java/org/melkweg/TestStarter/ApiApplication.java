@@ -11,7 +11,6 @@ public class ApiApplication implements ApplicationContextAware {
 
     public static void main(String[] args) {
         SpringApplication.run(ApiApplication.class, args);
-        ApplicationContext
     }
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
