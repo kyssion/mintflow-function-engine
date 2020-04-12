@@ -7,7 +7,6 @@ import org.melkweg.Melkweg;
 import org.melkweg.exception.UserMelkwegException;
 import org.melkweg.handle.Handler;
 import org.melkweg.param.ParamWrapper;
-import org.melkweg.vertx.scheduler.MelkwegVertxScheduler;
 
 import java.util.Map;
 
@@ -19,13 +18,14 @@ public class MelkwegVertx extends Melkweg {
     private MelkwegVertx(){
         super();
     }
-    public static class MelkwegVertxBuilder{
+    public static class MelkwegVertxBuilder extends MelkwegBuilder{
 
         private Vertx vertx;
 
         private MySQLPool mySQLPool;
 
-        public MelkwegVertxBuilder(Vertx vertx){
+        public MelkwegVertxBuilder(Map<String, Handler> handlerMap,Vertx vertx){
+            super(handlerMap);
             this.vertx = vertx;
         }
 
@@ -34,18 +34,16 @@ public class MelkwegVertx extends Melkweg {
             return this;
         }
 
-        public MelkwegVertx build(Map<String, Handler> handlerMap){
-            MelkwegVertx melkwegVertx = new MelkwegVertx();
+        public MelkwegVertx build(){
+            MelkwegVertx melkwegVertx = (MelkwegVertx) super.build();
             melkwegVertx.vertx = vertx;
             melkwegVertx.mySQLPool = mySQLPool;
-            MelkwegVertxScheduler scheduler = new MelkwegVertxScheduler(melkwegVertx);
-            melkwegVertx.melkweg  = Melkweg.create(handlerMap,scheduler);
             return melkwegVertx;
         }
     }
 
-    public static MelkwegVertxBuilder newBuilder(Vertx vertx){
-        return new MelkwegVertxBuilder(vertx);
+    public static MelkwegVertxBuilder newBuilder(Map<String, Handler> handlerMap,Vertx vertx){
+        return new MelkwegVertxBuilder(handlerMap,vertx);
     }
 
     public Vertx getVertx() {
@@ -56,11 +54,6 @@ public class MelkwegVertx extends Melkweg {
         return mySQLPool;
     }
 
-
-    @Override
-    public Melkweg addFnMapper(String fnFilePath) {
-        return this.melkweg.addFnMapper(fnFilePath);
-    }
 
     @Override
     public ParamWrapper run(String namespace, String process, ParamWrapper paramWrapper) throws UserMelkwegException {
