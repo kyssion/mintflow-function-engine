@@ -154,6 +154,8 @@ public class FnEngineDataStructureTool {
                     } else {
                         throw new ParsingRuntimeError("当前handler未找到,handler 名称" + handleName, handlerWord);
                     }
+                case CYCLE_HANDLE:
+                    break;
                 case CONDITION_IF_HANDLE:
                     ConditionHandlerWrapper conditionHandlerWrapper = new ConditionHandlerWrapper();
                     handlerList.add(conditionHandlerWrapper);

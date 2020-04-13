@@ -35,7 +35,8 @@ public abstract class ReorderHandler extends Handler {
             return params;
         }
         if (this.getScheduler() != null) {
-            reorderHandlerList(this.childHandlrs);
+            List<Handler> newHandlerList = new ArrayList<>(this.childHandlrs);
+            reorderHandlerList(newHandlerList);
             return this.getScheduler().run(params, this.childHandlrs);
         } else {
             return params;

@@ -44,5 +44,5 @@ public abstract class Handler implements Cloneable{
         this.type = type;
     }
 
-    public abstract ParamWrapper handle(ParamWrapper params);
+    protected abstract ParamWrapper handle(ParamWrapper params);
 }

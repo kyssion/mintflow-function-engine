@@ -21,6 +21,7 @@ public class KeyworkItem extends Word {
         keyworkItemMap.put("process", new KeyworkItem("process", WordType.PROCESS));
         keyworkItemMap.put("handle", new KeyworkItem("handle", WordType.HANDLE));
         keyworkItemMap.put("reorder", new KeyworkItem("reorder", WordType.REORDER_HANDLE));
+        keyworkItemMap.put("cycle", new KeyworkItem("cycle", WordType.CYCLE_HANDLE));
         keyworkItemMap.put("if", new KeyworkItem("if", WordType.CONDITION_IF_HANDLE));
         keyworkItemMap.put("elif", new KeyworkItem("else if", WordType.CONDITION_ELSE_IF_HANDLE));
         keyworkItemMap.put("else", new KeyworkItem("else", WordType.CONDITION_ELSE_HANDLE));
