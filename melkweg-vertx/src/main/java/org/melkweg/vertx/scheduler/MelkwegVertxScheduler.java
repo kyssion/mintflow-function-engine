@@ -12,6 +12,7 @@ import java.util.List;
 public class MelkwegVertxScheduler extends FnEngineScheduler {
 
     private MelkwegVertx melkwegVertx;
+
     public MelkwegVertxScheduler(MelkwegVertx melkwegVertx){
         this.melkwegVertx = melkwegVertx;
     }
