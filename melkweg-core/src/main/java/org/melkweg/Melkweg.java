@@ -17,9 +17,13 @@ import java.util.Map;
 public class Melkweg {
 
     public static class MelkwegBuilder{
+
         private Scheduler scheduler;
+
         private Map<String, Map<String, List<Handler>>> fnMapper;
+
         private boolean isAsync;
+
         //Represents a collection of processors, used for logic consumption graphs and processor mapping
         private Map<String, Handler> handlerDataMap;
 
@@ -65,6 +69,7 @@ public class Melkweg {
     }
 
     private Scheduler scheduler;
+
     private Map<String, Map<String, List<Handler>>> fnMapper;
 
     //Represents a collection of processors, used for logic consumption graphs and processor mapping

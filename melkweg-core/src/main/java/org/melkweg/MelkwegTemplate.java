@@ -10,10 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class MelkwegTemplate {
+
     public static class MelkwegTemplateBuilder{
-        private Map<Class<? extends MelkwegTemplateFunction>,MelkwegTemplateFunction> processProxy
-                = new HashMap<>();
+
+        private Map<Class<? extends MelkwegTemplateFunction>,MelkwegTemplateFunction> processProxy = new HashMap<>();
+
         private Melkweg melkweg;
+
         public MelkwegTemplateBuilder addInterface(Melkweg melkweg,String...pkgName){
             this.melkweg = melkweg;
             for (String pkgItem: pkgName){
