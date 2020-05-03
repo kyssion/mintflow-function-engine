@@ -50,10 +50,14 @@ public class MelkwegTemplate {
 
     private Map<Class<? extends MelkwegTemplateFunction>,MelkwegTemplateFunction> processProxy
             = new HashMap<>();
+
     private Melkweg melkweg;
+
     private MelkwegTemplate(){
         super();
     }
+
+    @SuppressWarnings("unchecked")
     public <T extends MelkwegTemplateFunction> T getTemplateFunction(Class<T> melkwegTemplateFunction){
         return (T) processProxy.get(melkwegTemplateFunction);
     }
