@@ -92,7 +92,4 @@ public class ParsingTest {
         System.out.println(function1.test("x1","x2"));
         System.out.println(function2.getName("123"));
     }
-
-
-
 }
