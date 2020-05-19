@@ -37,6 +37,7 @@ public class ParamWrapper {
         this.params.put(type,object);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T getResult(Class<T> type){
         return (T) params.get(type);
     }

@@ -33,6 +33,7 @@ public class MelkwegHandleDataMapFinder {
         return map;
     }
 
+    @SuppressWarnings("unchecked")
     private static void addNewHandler(String pkgName, Map<String, Handler> map) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Set<Class<?>> pkgClassSet = ClassUtill.getClassSet(pkgName,Handler.class);
         for(Class<?> itemClass : pkgClassSet){

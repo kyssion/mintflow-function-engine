@@ -17,6 +17,7 @@ public class MelkwegTemplate {
 
         private Melkweg melkweg;
 
+        @SuppressWarnings("unchecked")
         public MelkwegTemplateBuilder addInterface(Melkweg melkweg,String...pkgName){
             this.melkweg = melkweg;
             for (String pkgItem: pkgName){

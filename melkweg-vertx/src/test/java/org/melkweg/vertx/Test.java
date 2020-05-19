@@ -12,8 +12,8 @@ public class Test {
     @org.junit.jupiter.api.Test
     public void test1(){
         Vertx vertx = Vertx.vertx();
-        MelkwegVertx melkwegVertx = MelkwegVertx.newBuilder(vertx).useMysql("").build(new HashMap<>());
-        MelkwegTemplate melkwegTemplate = MelkwegTemplate.newBuilder().addInterface(melkwegVertx,"sdf").build();
+//        MelkwegVertx melkwegVertx = MelkwegVertx.newBuilder(vertx).useMysql("").build(new HashMap<>());
+//        MelkwegTemplate melkwegTemplate = MelkwegTemplate.newBuilder().addInterface(melkwegVertx,"sdf").build();
     }
 
     @org.junit.jupiter.api.Test

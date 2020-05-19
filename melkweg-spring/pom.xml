@@ -5,11 +5,10 @@
     <parent>
         <artifactId>melkweg-fn-engine</artifactId>
         <groupId>org.func-engine</groupId>
-        <version>${version}</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>melkweg-spring</artifactId>
-    <version>${version}</version>
     <packaging>pom</packaging>
     <modules>
         <module>melkweg-spring-boot-starter</module>
