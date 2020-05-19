@@ -1,10 +1,12 @@
 package org.melkweg.parsing.mark;
 
 public class Word {
+
     private String value;
     private WordType type;
     private int lineNum;
     private int wordStartNum;
+
     public int getLineNum() {
         return lineNum;
     }

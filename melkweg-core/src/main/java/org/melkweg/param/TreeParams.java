@@ -1,6 +1,7 @@
 package org.melkweg.param;
 
 public class TreeParams<R> {
+
     private R returnObject;
 
     public void set(R value){
@@ -10,4 +11,5 @@ public class TreeParams<R> {
     public R getReturn(){
         return returnObject;
     }
+
 }

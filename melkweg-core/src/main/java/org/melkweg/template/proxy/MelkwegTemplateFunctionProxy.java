@@ -12,8 +12,10 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
-    private Melkweg melkweg;
-    private String nameSpace;
+
+    private final Melkweg melkweg;
+    private final String nameSpace;
+
     public MelkwegTemplateFunctionProxy(Class<T> itemClass, Melkweg melkweg){
         this.melkweg = melkweg;
         MelkwegNameSpace melkwegNameSpace = itemClass.getAnnotation(MelkwegNameSpace.class);
@@ -23,6 +25,7 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
             nameSpace = itemClass.getName();
         }
     }
+
     @Override
     public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
         MelkwegProcess melkwegProcess = method.getAnnotation(MelkwegProcess.class);

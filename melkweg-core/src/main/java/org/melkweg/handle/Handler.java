@@ -7,6 +7,7 @@ import org.melkweg.scheduler.Scheduler;
  * process Node -> used to dealing with a small part of the logic
  */
 public abstract class Handler implements Cloneable{
+
     private String name;
     private HandleType type;
     private Scheduler scheduler;

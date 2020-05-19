@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WordParticipleTool {
+
     public static List<Word> createWordParticipleListByFile(String path) throws Exception {
         InputStream fileStream = WordParticipleTool.class.getClassLoader().getResourceAsStream(path);
         if (fileStream == null) {

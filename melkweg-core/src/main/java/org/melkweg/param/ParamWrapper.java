@@ -41,4 +41,5 @@ public class ParamWrapper {
     public <T> T getResult(Class<T> type){
         return (T) params.get(type);
     }
+
 }
