@@ -1,9 +1,9 @@
 package org.melkweg;
 
-import org.melkweg.async.AsyncResult;
+import org.melkweg.async.result.AsyncResult;
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.builder.FnMapperBuilder;
-import org.melkweg.exception.InitMelkwegError;
+import org.melkweg.exception.InitMelkwegException;
 import org.melkweg.exception.UserMelkwegException;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.param.ParamWrapper;
@@ -38,13 +38,13 @@ public class Melkweg {
 
         public MelkwegBuilder addFnMapper(String fnFilePath){
             if (this.handlerDataMap == null) {
-                throw new InitMelkwegError("handlerDataMap没有初始化,请调用inithandlerDataMap初始化信息....");
+                throw new InitMelkwegException("handlerDataMap没有初始化,请调用inithandlerDataMap初始化信息....");
             }
             try {
                 this.fnMapper.putAll(FnMapperBuilder.build(handlerDataMap, fnFilePath));
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new InitMelkwegError("初始化FnMapper失败....");
+                throw new InitMelkwegException("初始化FnMapper失败....");
             }
             return this;
         }

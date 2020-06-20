@@ -3,7 +3,7 @@ package org.melkweg;
 import org.junit.jupiter.api.Test;
 import org.melkweg.exception.UserMelkwegException;
 import org.melkweg.handle.*;
-import org.melkweg.handle.ConditionFnHandlerWrapper;
+import org.melkweg.handle.SyncConditionFncHandlerWrapper;
 import org.melkweg.handle.SampleFnHandler;
 import org.melkweg.handle.util.MelkwegHandleDataMapFinder;
 import org.melkweg.param.ParamWrapper;
@@ -48,13 +48,13 @@ public class ParsingTest {
                 return params;
             }
         });
-        dataMap.put("x7", new ConditionFnHandlerWrapper.ConditionHander("x7") {
+        dataMap.put("x7", new SyncConditionFncHandlerWrapper.ConditionHander("x7") {
             @Override
             public boolean condition(ParamWrapper params) {
                 return false;
             }
         });
-        dataMap.put("x8", new ConditionFnHandlerWrapper.ConditionHander("x8") {
+        dataMap.put("x8", new SyncConditionFncHandlerWrapper.ConditionHander("x8") {
             @Override
             public boolean condition(ParamWrapper params) {
                 return false;

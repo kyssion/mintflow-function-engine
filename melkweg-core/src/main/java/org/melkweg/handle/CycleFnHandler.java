@@ -5,7 +5,7 @@ import org.melkweg.param.ParamWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CycleFnHandler extends FnHandler {
+public abstract class CycleFnHandler extends SyncFnHandle {
     private List<FnHandler> cycleFnHandlerList = new ArrayList<>();
     protected CycleFnHandler(String name) {
         this(name,HandleType.CYCLE_HANDLE);

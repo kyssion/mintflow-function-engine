@@ -1,7 +1,7 @@
 package org.melkweg.parsing;
 
-import org.melkweg.exception.ParsingRuntimeError;
-import org.melkweg.exception.UserMelkwegRuntimeError;
+import org.melkweg.exception.ParsingRuntimeException;
+import org.melkweg.exception.UserMelkwegRuntimeException;
 import org.melkweg.parsing.mark.KeyworkItem;
 import org.melkweg.parsing.mark.SymbolItem;
 import org.melkweg.parsing.mark.Word;
@@ -15,7 +15,7 @@ public class WordParticipleTool {
     public static List<Word> createWordParticipleListByFile(String path) throws Exception {
         InputStream fileStream = WordParticipleTool.class.getClassLoader().getResourceAsStream(path);
         if (fileStream == null) {
-            throw new UserMelkwegRuntimeError("");
+            throw new UserMelkwegRuntimeException("");
         }
         return createWordParticipleList(fileStream);
     }
@@ -66,7 +66,7 @@ public class WordParticipleTool {
                 word.setWordStartNum(itemFile.length()-keyWord.length());
                 word.setLineNum(line);
                 word.setValue(keyWord.toString());
-                throw new ParsingRuntimeError("此处关键字出现异常，存在非法字符:{"+word.getValue()+"}",word);
+                throw new ParsingRuntimeException("此处关键字出现异常，存在非法字符:{"+word.getValue()+"}",word);
             }
             line++;
         }

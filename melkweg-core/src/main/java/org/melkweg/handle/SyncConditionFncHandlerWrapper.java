@@ -1,5 +1,8 @@
 package org.melkweg.handle;
 
+import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.async.result.AsyncResult;
+import org.melkweg.exception.HandleUseSyncException;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
@@ -9,19 +12,19 @@ import java.util.List;
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public class ConditionFnHandlerWrapper extends FnHandler {
+public class SyncConditionFncHandlerWrapper extends SyncFnHandle {
 
     private List<ConditionHander> conditionHanders = new ArrayList<>();
 
-    public ConditionFnHandlerWrapper(){
-        this(ConditionFnHandlerWrapper.class.getName(),HandleType.CONDITION_HANDLE_WRAPPER);
+    public SyncConditionFncHandlerWrapper(){
+        this(SyncConditionFncHandlerWrapper.class.getName(),HandleType.CONDITION_HANDLE_WRAPPER);
     }
 
-    private ConditionFnHandlerWrapper(String name, HandleType handleType) {
+    private SyncConditionFncHandlerWrapper(String name, HandleType handleType) {
         super(name, handleType);
     }
 
-    public abstract static class ConditionHander extends FnHandler {
+    public abstract static class ConditionHander extends SyncFnHandle {
 
         private List<FnHandler> childs = new ArrayList<>();
 

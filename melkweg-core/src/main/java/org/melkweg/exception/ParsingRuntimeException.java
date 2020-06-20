@@ -5,8 +5,8 @@ import org.melkweg.parsing.mark.Word;
 /**
  * Syntax detection run-time exception
  */
-public class ParsingRuntimeError extends BaseRuntimeError {
-    public ParsingRuntimeError(String msg, Word word) {
+public class ParsingRuntimeException extends BaseRuntimeException {
+    public ParsingRuntimeException(String msg, Word word) {
         super("parsing error :" + msg+","+"line :"+(word.getLineNum()+1)+", index: "+(word.getWordStartNum()+1));
     }
 }

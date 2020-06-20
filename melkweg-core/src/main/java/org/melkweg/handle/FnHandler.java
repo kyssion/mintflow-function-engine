@@ -1,5 +1,7 @@
 package org.melkweg.handle;
 
+import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.async.result.AsyncResult;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.Scheduler;
 
@@ -10,7 +12,6 @@ public abstract class FnHandler implements Cloneable{
 
     private String name;
     private HandleType type;
-    private Scheduler scheduler;
 
     protected FnHandler(String name) {
         this(name,HandleType.SAMPLE_HANDLE);
@@ -29,14 +30,6 @@ public abstract class FnHandler implements Cloneable{
         this.name = name;
     }
 
-    public Scheduler getScheduler() {
-        return scheduler;
-    }
-
-    public void setScheduler(Scheduler scheduler) {
-        this.scheduler = scheduler;
-    }
-
     public HandleType getType() {
         return type;
     }
@@ -46,4 +39,6 @@ public abstract class FnHandler implements Cloneable{
     }
 
     public abstract ParamWrapper handle(ParamWrapper params);
+
+    public abstract void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult);
 }

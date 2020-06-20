@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Reorder Handler -> used to sub-pack all washable handle components
  */
-public abstract class ReorderFnHandler extends FnHandler {
+public abstract class ReorderFnHandler extends SyncFnHandle {
 
 
     private List<FnHandler> childHandlrs = new ArrayList<>();

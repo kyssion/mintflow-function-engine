@@ -5,7 +5,7 @@ import static org.melkweg.handle.HandleType.SAMPLE_HANDLE;
 /**
  * Implementation class of abstract classes
  */
-public abstract class SampleFnHandler extends FnHandler {
+public abstract class SampleFnHandler extends SyncFnHandle {
 
     public SampleFnHandler(String name){
         this(name,SAMPLE_HANDLE);

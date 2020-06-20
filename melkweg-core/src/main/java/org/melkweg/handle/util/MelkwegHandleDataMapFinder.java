@@ -1,8 +1,8 @@
 package org.melkweg.handle.util;
 
 import org.melkweg.annotation.MelkwegHander;
-import org.melkweg.exception.BaseRuntimeError;
-import org.melkweg.exception.HandleRepeatRuntimeError;
+import org.melkweg.exception.BaseRuntimeException;
+import org.melkweg.exception.HandleRepeatRuntimeException;
 import org.melkweg.handle.*;
 import org.melkweg.util.ClassUtill;
 
@@ -24,7 +24,7 @@ public class MelkwegHandleDataMapFinder {
         for (String pkgName : pkgNames){
             try {
                 addNewHandler(pkgName,map);
-            } catch (BaseRuntimeError e) {
+            } catch (BaseRuntimeException e) {
                 throw e;
             } catch (Exception e) {
                 logger.warning("当前包检索handle 异常 : pkg name : " +pkgName);
@@ -54,7 +54,7 @@ public class MelkwegHandleDataMapFinder {
                 }
                 map.put(name, fnHandler);
             }else{
-                throw new HandleRepeatRuntimeError("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
+                throw new HandleRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
             }
         }
     }
