@@ -1,11 +1,9 @@
-package org.melkweg.handler.condition;
+package org.melkweg.handler.sync.condition;
 
 import org.melkweg.annotation.MelkwegHander;
-import org.melkweg.baseTest.ConditionTest;
+import org.melkweg.syncBaseTest.ConditionTest;
 import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.param.ParamWrapper;
-
-import java.util.logging.Logger;
 
 @MelkwegHander(name = "condition_handle_1")
 public class ConditionHandle1 extends SyncConditionFncHandlerWrapper.ConditionHandler {

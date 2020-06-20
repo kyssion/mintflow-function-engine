@@ -1,9 +1,9 @@
-package org.melkweg.handler.reorder;
+package org.melkweg.handler.sync.reorder;
 
 import org.melkweg.annotation.MelkwegHander;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.sync.SyncReorderFnHandler;
-import org.melkweg.handler.simple.ReorderSampleHandle;
+import org.melkweg.handler.sync.simple.ReorderSampleHandle;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.List;

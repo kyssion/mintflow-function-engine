@@ -5,7 +5,9 @@ import org.melkweg.exception.BaseRuntimeException;
 import org.melkweg.exception.HandleRepeatRuntimeException;
 import org.melkweg.handle.*;
 import org.melkweg.handle.async.AsyncFnHandle;
+import org.melkweg.handle.async.AsyncToolsFnHandle;
 import org.melkweg.handle.sync.SyncFnHandle;
+import org.melkweg.handle.sync.SyncToolsFnHandle;
 import org.melkweg.util.ClassUtill;
 
 import java.lang.reflect.InvocationTargetException;
@@ -52,12 +54,12 @@ public class MelkwegHandleMapFinder {
             FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
 
             Map<String,FnHandler> itemHandleMap = null;
-            if(fnHandler instanceof AsyncFnHandle){
+            if(fnHandler instanceof AsyncFnHandle||fnHandler instanceof AsyncToolsFnHandle){
                 itemHandleMap = map.computeIfAbsent(HandleType.ASYNC_HANDLE,(p)->new HashMap<>());
-            }else if(fnHandler instanceof SyncFnHandle){
+            }else if(fnHandler instanceof SyncFnHandle||fnHandler instanceof SyncToolsFnHandle){
                 itemHandleMap = map.computeIfAbsent(HandleType.SYNC_HANDLE,(p)->new HashMap<>());
             }else{
-                throw new HandleRepeatRuntimeException("当前hanlle为不支持类型 : class name :"+fnHandler.getClass().getName());
+                throw new HandleRepeatRuntimeException("当前handle为不支持类型 : class name :"+fnHandler.getClass().getName());
             }
             if(!itemHandleMap.containsKey(name)){
                 if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){

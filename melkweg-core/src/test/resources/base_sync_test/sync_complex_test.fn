@@ -1,0 +1,26 @@
+namespace(test_namespace){
+    sync process(sys_test_process){
+        ->handle(show_start_handle)
+        ->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->if(condition_handle_1){
+            ->if(condition_handle_3){
+                ->handle(base_test_handle1)
+            }elif(condition_handle_4){
+                ->handle(base_test_handle2)
+            }else{
+                ->handle(base_test_handle3)
+            }
+        }elif(condition_handle_2){
+            ->if(condition_handle_3){
+                ->handle(base_test_handle3)->handle(base_test_handle1)
+            }elif(condition_handle_4){
+                ->reorder(reorder_handle){
+                    ->handle(reorder_sample_handle)
+                }
+            }else{
+                ->handle(base_test_handle3)->handle(base_test_handle3)
+            }
+        }else{
+                ->handle(base_test_handle3)->handle(base_test_handle3)->handle(base_test_handle1)
+        }->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->handle(show_end_handle)
+    }
+}

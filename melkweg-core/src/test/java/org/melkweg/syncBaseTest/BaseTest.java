@@ -1,11 +1,11 @@
-package org.melkweg.baseTest;
+package org.melkweg.syncBaseTest;
 
 
 import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
-import org.melkweg.handler.simple.*;
+import org.melkweg.handler.sync.simple.*;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.FnEngineScheduler;
 

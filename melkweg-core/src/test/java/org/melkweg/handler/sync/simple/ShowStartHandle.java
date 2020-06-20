@@ -1,4 +1,4 @@
-package org.melkweg.handler.simple;
+package org.melkweg.handler.sync.simple;
 
 import org.melkweg.annotation.MelkwegHander;
 import org.melkweg.handle.sync.SyncSampleFnHandler;

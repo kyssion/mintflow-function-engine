@@ -1,7 +1,7 @@
-package org.melkweg.handler.condition;
+package org.melkweg.handler.sync.condition;
 
 import org.melkweg.annotation.MelkwegHander;
-import org.melkweg.baseTest.ConditionTest;
+import org.melkweg.syncBaseTest.ConditionTest;
 import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.param.ParamWrapper;
 

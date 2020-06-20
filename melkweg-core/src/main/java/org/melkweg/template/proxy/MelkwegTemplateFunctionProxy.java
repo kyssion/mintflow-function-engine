@@ -43,14 +43,19 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
             for(Annotation annotation: argAnnotion){
                 if(annotation instanceof  MelkwegParam){
                     paramWrapper.getParams().put(objects[a].getClass(),objects[a]);
+                    break;
                 }
                 if(annotation instanceof MelkwegContextParam){
                     String key = ((MelkwegContextParam) annotation).key();
                     paramWrapper.getContextParams().put(key,objects[a]);
+                    break;
                 }
             }
         }
         paramWrapper =  this.melkweg.runSync(nameSpace,process,paramWrapper,new FnEngineScheduler());
+        if(method.getReturnType()==ParamWrapper.class){
+            return paramWrapper;
+        }
         return paramWrapper.getResult(method.getReturnType());
     }
 

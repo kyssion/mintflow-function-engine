@@ -1,15 +1,15 @@
-package org.melkweg.baseTest;
+package org.melkweg.syncBaseTest;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
-import org.melkweg.handler.condition.ConditionHandle1;
-import org.melkweg.handler.condition.ConditionHandle2;
-import org.melkweg.handler.condition.ConditionHandle3;
-import org.melkweg.handler.condition.ConditionHandle4;
-import org.melkweg.handler.reorder.ReorderHandler;
-import org.melkweg.handler.simple.*;
+import org.melkweg.handler.sync.condition.ConditionHandle1;
+import org.melkweg.handler.sync.condition.ConditionHandle2;
+import org.melkweg.handler.sync.condition.ConditionHandle3;
+import org.melkweg.handler.sync.condition.ConditionHandle4;
+import org.melkweg.handler.sync.reorder.ReorderHandler;
+import org.melkweg.handler.sync.simple.*;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.FnEngineScheduler;
 
