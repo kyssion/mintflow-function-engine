@@ -3,7 +3,6 @@ package org.melkweg.handle;
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.Scheduler;
 
 /**
  * process Node -> used to dealing with a small part of the logic
@@ -14,7 +13,7 @@ public abstract class FnHandler implements Cloneable{
     private HandleType type;
 
     protected FnHandler(String name) {
-        this(name,HandleType.SAMPLE_HANDLE);
+        this(name,HandleType.SAMPLE_HANDLE_SYNC);
     }
 
     protected FnHandler(String name, HandleType handleType){

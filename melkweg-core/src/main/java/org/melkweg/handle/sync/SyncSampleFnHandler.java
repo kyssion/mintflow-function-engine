@@ -2,7 +2,7 @@ package org.melkweg.handle.sync;
 
 import org.melkweg.handle.HandleType;
 
-import static org.melkweg.handle.HandleType.SAMPLE_HANDLE;
+import static org.melkweg.handle.HandleType.SAMPLE_HANDLE_SYNC;
 
 /**
  * Implementation class of abstract classes
@@ -10,7 +10,7 @@ import static org.melkweg.handle.HandleType.SAMPLE_HANDLE;
 public abstract class SyncSampleFnHandler extends SyncFnHandle {
 
     public SyncSampleFnHandler(String name){
-        this(name,SAMPLE_HANDLE);
+        this(name, SAMPLE_HANDLE_SYNC);
     }
 
     private SyncSampleFnHandler(String name, HandleType handleType) {

@@ -1,8 +1,10 @@
 package org.melkweg.handle.sync;
 
+import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
+import org.melkweg.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,24 +13,24 @@ import java.util.List;
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public class SyncConditionFncHandlerWrapper extends SyncFnHandle {
+public class SyncConditionFncHandlerWrapper extends SyncToolsFnHandle {
 
     private List<ConditionHander> conditionHanders = new ArrayList<>();
 
     public SyncConditionFncHandlerWrapper(){
-        this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER);
+        this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_SYNC);
     }
 
     private SyncConditionFncHandlerWrapper(String name, HandleType handleType) {
         super(name, handleType);
     }
 
-    public abstract static class ConditionHander extends SyncFnHandle {
+    public abstract static class ConditionHander extends SyncToolsFnHandle {
 
         private List<FnHandler> childs = new ArrayList<>();
 
         public ConditionHander(String name){
-            this(name,HandleType.CONDITION_HANDLE);
+            this(name,HandleType.CONDITION_HANDLE_SYNC);
         }
 
         private ConditionHander(String name, HandleType handleType) {
@@ -45,14 +47,14 @@ public class SyncConditionFncHandlerWrapper extends SyncFnHandle {
 
         public abstract boolean condition(ParamWrapper params);
 
-        public ParamWrapper handle(ParamWrapper params) {
+        public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler){
             if(this.childs==null||this.childs.size()==0){
-                return params;
+                return paramWrapper;
             }
-            if(this.getScheduler()!=null){
-                return this.getScheduler().run(params,this.childs);
+            if(scheduler!=null){
+                return scheduler.run(paramWrapper,this.childs);
             }else{
-                return params;
+                return paramWrapper;
             }
         }
 
@@ -72,20 +74,20 @@ public class SyncConditionFncHandlerWrapper extends SyncFnHandle {
         conditionHanders.addAll(handlers);
     }
 
+
     @Override
-    public ParamWrapper handle(ParamWrapper params) {
+    public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
         if(this.conditionHanders==null||this.conditionHanders.size()==0){
-            return params;
+            return paramWrapper;
         }
-        if(this.getScheduler()!=null){
+        if(scheduler!=null){
             for (ConditionHander conditionHander: conditionHanders){
-                if(conditionHander.condition(params)){
-                    conditionHander.setScheduler(this.getScheduler());
-                    params = conditionHander.handle(params);
+                if(conditionHander.condition(paramWrapper)){
+                    paramWrapper = conditionHander.handle(paramWrapper,scheduler);
                     break;
                 }
             }
         }
-        return params;
+        return paramWrapper;
     }
 }

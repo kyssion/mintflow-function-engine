@@ -1,12 +1,11 @@
 package org.melkweg.handle.async;
 
-import org.melkweg.async.param.AsyncParamWrapper;
-import org.melkweg.async.result.AsyncResult;
+import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
 
-public class AsyncFnHandle extends FnHandler {
+public abstract class AsyncFnHandle extends FnHandler {
     protected AsyncFnHandle(String name) {
         super(name);
     }
@@ -17,11 +16,6 @@ public class AsyncFnHandle extends FnHandler {
 
     @Override
     public ParamWrapper handle(ParamWrapper params) {
-        return null;
-    }
-
-    @Override
-    public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult) {
-
+        throw new HandleUseException(HandleUseException.NO_USE_ASYNC + ",  handle name :" + this.getClass().getName());
     }
 }

@@ -2,6 +2,8 @@ package org.melkweg;
 
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.async.scheduler.AsyncScheduler;
+import org.melkweg.async.scheduler.FnAsyncEngineScheduler;
 import org.melkweg.builder.FnMapperBuilder;
 import org.melkweg.exception.InitMelkwegException;
 import org.melkweg.exception.UserMelkwegException;
@@ -18,8 +20,6 @@ public class Melkweg {
 
     public static class MelkwegBuilder{
 
-        private Scheduler scheduler;
-
         private Map<String, Map<String, List<FnHandler>>> fnMapper;
 
         //Represents a collection of processors, used for logic consumption graphs and processor mapping
@@ -28,12 +28,6 @@ public class Melkweg {
         public MelkwegBuilder(Map<String, FnHandler> handlerDataMap){
             this.handlerDataMap = handlerDataMap;
             this.fnMapper= new HashMap<>();
-            this.scheduler = new FnEngineScheduler();
-        }
-
-        public MelkwegBuilder addScheduler(Scheduler scheduler){
-            this.scheduler = scheduler;
-            return this;
         }
 
         public MelkwegBuilder addFnMapper(String fnFilePath){
@@ -51,14 +45,11 @@ public class Melkweg {
 
         public Melkweg build(){
             Melkweg melkweg= new Melkweg();
-            melkweg.scheduler = this.scheduler;
             melkweg.fnMapper = this.fnMapper;
             melkweg.handlerDataMap = this.handlerDataMap;
             return melkweg;
         }
     }
-
-    private Scheduler scheduler;
 
     private Map<String, Map<String, List<FnHandler>>> fnMapper;
 
@@ -69,13 +60,18 @@ public class Melkweg {
         super();
     }
 
-    public ParamWrapper run(String namespace, String process, ParamWrapper paramWrapper) throws UserMelkwegException {
+    public ParamWrapper runSync(String namespace, String process, ParamWrapper paramWrapper,Scheduler scheduler) throws UserMelkwegException {
         List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process);
-        return this.scheduler.run(paramWrapper, processFnHandlerList);
+        if(scheduler ==null){
+            scheduler = new FnEngineScheduler();
+        }
+        return scheduler.run(paramWrapper, processFnHandlerList);
     }
 
-    public void AsyncRun(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult){
-
+    public void RunAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) throws UserMelkwegException {
+        List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process);
+        AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler();
+        asyncScheduler.asyncRun(asyncParamWrapper,processFnHandlerList,asyncResult);
     }
 
     public static MelkwegBuilder newBuilder(Map<String, FnHandler> handlerDataMap){
@@ -93,9 +89,6 @@ public class Melkweg {
         List<FnHandler> processFnHandlerList = namespaceItem.get(process);
         if (processFnHandlerList == null) {
             throw new UserMelkwegException("未发现指定的process流程信息....");
-        }
-        if (this.scheduler == null) {
-            throw new UserMelkwegException("scheduler没有初始化,请使用initScheduler方法初始化....");
         }
         return processFnHandlerList;
     }

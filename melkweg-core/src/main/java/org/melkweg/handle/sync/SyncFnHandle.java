@@ -2,15 +2,11 @@ package org.melkweg.handle.sync;
 
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
-import org.melkweg.exception.HandleUseSyncException;
+import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
-import org.melkweg.scheduler.Scheduler;
 
 public abstract class SyncFnHandle extends FnHandler {
-
-    private Scheduler scheduler;
-
     protected SyncFnHandle(String name) {
         super(name);
     }
@@ -20,15 +16,7 @@ public abstract class SyncFnHandle extends FnHandler {
     }
 
     @Override
-    public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult) {
-        throw new HandleUseSyncException(HandleUseSyncException.NO_USE_SYNC + ",  handle name :" + this.getClass().getName());
-    }
-
-    public Scheduler getScheduler() {
-        return scheduler;
-    }
-
-    public void setScheduler(Scheduler scheduler) {
-        this.scheduler = scheduler;
+    public final void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult) {
+        throw new HandleUseException(HandleUseException.NO_USE_SYNC + ",  handle name :" + this.getClass().getName());
     }
 }

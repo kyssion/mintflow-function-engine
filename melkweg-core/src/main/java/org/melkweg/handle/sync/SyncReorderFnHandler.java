@@ -3,6 +3,7 @@ package org.melkweg.handle.sync;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
+import org.melkweg.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,13 +11,13 @@ import java.util.List;
 /**
  * Reorder Handler -> used to sub-pack all washable handle components
  */
-public abstract class SyncReorderFnHandler extends SyncFnHandle {
+public abstract class SyncReorderFnHandler extends SyncToolsFnHandle {
 
 
     private List<FnHandler> childHandlrs = new ArrayList<>();
 
     public SyncReorderFnHandler(String name){
-        this(name, HandleType.REORDER_HANDLE);
+        this(name, HandleType.REORDER_HANDLE__SYNC);
     }
 
     private SyncReorderFnHandler(String name, HandleType handleType) {
@@ -31,17 +32,18 @@ public abstract class SyncReorderFnHandler extends SyncFnHandle {
         this.childHandlrs.addAll(fnHandlers);
     }
 
+
     @Override
-    public ParamWrapper handle(ParamWrapper params) {
+    public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
         if (this.childHandlrs == null || this.childHandlrs.size() == 0) {
-            return params;
+            return paramWrapper;
         }
-        if (this.getScheduler() != null) {
+        if (scheduler != null) {
             List<FnHandler> newFnHandlerList = new ArrayList<>(this.childHandlrs);
             reorderHandlerList(newFnHandlerList);
-            return this.getScheduler().run(params, this.childHandlrs);
+            return scheduler.run(paramWrapper, this.childHandlrs);
         } else {
-            return params;
+            return paramWrapper;
         }
     }
 

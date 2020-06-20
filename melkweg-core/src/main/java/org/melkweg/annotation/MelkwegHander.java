@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface MelkwegHander {
     String name() default "";
-    HandleType type() default HandleType.UNDERFIND_HANDLE;
+    HandleType type() default HandleType.UNDERFIND_HANDLE_SYNC;
 }

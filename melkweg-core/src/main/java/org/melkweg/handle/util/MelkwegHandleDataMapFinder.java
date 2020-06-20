@@ -49,7 +49,7 @@ public class MelkwegHandleDataMapFinder {
             String name = melkwegHander.name().equals("")?handlerClass.getName():melkwegHander.name();
             FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
             if(!map.containsKey(name)){
-                if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE){
+                if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
                     fnHandler.setType(melkwegHander.type());
                 }
                 map.put(name, fnHandler);

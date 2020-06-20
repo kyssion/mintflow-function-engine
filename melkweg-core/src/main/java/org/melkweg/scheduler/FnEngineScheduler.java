@@ -1,6 +1,7 @@
 package org.melkweg.scheduler;
 
 import org.melkweg.handle.FnHandler;
+import org.melkweg.handle.sync.SyncToolsFnHandle;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.List;
@@ -14,14 +15,15 @@ public class FnEngineScheduler implements Scheduler {
         }
         for (FnHandler fnHandler : fnHandlerList) {
             switch (fnHandler.getType()){
-                case SAMPLE_HANDLE:
+                case SAMPLE_HANDLE_SYNC:
                     paramWrapper = fnHandler.handle(paramWrapper);
                     break;
-                case REORDER_HANDLE:
-                case CONDITION_HANDLE:
-                case CONDITION_HANDLE_WRAPPER:
-                    fnHandler.setScheduler(this);
-                    paramWrapper = fnHandler.handle(paramWrapper);
+                case REORDER_HANDLE__SYNC:
+                case CONDITION_HANDLE_SYNC:
+                case CONDITION_HANDLE_WRAPPER_SYNC:
+                    //强制转化为 同步组建类 handle
+                    SyncToolsFnHandle item = (SyncToolsFnHandle) fnHandler;
+                    paramWrapper = item.handle(paramWrapper,this);
                     break;
                 default:
                     break;
