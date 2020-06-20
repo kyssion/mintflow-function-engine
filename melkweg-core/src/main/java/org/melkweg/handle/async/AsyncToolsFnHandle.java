@@ -19,10 +19,5 @@ public abstract class AsyncToolsFnHandle extends AsyncFnHandle {
         super(name, handleType);
     }
 
-    @Override
-    public final void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult) {
-        throw new HandleUseException(HandleUseException.CAN_NOT_USE_SIMPLE_HANDLE_METHOD_FOR_TOOLS_HANDLE);
-    }
-
     public abstract void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 }

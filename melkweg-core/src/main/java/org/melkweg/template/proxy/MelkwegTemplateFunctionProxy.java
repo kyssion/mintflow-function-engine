@@ -6,6 +6,7 @@ import org.melkweg.annotation.MelkwegNameSpace;
 import org.melkweg.annotation.MelkwegParam;
 import org.melkweg.annotation.MelkwegProcess;
 import org.melkweg.param.ParamWrapper;
+import org.melkweg.scheduler.FnEngineScheduler;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -49,7 +50,7 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
                 }
             }
         }
-        paramWrapper =  this.melkweg.run(nameSpace,process,paramWrapper);
+        paramWrapper =  this.melkweg.runSync(nameSpace,process,paramWrapper,new FnEngineScheduler());
         return paramWrapper.getResult(method.getReturnType());
     }
 

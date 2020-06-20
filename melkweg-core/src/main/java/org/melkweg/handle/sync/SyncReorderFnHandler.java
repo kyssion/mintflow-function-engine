@@ -17,7 +17,7 @@ public abstract class SyncReorderFnHandler extends SyncToolsFnHandle {
     private List<FnHandler> childHandlrs = new ArrayList<>();
 
     public SyncReorderFnHandler(String name){
-        this(name, HandleType.REORDER_HANDLE__SYNC);
+        this(name, HandleType.REORDER_HANDLE_SYNC);
     }
 
     private SyncReorderFnHandler(String name, HandleType handleType) {

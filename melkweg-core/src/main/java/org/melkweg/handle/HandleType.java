@@ -19,7 +19,9 @@ public enum  HandleType {
     REORDER_HANDLE_ASYNC("reorder handle async",10),
     CONDITION_HANDLE_WRAPPER_ASYNC("condition handle wrapper async",11),
     CYCLE_HANDLE_ASYNC("cycle handle async",12),
-    CYCLE_HANDLE_WRAPPER_ASYNC("cycle handle wrapper async",13);
+    CYCLE_HANDLE_WRAPPER_ASYNC("cycle handle wrapper async",13),
+    ASYNC_HANDLE("ASYNC_HANDLE",14),
+    SYNC_HANDLE("SYNC_HANDLE",15);
 
     HandleType(String name,int code){
         this.name = name;

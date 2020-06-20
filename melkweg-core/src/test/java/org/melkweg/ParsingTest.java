@@ -8,6 +8,7 @@ import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.handle.sync.SyncSampleFnHandler;
 import org.melkweg.handle.util.MelkwegHandleDataMapFinder;
 import org.melkweg.param.ParamWrapper;
+import org.melkweg.scheduler.FnEngineScheduler;
 import org.melkweg.templateFunction.*;
 
 import java.util.HashMap;
@@ -74,7 +75,8 @@ public class ParsingTest {
             }
         });
         Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("p.fn").build();
-        ParamWrapper paramWrapper = melkweg.run("x1","x2", new ParamWrapper());
+        ParamWrapper paramWrapper = melkweg.runSync("x1","x2", new ParamWrapper(),new FnEngineScheduler());
+        System.out.println(paramWrapper);
     }
 
     /**
@@ -82,10 +84,10 @@ public class ParsingTest {
      */
     @Test
     public void melkwegUpdateTest(){
-        Map<String, FnHandler> dataMap = MelkwegHandleDataMapFinder.findHandleDataMap(
+        Map<HandleType,Map<String, FnHandler>> dataMap = MelkwegHandleDataMapFinder.findHandleDataMap(
                 "org.melkweg.handler"
         );
-        Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("test.fn").build();
+        Melkweg melkweg = Melkweg.newBuilder(dataMap.get(HandleType.SYNC_HANDLE)).addFnMapper("test.fn").build();
         MelkwegTemplate melkwegTemplate = MelkwegTemplate.newBuilder().addInterface(melkweg,"org.melkweg.templateFunction").build();
         Function1 function1 = melkwegTemplate.getTemplateFunction(Function1.class);
         Function2 function2 = melkwegTemplate.getTemplateFunction(Function2.class);

@@ -136,7 +136,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     fnHandler = handlerDataMap.get(handleName);
                     if (fnHandler != null) {
-                        if (fnHandler.getType() != HandleType.REORDER_HANDLE__SYNC) {
+                        if (fnHandler.getType() != HandleType.REORDER_HANDLE_SYNC) {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为reorder类型handler", handlerWord);
                         }
                         SyncReorderFnHandler reorderHandler = null;
