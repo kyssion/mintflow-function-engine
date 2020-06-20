@@ -8,25 +8,25 @@ import java.util.List;
 /**
  * Reorder Handler -> used to sub-pack all washable handle components
  */
-public abstract class ReorderHandler extends Handler {
+public abstract class ReorderFnHandler extends FnHandler {
 
 
-    private List<Handler> childHandlrs = new ArrayList<>();
+    private List<FnHandler> childHandlrs = new ArrayList<>();
 
-    public ReorderHandler(String name){
+    public ReorderFnHandler(String name){
         this(name,HandleType.REORDER_HANDLE);
     }
 
-    private ReorderHandler(String name, HandleType handleType) {
+    private ReorderFnHandler(String name, HandleType handleType) {
         super(name, handleType);
     }
 
-    public void addChilds(Handler... handlers) {
-        childHandlrs.addAll(Arrays.asList(handlers));
+    public void addChilds(FnHandler... fnHandlers) {
+        childHandlrs.addAll(Arrays.asList(fnHandlers));
     }
 
-    public void addChilds(List<Handler> handlers) {
-        this.childHandlrs.addAll(handlers);
+    public void addChilds(List<FnHandler> fnHandlers) {
+        this.childHandlrs.addAll(fnHandlers);
     }
 
     @Override
@@ -35,19 +35,19 @@ public abstract class ReorderHandler extends Handler {
             return params;
         }
         if (this.getScheduler() != null) {
-            List<Handler> newHandlerList = new ArrayList<>(this.childHandlrs);
-            reorderHandlerList(newHandlerList);
+            List<FnHandler> newFnHandlerList = new ArrayList<>(this.childHandlrs);
+            reorderHandlerList(newFnHandlerList);
             return this.getScheduler().run(params, this.childHandlrs);
         } else {
             return params;
         }
     }
 
-    public abstract void reorderHandlerList(List<Handler> handlers);
+    public abstract void reorderHandlerList(List<FnHandler> fnHandlers);
 
     @Override
-    public ReorderHandler clone() throws CloneNotSupportedException {
-        ReorderHandler reorderHandler = (ReorderHandler) super.clone();
+    public ReorderFnHandler clone() throws CloneNotSupportedException {
+        ReorderFnHandler reorderHandler = (ReorderFnHandler) super.clone();
         reorderHandler.childHandlrs = new ArrayList<>();
         return reorderHandler;
     }

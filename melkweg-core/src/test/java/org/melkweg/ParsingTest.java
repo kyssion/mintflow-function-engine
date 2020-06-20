@@ -2,10 +2,9 @@ package org.melkweg;
 
 import org.junit.jupiter.api.Test;
 import org.melkweg.exception.UserMelkwegException;
-import org.melkweg.handle.ConditionHandlerWrapper;
-import org.melkweg.handle.Handler;
-import org.melkweg.handle.ReorderHandler;
-import org.melkweg.handle.SampleHandler;
+import org.melkweg.handle.*;
+import org.melkweg.handle.ConditionFnHandlerWrapper;
+import org.melkweg.handle.SampleFnHandler;
 import org.melkweg.handle.util.MelkwegHandleDataMapFinder;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.templateFunction.*;
@@ -24,50 +23,50 @@ public class ParsingTest {
      */
     @Test
     public void melkwegBaseTest() throws CloneNotSupportedException, UserMelkwegException {
-        Map<String,Handler> dataMap= new HashMap<>();
-        dataMap.put("x3", new SampleHandler("x3") {
+        Map<String, FnHandler> dataMap= new HashMap<>();
+        dataMap.put("x3", new SampleFnHandler("x3") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x4", new ReorderHandler("x4") {
+        dataMap.put("x4", new ReorderFnHandler("x4") {
             @Override
-            public void reorderHandlerList(List<Handler> handlers) {
+            public void reorderHandlerList(List<FnHandler> fnHandlers) {
 
             }
         });
-        dataMap.put("x5", new SampleHandler("x5") {
+        dataMap.put("x5", new SampleFnHandler("x5") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x6", new SampleHandler("x6") {
+        dataMap.put("x6", new SampleFnHandler("x6") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x7", new ConditionHandlerWrapper.ConditionHander("x7") {
+        dataMap.put("x7", new ConditionFnHandlerWrapper.ConditionHander("x7") {
             @Override
             public boolean condition(ParamWrapper params) {
                 return false;
             }
         });
-        dataMap.put("x8", new ConditionHandlerWrapper.ConditionHander("x8") {
+        dataMap.put("x8", new ConditionFnHandlerWrapper.ConditionHander("x8") {
             @Override
             public boolean condition(ParamWrapper params) {
                 return false;
             }
         });
-        dataMap.put("x9", new SampleHandler("x9") {
+        dataMap.put("x9", new SampleFnHandler("x9") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x10", new SampleHandler("x10") {
+        dataMap.put("x10", new SampleFnHandler("x10") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
@@ -82,7 +81,7 @@ public class ParsingTest {
      */
     @Test
     public void melkwegUpdateTest(){
-        Map<String,Handler> dataMap = MelkwegHandleDataMapFinder.findHandleDataMap(
+        Map<String, FnHandler> dataMap = MelkwegHandleDataMapFinder.findHandleDataMap(
                 "org.melkweg.handler"
         );
         Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("test.fn").build();

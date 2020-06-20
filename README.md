@@ -133,7 +133,7 @@ ProcessMethod ： 表示流程管理
 
 
 ```properties
-org.mekweg.handle-path: com.kyssion.org.mekweg.test.handler
+org.mekweg.handle-path: com.kyssion.org.mekweg.test.fnHandler
 org.mekweg.map-path: x.org.mekweg
 org.mekweg.process-path: com.kyssion.org.mekweg.test.process
 ```

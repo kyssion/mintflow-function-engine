@@ -19,8 +19,8 @@ public class MelkwegHandleDataMapFinder {
 
     private static final Logger logger = Logger.getLogger(MelkwegHandleDataMapFinder.class.getName());
 
-    public static Map<String, Handler> findHandleDataMap(String...pkgNames){
-        Map<String,Handler> map = new HashMap<>();
+    public static Map<String, FnHandler> findHandleDataMap(String...pkgNames){
+        Map<String, FnHandler> map = new HashMap<>();
         for (String pkgName : pkgNames){
             try {
                 addNewHandler(pkgName,map);
@@ -34,25 +34,25 @@ public class MelkwegHandleDataMapFinder {
     }
 
     @SuppressWarnings("unchecked")
-    private static void addNewHandler(String pkgName, Map<String, Handler> map) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Set<Class<?>> pkgClassSet = ClassUtill.getClassSet(pkgName,Handler.class);
+    private static void addNewHandler(String pkgName, Map<String, FnHandler> map) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Set<Class<?>> pkgClassSet = ClassUtill.getClassSet(pkgName, FnHandler.class);
         for(Class<?> itemClass : pkgClassSet){
 
-            if(!Handler.class.isAssignableFrom(itemClass)){
+            if(!FnHandler.class.isAssignableFrom(itemClass)){
                 continue;
             }
-            Class<Handler> handlerClass = (Class<Handler>) itemClass;
+            Class<FnHandler> handlerClass = (Class<FnHandler>) itemClass;
             MelkwegHander melkwegHander = handlerClass.getAnnotation(MelkwegHander.class);
             if(melkwegHander==null){
                 continue;
             }
             String name = melkwegHander.name().equals("")?handlerClass.getName():melkwegHander.name();
-            Handler handler = handlerClass.getConstructor(String.class).newInstance(name);
+            FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
             if(!map.containsKey(name)){
                 if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE){
-                    handler.setType(melkwegHander.type());
+                    fnHandler.setType(melkwegHander.type());
                 }
-                map.put(name, handler);
+                map.put(name, fnHandler);
             }else{
                 throw new HandleRepeatRuntimeError("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
             }

@@ -6,17 +6,17 @@ import org.melkweg.scheduler.Scheduler;
 /**
  * process Node -> used to dealing with a small part of the logic
  */
-public abstract class Handler implements Cloneable{
+public abstract class FnHandler implements Cloneable{
 
     private String name;
     private HandleType type;
     private Scheduler scheduler;
 
-    protected Handler(String name) {
+    protected FnHandler(String name) {
         this(name,HandleType.SAMPLE_HANDLE);
     }
 
-    protected Handler(String name,HandleType handleType){
+    protected FnHandler(String name, HandleType handleType){
         this.name = name;
         this.type= handleType;
     }

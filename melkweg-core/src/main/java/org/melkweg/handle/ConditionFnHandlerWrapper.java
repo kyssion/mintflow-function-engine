@@ -9,21 +9,21 @@ import java.util.List;
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public class ConditionHandlerWrapper extends Handler {
+public class ConditionFnHandlerWrapper extends FnHandler {
 
     private List<ConditionHander> conditionHanders = new ArrayList<>();
 
-    public ConditionHandlerWrapper(){
-        this(ConditionHandlerWrapper.class.getName(),HandleType.CONDITION_HANDLE_WRAPPER);
+    public ConditionFnHandlerWrapper(){
+        this(ConditionFnHandlerWrapper.class.getName(),HandleType.CONDITION_HANDLE_WRAPPER);
     }
 
-    private ConditionHandlerWrapper(String name, HandleType handleType) {
+    private ConditionFnHandlerWrapper(String name, HandleType handleType) {
         super(name, handleType);
     }
 
-    public abstract static class ConditionHander extends Handler {
+    public abstract static class ConditionHander extends FnHandler {
 
-        private List<Handler> childs = new ArrayList<>();
+        private List<FnHandler> childs = new ArrayList<>();
 
         public ConditionHander(String name){
             this(name,HandleType.CONDITION_HANDLE);
@@ -33,12 +33,12 @@ public class ConditionHandlerWrapper extends Handler {
             super(name, handleType);
         }
 
-        public void addChilds(Handler... handlers) {
-            childs.addAll(Arrays.asList(handlers));
+        public void addChilds(FnHandler... fnHandlers) {
+            childs.addAll(Arrays.asList(fnHandlers));
         }
 
-        public void addChilds(List<Handler> handlers) {
-            childs.addAll(handlers);
+        public void addChilds(List<FnHandler> fnHandlers) {
+            childs.addAll(fnHandlers);
         }
 
         public abstract boolean condition(ParamWrapper params);
