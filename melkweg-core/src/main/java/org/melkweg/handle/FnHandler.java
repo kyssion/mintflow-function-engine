@@ -2,6 +2,7 @@ package org.melkweg.handle;
 
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
+import org.melkweg.async.scheduler.AsyncScheduler;
 import org.melkweg.param.ParamWrapper;
 
 /**
@@ -39,5 +40,5 @@ public abstract class FnHandler implements Cloneable{
 
     public abstract ParamWrapper handle(ParamWrapper params);
 
-    public abstract void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult);
+    public abstract void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 }

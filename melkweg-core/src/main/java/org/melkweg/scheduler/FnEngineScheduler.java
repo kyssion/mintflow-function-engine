@@ -18,7 +18,7 @@ public class FnEngineScheduler implements Scheduler {
                 case SAMPLE_HANDLE_SYNC:
                     paramWrapper = fnHandler.handle(paramWrapper);
                     break;
-                case REORDER_HANDLE__SYNC:
+                case REORDER_HANDLE_SYNC:
                 case CONDITION_HANDLE_SYNC:
                 case CONDITION_HANDLE_WRAPPER_SYNC:
                     //强制转化为 同步组建类 handle

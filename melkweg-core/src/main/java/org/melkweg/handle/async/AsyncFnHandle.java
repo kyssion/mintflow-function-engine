@@ -15,7 +15,7 @@ public abstract class AsyncFnHandle extends FnHandler {
     }
 
     @Override
-    public ParamWrapper handle(ParamWrapper params) {
+    public final ParamWrapper handle(ParamWrapper params) {
         throw new HandleUseException(HandleUseException.NO_USE_ASYNC + ",  handle name :" + this.getClass().getName());
     }
 }
