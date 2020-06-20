@@ -15,6 +15,7 @@
         <vertx.version>3.9.0</vertx.version>
         <version>1.0.0</version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.13</junit.version>
     </properties>
     <modules>
         <module>melkweg-core</module>
@@ -23,16 +24,15 @@
         <module>melkweg-vertx</module>
         <module>melkweg-example</module>
     </modules>
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.5.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <dependencyManagement>
-
+      <dependencyManagement>
+          <dependencies>
+              <dependency>
+                  <groupId>junit</groupId>
+                  <artifactId>junit</artifactId>
+                  <version>4.13</version>
+                  <scope>test</scope>
+              </dependency>
+          </dependencies>
     </dependencyManagement>
     <build>
         <plugins>

@@ -1,7 +1,7 @@
 package org.melkweg.spring.handleer;
 
-import org.melkweg.handle.util.MelkwegHandleDataMapFinder;
+import org.melkweg.handle.util.MelkwegHandleMapFinder;
 
-public class SpringMelkwegHandleDataMapFinder extends MelkwegHandleDataMapFinder {
+public class SpringMelkwegHandleDataMapFinder extends MelkwegHandleMapFinder {
 
 }

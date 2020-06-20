@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public class SyncConditionFncHandlerWrapper extends SyncToolsConditionHanderWrapper {
+public final class SyncConditionFncHandlerWrapper extends SyncToolsConditionHanderWrapper {
 
-    private List<ConditionHander> conditionHanders = new ArrayList<>();
+    private List<ConditionHandler> conditionHandlers = new ArrayList<>();
 
     public SyncConditionFncHandlerWrapper(){
         this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_SYNC);
@@ -22,14 +22,14 @@ public class SyncConditionFncHandlerWrapper extends SyncToolsConditionHanderWrap
         super(name, handleType);
     }
 
-    public abstract static class ConditionHander extends SyncToolsFnHandle {
+    public abstract static class ConditionHandler extends SyncToolsFnHandle {
 
 
-        public ConditionHander(String name) {
+        public ConditionHandler(String name) {
             this(name, HandleType.CONDITION_HANDLE_SYNC);
         }
 
-        private ConditionHander(String name, HandleType handleType) {
+        private ConditionHandler(String name, HandleType handleType) {
             super(name, handleType);
         }
 
@@ -49,13 +49,13 @@ public class SyncConditionFncHandlerWrapper extends SyncToolsConditionHanderWrap
     }
     @Override
     public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
-        if(this.conditionHanders==null||this.conditionHanders.size()==0){
+        if(this.conditionHandlers ==null||this.conditionHandlers.size()==0){
             return paramWrapper;
         }
         if(scheduler!=null){
-            for (ConditionHander conditionHander: conditionHanders){
-                if(conditionHander.condition(paramWrapper)){
-                    paramWrapper = conditionHander.handle(paramWrapper,scheduler);
+            for (ConditionHandler conditionHandler : conditionHandlers){
+                if(conditionHandler.condition(paramWrapper)){
+                    paramWrapper = conditionHandler.handle(paramWrapper,scheduler);
                     break;
                 }
             }

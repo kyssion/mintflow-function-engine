@@ -33,8 +33,18 @@ public class ParamWrapper {
         this.contextParams.put(key,value);
     }
 
-    public void setParam(Class<?> type,Object object){
-        this.params.put(type,object);
+    public void setParam(Object object){
+        this.params.put(object.getClass(),object);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getParam(Class<?> type){
+        return (T) params.get(type);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getContextParam(String name){
+        return (T) contextParams.get(name);
     }
 
     @SuppressWarnings("unchecked")

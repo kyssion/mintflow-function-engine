@@ -5,14 +5,10 @@ import org.melkweg.async.result.AsyncResult;
 import org.melkweg.async.scheduler.AsyncScheduler;
 import org.melkweg.async.scheduler.FnAsyncEngineScheduler;
 import org.melkweg.exception.HandleUseException;
-import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
-import org.melkweg.handle.sync.SyncToolsFnHandle;
 import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.Scheduler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,7 +16,7 @@ import java.util.List;
  */
 public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerWrapper {
 
-    private List<ConditionHander> conditionHanders = new ArrayList<>();
+    private List<ConditionHandler> conditionHandlers = new ArrayList<>();
 
     public AsyncConditionFncHandlerWrapper(){
         this(AsyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_ASYNC);
@@ -30,14 +26,14 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerW
         super(name, handleType);
     }
 
-    public abstract static class ConditionHander extends AsyncToolsFnHandle {
+    public abstract static class ConditionHandler extends AsyncToolsFnHandle {
 
 
-        public ConditionHander(String name){
+        public ConditionHandler(String name){
             this(name,HandleType.CONDITION_HANDLE_ASYNC);
         }
 
-        private ConditionHander(String name, HandleType handleType) {
+        private ConditionHandler(String name, HandleType handleType) {
             super(name, handleType);
         }
 
@@ -60,13 +56,13 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerW
 
     @Override
     public void asyncHandle(AsyncParamWrapper paramWrapper, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
-        if(this.conditionHanders==null||this.conditionHanders.size()==0){
+        if(this.conditionHandlers ==null||this.conditionHandlers.size()==0){
             asyncScheduler.next(paramWrapper,asyncResult);
         }
         if(asyncResult!=null){
-            for (ConditionHander conditionHander: conditionHanders){
-                if(conditionHander.condition(paramWrapper)){
-                    conditionHander.asyncHandle(paramWrapper,asyncResult,asyncScheduler);
+            for (ConditionHandler conditionHandler : conditionHandlers){
+                if(conditionHandler.condition(paramWrapper)){
+                    conditionHandler.asyncHandle(paramWrapper,asyncResult,asyncScheduler);
                     break;
                 }
             }

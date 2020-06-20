@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 /**
  * Scan all implementation classes of the handler interface and generate map mappings
  */
-public class MelkwegHandleDataMapFinder {
+public class MelkwegHandleMapFinder {
 
-    private static final Logger logger = Logger.getLogger(MelkwegHandleDataMapFinder.class.getName());
+    private static final Logger logger = Logger.getLogger(MelkwegHandleMapFinder.class.getName());
 
     public static Map<HandleType, Map<String,FnHandler>> findHandleDataMap(String...pkgNames){
         Map<HandleType, Map<String,FnHandler>> map = new HashMap<>();

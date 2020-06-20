@@ -16,15 +16,15 @@ public class MelkwegHandleMapBuilder {
         this.handlemap= new HashMap<>();
     }
 
-    public void put(FnHandler fnHandler){
+    public void add(FnHandler fnHandler){
         MelkwegHander melkwegHander = fnHandler.getClass().getAnnotation(MelkwegHander.class);
         if(melkwegHander!=null){
-            put(melkwegHander.name(),fnHandler);
+            add(melkwegHander.name(),fnHandler);
         }else{
-            put(fnHandler.getClass().getName(),fnHandler);
+            add(fnHandler.getClass().getName(),fnHandler);
         }
     }
-    public void put(String name,FnHandler fnHandler){
+    public void add(String name,FnHandler fnHandler){
         boolean isAsync = fnHandler instanceof AsyncFnHandle;
         Map<String,FnHandler> item = isAsync?handlemap.computeIfAbsent(HandleType.ASYNC_HANDLE,k->new HashMap<>()):
                 handlemap.computeIfAbsent(HandleType.SYNC_HANDLE,k->new HashMap<>());

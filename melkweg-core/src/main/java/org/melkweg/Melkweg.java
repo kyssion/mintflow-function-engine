@@ -63,7 +63,7 @@ public class Melkweg {
         super();
     }
 
-    public ParamWrapper runSync(String namespace, String process, ParamWrapper paramWrapper,Scheduler scheduler) throws UserMelkwegException {
+    public ParamWrapper runSync(String namespace, String process, ParamWrapper paramWrapper,Scheduler scheduler)  {
         List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process,false);
         if(scheduler ==null){
             scheduler = new FnEngineScheduler();
@@ -71,7 +71,7 @@ public class Melkweg {
         return scheduler.run(paramWrapper, processFnHandlerList);
     }
 
-    public void RunAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) throws UserMelkwegException {
+    public void RunAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) {
         List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process,true);
         AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler();
         asyncScheduler.asyncRun(asyncParamWrapper,processFnHandlerList,asyncResult);
@@ -81,7 +81,7 @@ public class Melkweg {
         return new MelkwegBuilder(handlerDataMap);
     }
 
-    private List<FnHandler> getMelkwegHandler(String namespace, String process,boolean isAyscn) throws UserMelkwegException {
+    private List<FnHandler> getMelkwegHandler(String namespace, String process,boolean isAyscn) {
         if (this.fnMapper == null) {
             throw new UserMelkwegException("fnMapper没有初始化,请使用initFnMapper方法初始化....");
         }

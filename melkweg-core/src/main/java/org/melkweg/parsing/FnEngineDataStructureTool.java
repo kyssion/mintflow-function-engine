@@ -249,12 +249,12 @@ public class FnEngineDataStructureTool {
     }
 
     private ToolsFnHandle createDefaultElseCondition(boolean isAsync){
-        return isAsync?new AsyncConditionFncHandlerWrapper.ConditionHander("CONDITION:ELSE") {
+        return isAsync?new AsyncConditionFncHandlerWrapper.ConditionHandler("CONDITION:ELSE") {
             @Override
             public boolean condition(ParamWrapper params) {
                 return true;
             }
-        }: new SyncConditionFncHandlerWrapper.ConditionHander("CONDITION:ELSE") {
+        }: new SyncConditionFncHandlerWrapper.ConditionHandler("CONDITION:ELSE") {
             @Override
             public boolean condition(ParamWrapper params) {
                 return true;
