@@ -38,12 +38,12 @@ public abstract class SyncReorderFnHandler extends SyncToolsFnHandle {
         }
         if (scheduler != null) {
             List<FnHandler> newFnHandlerList = new ArrayList<>(this.getChilds());
-            reorderHandlerList(newFnHandlerList);
-            return scheduler.run(paramWrapper, this.getChilds());
+            reorderHandlerList(paramWrapper,newFnHandlerList);
+            return scheduler.run(paramWrapper, newFnHandlerList);
         } else {
             return paramWrapper;
         }
     }
 
-    public abstract void reorderHandlerList(List<FnHandler> fnHandlers);
+    public abstract void reorderHandlerList(ParamWrapper paramWrapper,List<FnHandler> fnHandlers);
 }

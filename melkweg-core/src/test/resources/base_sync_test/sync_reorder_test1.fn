@@ -1,0 +1,7 @@
+namespace(test_namespace){
+    sync process(sys_test_process){
+        ->reorder(reorder_handle){
+            ->handle(reorder_sample_handle)
+        }
+    }
+}

@@ -5,10 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
-import org.melkweg.handler.condition.ConditionHandle1;
-import org.melkweg.handler.condition.ConditionHandle2;
-import org.melkweg.handler.condition.ConditionHandle3;
-import org.melkweg.handler.condition.ConditionHandle4;
 import org.melkweg.handler.simple.*;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.FnEngineScheduler;
@@ -55,7 +51,7 @@ public class BaseTest {
      */
     @Test
     public void sysnBaseTest1(){
-        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_test/sysn_base_test1.fn").build();
+        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_base_test1.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         paramWrapper = melkweg.runSync("test_namespace","sys_test_process", paramWrapper,new FnEngineScheduler());
@@ -67,7 +63,7 @@ public class BaseTest {
      */
     @Test
     public void sysnBaseTest2(){
-        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_test/sysn_base_test2.fn").build();
+        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_base_test2.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
