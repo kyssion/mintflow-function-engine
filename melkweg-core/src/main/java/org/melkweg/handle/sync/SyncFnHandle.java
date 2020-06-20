@@ -1,9 +1,10 @@
-package org.melkweg.handle;
+package org.melkweg.handle.sync;
 
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.exception.HandleUseSyncException;
-import org.melkweg.param.ParamWrapper;
+import org.melkweg.handle.FnHandler;
+import org.melkweg.handle.HandleType;
 import org.melkweg.scheduler.Scheduler;
 
 public abstract class SyncFnHandle extends FnHandler {

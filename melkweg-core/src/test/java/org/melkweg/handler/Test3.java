@@ -1,11 +1,11 @@
 package org.melkweg.handler;
 
 import org.melkweg.annotation.MelkwegHander;
-import org.melkweg.handle.SampleFnHandler;
+import org.melkweg.handle.sync.SyncSampleFnHandler;
 import org.melkweg.param.ParamWrapper;
 
 @MelkwegHander(name = "x3")
-public class Test3 extends SampleFnHandler {
+public class Test3 extends SyncSampleFnHandler {
     public Test3(String name) {
         super(name);
     }

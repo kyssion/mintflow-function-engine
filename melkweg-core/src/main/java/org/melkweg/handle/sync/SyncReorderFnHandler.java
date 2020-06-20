@@ -1,5 +1,7 @@
-package org.melkweg.handle;
+package org.melkweg.handle.sync;
 
+import org.melkweg.handle.FnHandler;
+import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
@@ -8,16 +10,16 @@ import java.util.List;
 /**
  * Reorder Handler -> used to sub-pack all washable handle components
  */
-public abstract class ReorderFnHandler extends SyncFnHandle {
+public abstract class SyncReorderFnHandler extends SyncFnHandle {
 
 
     private List<FnHandler> childHandlrs = new ArrayList<>();
 
-    public ReorderFnHandler(String name){
-        this(name,HandleType.REORDER_HANDLE);
+    public SyncReorderFnHandler(String name){
+        this(name, HandleType.REORDER_HANDLE);
     }
 
-    private ReorderFnHandler(String name, HandleType handleType) {
+    private SyncReorderFnHandler(String name, HandleType handleType) {
         super(name, handleType);
     }
 
@@ -46,8 +48,8 @@ public abstract class ReorderFnHandler extends SyncFnHandle {
     public abstract void reorderHandlerList(List<FnHandler> fnHandlers);
 
     @Override
-    public ReorderFnHandler clone() throws CloneNotSupportedException {
-        ReorderFnHandler reorderHandler = (ReorderFnHandler) super.clone();
+    public SyncReorderFnHandler clone() throws CloneNotSupportedException {
+        SyncReorderFnHandler reorderHandler = (SyncReorderFnHandler) super.clone();
         reorderHandler.childHandlrs = new ArrayList<>();
         return reorderHandler;
     }

@@ -3,8 +3,9 @@ package org.melkweg;
 import org.junit.jupiter.api.Test;
 import org.melkweg.exception.UserMelkwegException;
 import org.melkweg.handle.*;
-import org.melkweg.handle.SyncConditionFncHandlerWrapper;
-import org.melkweg.handle.SampleFnHandler;
+import org.melkweg.handle.sync.SyncReorderFnHandler;
+import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
+import org.melkweg.handle.sync.SyncSampleFnHandler;
 import org.melkweg.handle.util.MelkwegHandleDataMapFinder;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.templateFunction.*;
@@ -24,25 +25,25 @@ public class ParsingTest {
     @Test
     public void melkwegBaseTest() throws CloneNotSupportedException, UserMelkwegException {
         Map<String, FnHandler> dataMap= new HashMap<>();
-        dataMap.put("x3", new SampleFnHandler("x3") {
+        dataMap.put("x3", new SyncSampleFnHandler("x3") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x4", new ReorderFnHandler("x4") {
+        dataMap.put("x4", new SyncReorderFnHandler("x4") {
             @Override
             public void reorderHandlerList(List<FnHandler> fnHandlers) {
 
             }
         });
-        dataMap.put("x5", new SampleFnHandler("x5") {
+        dataMap.put("x5", new SyncSampleFnHandler("x5") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x6", new SampleFnHandler("x6") {
+        dataMap.put("x6", new SyncSampleFnHandler("x6") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
@@ -60,13 +61,13 @@ public class ParsingTest {
                 return false;
             }
         });
-        dataMap.put("x9", new SampleFnHandler("x9") {
+        dataMap.put("x9", new SyncSampleFnHandler("x9") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;
             }
         });
-        dataMap.put("x10", new SampleFnHandler("x10") {
+        dataMap.put("x10", new SyncSampleFnHandler("x10") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
                 return params;

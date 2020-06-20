@@ -1,8 +1,7 @@
-package org.melkweg.handle;
+package org.melkweg.handle.sync;
 
-import org.melkweg.async.param.AsyncParamWrapper;
-import org.melkweg.async.result.AsyncResult;
-import org.melkweg.exception.HandleUseSyncException;
+import org.melkweg.handle.FnHandler;
+import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class SyncConditionFncHandlerWrapper extends SyncFnHandle {
     private List<ConditionHander> conditionHanders = new ArrayList<>();
 
     public SyncConditionFncHandlerWrapper(){
-        this(SyncConditionFncHandlerWrapper.class.getName(),HandleType.CONDITION_HANDLE_WRAPPER);
+        this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER);
     }
 
     private SyncConditionFncHandlerWrapper(String name, HandleType handleType) {

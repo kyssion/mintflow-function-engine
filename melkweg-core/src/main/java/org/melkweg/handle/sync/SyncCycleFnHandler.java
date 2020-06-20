@@ -1,17 +1,19 @@
-package org.melkweg.handle;
+package org.melkweg.handle.sync;
 
+import org.melkweg.handle.FnHandler;
+import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CycleFnHandler extends SyncFnHandle {
+public abstract class SyncCycleFnHandler extends SyncFnHandle {
     private List<FnHandler> cycleFnHandlerList = new ArrayList<>();
-    protected CycleFnHandler(String name) {
-        this(name,HandleType.CYCLE_HANDLE);
+    protected SyncCycleFnHandler(String name) {
+        this(name, HandleType.CYCLE_HANDLE);
     }
 
-    private CycleFnHandler(String name, HandleType handleType) {
+    private SyncCycleFnHandler(String name, HandleType handleType) {
         super(name, handleType);
     }
 
@@ -24,8 +26,8 @@ public abstract class CycleFnHandler extends SyncFnHandle {
     }
 
     @Override
-    public CycleFnHandler clone() throws CloneNotSupportedException {
-        CycleFnHandler cycleHandler = (CycleFnHandler)super.clone();
+    public SyncCycleFnHandler clone() throws CloneNotSupportedException {
+        SyncCycleFnHandler cycleHandler = (SyncCycleFnHandler)super.clone();
         cycleHandler.cycleFnHandlerList = new ArrayList<>();
         return cycleHandler;
     }

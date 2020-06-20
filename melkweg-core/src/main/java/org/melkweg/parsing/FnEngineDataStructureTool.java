@@ -3,6 +3,9 @@ package org.melkweg.parsing;
 import org.melkweg.exception.ParsingRuntimeException;
 import org.melkweg.handle.*;
 import org.melkweg.handle.FnHandler;
+import org.melkweg.handle.sync.SyncReorderFnHandler;
+import org.melkweg.handle.sync.SyncSampleFnHandler;
+import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.parsing.mark.Word;
 import org.melkweg.parsing.mark.WordType;
@@ -118,7 +121,7 @@ public class FnEngineDataStructureTool {
                         if (fnHandler.getType() != HandleType.SAMPLE_HANDLE) {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为基本类型handler", handlerWord);
                         }
-                        SampleFnHandler sampleHandler = (SampleFnHandler) fnHandler;
+                        SyncSampleFnHandler sampleHandler = (SyncSampleFnHandler) fnHandler;
                         try {
                             fnHandlerList.add(sampleHandler.clone());
                         } catch (CloneNotSupportedException e) {
@@ -136,9 +139,9 @@ public class FnEngineDataStructureTool {
                         if (fnHandler.getType() != HandleType.REORDER_HANDLE) {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为reorder类型handler", handlerWord);
                         }
-                        ReorderFnHandler reorderHandler = null;
+                        SyncReorderFnHandler reorderHandler = null;
                         try {
-                            reorderHandler = ((ReorderFnHandler) fnHandler).clone();
+                            reorderHandler = ((SyncReorderFnHandler) fnHandler).clone();
                         } catch (CloneNotSupportedException e) {
                             throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :"+handleName, handlerWord);
                         }
