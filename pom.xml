@@ -21,6 +21,7 @@
         <module>melkweg-dev-tools</module>
         <module>melkweg-spring</module>
         <module>melkweg-vertx</module>
+        <module>melkweg-example</module>
     </modules>
     <dependencies>
         <dependency>
