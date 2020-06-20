@@ -2,7 +2,7 @@ package org.melkweg.templateFunction;
 
 import org.melkweg.annotation.MelkwegContextParam;
 import org.melkweg.annotation.MelkwegNameSpace;
-import org.melkweg.annotation.MelkwegProcess;
+import org.melkweg.process.MelkwegProcess;
 import org.melkweg.template.MelkwegTemplateFunction;
 
 @MelkwegNameSpace(name = "x1")

@@ -5,17 +5,17 @@ import org.melkweg.async.result.AsyncResult;
 import org.melkweg.async.scheduler.AsyncScheduler;
 import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.HandleType;
-import org.melkweg.handle.ToolsFnHandle;
+import org.melkweg.handle.ToolsConditonHandlerWrapper;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.Scheduler;
 
-public abstract class SyncToolsFnHandle extends ToolsFnHandle {
+public abstract class SyncToolsConditionHanderWrapper extends ToolsConditonHandlerWrapper {
 
-    protected SyncToolsFnHandle(String name) {
+    protected SyncToolsConditionHanderWrapper(String name) {
         super(name);
     }
 
-    protected SyncToolsFnHandle(String name, HandleType handleType) {
+    protected SyncToolsConditionHanderWrapper(String name, HandleType handleType) {
         super(name, handleType);
     }
 

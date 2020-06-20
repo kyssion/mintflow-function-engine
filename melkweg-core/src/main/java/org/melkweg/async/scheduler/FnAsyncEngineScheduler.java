@@ -31,6 +31,7 @@ public class FnAsyncEngineScheduler implements AsyncScheduler {
 
     @Override
     public AsyncScheduler clone() throws CloneNotSupportedException {
-        return (AsyncScheduler) super.clone();
+        super.clone();
+        return new FnAsyncEngineScheduler();
     }
 }

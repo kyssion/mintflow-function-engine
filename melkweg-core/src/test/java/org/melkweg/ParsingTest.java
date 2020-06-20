@@ -7,6 +7,7 @@ import org.melkweg.handle.sync.SyncReorderFnHandler;
 import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.handle.sync.SyncSampleFnHandler;
 import org.melkweg.handle.util.MelkwegHandleDataMapFinder;
+import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.FnEngineScheduler;
 import org.melkweg.templateFunction.*;
@@ -25,7 +26,7 @@ public class ParsingTest {
      */
     @Test
     public void melkwegBaseTest() throws CloneNotSupportedException, UserMelkwegException {
-        Map<String, FnHandler> dataMap= new HashMap<>();
+        MelkwegHandleMapBuilder dataMap = new MelkwegHandleMapBuilder();
         dataMap.put("x3", new SyncSampleFnHandler("x3") {
             @Override
             public ParamWrapper handle(ParamWrapper params) {
@@ -74,7 +75,7 @@ public class ParsingTest {
                 return params;
             }
         });
-        Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("p.fn").build();
+        Melkweg melkweg = Melkweg.newBuilder(dataMap.build()).addFnMapper("p.fn").build();
         ParamWrapper paramWrapper = melkweg.runSync("x1","x2", new ParamWrapper(),new FnEngineScheduler());
         System.out.println(paramWrapper);
     }
@@ -87,7 +88,7 @@ public class ParsingTest {
         Map<HandleType,Map<String, FnHandler>> dataMap = MelkwegHandleDataMapFinder.findHandleDataMap(
                 "org.melkweg.handler"
         );
-        Melkweg melkweg = Melkweg.newBuilder(dataMap.get(HandleType.SYNC_HANDLE)).addFnMapper("test.fn").build();
+        Melkweg melkweg = Melkweg.newBuilder(dataMap).addFnMapper("test.fn").build();
         MelkwegTemplate melkwegTemplate = MelkwegTemplate.newBuilder().addInterface(melkweg,"org.melkweg.templateFunction").build();
         Function1 function1 = melkwegTemplate.getTemplateFunction(Function1.class);
         Function2 function2 = melkwegTemplate.getTemplateFunction(Function2.class);

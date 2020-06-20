@@ -1,5 +1,5 @@
 namespace(x1){
-    process(x2){
+    sync process(x2){
         ->handle(x1)->handle(x2)->handle(x3)
     }
 }

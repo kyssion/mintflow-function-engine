@@ -14,7 +14,9 @@ public enum WordType {
     BLOCKE_START_KEY("{"),
     BLOCKE_END_KEY("}"),
     HANDLE_LINK_KEY("->"),
-    VALUE("value");
+    VALUE("value"),
+    ASYNC("async"),
+    SYNC("SYNC");
 
     WordType(String name) {
         this.name = name;

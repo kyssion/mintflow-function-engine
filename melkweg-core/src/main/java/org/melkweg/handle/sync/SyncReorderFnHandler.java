@@ -14,8 +14,6 @@ import java.util.List;
 public abstract class SyncReorderFnHandler extends SyncToolsFnHandle {
 
 
-    private List<FnHandler> childHandlrs = new ArrayList<>();
-
     public SyncReorderFnHandler(String name){
         this(name, HandleType.REORDER_HANDLE_SYNC);
     }
@@ -25,34 +23,27 @@ public abstract class SyncReorderFnHandler extends SyncToolsFnHandle {
     }
 
     public void addChilds(FnHandler... fnHandlers) {
-        childHandlrs.addAll(Arrays.asList(fnHandlers));
+        this.getChilds().addAll(Arrays.asList(fnHandlers));
     }
 
     public void addChilds(List<FnHandler> fnHandlers) {
-        this.childHandlrs.addAll(fnHandlers);
+        this.getChilds().addAll(fnHandlers);
     }
 
 
     @Override
     public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
-        if (this.childHandlrs == null || this.childHandlrs.size() == 0) {
+        if (this.getChilds() == null || this.getChilds().size() == 0) {
             return paramWrapper;
         }
         if (scheduler != null) {
-            List<FnHandler> newFnHandlerList = new ArrayList<>(this.childHandlrs);
+            List<FnHandler> newFnHandlerList = new ArrayList<>(this.getChilds());
             reorderHandlerList(newFnHandlerList);
-            return scheduler.run(paramWrapper, this.childHandlrs);
+            return scheduler.run(paramWrapper, this.getChilds());
         } else {
             return paramWrapper;
         }
     }
 
     public abstract void reorderHandlerList(List<FnHandler> fnHandlers);
-
-    @Override
-    public SyncReorderFnHandler clone() throws CloneNotSupportedException {
-        SyncReorderFnHandler reorderHandler = (SyncReorderFnHandler) super.clone();
-        reorderHandler.childHandlrs = new ArrayList<>();
-        return reorderHandler;
-    }
 }

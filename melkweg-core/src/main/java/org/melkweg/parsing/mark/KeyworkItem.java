@@ -29,6 +29,8 @@ public class KeyworkItem extends Word {
         keyworkItemMap.put(")", new KeyworkItem(")", WordType.NAME_SPLIT_END_KEY));
         keyworkItemMap.put("{", new KeyworkItem("{", WordType.BLOCKE_START_KEY));
         keyworkItemMap.put("}", new KeyworkItem("}", WordType.BLOCKE_END_KEY));
+        keyworkItemMap.put("sync",new KeyworkItem("sync",WordType.SYNC));
+        keyworkItemMap.put("async",new KeyworkItem("async",WordType.ASYNC));
         keyworkItemMap.put("->", new KeyworkItem("->", WordType.HANDLE_LINK_KEY));
     }
 

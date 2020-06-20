@@ -1,4 +1,4 @@
-package org.melkweg.annotation;
+package org.melkweg.process;
 
 import java.lang.annotation.*;
 

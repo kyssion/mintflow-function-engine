@@ -14,32 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AsyncCycleFnHandler extends AsyncToolsFnHandle {
-    private List<FnHandler> cycleFnHandlerList = new ArrayList<>();
     protected AsyncCycleFnHandler(String name) {
-        this(name, HandleType.CYCLE_HANDLE_SYNC);
+        this(name, HandleType.CYCLE_HANDLE_ASYNC);
     }
 
     private AsyncCycleFnHandler(String name, HandleType handleType) {
         super(name, handleType);
     }
     public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler){
-        return scheduler.run(paramWrapper, cycleFnHandlerList);
+        return scheduler.run(paramWrapper, this.getChilds());
     }
 
     @Override
     public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         //create a new Async Scheduler for child process
-        new FnAsyncEngineScheduler().asyncRun(params,cycleFnHandlerList, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
+        new FnAsyncEngineScheduler().asyncRun(params,this.getChilds(), paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
     }
 
-    public void setCycleFnHandlerList(List<FnHandler> cycleFnHandlerList) {
-        this.cycleFnHandlerList = cycleFnHandlerList;
-    }
-
-    @Override
-    public AsyncCycleFnHandler clone() throws CloneNotSupportedException {
-        AsyncCycleFnHandler cycleHandler = (AsyncCycleFnHandler)super.clone();
-        cycleHandler.cycleFnHandlerList = new ArrayList<>();
-        return cycleHandler;
-    }
 }

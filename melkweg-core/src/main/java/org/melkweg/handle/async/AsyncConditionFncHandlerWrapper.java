@@ -18,12 +18,12 @@ import java.util.List;
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandle {
+public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerWrapper {
 
     private List<ConditionHander> conditionHanders = new ArrayList<>();
 
     public AsyncConditionFncHandlerWrapper(){
-        this(AsyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_SYNC);
+        this(AsyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_ASYNC);
     }
 
     private AsyncConditionFncHandlerWrapper(String name, HandleType handleType) {
@@ -32,22 +32,13 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandle {
 
     public abstract static class ConditionHander extends AsyncToolsFnHandle {
 
-        private List<FnHandler> childs = new ArrayList<>();
 
         public ConditionHander(String name){
-            this(name,HandleType.CONDITION_HANDLE_SYNC);
+            this(name,HandleType.CONDITION_HANDLE_ASYNC);
         }
 
         private ConditionHander(String name, HandleType handleType) {
             super(name, handleType);
-        }
-
-        public void addChilds(FnHandler... fnHandlers) {
-            childs.addAll(Arrays.asList(fnHandlers));
-        }
-
-        public void addChilds(List<FnHandler> fnHandlers) {
-            childs.addAll(fnHandlers);
         }
 
         public abstract boolean condition(ParamWrapper params);
@@ -57,28 +48,13 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandle {
             if(asyncResult==null){
                 throw new HandleUseException(HandleUseException.CAN_NOT_NOT_FIND_SCHEDULER);
             }
-            if(this.childs==null||this.childs.size()==0){
+            if(this.getChilds()==null||this.getChilds().size()==0){
                 asyncScheduler.next(params,asyncResult);
                 return;
             }
             //need create a new AsyncScheduler for child process
-            new FnAsyncEngineScheduler().asyncRun(params, this.childs, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
+            new FnAsyncEngineScheduler().asyncRun(params, this.getChilds(), paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
         }
-
-        @Override
-        public ConditionHander clone() throws CloneNotSupportedException {
-            ConditionHander conditionHander = (ConditionHander) super.clone();
-            conditionHander.childs = new ArrayList<>();
-            return conditionHander;
-        }
-    }
-
-    public void addChilds(ConditionHander... handlers) {
-        conditionHanders.addAll(Arrays.asList(handlers));
-    }
-
-    public void addChilds(List<ConditionHander> handlers) {
-        conditionHanders.addAll(handlers);
     }
 
 

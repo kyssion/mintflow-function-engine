@@ -4,7 +4,7 @@ import org.melkweg.Melkweg;
 import org.melkweg.annotation.MelkwegContextParam;
 import org.melkweg.annotation.MelkwegNameSpace;
 import org.melkweg.annotation.MelkwegParam;
-import org.melkweg.annotation.MelkwegProcess;
+import org.melkweg.process.MelkwegProcess;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.FnEngineScheduler;
 
