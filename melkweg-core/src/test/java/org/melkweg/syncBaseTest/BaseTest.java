@@ -32,14 +32,14 @@ public class BaseTest {
     /**
      * 测试脚本 ：
      * namespace(test_namespace){
-     *     sync process(sys_test_process){
+     *     sync process(sync_test_process){
      *         ->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)
      *     }
      * }
      *
      *
      * namespace(test_namespace){
-     *     sync process(sys_test_process){
+     *     sync process(sync_test_process){
      *         ->handle(show_start_handle)->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)
      *         ->handle(show_end_handle)
      *     }
@@ -50,11 +50,11 @@ public class BaseTest {
      * 测试简单的构造流程是否可以覆盖
      */
     @Test
-    public void sysnBaseTest1(){
+    public void syncBaseTest1(){
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_base_test1.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
-        paramWrapper = melkweg.runSync("test_namespace","sys_test_process", paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync("test_namespace","sync_test_process", paramWrapper,new FnEngineScheduler());
         assertEquals(7, (int) paramWrapper.getResult(Integer.class));
     }
 
@@ -62,13 +62,13 @@ public class BaseTest {
      * 测试简单流程前后新增节点是否有问题
      */
     @Test
-    public void sysnBaseTest2(){
+    public void syncBaseTest2(){
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_base_test2.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        paramWrapper = melkweg.runSync("test_namespace","sys_test_process", paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync("test_namespace","sync_test_process", paramWrapper,new FnEngineScheduler());
 
         assertEquals(7, (int) paramWrapper.getResult(Integer.class));
         assertTrue(paramWrapper.getContextParam("show_start"));

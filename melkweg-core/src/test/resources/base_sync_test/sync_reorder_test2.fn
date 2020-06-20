@@ -1,5 +1,5 @@
 namespace(test_namespace){
-    sync process(sys_test_process){
+    sync process(sync_test_process){
         ->handle(show_start_handle)->reorder(reorder_handle){
             ->handle(reorder_sample_handle)
         }->handle(show_end_handle)

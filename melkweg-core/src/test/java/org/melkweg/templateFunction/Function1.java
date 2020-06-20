@@ -9,7 +9,7 @@ import org.melkweg.template.MelkwegTemplateFunction;
 
 @MelkwegNameSpace(name = "test_namespace")
 public interface Function1 extends MelkwegTemplateFunction {
-    @MelkwegProcess(name = "sys_test_process")
+    @MelkwegProcess(name = "sync_test_process")
     ParamWrapper test(@MelkwegParam Integer num, @MelkwegParam String item,
                       @MelkwegContextParam(key = "condition_1") String condition1,
                       @MelkwegContextParam(key = "condition_2") String condition2,

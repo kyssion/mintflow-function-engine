@@ -71,7 +71,7 @@ public class Melkweg {
         return scheduler.run(paramWrapper, processFnHandlerList);
     }
 
-    public void RunAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) {
+    public void runAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) {
         List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process,true);
         AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler();
         asyncScheduler.asyncRun(asyncParamWrapper,processFnHandlerList,asyncResult);

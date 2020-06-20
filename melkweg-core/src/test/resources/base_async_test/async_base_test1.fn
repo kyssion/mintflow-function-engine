@@ -1,0 +1,5 @@
+namespace(test_namespace){
+    async process(async_test_process){
+        ->handle(async_base_test_handle1)->handle(async_base_test_handle2)->handle(async_base_test_handle3)
+    }
+}

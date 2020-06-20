@@ -49,7 +49,7 @@ public class ReorderTest {
 
     /**
      * namespace(test_namespace){
-     *     sync process(sys_test_process){
+     *     sync process(sync_test_process){
      *         ->reorder(reorder_handle){
      *             ->handle(reorder_sample_handle)
      *         }
@@ -63,7 +63,7 @@ public class ReorderTest {
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(item);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sys_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
         int num = paramWrapper.getContextParam("random_number");
         while(num>=0){
             ans.append(ADD_DATA);
@@ -82,7 +82,7 @@ public class ReorderTest {
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test2.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sys_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
         int num = paramWrapper.getContextParam("random_number");
         while(num>=0){
             ans.append(ADD_DATA);

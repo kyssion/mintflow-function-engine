@@ -49,7 +49,7 @@ public class SyncComplexTest {
 
     /**
      * namespace(test_namespace){
-     *     sync process(sys_test_process){
+     *     sync process(sync_test_process){
      *         ->handle(show_start_handle)
      *         ->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->if(condition_handle_1){
      *             ->if(condition_handle_3){
@@ -77,7 +77,7 @@ public class SyncComplexTest {
      */
 
     @Test
-    public void test(){
+    public void complexTest(){
         String item = "test1";
         StringBuilder ans = new StringBuilder(item + ADD_DATA);
         ParamWrapper paramWrapper= new ParamWrapper();
@@ -90,7 +90,7 @@ public class SyncComplexTest {
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_complex_test.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sys_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
         assertEquals(13, (int) paramWrapper.getResult(Integer.class));
 
         int num = paramWrapper.getContextParam("random_number");
