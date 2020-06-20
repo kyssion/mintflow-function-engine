@@ -14,6 +14,7 @@ import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.FnEngineScheduler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ReorderTest {
 
@@ -55,7 +56,6 @@ public class ReorderTest {
      *     }
      * }
      */
-
     @Test
     public void reorderTest1(){
         String item = "test1";
@@ -72,4 +72,26 @@ public class ReorderTest {
         item = paramWrapper.getParam(String.class);
         assertEquals(ans.toString(),item);
     }
+
+    @Test
+    public void reorderTest2(){
+        String item = "test1";
+        StringBuilder ans = new StringBuilder(item + ADD_DATA);
+        ParamWrapper paramWrapper = new ParamWrapper();
+        paramWrapper.setParam(item);
+        paramWrapper.setContextParam("show_start",false);
+        paramWrapper.setContextParam("show_end",false);
+        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test2.fn").build();
+        paramWrapper = melkweg.runSync("test_namespace","sys_test_process",paramWrapper,new FnEngineScheduler());
+        int num = paramWrapper.getContextParam("random_number");
+        while(num>=0){
+            ans.append(ADD_DATA);
+            num--;
+        }
+        item = paramWrapper.getParam(String.class);
+        assertEquals(ans.toString(),item);
+        assertTrue(paramWrapper.getContextParam("show_start"));
+        assertTrue(paramWrapper.getContextParam("show_end"));
+    }
+
 }
