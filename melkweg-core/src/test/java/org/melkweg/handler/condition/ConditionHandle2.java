@@ -1,6 +1,7 @@
 package org.melkweg.handler.condition;
 
 import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.baseTest.ConditionTest;
 import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.param.ParamWrapper;
 
@@ -14,7 +15,7 @@ public class ConditionHandle2 extends SyncConditionFncHandlerWrapper.ConditionHa
     @Override
     public boolean condition(ParamWrapper params) {
         String testOne = params.getContextParam("condition_2");
-        if("canGo".equals(testOne)){
+        if(ConditionTest.CAN_GO.equals(testOne)){
             return true;
         }else{
             return false;

@@ -1,6 +1,8 @@
 package org.melkweg.handle.sync;
 
+import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.HandleType;
+import org.melkweg.handle.ToolsFnHandle;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.Scheduler;
 
@@ -11,8 +13,6 @@ import java.util.List;
  * Comparing processors . Used to encapsulate comparable collections
  */
 public final class SyncConditionFncHandlerWrapper extends SyncToolsConditionHanderWrapper {
-
-    private List<ConditionHandler> conditionHandlers = new ArrayList<>();
 
     public SyncConditionFncHandlerWrapper(){
         this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_SYNC);
@@ -49,11 +49,15 @@ public final class SyncConditionFncHandlerWrapper extends SyncToolsConditionHand
     }
     @Override
     public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
-        if(this.conditionHandlers ==null||this.conditionHandlers.size()==0){
+        if(this.getToolsFnHandles() ==null||this.getToolsFnHandles().size()==0){
             return paramWrapper;
         }
         if(scheduler!=null){
-            for (ConditionHandler conditionHandler : conditionHandlers){
+            for (ToolsFnHandle toolsFnHandle : getToolsFnHandles()){
+                if(toolsFnHandle.getType()!=HandleType.CONDITION_HANDLE_SYNC){
+                    throw new HandleUseException("当前应该使用sync模式的condtion handle ，但是但前为handle为："+toolsFnHandle.getName());
+                }
+                ConditionHandler conditionHandler = (ConditionHandler) toolsFnHandle;
                 if(conditionHandler.condition(paramWrapper)){
                     paramWrapper = conditionHandler.handle(paramWrapper,scheduler);
                     break;

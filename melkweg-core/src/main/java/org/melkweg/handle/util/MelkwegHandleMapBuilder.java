@@ -1,6 +1,5 @@
 package org.melkweg.handle.util;
 
-import org.melkweg.Melkweg;
 import org.melkweg.annotation.MelkwegHander;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
