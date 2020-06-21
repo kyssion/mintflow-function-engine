@@ -26,7 +26,7 @@ public abstract class AsyncReorderFnHandler extends AsyncToolsFnHandler {
     public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         List<AsyncFnHandler> newFnHandlerList = new ArrayList<>(this.getAsyncChildren());
         reorderHandlerList(params,newFnHandlerList);
-        new FnAsyncEngineScheduler().asyncRun(params,newFnHandlerList, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
+        new FnAsyncEngineScheduler(newFnHandlerList).next(params, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
     }
 
     public abstract void reorderHandlerList(ParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlers);

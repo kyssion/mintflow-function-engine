@@ -186,14 +186,36 @@ public class FnEngineDataStructureTool {
                             start = reorderEnd + 1;
                         }
                         else{
-                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为reorder类型handler" + "类型: 异步", handlerWord);
+                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为AsyncReorder子类型handler" + "类型: 异步", handlerWord);
                         }
                         break;
                     } else {
                         throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "类型: 异步", handlerWord);
                     }
                 case CYCLE_HANDLE:
-                    break;
+                    handleName = findName(list, start + 1);
+                    asyncFnHandler = asyncHandleDataMap.get(handleName);
+                    if (asyncFnHandler != null) {
+                        if(asyncFnHandler.getType()==HandleType.CYCLE_HANDLE_ASYNC) {
+                            AsyncToolsFnHandler reorderHandler = null;
+                            try {
+                                reorderHandler = ((AsyncToolsFnHandler) asyncFnHandler).clone();
+                            } catch (CloneNotSupportedException e) {
+                                throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :" + handleName + "类型: 异步", handlerWord);
+                            }
+                            int reorderEnd = findBlockEndIndex(list, start + 4, end);
+                            List<AsyncFnHandler> childs = handleListBuildAsync(list, start + 5, reorderEnd - 1);
+                            reorderHandler.addChildren(childs);
+                            fnHandlerList.add(reorderHandler);
+                            start = reorderEnd + 1;
+                        }
+                        else{
+                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为AsycnCycle类型handler" + "类型: 异步", handlerWord);
+                        }
+                        break;
+                    } else {
+                        throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "类型: 异步", handlerWord);
+                    }
                 case CONDITION_IF_HANDLE:
                     AsyncConditionFncHandlerWrapper toolsConditonHandlerWrapper = new AsyncConditionFncHandlerWrapper();
                     fnHandlerList.add(toolsConditonHandlerWrapper);
@@ -254,14 +276,36 @@ public class FnEngineDataStructureTool {
                             start = reorderEnd + 1;
                         }
                         else{
-                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为reorder类型handler" + "类型: 异步", handlerWord);
+                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为syncReorder类型handler" + "类型: 异步", handlerWord);
                         }
                         break;
                     } else {
                         throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "类型: 异步", handlerWord);
                     }
                 case CYCLE_HANDLE:
-                    break;
+                    handleName = findName(list, start + 1);
+                    syncFnHandler = syncHandlerDataMap.get(handleName);
+                    if (syncFnHandler != null) {
+                        if(syncFnHandler.getType()==HandleType.CYCLE_HANDLE_SYNC) {
+                            SyncToolsFnHandler reorderHandler = null;
+                            try {
+                                reorderHandler = ((SyncToolsFnHandler) syncFnHandler).clone();
+                            } catch (CloneNotSupportedException e) {
+                                throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :" + handleName + "类型: 同步", handlerWord);
+                            }
+                            int reorderEnd = findBlockEndIndex(list, start + 4, end);
+                            List<SyncFnHandler> childs = handleListBuildSync(list, start + 5, reorderEnd - 1);
+                            reorderHandler.addChildren(childs);
+                            fnHandlerList.add(reorderHandler);
+                            start = reorderEnd + 1;
+                        }
+                        else{
+                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为syncCycle类型handler" + "类型: 异步", handlerWord);
+                        }
+                        break;
+                    } else {
+                        throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "类型: 异步", handlerWord);
+                    }
                 case CONDITION_IF_HANDLE:
                     SyncConditionFncHandlerWrapper syncConditionFncHandlerWrapper = new SyncConditionFncHandlerWrapper();
                     fnHandlerList.add(syncConditionFncHandlerWrapper);

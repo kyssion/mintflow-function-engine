@@ -31,7 +31,7 @@ public abstract class SyncReorderFnHandler extends SyncToolsFnHandler {
 
 
     @Override
-    public ParamWrapper handle(ParamWrapper paramWrapper, SyncScheduler syncScheduler) {
+    public final ParamWrapper handle(ParamWrapper paramWrapper, SyncScheduler syncScheduler) {
         if (this.getSyncChildren() == null || this.getSyncChildren().size() == 0) {
             return paramWrapper;
         }

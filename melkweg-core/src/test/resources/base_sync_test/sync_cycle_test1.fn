@@ -1,0 +1,7 @@
+namespace(test_namespace){
+    sync process(sync_test_process){
+        ->cycle(sync_cycle_test){
+             ->handle(sync_cycle_sample_handler)
+         }
+    }
+}

@@ -6,17 +6,18 @@ import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.async.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class FnAsyncEngineScheduler implements AsyncScheduler {
 
     private Iterator<AsyncFnHandler> handlerIterable;
+    private final List<AsyncFnHandler> handlerList;
 
-    @Override
-    public void asyncRun(ParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlerList, AsyncResult asyncResult){
-        this.handlerIterable = fnHandlerList.iterator();
-        this.next(paramWrapper,asyncResult);
+    public FnAsyncEngineScheduler(List<AsyncFnHandler> handlerList){
+        this.handlerIterable = handlerList.iterator();
+        this.handlerList = handlerList;
     }
 
     @Override
@@ -41,6 +42,11 @@ public class FnAsyncEngineScheduler implements AsyncScheduler {
                 AsyncConditionFncHandlerWrapper asyncConditionFncHandlerWrapper = (AsyncConditionFncHandlerWrapper) asyncFnHandle;
                 asyncConditionFncHandlerWrapper.asyncHandle(paramWrapper,asyncResult,this);
                 break;
+            case CYCLE_HANDLE_ASYNC:
+                //强制转化为 同步组建类 handle
+                AsyncCycleFnHandler asyncCycleFnHandler = (AsyncCycleFnHandler) asyncFnHandle;
+                asyncCycleFnHandler.asyncHandle(paramWrapper,asyncResult,this);
+                break;
             default:
                 throw new HandleUseException("出现未知类型，不能在迭代器中运行，name："+asyncFnHandle.getName()+" type:"+asyncFnHandle.getType().getName());
         }
@@ -49,6 +55,11 @@ public class FnAsyncEngineScheduler implements AsyncScheduler {
     @Override
     public AsyncScheduler clone() throws CloneNotSupportedException {
         super.clone();
-        return new FnAsyncEngineScheduler();
+        return new FnAsyncEngineScheduler(new ArrayList<>(this.handlerList));
+    }
+
+    @Override
+    public void reset() {
+        this.handlerIterable = handlerList.iterator();
     }
 }

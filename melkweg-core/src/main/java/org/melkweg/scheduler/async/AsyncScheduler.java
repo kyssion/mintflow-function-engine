@@ -8,7 +8,7 @@ import org.melkweg.handle.async.AsyncFnHandler;
 import java.util.List;
 
 public interface AsyncScheduler extends Cloneable{
-    void asyncRun(ParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlerList, AsyncResult asyncResult);
     void next(ParamWrapper paramWrapper, AsyncResult asyncResult);
     AsyncScheduler clone() throws CloneNotSupportedException;
+    void reset();
 }

@@ -16,6 +16,7 @@ public enum WordType {
     HANDLE_LINK_KEY("->"),
     VALUE("value"),
     ASYNC("async"),
+    SPLICE_I(":"),
     SYNC("SYNC");
 
     WordType(String name) {

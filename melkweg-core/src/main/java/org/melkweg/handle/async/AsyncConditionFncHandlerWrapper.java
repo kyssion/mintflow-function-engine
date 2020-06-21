@@ -48,7 +48,7 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandler {
                 return;
             }
             //need create a new AsyncScheduler for child process
-            new FnAsyncEngineScheduler().asyncRun(params, this.getAsyncChildren(), paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
+            new FnAsyncEngineScheduler(this.getAsyncChildren()).next(params, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
         }
     }
 

@@ -68,8 +68,8 @@ public class Melkweg {
 
     public void runAsync(String namespace, String process , ParamWrapper paramWrapper, AsyncResult asyncResult) {
         List<AsyncFnHandler> processFnHandlerList = getHandlerAsync(namespace,process);
-        AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler();
-        asyncScheduler.asyncRun(paramWrapper,processFnHandlerList,asyncResult);
+        AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler(processFnHandlerList);
+        asyncScheduler.next(paramWrapper,asyncResult);
     }
 
     private List<SyncFnHandler> getHandlerSync(String namespace, String process){
