@@ -27,14 +27,13 @@ public abstract class AsyncReorderFnHandler extends AsyncToolsFnHandle {
         super(name, handleType);
     }
 
-
     @Override
     public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         List<FnHandler> newFnHandlerList = new ArrayList<>(this.getChilds());
-        reorderHandlerList(newFnHandlerList);
+        reorderHandlerList(params,newFnHandlerList);
         new FnAsyncEngineScheduler().asyncRun(params,newFnHandlerList, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
     }
 
-    public abstract void reorderHandlerList(List<FnHandler> fnHandlers);
+    public abstract void reorderHandlerList(AsyncParamWrapper paramWrapper, List<FnHandler> fnHandlers);
 
 }

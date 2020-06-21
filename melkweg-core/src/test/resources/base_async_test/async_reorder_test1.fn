@@ -1,0 +1,7 @@
+namespace(test_namespace){
+    async process(async_test_process){
+        ->reorder(async_reorder_handle){
+            ->handle(async_reorder_sample_handle)
+        }
+    }
+}
