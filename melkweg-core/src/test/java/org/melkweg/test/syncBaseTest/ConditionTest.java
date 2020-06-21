@@ -4,13 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
-import org.melkweg.handler.sync.condition.ConditionHandle1;
-import org.melkweg.handler.sync.condition.ConditionHandle2;
-import org.melkweg.handler.sync.condition.ConditionHandle3;
-import org.melkweg.handler.sync.condition.ConditionHandle4;
+import org.melkweg.handler.sync.condition.ConditionHandler1;
+import org.melkweg.handler.sync.condition.ConditionHandler2;
+import org.melkweg.handler.sync.condition.ConditionHandler3;
+import org.melkweg.handler.sync.condition.ConditionHandler4;
 import org.melkweg.handler.sync.simple.*;
 import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.FnEngineScheduler;
+import org.melkweg.scheduler.sync.SyncFnEngineSyncScheduler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,18 +29,18 @@ public class ConditionTest {
     public void initMapDate(){
         mapBuilder = new MelkwegHandleMapBuilder();
 
-        mapBuilder.add("condition_handle_1",new ConditionHandle1("condition_handle_1"));
-        mapBuilder.add("condition_handle_2",new ConditionHandle2("condition_handle_2"));
-        mapBuilder.add("condition_handle_3",new ConditionHandle3("condition_handle_3"));
-        mapBuilder.add("condition_handle_4",new ConditionHandle4("condition_handle_4"));
+        mapBuilder.add("condition_handle_1",new ConditionHandler1("condition_handle_1"));
+        mapBuilder.add("condition_handle_2",new ConditionHandler2("condition_handle_2"));
+        mapBuilder.add("condition_handle_3",new ConditionHandler3("condition_handle_3"));
+        mapBuilder.add("condition_handle_4",new ConditionHandler4("condition_handle_4"));
 
 
-        mapBuilder.add("base_test_handle1",new BaseTestHandle1("base_test_handle1"));
-        mapBuilder.add("base_test_handle2",new BaseTestHandle2("base_test_handle2"));
-        mapBuilder.add("base_test_handle3",new BaseTestHandle3("base_test_handle3"));
+        mapBuilder.add("base_test_handle1",new BaseTestHandler1("base_test_handle1"));
+        mapBuilder.add("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
+        mapBuilder.add("base_test_handle3",new BaseTestHandler3("base_test_handle3"));
 
-        mapBuilder.add("show_start_handle",new ShowStartHandle("show_start_handle"));
-        mapBuilder.add("show_end_handle",new ShowEndHandle("show_end_handle"));
+        mapBuilder.add("show_start_handle",new ShowStartHandler("show_start_handle"));
+        mapBuilder.add("show_end_handle",new ShowEndHandler("show_end_handle"));
     }
 
     /**
@@ -83,7 +83,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(2,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -98,7 +98,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(3,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -113,7 +113,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(4,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -130,7 +130,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(5,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -145,7 +145,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(6,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -161,7 +161,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(7,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -177,7 +177,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(8,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -196,7 +196,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test2.fn").build();
-        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(7,(int)paramWrapper.getParam(Integer.class));
         assertTrue(paramWrapper.getContextParam("show_start"));
         assertTrue(paramWrapper.getContextParam("show_end"));

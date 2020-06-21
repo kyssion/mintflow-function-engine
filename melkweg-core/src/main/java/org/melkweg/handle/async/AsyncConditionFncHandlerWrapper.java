@@ -2,11 +2,10 @@ package org.melkweg.handle.async;
 
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
-import org.melkweg.async.scheduler.AsyncScheduler;
-import org.melkweg.async.scheduler.FnAsyncEngineScheduler;
+import org.melkweg.scheduler.async.AsyncScheduler;
+import org.melkweg.scheduler.async.FnAsyncEngineScheduler;
 import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.HandleType;
-import org.melkweg.handle.ToolsFnHandle;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerWrapper {
+public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandler {
 
     private List<ConditionHandler> conditionHandlers = new ArrayList<>();
 
@@ -27,7 +26,7 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerW
         super(name, handleType);
     }
 
-    public abstract static class ConditionHandler extends AsyncToolsFnHandle {
+    public abstract static class ConditionHandler extends AsyncToolsFnHandler {
 
 
         public ConditionHandler(String name){
@@ -45,27 +44,27 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerW
             if(asyncResult==null){
                 throw new HandleUseException(HandleUseException.CAN_NOT_NOT_FIND_SCHEDULER);
             }
-            if(this.getChilds()==null||this.getChilds().size()==0){
+            if(this.getAsyncChildren()==null||this.getAsyncChildren().size()==0){
                 asyncScheduler.next(params,asyncResult);
                 return;
             }
             //need create a new AsyncScheduler for child process
-            new FnAsyncEngineScheduler().asyncRun(params, this.getChilds(), paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
+            new FnAsyncEngineScheduler().asyncRun(params, this.getAsyncChildren(), paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
         }
     }
 
 
     @Override
     public void asyncHandle(AsyncParamWrapper paramWrapper, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
-        if(getToolsFnHandles() ==null||getToolsFnHandles().size()==0){
+        if(getAsyncChildren() ==null||getAsyncChildren().size()==0){
             asyncScheduler.next(paramWrapper,asyncResult);
         }
         if(asyncResult!=null){
-            for (ToolsFnHandle toolsFnHandle : getToolsFnHandles()){
-                if(toolsFnHandle.getType()!=HandleType.CONDITION_HANDLE_ASYNC){
-                    throw new HandleUseException("当前应该使用async模式的condtion handle ，但是但前为handle为："+toolsFnHandle.getName());
+            for (AsyncFnHandler asyncFnHandler : getAsyncChildren()){
+                if(asyncFnHandler.getType()!=HandleType.CONDITION_HANDLE_ASYNC){
+                    throw new HandleUseException("当前应该使用async模式的condtion handle ，但是但前为handle为："+ asyncFnHandler.getName());
                 }
-                ConditionHandler conditionHandler = (ConditionHandler) toolsFnHandle;
+                ConditionHandler conditionHandler = (ConditionHandler) asyncFnHandler;
                 if(conditionHandler.condition(paramWrapper)){
                     conditionHandler.asyncHandle(paramWrapper,asyncResult,asyncScheduler);
                     break;

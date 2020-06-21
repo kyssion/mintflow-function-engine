@@ -4,10 +4,10 @@ import org.melkweg.annotation.MelkwegHander;
 import org.melkweg.exception.BaseRuntimeException;
 import org.melkweg.exception.HandleRepeatRuntimeException;
 import org.melkweg.handle.*;
-import org.melkweg.handle.async.AsyncFnHandle;
-import org.melkweg.handle.async.AsyncToolsFnHandle;
-import org.melkweg.handle.sync.SyncFnHandle;
-import org.melkweg.handle.sync.SyncToolsFnHandle;
+import org.melkweg.handle.async.AsyncFnHandler;
+import org.melkweg.handle.async.AsyncToolsFnHandler;
+import org.melkweg.handle.sync.SyncFnHandler;
+import org.melkweg.handle.sync.SyncToolsFnHandler;
 import org.melkweg.util.ClassUtill;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,22 +23,22 @@ public class MelkwegHandleMapFinder {
 
     private static final Logger logger = Logger.getLogger(MelkwegHandleMapFinder.class.getName());
 
-    public static Map<HandleType, Map<String,FnHandler>> findHandleDataMap(String...pkgNames){
-        Map<HandleType, Map<String,FnHandler>> map = new HashMap<>();
+    public static MelkwegHandleMapBuilder.Mapper findHandleDataMap(String...pkgNames){
+        MelkwegHandleMapBuilder.Mapper mapper = new MelkwegHandleMapBuilder.Mapper();
         for (String pkgName : pkgNames){
             try {
-                addNewHandler(pkgName,map);
+                addNewHandler(pkgName,mapper);
             } catch (BaseRuntimeException e) {
                 throw e;
             } catch (Exception e) {
                 logger.warning("当前包检索handle 异常 : pkg name : " +pkgName);
             }
         }
-        return map;
+        return mapper;
     }
 
     @SuppressWarnings("unchecked")
-    private static void addNewHandler(String pkgName, Map<HandleType, Map<String,FnHandler>> map) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static void addNewHandler(String pkgName, MelkwegHandleMapBuilder.Mapper mapper) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Set<Class<?>> pkgClassSet = ClassUtill.getClassSet(pkgName, FnHandler.class);
         for(Class<?> itemClass : pkgClassSet){
 
@@ -53,21 +53,28 @@ public class MelkwegHandleMapFinder {
             String name = melkwegHander.name().equals("")?handlerClass.getName():melkwegHander.name();
             FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
 
-            Map<String,FnHandler> itemHandleMap = null;
-            if(fnHandler instanceof AsyncFnHandle||fnHandler instanceof AsyncToolsFnHandle){
-                itemHandleMap = map.computeIfAbsent(HandleType.ASYNC_HANDLE,(p)->new HashMap<>());
-            }else if(fnHandler instanceof SyncFnHandle||fnHandler instanceof SyncToolsFnHandle){
-                itemHandleMap = map.computeIfAbsent(HandleType.SYNC_HANDLE,(p)->new HashMap<>());
+            if(fnHandler instanceof AsyncFnHandler ){
+                Map<String,AsyncFnHandler> asyncFnHandleMap  = mapper.getAsyncFnHandleMap();
+                if(!asyncFnHandleMap.containsKey(name)){
+                    if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
+                        fnHandler.setType(melkwegHander.type());
+                    }
+                    asyncFnHandleMap.put(name, (AsyncFnHandler) fnHandler);
+                }else{
+                    throw new HandleRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
+                }
+            }else if(fnHandler instanceof SyncFnHandler){
+                Map<String,SyncFnHandler> syncFnHandleMap = mapper.getSyncFnHandleMap();
+                if(!syncFnHandleMap.containsKey(name)){
+                    if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
+                        fnHandler.setType(melkwegHander.type());
+                    }
+                    syncFnHandleMap.put(name, (SyncFnHandler) fnHandler);
+                }else{
+                    throw new HandleRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
+                }
             }else{
                 throw new HandleRepeatRuntimeException("当前handle为不支持类型 : class name :"+fnHandler.getClass().getName());
-            }
-            if(!itemHandleMap.containsKey(name)){
-                if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
-                    fnHandler.setType(melkwegHander.type());
-                }
-                itemHandleMap.put(name, fnHandler);
-            }else{
-                throw new HandleRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
             }
 
         }

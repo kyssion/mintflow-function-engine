@@ -1,14 +1,10 @@
 package org.melkweg.handle.sync;
 
-import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.Scheduler;
+import org.melkweg.scheduler.sync.SyncScheduler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class SyncCycleFnHandler extends SyncToolsFnHandle {
+public abstract class SyncCycleFnHandler extends SyncToolsFnHandler {
     protected SyncCycleFnHandler(String name) {
         this(name, HandleType.CYCLE_HANDLE_SYNC);
     }
@@ -16,8 +12,8 @@ public abstract class SyncCycleFnHandler extends SyncToolsFnHandle {
     private SyncCycleFnHandler(String name, HandleType handleType) {
         super(name, handleType);
     }
-    public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler){
-        return scheduler.run(paramWrapper,this.getChilds() );
+    public ParamWrapper handle(ParamWrapper paramWrapper, SyncScheduler syncScheduler){
+        return syncScheduler.run(paramWrapper,this.getSyncChildren() );
     }
 
 }

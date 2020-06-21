@@ -2,8 +2,12 @@ package org.melkweg;
 
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.async.param.AsyncParamWrapper;
-import org.melkweg.async.scheduler.AsyncScheduler;
-import org.melkweg.async.scheduler.FnAsyncEngineScheduler;
+import org.melkweg.handle.HandlerDataMap;
+import org.melkweg.handle.async.AsyncFnHandler;
+import org.melkweg.handle.sync.SyncFnHandler;
+import org.melkweg.handle.util.MelkwegHandleMapBuilder;
+import org.melkweg.scheduler.async.AsyncScheduler;
+import org.melkweg.scheduler.async.FnAsyncEngineScheduler;
 import org.melkweg.builder.FnMapperBuilder;
 import org.melkweg.exception.InitMelkwegException;
 import org.melkweg.exception.UserMelkwegException;
@@ -11,8 +15,8 @@ import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.process.ProcessType;
-import org.melkweg.scheduler.FnEngineScheduler;
-import org.melkweg.scheduler.Scheduler;
+import org.melkweg.scheduler.sync.SyncFnEngineSyncScheduler;
+import org.melkweg.scheduler.sync.SyncScheduler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,22 +26,19 @@ public class Melkweg {
 
     public static class MelkwegBuilder{
 
-        private Map<String, Map<ProcessType,Map<String, List<FnHandler>>>> fnMapper;
+        private final HandlerDataMap handlerDataMap;
 
         //Represents a collection of processors, used for logic consumption graphs and processor mapping
-        private Map<HandleType,Map<String, FnHandler>>  handlerDataMap;
+        private final MelkwegHandleMapBuilder.Mapper handlerDataMapper;
 
-        public MelkwegBuilder(Map<HandleType,Map<String, FnHandler>> handlerDataMap){
-            this.handlerDataMap = handlerDataMap;
-            this.fnMapper= new HashMap<>();
+        public MelkwegBuilder(MelkwegHandleMapBuilder.Mapper mapper){
+            this.handlerDataMapper = mapper;
+            this.handlerDataMap= new HandlerDataMap();
         }
 
         public MelkwegBuilder addFnMapper(String fnFilePath){
-            if (this.handlerDataMap == null) {
-                throw new InitMelkwegException("handlerDataMap没有初始化,请调用inithandlerDataMap初始化信息....");
-            }
             try {
-                this.fnMapper.putAll(FnMapperBuilder.build(handlerDataMap, fnFilePath));
+                this.handlerDataMap.addAll(FnMapperBuilder.build(handlerDataMapper, fnFilePath));
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new InitMelkwegException("初始化FnMapper失败....");
@@ -47,52 +48,68 @@ public class Melkweg {
 
         public Melkweg build(){
             Melkweg melkweg= new Melkweg();
-            melkweg.fnMapper = this.fnMapper;
             melkweg.handlerDataMap = this.handlerDataMap;
+            melkweg.handlerDataMapper = this.handlerDataMapper;
             return melkweg;
         }
     }
 
-    private Map<String, Map<ProcessType,Map<String, List<FnHandler>>>> fnMapper;
+    private HandlerDataMap handlerDataMap;
 
 
     //Represents a collection of processors, used for logic consumption graphs and processor mapping
-    private Map<HandleType,Map<String, FnHandler>> handlerDataMap;
+    private MelkwegHandleMapBuilder.Mapper handlerDataMapper;
 
     protected Melkweg() {
         super();
     }
 
-    public ParamWrapper runSync(String namespace, String process, ParamWrapper paramWrapper,Scheduler scheduler)  {
-        List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process,false);
-        if(scheduler ==null){
-            scheduler = new FnEngineScheduler();
+    public ParamWrapper runSync(String namespace, String process, ParamWrapper paramWrapper, SyncScheduler syncScheduler)  {
+        List<SyncFnHandler> processFnHandlerList = getHandlerSync(namespace,process);
+        if(syncScheduler ==null){
+            syncScheduler = new SyncFnEngineSyncScheduler();
         }
-        return scheduler.run(paramWrapper, processFnHandlerList);
+        return syncScheduler.run(paramWrapper, processFnHandlerList);
     }
 
     public void runAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) {
-        List<FnHandler> processFnHandlerList = getMelkwegHandler(namespace,process,true);
+        List<AsyncFnHandler> processFnHandlerList = getHandlerAsync(namespace,process);
         AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler();
         asyncScheduler.asyncRun(asyncParamWrapper,processFnHandlerList,asyncResult);
     }
 
-    public static MelkwegBuilder newBuilder(Map<HandleType,Map<String, FnHandler>> handlerDataMap){
-        return new MelkwegBuilder(handlerDataMap);
+    private List<SyncFnHandler> getHandlerSync(String namespace, String process){
+        checkNamespaceInfo(namespace);
+        HandlerDataMap.ProcessDataMap processDataMap = this.handlerDataMap.getHandlerNamespaceMap().get(namespace);
+        List<SyncFnHandler> syncFnHandlerList = processDataMap.getSyncFnDataMap().get(process);
+        if (syncFnHandlerList == null) {
+            throw new UserMelkwegException("未发现指定的process流程信息....");
+        }
+        return syncFnHandlerList;
     }
 
-    private List<FnHandler> getMelkwegHandler(String namespace, String process,boolean isAyscn) {
-        if (this.fnMapper == null) {
+    private List<AsyncFnHandler> getHandlerAsync(String namespace,String process){
+        checkNamespaceInfo(namespace);
+        HandlerDataMap.ProcessDataMap processDataMap = this.handlerDataMap.getHandlerNamespaceMap().get(namespace);
+        List<AsyncFnHandler> asyncFnHandlerList = processDataMap.getAsyncFnDataMap().get(process);
+        if (asyncFnHandlerList == null) {
+            throw new UserMelkwegException("未发现指定的process流程信息....");
+        }
+        return asyncFnHandlerList;
+    }
+
+    private void checkNamespaceInfo(String namespace){
+        if (this.handlerDataMap == null) {
             throw new UserMelkwegException("fnMapper没有初始化,请使用initFnMapper方法初始化....");
         }
-        Map<ProcessType,Map<String, List<FnHandler>>> namespaceItem = this.fnMapper.get(namespace);
+        HandlerDataMap.ProcessDataMap namespaceItem = this.handlerDataMap.getHandlerNamespaceMap().get(namespace);
         if (namespaceItem == null) {
             throw new UserMelkwegException("未发现指定的namespace信息....");
         }
-        List<FnHandler> processFnHandlerList = isAyscn?namespaceItem.get(ProcessType.ASYNC).get(process):namespaceItem.get(ProcessType.SYNC).get(process);
-        if (processFnHandlerList == null) {
-            throw new UserMelkwegException("未发现指定的process流程信息....");
-        }
-        return processFnHandlerList;
     }
+
+    public static MelkwegBuilder newBuilder(MelkwegHandleMapBuilder.Mapper handlerDataMap){
+        return new MelkwegBuilder(handlerDataMap);
+    }
+
 }

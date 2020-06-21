@@ -1,14 +1,14 @@
 package org.melkweg.handle.util;
 
 import org.melkweg.handle.FnHandler;
-import org.melkweg.handle.async.AsyncFnHandle;
-import org.melkweg.handle.async.AsyncToolsFnHandle;
-import org.melkweg.handle.sync.SyncFnHandle;
-import org.melkweg.handle.sync.SyncToolsFnHandle;
+import org.melkweg.handle.async.AsyncFnHandler;
+import org.melkweg.handle.async.AsyncToolsFnHandler;
+import org.melkweg.handle.sync.SyncFnHandler;
+import org.melkweg.handle.sync.SyncToolsFnHandler;
 
 public final class FnHandlerUtil {
     public static boolean checkHandleCanUse(FnHandler fnHandler){
-        return fnHandler instanceof AsyncToolsFnHandle || fnHandler instanceof AsyncFnHandle
-                || fnHandler instanceof SyncFnHandle ||fnHandler instanceof SyncToolsFnHandle;
+        return fnHandler instanceof AsyncToolsFnHandler || fnHandler instanceof AsyncFnHandler
+                || fnHandler instanceof SyncFnHandler ||fnHandler instanceof SyncToolsFnHandler;
     }
 }

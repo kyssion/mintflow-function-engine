@@ -1,10 +1,5 @@
 package org.melkweg.handle;
 
-import org.melkweg.handle.async.AsyncFnHandle;
-import org.melkweg.handle.async.AsyncToolsFnHandle;
-import org.melkweg.handle.sync.SyncFnHandle;
-import org.melkweg.handle.sync.SyncToolsFnHandle;
-
 /**
  * Used to describe the type that the current handler belongs to
  */

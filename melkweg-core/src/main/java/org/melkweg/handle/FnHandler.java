@@ -2,8 +2,7 @@ package org.melkweg.handle;
 
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
-import org.melkweg.async.scheduler.AsyncScheduler;
-import org.melkweg.handle.sync.SyncFnHandle;
+import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.param.ParamWrapper;
 
 /**

@@ -2,17 +2,13 @@ package org.melkweg.handle.sync;
 
 import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.HandleType;
-import org.melkweg.handle.ToolsFnHandle;
 import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.Scheduler;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.melkweg.scheduler.sync.SyncScheduler;
 
 /**
  * Comparing processors . Used to encapsulate comparable collections
  */
-public final class SyncConditionFncHandlerWrapper extends SyncToolsConditionHanderWrapper {
+public final class SyncConditionFncHandlerWrapper extends SyncToolsFnHandler {
 
     public SyncConditionFncHandlerWrapper(){
         this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_SYNC);
@@ -22,7 +18,7 @@ public final class SyncConditionFncHandlerWrapper extends SyncToolsConditionHand
         super(name, handleType);
     }
 
-    public abstract static class ConditionHandler extends SyncToolsFnHandle {
+    public abstract static class ConditionHandler extends SyncToolsFnHandler {
 
 
         public ConditionHandler(String name) {
@@ -36,30 +32,30 @@ public final class SyncConditionFncHandlerWrapper extends SyncToolsConditionHand
 
         public abstract boolean condition(ParamWrapper params);
 
-        public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
-            if (this.getChilds() == null || this.getChilds().size() == 0) {
+        public ParamWrapper handle(ParamWrapper paramWrapper, SyncScheduler syncScheduler) {
+            if (this.getSyncChildren() == null || this.getSyncChildren().size() == 0) {
                 return paramWrapper;
             }
-            if (scheduler != null) {
-                return scheduler.run(paramWrapper, this.getChilds());
+            if (syncScheduler != null) {
+                return syncScheduler.run(paramWrapper, this.getSyncChildren());
             } else {
                 return paramWrapper;
             }
         }
     }
     @Override
-    public ParamWrapper handle(ParamWrapper paramWrapper, Scheduler scheduler) {
-        if(this.getToolsFnHandles() ==null||this.getToolsFnHandles().size()==0){
+    public ParamWrapper handle(ParamWrapper paramWrapper, SyncScheduler syncScheduler) {
+        if(this.getSyncChildren() ==null||this.getSyncChildren().size()==0){
             return paramWrapper;
         }
-        if(scheduler!=null){
-            for (ToolsFnHandle toolsFnHandle : getToolsFnHandles()){
-                if(toolsFnHandle.getType()!=HandleType.CONDITION_HANDLE_SYNC){
-                    throw new HandleUseException("当前应该使用sync模式的condtion handle ，但是但前为handle为："+toolsFnHandle.getName());
+        if(syncScheduler !=null){
+            for (SyncFnHandler syncFnHandler : getSyncChildren()){
+                if(syncFnHandler.getType()!=HandleType.CONDITION_HANDLE_SYNC){
+                    throw new HandleUseException("当前应该使用sync模式的condtion handle ，但是但前为handle为："+ syncFnHandler.getName());
                 }
-                ConditionHandler conditionHandler = (ConditionHandler) toolsFnHandle;
+                ConditionHandler conditionHandler = (ConditionHandler) syncFnHandler;
                 if(conditionHandler.condition(paramWrapper)){
-                    paramWrapper = conditionHandler.handle(paramWrapper,scheduler);
+                    paramWrapper = conditionHandler.handle(paramWrapper, syncScheduler);
                     break;
                 }
             }

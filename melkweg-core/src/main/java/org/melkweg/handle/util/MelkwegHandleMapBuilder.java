@@ -1,44 +1,69 @@
 package org.melkweg.handle.util;
 
 import org.melkweg.annotation.MelkwegHander;
-import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.FnHandler;
-import org.melkweg.handle.HandleType;
-import org.melkweg.handle.async.AsyncFnHandle;
-import org.melkweg.handle.async.AsyncToolsFnHandle;
-import org.melkweg.handle.sync.SyncFnHandle;
-import org.melkweg.handle.sync.SyncToolsFnHandle;
+import org.melkweg.handle.async.AsyncFnHandler;
+import org.melkweg.handle.sync.SyncFnHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MelkwegHandleMapBuilder {
-    private final Map<HandleType, Map<String, FnHandler>> handlemap;
+
+    public static class Mapper{
+        private Map<String, AsyncFnHandler> asyncFnHandleMap = new HashMap<>();
+        private Map<String, SyncFnHandler> syncFnHandleMap = new HashMap<>();
+
+        public Map<String, AsyncFnHandler> getAsyncFnHandleMap() {
+            return asyncFnHandleMap;
+        }
+
+        public void setAsyncFnHandleMap(Map<String, AsyncFnHandler> asyncFnHandleMap) {
+            this.asyncFnHandleMap = asyncFnHandleMap;
+        }
+
+        public Map<String, SyncFnHandler> getSyncFnHandleMap() {
+            return syncFnHandleMap;
+        }
+
+        public void setSyncFnHandleMap(Map<String, SyncFnHandler> syncFnHandleMap) {
+            this.syncFnHandleMap = syncFnHandleMap;
+        }
+    }
+
+    private final Mapper handlemap;
 
     public MelkwegHandleMapBuilder(){
-        this.handlemap= new HashMap<>();
+        this.handlemap= new Mapper();
     }
 
-    public void add(FnHandler fnHandler){
+    public void add(SyncFnHandler syncFnHandler){
+        add(getHandlerName(syncFnHandler),syncFnHandler);
+    }
+
+    public void add(String name,SyncFnHandler syncFnHandler){
+        this.handlemap.getSyncFnHandleMap().put(name, syncFnHandler);
+    }
+
+    public void add(AsyncFnHandler asyncFnHandler){
+        add(getHandlerName(asyncFnHandler),asyncFnHandler);
+    }
+
+    public void add(String name,AsyncFnHandler asyncFnHandler){
+        this.handlemap.getAsyncFnHandleMap().put(name, asyncFnHandler);
+    }
+
+    private String getHandlerName(FnHandler fnHandler){
         MelkwegHander melkwegHander = fnHandler.getClass().getAnnotation(MelkwegHander.class);
         if(melkwegHander!=null){
-            add(melkwegHander.name(),fnHandler);
+            return melkwegHander.name();
         }else{
-            add(fnHandler.getClass().getName(),fnHandler);
+            return fnHandler.getClass().getName();
         }
-    }
-    public void add(String name,FnHandler fnHandler){
-        if(!FnHandlerUtil.checkHandleCanUse(fnHandler)){
-            throw new HandleUseException("当前使用的handler必须继承自AsyncToolsFnHandle,AsyncFnHandle,SyncFnHandle,SyncToolsFnHandle其中任意一个");
-        }
-        boolean isAsync = fnHandler instanceof AsyncFnHandle || fnHandler instanceof AsyncToolsFnHandle;
-        Map<String,FnHandler> item = isAsync?handlemap.computeIfAbsent(HandleType.ASYNC_HANDLE,k->new HashMap<>()):
-                handlemap.computeIfAbsent(HandleType.SYNC_HANDLE,k->new HashMap<>());
-        item.put(name,fnHandler);
     }
 
 
-    public Map<HandleType, Map<String, FnHandler>> build(){
+    public Mapper build(){
         return handlemap;
     }
 }

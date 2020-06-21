@@ -2,6 +2,8 @@ package org.melkweg.builder;
 
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.HandleType;
+import org.melkweg.handle.HandlerDataMap;
+import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.parsing.FnEngineDataStructureTool;
 import org.melkweg.parsing.WordParticipleTool;
 import org.melkweg.parsing.mark.Word;
@@ -13,14 +15,14 @@ import java.util.Map;
 
 public class FnMapperBuilder {
 
-    public static Map<String, Map<ProcessType,Map<String, List<FnHandler>>>> build(Map<HandleType,Map<String, FnHandler>>  handlerDataMap, String...paths) throws Exception {
+    public static HandlerDataMap build(MelkwegHandleMapBuilder.Mapper handlerDataMap, String...paths) throws Exception {
         FnEngineDataStructureTool fnEngineDataStructureTool = new FnEngineDataStructureTool(handlerDataMap);
-        Map<String, Map<ProcessType,Map<String, List<FnHandler>>>> valueMap = new HashMap<>();
+        HandlerDataMap dataMap = new HandlerDataMap();
         for(String path : paths){
                 List<Word> words =
                         WordParticipleTool.createWordParticipleListByFile(path);
-            valueMap.putAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
+            dataMap.addAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
         }
-        return valueMap;
+        return dataMap;
     }
 }

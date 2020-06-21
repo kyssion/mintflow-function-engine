@@ -5,20 +5,12 @@ import org.junit.Test;
 import org.melkweg.Melkweg;
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
-import org.melkweg.handler.async.condition.AsyncConditionHandle1;
-import org.melkweg.handler.async.condition.AsyncConditionHandle2;
-import org.melkweg.handler.async.condition.AsyncConditionHandle3;
-import org.melkweg.handler.async.condition.AsyncConditionHandle4;
+import org.melkweg.handler.async.condition.AsyncConditionHandler1;
+import org.melkweg.handler.async.condition.AsyncConditionHandler2;
+import org.melkweg.handler.async.condition.AsyncConditionHandler3;
+import org.melkweg.handler.async.condition.AsyncConditionHandler4;
 import org.melkweg.handler.async.reorder.AsyncReorderHandler;
 import org.melkweg.handler.async.sample.*;
-import org.melkweg.handler.sync.condition.ConditionHandle1;
-import org.melkweg.handler.sync.condition.ConditionHandle2;
-import org.melkweg.handler.sync.condition.ConditionHandle3;
-import org.melkweg.handler.sync.condition.ConditionHandle4;
-import org.melkweg.handler.sync.reorder.ReorderHandler;
-import org.melkweg.handler.sync.simple.*;
-import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.FnEngineScheduler;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,20 +30,20 @@ public class AsyncReorderTest {
     public void initMapDate(){
         mapBuilder = new MelkwegHandleMapBuilder();
 
-        mapBuilder.add("async_condition_handle_1",new AsyncConditionHandle1("async_condition_handle_1"));
-        mapBuilder.add("async_condition_handle_2",new AsyncConditionHandle2("async_condition_handle_2"));
-        mapBuilder.add("async_condition_handle_3",new AsyncConditionHandle3("async_condition_handle_3"));
-        mapBuilder.add("async_condition_handle_4",new AsyncConditionHandle4("async_condition_handle_4"));
+        mapBuilder.add("async_condition_handle_1",new AsyncConditionHandler1("async_condition_handle_1"));
+        mapBuilder.add("async_condition_handle_2",new AsyncConditionHandler2("async_condition_handle_2"));
+        mapBuilder.add("async_condition_handle_3",new AsyncConditionHandler3("async_condition_handle_3"));
+        mapBuilder.add("async_condition_handle_4",new AsyncConditionHandler4("async_condition_handle_4"));
 
-        mapBuilder.add("async_base_test_handle1",new AsyncBaseTestHandle1("async_base_test_handle1"));
-        mapBuilder.add("async_base_test_handle2",new AsyncBaseTestHandle2("async_base_test_handle2"));
-        mapBuilder.add("async_base_test_handle3",new AsyncBaseTestHandle3("async_base_test_handle3"));
+        mapBuilder.add("async_base_test_handle1",new AsyncBaseTestHandler1("async_base_test_handle1"));
+        mapBuilder.add("async_base_test_handle2",new AsyncBaseTestHandler2("async_base_test_handle2"));
+        mapBuilder.add("async_base_test_handle3",new AsyncBaseTestHandler3("async_base_test_handle3"));
 
-        mapBuilder.add("async_show_start_handle",new AsyncShowStartHandle("async_show_start_handle"));
-        mapBuilder.add("async_show_end_handle",new AsyncShowEndHandle("async_show_end_handle"));
+        mapBuilder.add("async_show_start_handle",new AsyncShowStartHandler("async_show_start_handle"));
+        mapBuilder.add("async_show_end_handle",new AsyncShowEndHandler("async_show_end_handle"));
 
         mapBuilder.add("async_reorder_handle",new AsyncReorderHandler("async_reorder_handle"));
-        mapBuilder.add("async_reorder_sample_handle",new AsyncReorderSampleHandle("async_reorder_sample_handle"));
+        mapBuilder.add("async_reorder_sample_handle",new AsyncReorderSampleHandler("async_reorder_sample_handle"));
     }
 
 
