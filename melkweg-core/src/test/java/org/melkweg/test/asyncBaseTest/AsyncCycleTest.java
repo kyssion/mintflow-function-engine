@@ -68,7 +68,7 @@ public class AsyncCycleTest {
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test1.fn").build();
         melkweg.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int num = param.getContextParam("random_number");
-            while(num>=0){
+            while(num>0){
                 ans.append(ADD_DATA);
                 num--;
             }
@@ -94,7 +94,7 @@ public class AsyncCycleTest {
         melkweg.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int num = param.getContextParam("random_number");
             System.out.println(num);
-            while(num>=0){
+            while(num>0){
                 ans.append(ADD_DATA);
                 num--;
             }

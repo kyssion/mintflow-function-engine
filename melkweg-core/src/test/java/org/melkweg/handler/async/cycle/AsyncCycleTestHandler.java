@@ -14,7 +14,7 @@ public class AsyncCycleTestHandler extends AsyncCycleFnHandler {
 
     @Override
     public CycleParam cycleHandler(ParamWrapper paramWrapper) {
-        int times = 10000;
+        int times = 2000;
         Integer nowTimes = (Integer) paramWrapper.getContextParams().getOrDefault("random_number",0);
         paramWrapper.setContextParam("random_number",nowTimes+times);
         return new CycleParam(times,paramWrapper);
