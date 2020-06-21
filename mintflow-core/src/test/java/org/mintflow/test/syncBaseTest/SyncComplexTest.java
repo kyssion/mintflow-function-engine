@@ -90,8 +90,8 @@ public class SyncComplexTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_complex_test.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_complex_test.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(13, (int) paramWrapper.getResult(Integer.class));
 
         int num = paramWrapper.getContextParam("random_number");

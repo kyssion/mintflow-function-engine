@@ -82,8 +82,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",CAN_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(2,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -97,8 +97,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = org.mintflow.MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = org.mintflow.MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(3,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -112,8 +112,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(4,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -129,8 +129,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",CAN_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(5,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -144,8 +144,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(6,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -160,8 +160,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(7,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -176,8 +176,8 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(8,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -195,8 +195,8 @@ public class ConditionTest {
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test2.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test2.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         assertEquals(7,(int)paramWrapper.getParam(Integer.class));
         assertTrue(paramWrapper.getContextParam("show_start"));
         assertTrue(paramWrapper.getContextParam("show_end"));

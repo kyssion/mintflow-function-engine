@@ -88,8 +88,8 @@ public class AsyncComplexTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_complex_test.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_complex_test.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(13, (int) param.getResult(Integer.class));
             int num = param.getContextParam("random_number");
             while(num>=0){

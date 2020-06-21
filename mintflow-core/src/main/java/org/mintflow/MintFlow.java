@@ -54,7 +54,7 @@ public final class MintFlow {
     //Represents a collection of processors, used for logic consumption graphs and processor mapping
     private MintFlowHandleMapBuilder.Mapper handlerDataMapper;
 
-    protected MintFlow() {
+    private MintFlow() {
         super();
     }
 

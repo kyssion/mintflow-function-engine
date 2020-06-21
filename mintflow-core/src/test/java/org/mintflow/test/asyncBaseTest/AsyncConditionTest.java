@@ -82,8 +82,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",CAN_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(2,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -101,8 +101,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(3,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -120,8 +120,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(4,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -141,8 +141,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",CAN_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(5,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -160,8 +160,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(6,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -180,8 +180,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(7,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -200,8 +200,8 @@ public class AsyncConditionTest {
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(8,(int)param.getParam(Integer.class));
             atomicBoolean.set(true);
         });
@@ -223,8 +223,8 @@ public class AsyncConditionTest {
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test2.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_condition_base_test2.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(7,(int)param.getParam(Integer.class));
             assertTrue(param.getContextParam("show_start"));
             assertTrue(param.getContextParam("show_end"));

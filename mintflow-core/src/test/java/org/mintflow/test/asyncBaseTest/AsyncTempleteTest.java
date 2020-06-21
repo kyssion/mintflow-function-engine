@@ -24,9 +24,9 @@ public class AsyncTempleteTest {
         MintFlowHandleMapBuilder.Mapper dataMapper = MintFlowHandleMapFinder.findHandleDataMap(
                 "org.mintflow.handler"
         );
-        MintFlow MintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_async_test/async_complex_test.fn").build();
-        MintFlowTemplate MintFlowTemplate = MintFlowTemplate.newBuilder().addInterface(MintFlow,"org.mintflow.templateFunction").build();
-        Function1 function1 = MintFlowTemplate.getTemplateFunction(Function1.class);
+        MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_async_test/async_complex_test.fn").build();
+        MintFlowTemplate mintFlowTemplate = MintFlowTemplate.newBuilder().addInterface(mintFlow,"org.mintflow.templateFunction").build();
+        Function1 function1 = mintFlowTemplate.getTemplateFunction(Function1.class);
         function1.test(1,"item",NO_GO,CAN_GO,NO_GO,CAN_GO,false,false,param -> {
             assertEquals(13, (int) param.getResult(Integer.class));
             StringBuilder ans = new StringBuilder("item"+ ADD_DATA);

@@ -52,11 +52,11 @@ public class AsyncBaseTest {
      */
     @Test
     public void asyncBaseTest1(){
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test1.fn").build();
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test1.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        MintFlow.runAsync(
+        mintFlow.runAsync(
                 "test_namespace", "async_test_process", paramWrapper,
                 paramWrapper1 -> {
                     assertEquals(7, (int) paramWrapper1.getResult(Integer.class));
@@ -72,13 +72,13 @@ public class AsyncBaseTest {
      */
     @Test
     public void asyncBaseTest2(){
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test2.fn").build();
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test2.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        MintFlow.runAsync(
+        mintFlow.runAsync(
                 "test_namespace", "async_test_process", paramWrapper,
                 param -> {
                     assertEquals(7, (int) param.getResult(Integer.class));

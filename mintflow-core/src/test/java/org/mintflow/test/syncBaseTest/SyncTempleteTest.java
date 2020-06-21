@@ -25,9 +25,9 @@ public class SyncTempleteTest {
         MintFlowHandleMapBuilder.Mapper dataMapper = MintFlowHandleMapFinder.findHandleDataMap(
                 "org.mintflow.handler"
         );
-        MintFlow MintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_sync_test/sync_complex_test.fn").build();
-        MintFlowTemplate MintFlowTemplate = MintFlowTemplate.newBuilder().addInterface(MintFlow,"org.mintflow.templateFunction").build();
-        Function1 function1 = MintFlowTemplate.getTemplateFunction(Function1.class);
+        MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_sync_test/sync_complex_test.fn").build();
+        MintFlowTemplate mintFlowTemplate = MintFlowTemplate.newBuilder().addInterface(mintFlow,"org.mintflow.templateFunction").build();
+        Function1 function1 = mintFlowTemplate.getTemplateFunction(Function1.class);
         ParamWrapper paramWrapper = function1.test(1,"item",NO_GO,CAN_GO,NO_GO,CAN_GO,false,false);
 
         assertEquals(13, (int) paramWrapper.getResult(Integer.class));

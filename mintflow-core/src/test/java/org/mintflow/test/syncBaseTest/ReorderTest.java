@@ -64,8 +64,8 @@ public class ReorderTest {
         StringBuilder ans = new StringBuilder(item + ADD_DATA);
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(item);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test1.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test1.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         int num = paramWrapper.getContextParam("random_number");
         while(num>=0){
             ans.append(ADD_DATA);
@@ -83,8 +83,8 @@ public class ReorderTest {
         paramWrapper.setParam(item);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test2.fn").build();
-        paramWrapper = MintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test2.fn").build();
+        paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
         int num = paramWrapper.getContextParam("random_number");
         while(num>=0){
             ans.append(ADD_DATA);

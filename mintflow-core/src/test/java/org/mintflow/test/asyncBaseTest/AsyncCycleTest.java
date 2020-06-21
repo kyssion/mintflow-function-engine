@@ -65,8 +65,8 @@ public class AsyncCycleTest {
         StringBuilder ans = new StringBuilder(item);
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(item);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test1.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test1.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int num = param.getContextParam("random_number");
             while(num>0){
                 ans.append(ADD_DATA);
@@ -90,8 +90,8 @@ public class AsyncCycleTest {
         paramWrapper.setParam(item);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        MintFlow MintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test2.fn").build();
-        MintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test2.fn").build();
+        mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int num = param.getContextParam("random_number");
             System.out.println(num);
             while(num>0){
