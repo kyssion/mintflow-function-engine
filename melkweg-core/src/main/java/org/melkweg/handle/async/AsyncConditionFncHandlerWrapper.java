@@ -1,12 +1,11 @@
 package org.melkweg.handle.async;
 
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.scheduler.async.FnAsyncEngineScheduler;
 import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.HandleType;
-import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandler {
         public abstract boolean condition(ParamWrapper params);
 
         @Override
-        public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+        public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
             if(asyncResult==null){
                 throw new HandleUseException(HandleUseException.CAN_NOT_NOT_FIND_SCHEDULER);
             }
@@ -55,7 +54,7 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsFnHandler {
 
 
     @Override
-    public void asyncHandle(AsyncParamWrapper paramWrapper, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandle(ParamWrapper paramWrapper, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         if(getAsyncChildren() ==null||getAsyncChildren().size()==0){
             asyncScheduler.next(paramWrapper,asyncResult);
         }

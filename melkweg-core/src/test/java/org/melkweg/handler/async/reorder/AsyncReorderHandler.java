@@ -1,7 +1,7 @@
 package org.melkweg.handler.async.reorder;
 
 import org.melkweg.annotation.MelkwegHandler;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.handle.async.AsyncFnHandler;
 import org.melkweg.handle.async.AsyncReorderFnHandler;
 import org.melkweg.handler.async.sample.AsyncReorderSampleHandler;
@@ -15,7 +15,7 @@ public class AsyncReorderHandler extends AsyncReorderFnHandler {
     }
 
     @Override
-    public void reorderHandlerList(AsyncParamWrapper paramWrapper,List<AsyncFnHandler> fnHandlers) {
+    public void reorderHandlerList(ParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlers) {
         int num= (int) (Math.random()*10);
         paramWrapper.setContextParam("random_number",num);
         while(num>=0) {

@@ -1,7 +1,7 @@
 package org.melkweg;
 
 import org.melkweg.async.result.AsyncResult;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.handle.HandlerDataMap;
 import org.melkweg.handle.async.AsyncFnHandler;
 import org.melkweg.handle.sync.SyncFnHandler;
@@ -11,16 +11,10 @@ import org.melkweg.scheduler.async.FnAsyncEngineScheduler;
 import org.melkweg.builder.FnMapperBuilder;
 import org.melkweg.exception.InitMelkwegException;
 import org.melkweg.exception.UserMelkwegException;
-import org.melkweg.handle.FnHandler;
-import org.melkweg.handle.HandleType;
-import org.melkweg.param.ParamWrapper;
-import org.melkweg.process.ProcessType;
 import org.melkweg.scheduler.sync.SyncFnEngineSyncScheduler;
 import org.melkweg.scheduler.sync.SyncScheduler;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Melkweg {
 
@@ -72,10 +66,10 @@ public class Melkweg {
         return syncScheduler.run(paramWrapper, processFnHandlerList);
     }
 
-    public void runAsync(String namespace, String process , AsyncParamWrapper asyncParamWrapper, AsyncResult asyncResult) {
+    public void runAsync(String namespace, String process , ParamWrapper paramWrapper, AsyncResult asyncResult) {
         List<AsyncFnHandler> processFnHandlerList = getHandlerAsync(namespace,process);
         AsyncScheduler asyncScheduler = new FnAsyncEngineScheduler();
-        asyncScheduler.asyncRun(asyncParamWrapper,processFnHandlerList,asyncResult);
+        asyncScheduler.asyncRun(paramWrapper,processFnHandlerList,asyncResult);
     }
 
     private List<SyncFnHandler> getHandlerSync(String namespace, String process){

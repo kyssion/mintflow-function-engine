@@ -1,6 +1,6 @@
 package org.melkweg.scheduler.async;
 
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.FnHandler;
@@ -14,13 +14,13 @@ public class FnAsyncEngineScheduler implements AsyncScheduler {
     private Iterator<AsyncFnHandler> handlerIterable;
 
     @Override
-    public void asyncRun(AsyncParamWrapper asyncParamWrapper, List<AsyncFnHandler> fnHandlerList, AsyncResult asyncResult){
+    public void asyncRun(ParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlerList, AsyncResult asyncResult){
         this.handlerIterable = fnHandlerList.iterator();
-        this.next(asyncParamWrapper,asyncResult);
+        this.next(paramWrapper,asyncResult);
     }
 
     @Override
-    public void next(AsyncParamWrapper paramWrapper, AsyncResult asyncResult) {
+    public void next(ParamWrapper paramWrapper, AsyncResult asyncResult) {
         if(!handlerIterable.hasNext()){
             asyncResult.doResult(paramWrapper);
             return;

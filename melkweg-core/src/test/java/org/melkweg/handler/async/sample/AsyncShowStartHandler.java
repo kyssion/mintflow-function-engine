@@ -1,7 +1,7 @@
 package org.melkweg.handler.async.sample;
 
 import org.melkweg.annotation.MelkwegHandler;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.handle.async.AsyncSampleFnHandler;
@@ -14,7 +14,7 @@ public class AsyncShowStartHandler extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         params.setContextParam("show_start",true);
         asyncScheduler.next(params,asyncResult);
     }

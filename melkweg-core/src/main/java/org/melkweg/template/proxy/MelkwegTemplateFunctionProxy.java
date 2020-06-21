@@ -2,7 +2,6 @@ package org.melkweg.template.proxy;
 
 import org.melkweg.Melkweg;
 import org.melkweg.annotation.*;
-import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.sync.SyncFnEngineSyncScheduler;
 
@@ -37,7 +36,7 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
 
     private Object runAsync(Method method, Object[] objects) {
         String processName = getProcessName(method);
-        AsyncParamWrapper asyncParamWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         Annotation[][] annotations = method.getParameterAnnotations();
         return null;
     }
@@ -61,7 +60,7 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
             }
         }
         paramWrapper =  this.melkweg.runSync(nameSpace,processName,paramWrapper,new SyncFnEngineSyncScheduler());
-        if(method.getReturnType()==ParamWrapper.class){
+        if(method.getReturnType()== ParamWrapper.class){
             return paramWrapper;
         }
         return paramWrapper.getResult(method.getReturnType());

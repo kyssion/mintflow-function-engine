@@ -4,7 +4,7 @@ package org.melkweg.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.handler.async.sample.*;
 
@@ -53,7 +53,7 @@ public class AsyncBaseTest {
     @Test
     public void asyncBaseTest1(){
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test1.fn").build();
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         melkweg.runAsync(
@@ -73,7 +73,7 @@ public class AsyncBaseTest {
     @Test
     public void asyncBaseTest2(){
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test2.fn").build();
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);

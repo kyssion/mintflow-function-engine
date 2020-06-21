@@ -1,6 +1,6 @@
 package org.melkweg.handle.sync;
 
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.exception.HandleUseException;
@@ -17,7 +17,7 @@ public abstract class SyncFnHandler extends FnHandler {
     }
 
     @Override
-    public final void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public final void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         throw new HandleUseException(HandleUseException.NO_USE_SYNC + ",  handle name :" + this.getClass().getName());
     }
 

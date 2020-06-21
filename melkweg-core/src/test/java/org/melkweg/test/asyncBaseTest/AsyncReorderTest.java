@@ -3,7 +3,7 @@ package org.melkweg.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.handler.async.condition.AsyncConditionHandler1;
 import org.melkweg.handler.async.condition.AsyncConditionHandler2;
@@ -61,7 +61,7 @@ public class AsyncReorderTest {
         String item = "test1";
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         StringBuilder ans = new StringBuilder(item + ADD_DATA);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(item);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_reorder_test1.fn").build();
         melkweg.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
@@ -82,7 +82,7 @@ public class AsyncReorderTest {
         String item = "test1";
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         StringBuilder ans = new StringBuilder(item + ADD_DATA);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(item);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_reorder_test2.fn").build();
         melkweg.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{

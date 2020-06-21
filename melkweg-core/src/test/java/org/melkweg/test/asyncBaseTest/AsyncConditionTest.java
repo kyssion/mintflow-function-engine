@@ -3,7 +3,7 @@ package org.melkweg.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.handler.async.condition.AsyncConditionHandler1;
 import org.melkweg.handler.async.condition.AsyncConditionHandler2;
@@ -76,7 +76,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest1(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",CAN_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",CAN_GO);
@@ -95,7 +95,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest2(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",CAN_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);
@@ -114,7 +114,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest3(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",CAN_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);
@@ -135,7 +135,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest4(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",CAN_GO);
@@ -154,7 +154,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest5(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);
@@ -174,7 +174,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest6(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);
@@ -194,7 +194,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest7(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",NO_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);
@@ -215,7 +215,7 @@ public class AsyncConditionTest {
     @Test
     public void asyncConditionTest8(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
+        ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);

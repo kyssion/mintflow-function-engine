@@ -1,6 +1,6 @@
 package org.melkweg.handle.async;
 
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.scheduler.async.FnAsyncEngineScheduler;
@@ -23,12 +23,12 @@ public abstract class AsyncReorderFnHandler extends AsyncToolsFnHandler {
     }
 
     @Override
-    public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         List<AsyncFnHandler> newFnHandlerList = new ArrayList<>(this.getAsyncChildren());
         reorderHandlerList(params,newFnHandlerList);
         new FnAsyncEngineScheduler().asyncRun(params,newFnHandlerList, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));
     }
 
-    public abstract void reorderHandlerList(AsyncParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlers);
+    public abstract void reorderHandlerList(ParamWrapper paramWrapper, List<AsyncFnHandler> fnHandlers);
 
 }

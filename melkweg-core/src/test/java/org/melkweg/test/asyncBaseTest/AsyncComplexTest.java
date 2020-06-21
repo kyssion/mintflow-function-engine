@@ -3,7 +3,7 @@ package org.melkweg.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.melkweg.Melkweg;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.handler.async.condition.AsyncConditionHandler1;
 import org.melkweg.handler.async.condition.AsyncConditionHandler2;
@@ -11,14 +11,6 @@ import org.melkweg.handler.async.condition.AsyncConditionHandler3;
 import org.melkweg.handler.async.condition.AsyncConditionHandler4;
 import org.melkweg.handler.async.reorder.AsyncReorderHandler;
 import org.melkweg.handler.async.sample.*;
-import org.melkweg.handler.sync.condition.ConditionHandler1;
-import org.melkweg.handler.sync.condition.ConditionHandler2;
-import org.melkweg.handler.sync.condition.ConditionHandler3;
-import org.melkweg.handler.sync.condition.ConditionHandler4;
-import org.melkweg.handler.sync.reorder.ReorderHandler;
-import org.melkweg.handler.sync.simple.*;
-import org.melkweg.param.ParamWrapper;
-import org.melkweg.scheduler.sync.SyncFnEngineSyncScheduler;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -87,7 +79,7 @@ public class AsyncComplexTest {
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         String item = "test1";
         StringBuilder ans = new StringBuilder(item + ADD_DATA);
-        AsyncParamWrapper paramWrapper= new AsyncParamWrapper();
+        ParamWrapper paramWrapper= new ParamWrapper();
         paramWrapper.setParam(1);
         paramWrapper.setParam(item);
         paramWrapper.setContextParam("condition_1",NO_GO);

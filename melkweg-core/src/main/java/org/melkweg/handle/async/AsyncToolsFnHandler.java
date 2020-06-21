@@ -1,6 +1,6 @@
 package org.melkweg.handle.async;
 
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.handle.HandleType;
@@ -32,7 +32,7 @@ public abstract class AsyncToolsFnHandler extends AsyncFnHandler {
         super(name, handleType);
     }
 
-    public abstract void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
+    public abstract void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 
     public AsyncToolsFnHandler clone() throws CloneNotSupportedException {
         AsyncToolsFnHandler asyncToolsFnHandle = (AsyncToolsFnHandler) super.clone();

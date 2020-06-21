@@ -1,7 +1,7 @@
 package org.melkweg.handler.async.sample;
 
 import org.melkweg.annotation.MelkwegHandler;
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.handle.async.AsyncSampleFnHandler;
@@ -15,7 +15,7 @@ public class AsyncReorderSampleHandler extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandle(AsyncParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         String itme = params.getParam(String.class);
         params.setParam(itme+ ReorderTest.ADD_DATA);
         asyncScheduler.next(params,asyncResult);

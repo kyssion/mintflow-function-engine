@@ -1,7 +1,7 @@
 package org.melkweg.async.result;
 
-import org.melkweg.async.param.AsyncParamWrapper;
+import org.melkweg.param.ParamWrapper;
 
 public interface AsyncResult {
-    void doResult(AsyncParamWrapper paramWrapper);
+    void doResult(ParamWrapper paramWrapper);
 }
