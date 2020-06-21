@@ -1,17 +1,14 @@
 package org.melkweg.handle.util;
 
-import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.annotation.MelkwegHandler;
 import org.melkweg.exception.BaseRuntimeException;
 import org.melkweg.exception.HandleRepeatRuntimeException;
 import org.melkweg.handle.*;
 import org.melkweg.handle.async.AsyncFnHandler;
-import org.melkweg.handle.async.AsyncToolsFnHandler;
 import org.melkweg.handle.sync.SyncFnHandler;
-import org.melkweg.handle.sync.SyncToolsFnHandler;
 import org.melkweg.util.ClassUtill;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -46,18 +43,18 @@ public class MelkwegHandleMapFinder {
                 continue;
             }
             Class<FnHandler> handlerClass = (Class<FnHandler>) itemClass;
-            MelkwegHander melkwegHander = handlerClass.getAnnotation(MelkwegHander.class);
-            if(melkwegHander==null){
+            MelkwegHandler melkwegHandler = handlerClass.getAnnotation(MelkwegHandler.class);
+            if(melkwegHandler ==null){
                 continue;
             }
-            String name = melkwegHander.name().equals("")?handlerClass.getName():melkwegHander.name();
+            String name = melkwegHandler.name().equals("")?handlerClass.getName(): melkwegHandler.name();
             FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
 
             if(fnHandler instanceof AsyncFnHandler ){
                 Map<String,AsyncFnHandler> asyncFnHandleMap  = mapper.getAsyncFnHandleMap();
                 if(!asyncFnHandleMap.containsKey(name)){
-                    if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
-                        fnHandler.setType(melkwegHander.type());
+                    if(melkwegHandler.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
+                        fnHandler.setType(melkwegHandler.type());
                     }
                     asyncFnHandleMap.put(name, (AsyncFnHandler) fnHandler);
                 }else{
@@ -66,8 +63,8 @@ public class MelkwegHandleMapFinder {
             }else if(fnHandler instanceof SyncFnHandler){
                 Map<String,SyncFnHandler> syncFnHandleMap = mapper.getSyncFnHandleMap();
                 if(!syncFnHandleMap.containsKey(name)){
-                    if(melkwegHander.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
-                        fnHandler.setType(melkwegHander.type());
+                    if(melkwegHandler.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
+                        fnHandler.setType(melkwegHandler.type());
                     }
                     syncFnHandleMap.put(name, (SyncFnHandler) fnHandler);
                 }else{

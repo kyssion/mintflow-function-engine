@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @Inherited
-public @interface MelkwegHander {
+public @interface MelkwegHandler {
     String name() default "";
     HandleType type() default HandleType.UNDERFIND_HANDLE_SYNC;
 }

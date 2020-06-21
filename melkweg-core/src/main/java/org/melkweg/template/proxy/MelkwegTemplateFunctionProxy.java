@@ -1,10 +1,8 @@
 package org.melkweg.template.proxy;
 
 import org.melkweg.Melkweg;
-import org.melkweg.annotation.MelkwegContextParam;
-import org.melkweg.annotation.MelkwegNameSpace;
-import org.melkweg.annotation.MelkwegParam;
-import org.melkweg.process.MelkwegProcess;
+import org.melkweg.annotation.*;
+import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.scheduler.sync.SyncFnEngineSyncScheduler;
 
@@ -29,13 +27,23 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-        MelkwegProcess melkwegProcess = method.getAnnotation(MelkwegProcess.class);
-        String process ="";
-        if(melkwegProcess!=null&&!"".equals(melkwegProcess.name())){
-            process = melkwegProcess.name();
+        AsyncSupport asyncSupport = method.getAnnotation(AsyncSupport.class);
+        if(asyncSupport!=null){
+            return runAsync(method,objects);
         }else{
-            process = method.getName();
+            return runSync(method,objects);
         }
+    }
+
+    private Object runAsync(Method method, Object[] objects) {
+        String processName = getProcessName(method);
+        AsyncParamWrapper asyncParamWrapper = new AsyncParamWrapper();
+        Annotation[][] annotations = method.getParameterAnnotations();
+        return null;
+    }
+
+    private Object runSync(Method method, Object[] objects) {
+        String processName = getProcessName(method);
         ParamWrapper paramWrapper = new ParamWrapper();
         Annotation[][] annotations = method.getParameterAnnotations();
         for (int a=0;a<objects.length;a++){
@@ -52,12 +60,21 @@ public class MelkwegTemplateFunctionProxy<T> implements InvocationHandler {
                 }
             }
         }
-        paramWrapper =  this.melkweg.runSync(nameSpace,process,paramWrapper,new SyncFnEngineSyncScheduler());
+        paramWrapper =  this.melkweg.runSync(nameSpace,processName,paramWrapper,new SyncFnEngineSyncScheduler());
         if(method.getReturnType()==ParamWrapper.class){
             return paramWrapper;
         }
         return paramWrapper.getResult(method.getReturnType());
     }
 
+
+    private String getProcessName(Method method){
+        MelkwegProcess melkwegProcess = method.getAnnotation(MelkwegProcess.class);
+        if(melkwegProcess !=null&&!"".equals(melkwegProcess.name())){
+            return  melkwegProcess.name();
+        }else{
+            return method.getName();
+        }
+    }
 
 }

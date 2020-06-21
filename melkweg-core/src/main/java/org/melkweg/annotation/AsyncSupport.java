@@ -1,4 +1,4 @@
-package org.melkweg.process;
+package org.melkweg.annotation;
 
 import java.lang.annotation.*;
 
@@ -6,6 +6,5 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Documented
 @Inherited
-public @interface MelkwegProcess {
-    String name();
+public @interface AsyncSupport {
 }

@@ -1,12 +1,12 @@
 package org.melkweg.handler.async.sample;
 
-import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.annotation.MelkwegHandler;
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.handle.async.AsyncSampleFnHandler;
 
-@MelkwegHander(name = "async_base_test_handle2")
+@MelkwegHandler(name = "async_base_test_handle2")
 public class AsyncBaseTestHandler2 extends AsyncSampleFnHandler {
     public AsyncBaseTestHandler2(String name) {
         super(name);

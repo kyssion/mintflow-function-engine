@@ -1,15 +1,14 @@
 package org.melkweg.handler.async.reorder;
 
-import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.annotation.MelkwegHandler;
 import org.melkweg.async.param.AsyncParamWrapper;
-import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.async.AsyncFnHandler;
 import org.melkweg.handle.async.AsyncReorderFnHandler;
 import org.melkweg.handler.async.sample.AsyncReorderSampleHandler;
 
 import java.util.List;
 
-@MelkwegHander(name = "async_reorder_handle")
+@MelkwegHandler(name = "async_reorder_handle")
 public class AsyncReorderHandler extends AsyncReorderFnHandler {
     public AsyncReorderHandler(String name) {
         super(name);

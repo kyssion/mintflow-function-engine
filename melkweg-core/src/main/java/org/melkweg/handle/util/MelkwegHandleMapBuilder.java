@@ -1,6 +1,6 @@
 package org.melkweg.handle.util;
 
-import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.annotation.MelkwegHandler;
 import org.melkweg.handle.FnHandler;
 import org.melkweg.handle.async.AsyncFnHandler;
 import org.melkweg.handle.sync.SyncFnHandler;
@@ -54,9 +54,9 @@ public class MelkwegHandleMapBuilder {
     }
 
     private String getHandlerName(FnHandler fnHandler){
-        MelkwegHander melkwegHander = fnHandler.getClass().getAnnotation(MelkwegHander.class);
-        if(melkwegHander!=null){
-            return melkwegHander.name();
+        MelkwegHandler melkwegHandler = fnHandler.getClass().getAnnotation(MelkwegHandler.class);
+        if(melkwegHandler !=null){
+            return melkwegHandler.name();
         }else{
             return fnHandler.getClass().getName();
         }

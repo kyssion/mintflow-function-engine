@@ -1,13 +1,13 @@
 package org.melkweg.handler.async.sample;
 
-import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.annotation.MelkwegHandler;
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.async.result.AsyncResult;
 import org.melkweg.scheduler.async.AsyncScheduler;
 import org.melkweg.handle.async.AsyncSampleFnHandler;
 import org.melkweg.test.syncBaseTest.ReorderTest;
 
-@MelkwegHander(name = "async_reorder_sample_handle")
+@MelkwegHandler(name = "async_reorder_sample_handle")
 public class AsyncReorderSampleHandler extends AsyncSampleFnHandler {
 
     public AsyncReorderSampleHandler(String name) {

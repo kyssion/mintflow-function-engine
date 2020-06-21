@@ -1,12 +1,11 @@
 package org.melkweg.handler.async.condition;
 
-import org.melkweg.annotation.MelkwegHander;
+import org.melkweg.annotation.MelkwegHandler;
 import org.melkweg.handle.async.AsyncConditionFncHandlerWrapper;
-import org.melkweg.handle.sync.SyncConditionFncHandlerWrapper;
 import org.melkweg.param.ParamWrapper;
 import org.melkweg.test.syncBaseTest.ConditionTest;
 
-@MelkwegHander(name = "async_condition_handle_3")
+@MelkwegHandler(name = "async_condition_handle_3")
 public class AsyncConditionHandler3 extends AsyncConditionFncHandlerWrapper.ConditionHandler {
 
     public AsyncConditionHandler3(String name) {
