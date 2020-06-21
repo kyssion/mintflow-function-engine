@@ -1,4 +1,4 @@
-package org.melkweg.syncBaseTest;
+package org.melkweg.test.syncBaseTest;
 
 import org.junit.Test;
 import org.melkweg.Melkweg;
@@ -13,9 +13,9 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.melkweg.syncBaseTest.ConditionTest.CAN_GO;
-import static org.melkweg.syncBaseTest.ConditionTest.NO_GO;
-import static org.melkweg.syncBaseTest.ReorderTest.ADD_DATA;
+import static org.melkweg.test.syncBaseTest.ConditionTest.CAN_GO;
+import static org.melkweg.test.syncBaseTest.ConditionTest.NO_GO;
+import static org.melkweg.test.syncBaseTest.ReorderTest.ADD_DATA;
 
 public class SyncTempleteTest {
 

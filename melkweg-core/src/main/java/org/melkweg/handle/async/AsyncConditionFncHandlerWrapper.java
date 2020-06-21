@@ -6,6 +6,7 @@ import org.melkweg.async.scheduler.AsyncScheduler;
 import org.melkweg.async.scheduler.FnAsyncEngineScheduler;
 import org.melkweg.exception.HandleUseException;
 import org.melkweg.handle.HandleType;
+import org.melkweg.handle.ToolsFnHandle;
 import org.melkweg.param.ParamWrapper;
 
 import java.util.ArrayList;
@@ -56,11 +57,15 @@ public class AsyncConditionFncHandlerWrapper extends AsyncToolsConditionHandlerW
 
     @Override
     public void asyncHandle(AsyncParamWrapper paramWrapper, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
-        if(this.conditionHandlers ==null||this.conditionHandlers.size()==0){
+        if(getToolsFnHandles() ==null||getToolsFnHandles().size()==0){
             asyncScheduler.next(paramWrapper,asyncResult);
         }
         if(asyncResult!=null){
-            for (ConditionHandler conditionHandler : conditionHandlers){
+            for (ToolsFnHandle toolsFnHandle : getToolsFnHandles()){
+                if(toolsFnHandle.getType()!=HandleType.CONDITION_HANDLE_ASYNC){
+                    throw new HandleUseException("当前应该使用async模式的condtion handle ，但是但前为handle为："+toolsFnHandle.getName());
+                }
+                ConditionHandler conditionHandler = (ConditionHandler) toolsFnHandle;
                 if(conditionHandler.condition(paramWrapper)){
                     conditionHandler.asyncHandle(paramWrapper,asyncResult,asyncScheduler);
                     break;

@@ -24,8 +24,8 @@ public class FnEngineDataStructureTool {
         if (handlerDataMap == null) {
             handlerDataMap = new HashMap<>();
         }
-        this.syncHandlerDataMap = handlerDataMap.get(HandleType.SYNC_HANDLE);
-        this.asyncHandleDataMap = handlerDataMap.get(HandleType.ASYNC_HANDLE);
+        this.syncHandlerDataMap = handlerDataMap.getOrDefault(HandleType.SYNC_HANDLE,new HashMap<>());
+        this.asyncHandleDataMap = handlerDataMap.getOrDefault(HandleType.ASYNC_HANDLE,new HashMap<>());
     }
 
     public Map<String, Map<ProcessType,Map<String, List<FnHandler>>>> runGrammarAnalysisTool(List<Word> list) {
@@ -213,7 +213,7 @@ public class FnEngineDataStructureTool {
                         throw new ParsingRuntimeException("当前流程判断语法错误 , if-else if-else 语法块格式不正确", wordKey);
                     }
                     handlerName = findName(list, start + 1);
-                    fnHandler = syncHandlerDataMap.get(handlerName);
+                    fnHandler = getFnHandle(handlerName,isAysnc);
                     if (fnHandler != null) {
                         ToolsFnHandle conditionHander;
                         try {

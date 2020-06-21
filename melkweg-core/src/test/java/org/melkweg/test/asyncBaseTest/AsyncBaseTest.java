@@ -1,4 +1,4 @@
-package org.melkweg.asyncBaseTest;
+package org.melkweg.test.asyncBaseTest;
 
 
 import org.junit.Before;
@@ -7,6 +7,8 @@ import org.melkweg.Melkweg;
 import org.melkweg.async.param.AsyncParamWrapper;
 import org.melkweg.handle.util.MelkwegHandleMapBuilder;
 import org.melkweg.handler.async.sample.*;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -53,9 +55,16 @@ public class AsyncBaseTest {
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test1.fn").build();
         AsyncParamWrapper paramWrapper = new AsyncParamWrapper();
         paramWrapper.setParam(1);
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         melkweg.runAsync(
                 "test_namespace", "async_test_process", paramWrapper,
-                paramWrapper1 -> assertEquals(7, (int) paramWrapper1.getResult(Integer.class)));
+                paramWrapper1 -> {
+                    assertEquals(7, (int) paramWrapper1.getResult(Integer.class));
+                    atomicBoolean.set(true);
+                });
+
+        assertTrue(atomicBoolean.get());
+
     }
 
     /**
@@ -68,14 +77,16 @@ public class AsyncBaseTest {
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         melkweg.runAsync(
                 "test_namespace", "async_test_process", paramWrapper,
                 param -> {
                     assertEquals(7, (int) param.getResult(Integer.class));
                     assertTrue(param.getContextParam("show_start"));
                     assertTrue(param.getContextParam("show_end"));
+                    atomicBoolean.set(true);
                 });
-
+        assertTrue(atomicBoolean.get());
     }
 
 }

@@ -1,0 +1,23 @@
+namespace(test_namespace){
+    async process(async_test_process){
+        ->if(async_condition_handle_1){
+            ->if(async_condition_handle_3){
+                ->handle(async_base_test_handle1)
+            }elif(async_condition_handle_4){
+                ->handle(async_base_test_handle2)
+            }else{
+                ->handle(async_base_test_handle3)
+            }
+        }elif(async_condition_handle_2){
+            ->if(async_condition_handle_3){
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle1)
+            }elif(async_condition_handle_4){
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle2)
+            }else{
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle3)
+            }
+        }else{
+            ->handle(async_base_test_handle3)->handle(async_base_test_handle3)->handle(async_base_test_handle1)
+        }
+    }
+}

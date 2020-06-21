@@ -1,4 +1,4 @@
-package org.melkweg.syncBaseTest;
+package org.melkweg.test.syncBaseTest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +14,8 @@ import org.melkweg.scheduler.FnEngineScheduler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.melkweg.test.BaseTestUtil.NAME_SPACE;
+import static org.melkweg.test.BaseTestUtil.SYNC_PROCESS_NAME;
 
 public class ConditionTest {
 
@@ -81,7 +83,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(2,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -96,7 +98,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(3,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -111,7 +113,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(4,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -128,7 +130,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(5,(int)paramWrapper.getParam(Integer.class));
     }
     /**
@@ -143,7 +145,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(6,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -159,7 +161,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(7,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -175,7 +177,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("condition_4",NO_GO);
         paramWrapper.setParam(1);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(8,(int)paramWrapper.getParam(Integer.class));
     }
 
@@ -184,7 +186,7 @@ public class ConditionTest {
      * 测试包括开头和结尾的逻辑
      */
     @Test
-    public void syncCondtionTest8(){
+    public void syncConditionTest8(){
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
@@ -194,7 +196,7 @@ public class ConditionTest {
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_condition_base_test2.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
         assertEquals(7,(int)paramWrapper.getParam(Integer.class));
         assertTrue(paramWrapper.getContextParam("show_start"));
         assertTrue(paramWrapper.getContextParam("show_end"));

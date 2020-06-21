@@ -1,4 +1,4 @@
-package org.melkweg.syncBaseTest;
+package org.melkweg.test.syncBaseTest;
 
 
 import org.junit.Before;
@@ -11,6 +11,8 @@ import org.melkweg.scheduler.FnEngineScheduler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.melkweg.test.BaseTestUtil.NAME_SPACE;
+import static org.melkweg.test.BaseTestUtil.SYNC_PROCESS_NAME;
 
 
 public class BaseTest {
@@ -54,7 +56,7 @@ public class BaseTest {
         Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_base_test1.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process", paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME, paramWrapper,new FnEngineScheduler());
         assertEquals(7, (int) paramWrapper.getResult(Integer.class));
     }
 
@@ -68,7 +70,7 @@ public class BaseTest {
         paramWrapper.setParam(1);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process", paramWrapper,new FnEngineScheduler());
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME, paramWrapper,new FnEngineScheduler());
 
         assertEquals(7, (int) paramWrapper.getResult(Integer.class));
         assertTrue(paramWrapper.getContextParam("show_start"));

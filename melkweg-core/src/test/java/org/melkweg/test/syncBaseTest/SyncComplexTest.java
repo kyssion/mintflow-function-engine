@@ -1,4 +1,4 @@
-package org.melkweg.syncBaseTest;
+package org.melkweg.test.syncBaseTest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,11 +15,13 @@ import org.melkweg.scheduler.FnEngineScheduler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.melkweg.test.BaseTestUtil.NAME_SPACE;
+import static org.melkweg.test.BaseTestUtil.SYNC_PROCESS_NAME;
+import static org.melkweg.test.syncBaseTest.ConditionTest.CAN_GO;
+import static org.melkweg.test.syncBaseTest.ConditionTest.NO_GO;
+import static org.melkweg.test.syncBaseTest.ReorderTest.ADD_DATA;
 
-public class ReorderTest {
-
-    public final static String ADD_DATA="__reorder_handler";
-
+public class SyncComplexTest {
     /**
      * 初始化
      */
@@ -50,39 +52,49 @@ public class ReorderTest {
     /**
      * namespace(test_namespace){
      *     sync process(sync_test_process){
-     *         ->reorder(reorder_handle){
-     *             ->handle(reorder_sample_handle)
-     *         }
+     *         ->handle(show_start_handle)
+     *         ->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->if(condition_handle_1){
+     *             ->if(condition_handle_3){
+     *                 ->handle(base_test_handle1)
+     *             }elif(condition_handle_4){
+     *                 ->handle(base_test_handle2)
+     *             }else{
+     *                 ->handle(base_test_handle3)
+     *             }
+     *         }elif(condition_handle_2){
+     *             ->if(condition_handle_3){
+     *                 ->handle(base_test_handle3)->handle(base_test_handle1)
+     *             }elif(condition_handle_4){
+     *                 ->reorder(reorder_handle){
+     *                     ->handle(reorder_sample_handle)
+     *                 }
+     *             }else{
+     *                 ->handle(base_test_handle3)->handle(base_test_handle3)
+     *             }
+     *         }else{
+     *                 ->handle(base_test_handle3)->handle(base_test_handle3)->handle(base_test_handle1)
+     *         }->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->handle(show_end_handle)
      *     }
      * }
      */
-    @Test
-    public void reorderTest1(){
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item + ADD_DATA);
-        ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
-        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test1.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
-        int num = paramWrapper.getContextParam("random_number");
-        while(num>=0){
-            ans.append(ADD_DATA);
-            num--;
-        }
-        item = paramWrapper.getParam(String.class);
-        assertEquals(ans.toString(),item);
-    }
 
     @Test
-    public void reorderTest2(){
+    public void complexTest(){
         String item = "test1";
         StringBuilder ans = new StringBuilder(item + ADD_DATA);
-        ParamWrapper paramWrapper = new ParamWrapper();
+        ParamWrapper paramWrapper= new ParamWrapper();
+        paramWrapper.setParam(1);
         paramWrapper.setParam(item);
+        paramWrapper.setContextParam("condition_1",NO_GO);
+        paramWrapper.setContextParam("condition_2",CAN_GO);
+        paramWrapper.setContextParam("condition_3",NO_GO);
+        paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
-        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test2.fn").build();
-        paramWrapper = melkweg.runSync("test_namespace","sync_test_process",paramWrapper,new FnEngineScheduler());
+        Melkweg melkweg = Melkweg.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_complex_test.fn").build();
+        paramWrapper = melkweg.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new FnEngineScheduler());
+        assertEquals(13, (int) paramWrapper.getResult(Integer.class));
+
         int num = paramWrapper.getContextParam("random_number");
         while(num>=0){
             ans.append(ADD_DATA);
@@ -90,6 +102,7 @@ public class ReorderTest {
         }
         item = paramWrapper.getParam(String.class);
         assertEquals(ans.toString(),item);
+
         assertTrue(paramWrapper.getContextParam("show_start"));
         assertTrue(paramWrapper.getContextParam("show_end"));
     }

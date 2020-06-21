@@ -1,7 +1,7 @@
 package org.melkweg.handler.sync.simple;
 
 import org.melkweg.annotation.MelkwegHander;
-import org.melkweg.syncBaseTest.ReorderTest;
+import org.melkweg.test.syncBaseTest.ReorderTest;
 import org.melkweg.handle.sync.SyncSampleFnHandler;
 import org.melkweg.param.ParamWrapper;
 
