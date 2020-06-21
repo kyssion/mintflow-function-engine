@@ -1,0 +1,7 @@
+namespace(test_namespace){
+    async process(async_test_process){
+        ->cycle(async_cycle_test){
+             ->handle(async_cycle_sample_handler)
+         }
+    }
+}

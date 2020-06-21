@@ -20,11 +20,11 @@ public abstract class AsyncCycleFnHandler extends AsyncToolsFnHandler {
         super(name, handleType);
     }
 
-    public abstract CycleParam cycleHandle(ParamWrapper paramWrapper);
+    public abstract CycleParam cycleHandler(ParamWrapper paramWrapper);
 
     @Override
     public final void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
-        CycleParam cycleParam = cycleHandle(params);
+        CycleParam cycleParam = cycleHandler(params);
         int times = cycleParam.getCycleTimes();
         ParamWrapper startParamWrapper = cycleParam.getStartParamWrapper();
         List<AsyncFnHandler> cycleList = new ArrayList<>();

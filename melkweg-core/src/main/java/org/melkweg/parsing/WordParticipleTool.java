@@ -15,7 +15,7 @@ public class WordParticipleTool {
     public static List<Word> createWordParticipleListByFile(String path) throws Exception {
         InputStream fileStream = WordParticipleTool.class.getClassLoader().getResourceAsStream(path);
         if (fileStream == null) {
-            throw new UserMelkwegRuntimeException("");
+            throw new UserMelkwegRuntimeException("没有找到文件："+path);
         }
         return createWordParticipleList(fileStream);
     }
