@@ -30,20 +30,20 @@ public class AsyncReorderTest {
     public void initMapDate(){
         mapBuilder = new MelkwegHandleMapBuilder();
 
-        mapBuilder.add("async_condition_handle_1",new AsyncConditionHandler1("async_condition_handle_1"));
-        mapBuilder.add("async_condition_handle_2",new AsyncConditionHandler2("async_condition_handle_2"));
-        mapBuilder.add("async_condition_handle_3",new AsyncConditionHandler3("async_condition_handle_3"));
-        mapBuilder.add("async_condition_handle_4",new AsyncConditionHandler4("async_condition_handle_4"));
+        mapBuilder.put("async_condition_handle_1",new AsyncConditionHandler1("async_condition_handle_1"));
+        mapBuilder.put("async_condition_handle_2",new AsyncConditionHandler2("async_condition_handle_2"));
+        mapBuilder.put("async_condition_handle_3",new AsyncConditionHandler3("async_condition_handle_3"));
+        mapBuilder.put("async_condition_handle_4",new AsyncConditionHandler4("async_condition_handle_4"));
 
-        mapBuilder.add("async_base_test_handle1",new AsyncBaseTestHandler1("async_base_test_handle1"));
-        mapBuilder.add("async_base_test_handle2",new AsyncBaseTestHandler2("async_base_test_handle2"));
-        mapBuilder.add("async_base_test_handle3",new AsyncBaseTestHandler3("async_base_test_handle3"));
+        mapBuilder.put("async_base_test_handle1",new AsyncBaseTestHandler1("async_base_test_handle1"));
+        mapBuilder.put("async_base_test_handle2",new AsyncBaseTestHandler2("async_base_test_handle2"));
+        mapBuilder.put("async_base_test_handle3",new AsyncBaseTestHandler3("async_base_test_handle3"));
 
-        mapBuilder.add("async_show_start_handle",new AsyncShowStartHandler("async_show_start_handle"));
-        mapBuilder.add("async_show_end_handle",new AsyncShowEndHandler("async_show_end_handle"));
+        mapBuilder.put("async_show_start_handle",new AsyncShowStartHandler("async_show_start_handle"));
+        mapBuilder.put("async_show_end_handle",new AsyncShowEndHandler("async_show_end_handle"));
 
-        mapBuilder.add("async_reorder_handle",new AsyncReorderHandler("async_reorder_handle"));
-        mapBuilder.add("async_reorder_sample_handle",new AsyncReorderSampleHandler("async_reorder_sample_handle"));
+        mapBuilder.put("async_reorder_handle",new AsyncReorderHandler("async_reorder_handle"));
+        mapBuilder.put("async_reorder_sample_handle",new AsyncReorderSampleHandler("async_reorder_sample_handle"));
     }
 
 

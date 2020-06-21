@@ -29,18 +29,18 @@ public class ConditionTest {
     public void initMapDate(){
         mapBuilder = new MelkwegHandleMapBuilder();
 
-        mapBuilder.add("condition_handle_1",new ConditionHandler1("condition_handle_1"));
-        mapBuilder.add("condition_handle_2",new ConditionHandler2("condition_handle_2"));
-        mapBuilder.add("condition_handle_3",new ConditionHandler3("condition_handle_3"));
-        mapBuilder.add("condition_handle_4",new ConditionHandler4("condition_handle_4"));
+        mapBuilder.put("condition_handle_1",new ConditionHandler1("condition_handle_1"));
+        mapBuilder.put("condition_handle_2",new ConditionHandler2("condition_handle_2"));
+        mapBuilder.put("condition_handle_3",new ConditionHandler3("condition_handle_3"));
+        mapBuilder.put("condition_handle_4",new ConditionHandler4("condition_handle_4"));
 
 
-        mapBuilder.add("base_test_handle1",new BaseTestHandler1("base_test_handle1"));
-        mapBuilder.add("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
-        mapBuilder.add("base_test_handle3",new BaseTestHandler3("base_test_handle3"));
+        mapBuilder.put("base_test_handle1",new BaseTestHandler1("base_test_handle1"));
+        mapBuilder.put("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
+        mapBuilder.put("base_test_handle3",new BaseTestHandler3("base_test_handle3"));
 
-        mapBuilder.add("show_start_handle",new ShowStartHandler("show_start_handle"));
-        mapBuilder.add("show_end_handle",new ShowEndHandler("show_end_handle"));
+        mapBuilder.put("show_start_handle",new ShowStartHandler("show_start_handle"));
+        mapBuilder.put("show_end_handle",new ShowEndHandler("show_end_handle"));
     }
 
     /**

@@ -37,19 +37,19 @@ public class MelkwegHandleMapBuilder {
         this.handlemap= new Mapper();
     }
 
-    public void add(SyncFnHandler syncFnHandler){
-        add(getHandlerName(syncFnHandler),syncFnHandler);
+    public void put(SyncFnHandler syncFnHandler){
+        put(getHandlerName(syncFnHandler),syncFnHandler);
     }
 
-    public void add(String name,SyncFnHandler syncFnHandler){
+    public void put(String name, SyncFnHandler syncFnHandler){
         this.handlemap.getSyncFnHandleMap().put(name, syncFnHandler);
     }
 
-    public void add(AsyncFnHandler asyncFnHandler){
-        add(getHandlerName(asyncFnHandler),asyncFnHandler);
+    public void put(AsyncFnHandler asyncFnHandler){
+        put(getHandlerName(asyncFnHandler),asyncFnHandler);
     }
 
-    public void add(String name,AsyncFnHandler asyncFnHandler){
+    public void put(String name, AsyncFnHandler asyncFnHandler){
         this.handlemap.getAsyncFnHandleMap().put(name, asyncFnHandler);
     }
 

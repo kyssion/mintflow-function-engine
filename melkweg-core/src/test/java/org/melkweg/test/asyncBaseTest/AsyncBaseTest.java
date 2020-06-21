@@ -22,12 +22,12 @@ public class AsyncBaseTest {
     @Before
     public void initMaperData(){
         mapBuilder = new MelkwegHandleMapBuilder();
-        mapBuilder.add("async_base_test_handle1",new AsyncBaseTestHandler1("async_base_test_handle1"));
-        mapBuilder.add("async_base_test_handle2",new AsyncBaseTestHandler2("async_base_test_handle2"));
-        mapBuilder.add("async_base_test_handle3",new AsyncBaseTestHandler3("async_base_test_handle3"));
+        mapBuilder.put("async_base_test_handle1",new AsyncBaseTestHandler1("async_base_test_handle1"));
+        mapBuilder.put("async_base_test_handle2",new AsyncBaseTestHandler2("async_base_test_handle2"));
+        mapBuilder.put("async_base_test_handle3",new AsyncBaseTestHandler3("async_base_test_handle3"));
 
-        mapBuilder.add("async_show_start_handle",new AsyncShowStartHandler("async_show_start_handle"));
-        mapBuilder.add("async_show_end_handle",new AsyncShowEndHandler("async_show_end_handle"));
+        mapBuilder.put("async_show_start_handle",new AsyncShowStartHandler("async_show_start_handle"));
+        mapBuilder.put("async_show_end_handle",new AsyncShowEndHandler("async_show_end_handle"));
     }
 
     /**

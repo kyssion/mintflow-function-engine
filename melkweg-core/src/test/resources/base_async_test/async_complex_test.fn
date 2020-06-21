@@ -1,0 +1,26 @@
+namespace(test_namespace){
+    async process(async_test_process){
+        ->handle(async_show_start_handle)
+        ->handle(async_base_test_handle1)->handle(async_base_test_handle2)->handle(async_base_test_handle3)->if(async_condition_handle_1){
+            ->if(async_condition_handle_3){
+                ->handle(async_base_test_handle1)
+            }elif(async_condition_handle_4){
+                ->handle(async_base_test_handle2)
+            }else{
+                ->handle(async_base_test_handle3)
+            }
+        }elif(async_condition_handle_2){
+            ->if(async_condition_handle_3){
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle1)
+            }elif(async_condition_handle_4){
+                ->reorder(async_reorder_handle){
+                    ->handle(async_reorder_sample_handle)
+                }
+            }else{
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle3)
+            }
+        }else{
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle3)->handle(async_base_test_handle1)
+        }->handle(async_base_test_handle1)->handle(async_base_test_handle2)->handle(async_base_test_handle3)->handle(async_show_end_handle)
+    }
+}

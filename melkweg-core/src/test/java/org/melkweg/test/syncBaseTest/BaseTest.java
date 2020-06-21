@@ -23,12 +23,12 @@ public class BaseTest {
     @Before
     public void initMaperData(){
         mapBuilder = new MelkwegHandleMapBuilder();
-        mapBuilder.add("base_test_handle1",new BaseTestHandler1("base_test_handle1"));
-        mapBuilder.add("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
-        mapBuilder.add("base_test_handle3",new BaseTestHandler3("base_test_handle3"));
+        mapBuilder.put("base_test_handle1",new BaseTestHandler1("base_test_handle1"));
+        mapBuilder.put("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
+        mapBuilder.put("base_test_handle3",new BaseTestHandler3("base_test_handle3"));
 
-        mapBuilder.add("show_start_handle",new ShowStartHandler("show_start_handle"));
-        mapBuilder.add("show_end_handle",new ShowEndHandler("show_end_handle"));
+        mapBuilder.put("show_start_handle",new ShowStartHandler("show_start_handle"));
+        mapBuilder.put("show_end_handle",new ShowEndHandler("show_end_handle"));
     }
 
     /**
