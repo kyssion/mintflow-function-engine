@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.func-engine</groupId>
-    <artifactId>melkweg-fn-engine</artifactId>
+    <artifactId>mintflow-fn-engine</artifactId>
     <version>1.0.0</version>
 
     <packaging>pom</packaging>
@@ -18,11 +18,11 @@
         <junit.version>4.13</junit.version>
     </properties>
     <modules>
-        <module>melkweg-core</module>
-        <module>melkweg-dev-tools</module>
-        <module>melkweg-spring</module>
-        <module>melkweg-vertx</module>
-        <module>melkweg-example</module>
+        <module>mintflow-core</module>
+        <module>mintflow-dev-tools</module>
+        <module>mintflow-spring</module>
+        <module>mintflow-vertx</module>
+        <module>mintflow-example</module>
     </modules>
       <dependencyManagement>
           <dependencies>
