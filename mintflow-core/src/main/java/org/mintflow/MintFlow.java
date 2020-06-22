@@ -16,7 +16,7 @@ import org.mintflow.scheduler.sync.SyncScheduler;
 
 import java.util.List;
 
-public final class MintFlow {
+public class MintFlow {
 
     public static class MintFlowBuilder{
 
@@ -54,7 +54,7 @@ public final class MintFlow {
     //Represents a collection of processors, used for logic consumption graphs and processor mapping
     private MintFlowHandleMapBuilder.Mapper handlerDataMapper;
 
-    private MintFlow() {
+    protected MintFlow() {
         super();
     }
 
@@ -105,5 +105,4 @@ public final class MintFlow {
     public static MintFlowBuilder newBuilder(MintFlowHandleMapBuilder.Mapper handlerDataMap){
         return new MintFlowBuilder(handlerDataMap);
     }
-
 }
