@@ -4,6 +4,8 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.buffer.impl.BufferImpl;
 import io.vertx.core.http.HttpServer;
+import org.mintflow.MintFlow;
+import org.mintflow.vertx.route.Router;
 
 public class RunTest {
     public static void main(String[] args) {
@@ -40,6 +42,9 @@ public class RunTest {
 //                throwable.printStackTrace();
 //            });
         });
+
+        server.requestHandler(new Router(MintFlow.newBuilder(null).build()));
+
         server.listen(8080,  res -> {
             if (res.succeeded()) {
                 System.out.println("Server is now listening!");
