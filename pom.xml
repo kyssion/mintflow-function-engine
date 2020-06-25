@@ -12,7 +12,7 @@
     <properties>
         <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
         <spring.version>5.1.9.RELEASE</spring.version>
-        <vertx.version>3.9.0</vertx.version>
+        <vertx.version>3.9.1</vertx.version>
         <version>1.0.0</version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.13</junit.version>

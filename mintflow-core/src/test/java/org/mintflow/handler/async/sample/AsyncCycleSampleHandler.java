@@ -17,7 +17,7 @@ public class AsyncCycleSampleHandler extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         String item = params.getParam(String.class);
         params.setParam(item+ADD_DATA);
         asyncScheduler.next(params,asyncResult);

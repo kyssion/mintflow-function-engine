@@ -7,7 +7,7 @@ import org.mintflow.handle.sync.SyncFnHandler;
 import org.mintflow.handle.sync.SyncToolsFnHandler;
 
 public final class FnHandlerUtil {
-    public static boolean checkHandleCanUse(FnHandler fnHandler){
+    public static boolean checkHandlerCanUse(FnHandler fnHandler){
         return fnHandler instanceof AsyncToolsFnHandler || fnHandler instanceof AsyncFnHandler
                 || fnHandler instanceof SyncFnHandler ||fnHandler instanceof SyncToolsFnHandler;
     }

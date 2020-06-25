@@ -4,7 +4,7 @@ import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
 import org.mintflow.scheduler.async.AsyncScheduler;
 import org.mintflow.scheduler.async.FnAsyncEngineScheduler;
-import org.mintflow.handle.HandleType;
+import org.mintflow.handle.HandlerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +15,15 @@ import java.util.List;
 public abstract class AsyncReorderFnHandler extends AsyncToolsFnHandler {
 
     public AsyncReorderFnHandler(String name){
-        this(name, HandleType.REORDER_HANDLE_ASYNC);
+        this(name, HandlerType.REORDER_HANDLE_ASYNC);
     }
 
-    private AsyncReorderFnHandler(String name, HandleType handleType) {
+    private AsyncReorderFnHandler(String name, HandlerType handleType) {
         super(name, handleType);
     }
 
     @Override
-    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         List<AsyncFnHandler> newFnHandlerList = new ArrayList<>(this.getAsyncChildren());
         reorderHandlerList(params,newFnHandlerList);
         new FnAsyncEngineScheduler(newFnHandlerList).next(params, paramWrapper -> asyncScheduler.next(paramWrapper,asyncResult));

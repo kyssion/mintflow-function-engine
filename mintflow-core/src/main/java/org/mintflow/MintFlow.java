@@ -1,11 +1,12 @@
 package org.mintflow;
 
 import org.mintflow.async.result.AsyncResult;
+import org.mintflow.handle.MintFlowHandlerMapper;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.handle.HandlerDataMap;
 import org.mintflow.handle.async.AsyncFnHandler;
 import org.mintflow.handle.sync.SyncFnHandler;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.scheduler.async.AsyncScheduler;
 import org.mintflow.scheduler.async.FnAsyncEngineScheduler;
 import org.mintflow.builder.FnMapperBuilder;
@@ -23,9 +24,9 @@ public class MintFlow {
         private final HandlerDataMap handlerDataMap;
 
         //Represents a collection of processors, used for logic consumption graphs and processor mapping
-        private final MintFlowHandleMapBuilder.Mapper handlerDataMapper;
+        private final MintFlowHandlerMapper handlerDataMapper;
 
-        public MintFlowBuilder(MintFlowHandleMapBuilder.Mapper mapper){
+        public MintFlowBuilder(MintFlowHandlerMapper mapper){
             this.handlerDataMapper = mapper;
             this.handlerDataMap= new HandlerDataMap();
         }
@@ -52,7 +53,7 @@ public class MintFlow {
 
 
     //Represents a collection of processors, used for logic consumption graphs and processor mapping
-    private MintFlowHandleMapBuilder.Mapper handlerDataMapper;
+    private MintFlowHandlerMapper handlerDataMapper;
 
     protected MintFlow() {
         super();
@@ -102,7 +103,7 @@ public class MintFlow {
         }
     }
 
-    public static MintFlowBuilder newBuilder(MintFlowHandleMapBuilder.Mapper handlerDataMap){
+    public static MintFlowBuilder newBuilder(MintFlowHandlerMapper handlerDataMap){
         return new MintFlowBuilder(handlerDataMap);
     }
 }

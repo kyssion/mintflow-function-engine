@@ -1,6 +1,6 @@
 package org.mintflow.handle.sync;
 
-import org.mintflow.handle.HandleType;
+import org.mintflow.handle.HandlerType;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncScheduler;
 
@@ -14,10 +14,10 @@ public abstract class SyncReorderFnHandler extends SyncToolsFnHandler {
 
 
     public SyncReorderFnHandler(String name){
-        this(name, HandleType.REORDER_HANDLE_SYNC);
+        this(name, HandlerType.REORDER_HANDLE_SYNC);
     }
 
-    private SyncReorderFnHandler(String name, HandleType handleType) {
+    private SyncReorderFnHandler(String name, HandlerType handleType) {
         super(name, handleType);
     }
 

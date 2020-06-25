@@ -3,7 +3,7 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.handler.sync.condition.ConditionHandler1;
 import org.mintflow.handler.sync.condition.ConditionHandler2;
 import org.mintflow.handler.sync.condition.ConditionHandler3;
@@ -24,10 +24,10 @@ public class ConditionTest {
     /**
      * 测试
      */
-    MintFlowHandleMapBuilder mapBuilder;
+    MintFlowHandlerMapperBuilder mapBuilder;
     @Before
     public void initMapDate(){
-        mapBuilder = new MintFlowHandleMapBuilder();
+        mapBuilder = new MintFlowHandlerMapperBuilder();
 
         mapBuilder.put("condition_handle_1",new ConditionHandler1("condition_handle_1"));
         mapBuilder.put("condition_handle_2",new ConditionHandler2("condition_handle_2"));

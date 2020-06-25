@@ -13,7 +13,7 @@ public class AsyncBaseTestHandler2 extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         Integer item = params.getParam(Integer.class);
         params.setParam(item+2);
         asyncScheduler.next(params,asyncResult);

@@ -50,11 +50,11 @@ if elif else| 控制语句和 CycleHandler 连用
 
 ## 简单 handle处理器
 
-只需要继承handle接口，并且使用@Handle注解指定handle的名称
+只需要继承handle接口，并且使用@Handler注解指定handle的名称
 
 ```java
 @Handler(value = "one")
-public class TestHandleOne implements Handle {
+public class TestHandlerOne implements Handler {
     @Override
     public void before() {}
     @Override
@@ -86,12 +86,12 @@ handle|普通调用的方法
 
 ```java
 @Handler(value = "rone")
-public class ReoaderOne extends ReorderHandle {
+public class ReoaderOne extends ReorderHandler {
     @Override
-    public void buildHandleSteam(List<Handle> handleList, ParamWrapper paramWrapper) {
-        handleList.sort(new Comparator<Handle>() {
+    public void buildHandlerSteam(List<Handler> handleList, ParamWrapper paramWrapper) {
+        handleList.sort(new Comparator<Handler>() {
             @Override
-            public int compare(Handle o1, Handle o2) {
+            public int compare(Handler o1, Handler o2) {
                 return 0;
             }
         });
@@ -105,7 +105,7 @@ public class ReoaderOne extends ReorderHandle {
 
 ```java
 @Handler("sone")
-public class SelectOne extends SelectorHandle {
+public class SelectOne extends SelectorHandler {
     @Override
     public boolean select(ParamWrapper p) {
         Integer integer = p.get(Integer.class);

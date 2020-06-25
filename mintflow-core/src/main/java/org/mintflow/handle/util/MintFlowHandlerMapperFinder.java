@@ -2,7 +2,7 @@ package org.mintflow.handle.util;
 
 import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.exception.BaseRuntimeException;
-import org.mintflow.exception.HandleRepeatRuntimeException;
+import org.mintflow.exception.HandlerRepeatRuntimeException;
 import org.mintflow.handle.*;
 import org.mintflow.handle.async.AsyncFnHandler;
 import org.mintflow.handle.sync.SyncFnHandler;
@@ -16,12 +16,12 @@ import java.util.logging.Logger;
 /**
  * Scan all implementation classes of the handler interface and generate map mappings
  */
-public class MintFlowHandleMapFinder {
+public class MintFlowHandlerMapperFinder {
 
-    private static final Logger logger = Logger.getLogger(MintFlowHandleMapFinder.class.getName());
+    private static final Logger logger = Logger.getLogger(MintFlowHandlerMapperFinder.class.getName());
 
-    public static MintFlowHandleMapBuilder.Mapper findHandleDataMap(String...pkgNames){
-        MintFlowHandleMapBuilder.Mapper mapper = new MintFlowHandleMapBuilder.Mapper();
+    public static MintFlowHandlerMapper findHandlerDataMap(String...pkgNames){
+        MintFlowHandlerMapper mapper = new MintFlowHandlerMapper();
         for (String pkgName : pkgNames){
             try {
                 addNewHandler(pkgName,mapper);
@@ -35,7 +35,7 @@ public class MintFlowHandleMapFinder {
     }
 
     @SuppressWarnings("unchecked")
-    private static void addNewHandler(String pkgName, MintFlowHandleMapBuilder.Mapper mapper) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static void addNewHandler(String pkgName, MintFlowHandlerMapper mapper) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Set<Class<?>> pkgClassSet = ClassUtill.getClassSet(pkgName, FnHandler.class);
         for(Class<?> itemClass : pkgClassSet){
 
@@ -51,27 +51,27 @@ public class MintFlowHandleMapFinder {
             FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
 
             if(fnHandler instanceof AsyncFnHandler ){
-                Map<String,AsyncFnHandler> asyncFnHandleMap  = mapper.getAsyncFnHandleMap();
-                if(!asyncFnHandleMap.containsKey(name)){
-                    if(MintFlowHandler.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
+                Map<String,AsyncFnHandler> asyncFnHandlerMap  = mapper.getAsyncFnHandlerMap();
+                if(!asyncFnHandlerMap.containsKey(name)){
+                    if(MintFlowHandler.type()!=HandlerType.UNDERFIND_HANDLE_SYNC){
                         fnHandler.setType(MintFlowHandler.type());
                     }
-                    asyncFnHandleMap.put(name, (AsyncFnHandler) fnHandler);
+                    asyncFnHandlerMap.put(name, (AsyncFnHandler) fnHandler);
                 }else{
-                    throw new HandleRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
+                    throw new HandlerRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
                 }
             }else if(fnHandler instanceof SyncFnHandler){
-                Map<String,SyncFnHandler> syncFnHandleMap = mapper.getSyncFnHandleMap();
-                if(!syncFnHandleMap.containsKey(name)){
-                    if(MintFlowHandler.type()!=HandleType.UNDERFIND_HANDLE_SYNC){
+                Map<String,SyncFnHandler> syncFnHandlerMap = mapper.getSyncFnHandlerMap();
+                if(!syncFnHandlerMap.containsKey(name)){
+                    if(MintFlowHandler.type()!=HandlerType.UNDERFIND_HANDLE_SYNC){
                         fnHandler.setType(MintFlowHandler.type());
                     }
-                    syncFnHandleMap.put(name, (SyncFnHandler) fnHandler);
+                    syncFnHandlerMap.put(name, (SyncFnHandler) fnHandler);
                 }else{
-                    throw new HandleRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
+                    throw new HandlerRepeatRuntimeException("当前handle名称存在冲突 : name ->"+name +"| class ->"+handlerClass.getName());
                 }
             }else{
-                throw new HandleRepeatRuntimeException("当前handle为不支持类型 : class name :"+fnHandler.getClass().getName());
+                throw new HandlerRepeatRuntimeException("当前handle为不支持类型 : class name :"+fnHandler.getClass().getName());
             }
 
         }

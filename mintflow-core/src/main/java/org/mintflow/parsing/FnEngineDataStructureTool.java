@@ -2,18 +2,16 @@ package org.mintflow.parsing;
 
 import org.mintflow.exception.ParsingRuntimeException;
 import org.mintflow.handle.*;
-import org.mintflow.handle.FnHandler;
 import org.mintflow.handle.async.AsyncConditionFncHandlerWrapper;
 import org.mintflow.handle.async.AsyncFnHandler;
 import org.mintflow.handle.async.AsyncToolsFnHandler;
 import org.mintflow.handle.sync.SyncConditionFncHandlerWrapper;
 import org.mintflow.handle.sync.SyncFnHandler;
 import org.mintflow.handle.sync.SyncToolsFnHandler;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.parsing.mark.Word;
 import org.mintflow.parsing.mark.WordType;
-import org.mintflow.process.ProcessType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,16 +21,16 @@ import java.util.Map;
 public class FnEngineDataStructureTool {
 
     private final Map<String, SyncFnHandler> syncHandlerDataMap;
-    private final Map<String, AsyncFnHandler> asyncHandleDataMap;
+    private final Map<String, AsyncFnHandler> asyncHandlerDataMap;
 
-    public FnEngineDataStructureTool(MintFlowHandleMapBuilder.Mapper mapper) {
+    public FnEngineDataStructureTool(MintFlowHandlerMapper mapper) {
         if (mapper == null) {
             syncHandlerDataMap = new HashMap<>();
-            asyncHandleDataMap = new HashMap<>();
+            asyncHandlerDataMap = new HashMap<>();
             return;
         }
-        this.syncHandlerDataMap = mapper.getSyncFnHandleMap();
-        this.asyncHandleDataMap = mapper.getAsyncFnHandleMap();
+        this.syncHandlerDataMap = mapper.getSyncFnHandlerMap();
+        this.asyncHandlerDataMap = mapper.getAsyncFnHandlerMap();
     }
 
     public HandlerDataMap runGrammarAnalysisTool(List<Word> list) {
@@ -48,7 +46,7 @@ public class FnEngineDataStructureTool {
             String name = findName(list, start + 1);
             dataStructureMap.add(name, processMap);
             int namespaceEnd = findBlockEndIndex(list, start + 4, end);
-            processMap.addAll(processHandleListBuild(list, start + 5, namespaceEnd - 1));
+            processMap.addAll(processHandlerListBuild(list, start + 5, namespaceEnd - 1));
             start = namespaceEnd + 1;
         }
         return dataStructureMap;
@@ -94,7 +92,7 @@ public class FnEngineDataStructureTool {
         return start;
     }
 
-    private HandlerDataMap.ProcessDataMap processHandleListBuild(List<Word> list, int start, int end) {
+    private HandlerDataMap.ProcessDataMap processHandlerListBuild(List<Word> list, int start, int end) {
         HandlerDataMap.ProcessDataMap processMap = new HandlerDataMap.ProcessDataMap();
         while (start <= end) {
             boolean isAsync = false;
@@ -152,9 +150,9 @@ public class FnEngineDataStructureTool {
             switch (handlerWord.getType()) {
                 case HANDLE:
                     handleName = findName(list, start + 1);
-                    asyncFnHandler = asyncHandleDataMap.get(handleName);
+                    asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()==HandleType.SAMPLE_HANDLE_ASYNC){
+                        if(asyncFnHandler.getType()==HandlerType.SAMPLE_HANDLE_ASYNC){
                             try {
                                 fnHandlerList.add(asyncFnHandler.clone());
                             } catch (CloneNotSupportedException e) {
@@ -170,9 +168,9 @@ public class FnEngineDataStructureTool {
                     break;
                 case REORDER_HANDLE:
                     handleName = findName(list, start + 1);
-                    asyncFnHandler = asyncHandleDataMap.get(handleName);
+                    asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()==HandleType.REORDER_HANDLE_ASYNC) {
+                        if(asyncFnHandler.getType()==HandlerType.REORDER_HANDLE_ASYNC) {
                             AsyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((AsyncToolsFnHandler) asyncFnHandler).clone();
@@ -194,9 +192,9 @@ public class FnEngineDataStructureTool {
                     }
                 case CYCLE_HANDLE:
                     handleName = findName(list, start + 1);
-                    asyncFnHandler = asyncHandleDataMap.get(handleName);
+                    asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()==HandleType.CYCLE_HANDLE_ASYNC) {
+                        if(asyncFnHandler.getType()==HandlerType.CYCLE_HANDLE_ASYNC) {
                             AsyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((AsyncToolsFnHandler) asyncFnHandler).clone();
@@ -219,7 +217,7 @@ public class FnEngineDataStructureTool {
                 case CONDITION_IF_HANDLE:
                     AsyncConditionFncHandlerWrapper toolsConditonHandlerWrapper = new AsyncConditionFncHandlerWrapper();
                     fnHandlerList.add(toolsConditonHandlerWrapper);
-                    start = conditionHandleListBuildAsync(list, start, end, toolsConditonHandlerWrapper);
+                    start = conditionHandlerListBuildAsync(list, start, end, toolsConditonHandlerWrapper);
                     break;
                 default:
                     throw new ParsingRuntimeException("当前语法发生错误,此处应该为流程标记符号", handlerWord);
@@ -244,7 +242,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     syncFnHandler = syncHandlerDataMap.get(handleName);
                     if (syncFnHandler != null) {
-                        if(syncFnHandler.getType()==HandleType.SAMPLE_HANDLE_SYNC){
+                        if(syncFnHandler.getType()==HandlerType.SAMPLE_HANDLE_SYNC){
                             try {
                                 fnHandlerList.add(syncFnHandler.clone());
                             } catch (CloneNotSupportedException e) {
@@ -262,7 +260,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     syncFnHandler = syncHandlerDataMap.get(handleName);
                     if (syncFnHandler != null) {
-                        if(syncFnHandler.getType()==HandleType.REORDER_HANDLE_SYNC) {
+                        if(syncFnHandler.getType()==HandlerType.REORDER_HANDLE_SYNC) {
                             SyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((SyncToolsFnHandler) syncFnHandler).clone();
@@ -286,7 +284,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     syncFnHandler = syncHandlerDataMap.get(handleName);
                     if (syncFnHandler != null) {
-                        if(syncFnHandler.getType()==HandleType.CYCLE_HANDLE_SYNC) {
+                        if(syncFnHandler.getType()==HandlerType.CYCLE_HANDLE_SYNC) {
                             SyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((SyncToolsFnHandler) syncFnHandler).clone();
@@ -309,7 +307,7 @@ public class FnEngineDataStructureTool {
                 case CONDITION_IF_HANDLE:
                     SyncConditionFncHandlerWrapper syncConditionFncHandlerWrapper = new SyncConditionFncHandlerWrapper();
                     fnHandlerList.add(syncConditionFncHandlerWrapper);
-                    start = conditionHandleListBuildSync(list, start, end, syncConditionFncHandlerWrapper);
+                    start = conditionHandlerListBuildSync(list, start, end, syncConditionFncHandlerWrapper);
                     break;
                 default:
                     throw new ParsingRuntimeException("当前语法发生错误,此处应该为流程标记符号", handlerWord);
@@ -317,7 +315,7 @@ public class FnEngineDataStructureTool {
         }
         return fnHandlerList;
     }
-    private int conditionHandleListBuildAsync(List<Word> list, int start, int end, AsyncConditionFncHandlerWrapper wrapper) {
+    private int conditionHandlerListBuildAsync(List<Word> list, int start, int end, AsyncConditionFncHandlerWrapper wrapper) {
         boolean findIf = false;
         String handlerName;
         AsyncFnHandler asyncFnHandler;
@@ -333,7 +331,7 @@ public class FnEngineDataStructureTool {
                         throw new ParsingRuntimeException("当前流程判断语法错误 , if-else if-else 语法块格式不正确", wordKey);
                     }
                     handlerName = findName(list, start + 1);
-                    asyncFnHandler = asyncHandleDataMap.get(handlerName);
+                    asyncFnHandler = asyncHandlerDataMap.get(handlerName);
                     if (asyncFnHandler != null) {
                         AsyncToolsFnHandler conditionHander;
                         try {
@@ -372,7 +370,7 @@ public class FnEngineDataStructureTool {
         }
         return start;
     }
-    private int conditionHandleListBuildSync(List<Word> list, int start, int end, SyncConditionFncHandlerWrapper wrapper) {
+    private int conditionHandlerListBuildSync(List<Word> list, int start, int end, SyncConditionFncHandlerWrapper wrapper) {
         boolean findIf = false;
         String handlerName;
         SyncFnHandler syncFnHandler;

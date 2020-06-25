@@ -4,7 +4,7 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.handler.sync.simple.*;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
@@ -18,11 +18,11 @@ import static org.mintflow.test.BaseTestUtil.SYNC_PROCESS_NAME;
 public class BaseTest {
 
 
-    MintFlowHandleMapBuilder mapBuilder;
+    MintFlowHandlerMapperBuilder mapBuilder;
 
     @Before
     public void initMaperData(){
-        mapBuilder = new MintFlowHandleMapBuilder();
+        mapBuilder = new MintFlowHandlerMapperBuilder();
         mapBuilder.put("base_test_handle1",new BaseTestHandler1("base_test_handle1"));
         mapBuilder.put("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
         mapBuilder.put("base_test_handle3",new BaseTestHandler3("base_test_handle3"));

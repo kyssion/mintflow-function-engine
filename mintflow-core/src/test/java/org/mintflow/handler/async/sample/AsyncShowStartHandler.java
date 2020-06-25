@@ -14,7 +14,7 @@ public class AsyncShowStartHandler extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         params.setContextParam("show_start",true);
         asyncScheduler.next(params,asyncResult);
     }

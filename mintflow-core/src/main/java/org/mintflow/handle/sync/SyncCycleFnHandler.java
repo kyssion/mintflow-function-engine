@@ -1,6 +1,6 @@
 package org.mintflow.handle.sync;
 
-import org.mintflow.handle.HandleType;
+import org.mintflow.handle.HandlerType;
 import org.mintflow.param.CycleParam;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncScheduler;
@@ -11,10 +11,10 @@ import java.util.List;
 public abstract class SyncCycleFnHandler extends SyncToolsFnHandler {
 
     protected SyncCycleFnHandler(String name) {
-        this(name, HandleType.CYCLE_HANDLE_SYNC);
+        this(name, HandlerType.CYCLE_HANDLE_SYNC);
     }
 
-    private SyncCycleFnHandler(String name, HandleType handleType) {
+    private SyncCycleFnHandler(String name, HandlerType handleType) {
         super(name, handleType);
     }
 

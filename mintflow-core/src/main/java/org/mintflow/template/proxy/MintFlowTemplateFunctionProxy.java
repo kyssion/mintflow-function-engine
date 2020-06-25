@@ -3,7 +3,7 @@ package org.mintflow.template.proxy;
 import org.mintflow.MintFlow;
 import org.mintflow.annotation.*;
 import org.mintflow.async.result.AsyncResult;
-import org.mintflow.exception.HandleUseException;
+import org.mintflow.exception.HandlerUseException;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
 
@@ -41,7 +41,7 @@ public class MintFlowTemplateFunctionProxy<T> implements InvocationHandler {
         ParamWrapper paramWrapper = getParamWrapper(method,objects);
         int lastOne = objects.length-1;
         if(objects.length==0||!(objects[lastOne] instanceof AsyncResult)){
-            throw new HandleUseException("当前未发现，结果回调获取逻辑，method："+method.getName());
+            throw new HandlerUseException("当前未发现，结果回调获取逻辑，method："+method.getName());
         }
         AsyncResult asyncResult = (AsyncResult) objects[lastOne];
         this.MintFlow.runAsync(nameSpace,processName,paramWrapper,asyncResult);

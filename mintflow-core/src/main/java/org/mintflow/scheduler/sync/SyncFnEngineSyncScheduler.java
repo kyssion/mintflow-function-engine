@@ -1,6 +1,6 @@
 package org.mintflow.scheduler.sync;
 
-import org.mintflow.exception.HandleUseException;
+import org.mintflow.exception.HandlerUseException;
 import org.mintflow.handle.FnHandler;
 import org.mintflow.handle.sync.SyncConditionFncHandlerWrapper;
 import org.mintflow.handle.sync.SyncCycleFnHandler;
@@ -38,7 +38,7 @@ public class SyncFnEngineSyncScheduler implements SyncScheduler {
                     paramWrapper = syncCycleFnHandler.handle(paramWrapper,this);
                     break;
                 default:
-                    throw new HandleUseException("出现未知类型，不能在迭代器中运行，name："+fnHandler.getName()+" type:"+fnHandler.getType().getName());
+                    throw new HandlerUseException("出现未知类型，不能在迭代器中运行，name："+fnHandler.getName()+" type:"+fnHandler.getType().getName());
             }
         }
         return paramWrapper;

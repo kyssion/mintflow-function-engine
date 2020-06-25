@@ -15,7 +15,7 @@ public class AsyncReorderSampleHandler extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         String itme = params.getParam(String.class);
         params.setParam(itme+ ReorderTest.ADD_DATA);
         asyncScheduler.next(params,asyncResult);

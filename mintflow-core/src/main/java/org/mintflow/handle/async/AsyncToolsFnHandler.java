@@ -3,7 +3,7 @@ package org.mintflow.handle.async;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
 import org.mintflow.scheduler.async.AsyncScheduler;
-import org.mintflow.handle.HandleType;
+import org.mintflow.handle.HandlerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ public abstract class AsyncToolsFnHandler extends AsyncFnHandler {
         return asyncChildren;
     }
 
-    public void addChildren(AsyncFnHandler syncFnHandle){
-        this.asyncChildren.add(syncFnHandle);
+    public void addChildren(AsyncFnHandler syncFnHandler){
+        this.asyncChildren.add(syncFnHandler);
     }
 
     public void addChildren(List<AsyncFnHandler> asyncChildren){
@@ -28,15 +28,15 @@ public abstract class AsyncToolsFnHandler extends AsyncFnHandler {
         super(name);
     }
 
-    protected AsyncToolsFnHandler(String name, HandleType handleType) {
+    protected AsyncToolsFnHandler(String name, HandlerType handleType) {
         super(name, handleType);
     }
 
-    public abstract void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
+    public abstract void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 
     public AsyncToolsFnHandler clone() throws CloneNotSupportedException {
-        AsyncToolsFnHandler asyncToolsFnHandle = (AsyncToolsFnHandler) super.clone();
-        asyncToolsFnHandle.asyncChildren= new ArrayList<>();
-        return asyncToolsFnHandle;
+        AsyncToolsFnHandler asyncToolsFnHandler = (AsyncToolsFnHandler) super.clone();
+        asyncToolsFnHandler.asyncChildren= new ArrayList<>();
+        return asyncToolsFnHandler;
     }
 }

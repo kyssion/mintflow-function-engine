@@ -3,7 +3,7 @@ package org.mintflow.handle;
 /**
  * Used to describe the type that the current handler belongs to
  */
-public enum  HandleType {
+public enum  HandlerType {
 
     UNDERFIND_HANDLE_SYNC("underfind handle sync",0),
     SAMPLE_HANDLE_SYNC("sample handle sync",1),
@@ -23,7 +23,7 @@ public enum  HandleType {
     ASYNC_HANDLE("ASYNC_HANDLE",14),
     SYNC_HANDLE("SYNC_HANDLE",15);
 
-    HandleType(String name,int code){
+    HandlerType(String name,int code){
         this.name = name;
         this.code = code;
     }

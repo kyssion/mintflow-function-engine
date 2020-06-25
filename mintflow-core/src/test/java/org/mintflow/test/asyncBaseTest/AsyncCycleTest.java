@@ -3,7 +3,7 @@ package org.mintflow.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.handler.async.condition.AsyncConditionHandler1;
 import org.mintflow.handler.async.condition.AsyncConditionHandler2;
 import org.mintflow.handler.async.condition.AsyncConditionHandler3;
@@ -11,16 +11,7 @@ import org.mintflow.handler.async.condition.AsyncConditionHandler4;
 import org.mintflow.handler.async.cycle.AsyncCycleTestHandler;
 import org.mintflow.handler.async.reorder.AsyncReorderHandler;
 import org.mintflow.handler.async.sample.*;
-import org.mintflow.handler.sync.condition.ConditionHandler1;
-import org.mintflow.handler.sync.condition.ConditionHandler2;
-import org.mintflow.handler.sync.condition.ConditionHandler3;
-import org.mintflow.handler.sync.condition.ConditionHandler4;
-import org.mintflow.handler.sync.cycle.SyncCycleTestHandler;
-import org.mintflow.handler.sync.reorder.ReorderHandler;
-import org.mintflow.handler.sync.simple.*;
-import org.mintflow.handler.sync.simple.CycleSampleHandler;
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -32,11 +23,11 @@ public class AsyncCycleTest {
 
     public final static String ADD_DATA = "_cycle";
 
-    MintFlowHandleMapBuilder mapBuilder;
+    MintFlowHandlerMapperBuilder mapBuilder;
 
     @Before
     public void initMapDate(){
-        mapBuilder = new MintFlowHandleMapBuilder();
+        mapBuilder = new MintFlowHandlerMapperBuilder();
 
         mapBuilder.put("async_condition_handle_1",new AsyncConditionHandler1("async_condition_handle_1"));
         mapBuilder.put("async_condition_handle_2",new AsyncConditionHandler2("async_condition_handle_2"));

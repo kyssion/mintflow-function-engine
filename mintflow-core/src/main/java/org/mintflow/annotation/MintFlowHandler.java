@@ -1,6 +1,6 @@
 package org.mintflow.annotation;
 
-import org.mintflow.handle.HandleType;
+import org.mintflow.handle.HandlerType;
 
 import java.lang.annotation.*;
 
@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface MintFlowHandler {
     String name() default "";
-    HandleType type() default HandleType.UNDERFIND_HANDLE_SYNC;
+    HandlerType type() default HandlerType.UNDERFIND_HANDLE_SYNC;
 }

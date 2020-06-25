@@ -3,9 +3,9 @@ package org.mintflow.test.asyncBaseTest;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.MintFlowTemplate;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
-import org.mintflow.handle.util.MintFlowHandleMapFinder;
-import org.mintflow.param.ParamWrapper;
+import org.mintflow.handle.MintFlowHandlerMapper;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperFinder;
 import org.mintflow.templateFunction.Function1;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -21,7 +21,7 @@ public class AsyncTempleteTest {
     @Test
     public void test(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        MintFlowHandleMapBuilder.Mapper dataMapper = MintFlowHandleMapFinder.findHandleDataMap(
+        MintFlowHandlerMapper dataMapper = MintFlowHandlerMapperFinder.findHandlerDataMap(
                 "org.mintflow.handler"
         );
         MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_async_test/async_complex_test.fn").build();

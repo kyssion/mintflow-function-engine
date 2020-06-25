@@ -3,14 +3,11 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.MintFlowTemplate;
-import org.mintflow.handle.FnHandler;
-import org.mintflow.handle.HandleType;
-import org.mintflow.handle.util.MintFlowHandleMapBuilder;
-import org.mintflow.handle.util.MintFlowHandleMapFinder;
+import org.mintflow.handle.MintFlowHandlerMapper;
+import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handle.util.MintFlowHandlerMapperFinder;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.templateFunction.Function1;
-
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,7 +19,7 @@ public class SyncTempleteTest {
 
     @Test
     public void test(){
-        MintFlowHandleMapBuilder.Mapper dataMapper = MintFlowHandleMapFinder.findHandleDataMap(
+        MintFlowHandlerMapper dataMapper = MintFlowHandlerMapperFinder.findHandlerDataMap(
                 "org.mintflow.handler"
         );
         MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_sync_test/sync_complex_test.fn").build();

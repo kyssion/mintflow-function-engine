@@ -10,13 +10,13 @@ import org.mintflow.scheduler.async.AsyncScheduler;
 public abstract class FnHandler implements Cloneable{
 
     private String name;
-    private HandleType type;
+    private HandlerType type;
 
     protected FnHandler(String name) {
-        this(name,HandleType.SAMPLE_HANDLE_SYNC);
+        this(name,HandlerType.SAMPLE_HANDLE_SYNC);
     }
 
-    protected FnHandler(String name, HandleType handleType){
+    protected FnHandler(String name, HandlerType handleType){
         this.name = name;
         this.type= handleType;
     }
@@ -29,17 +29,17 @@ public abstract class FnHandler implements Cloneable{
         this.name = name;
     }
 
-    public HandleType getType() {
+    public HandlerType getType() {
         return type;
     }
 
-    public void setType(HandleType type) {
+    public void setType(HandlerType type) {
         this.type = type;
     }
 
     public abstract ParamWrapper handle(ParamWrapper params);
 
-    public abstract void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
+    public abstract void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 
     @Override
     public FnHandler clone() throws CloneNotSupportedException {

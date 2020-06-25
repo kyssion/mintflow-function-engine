@@ -1,7 +1,7 @@
 package org.mintflow.handle.sync;
 
-import org.mintflow.exception.HandleUseException;
-import org.mintflow.handle.HandleType;
+import org.mintflow.exception.HandlerUseException;
+import org.mintflow.handle.HandlerType;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncScheduler;
 
@@ -11,10 +11,10 @@ import org.mintflow.scheduler.sync.SyncScheduler;
 public final class SyncConditionFncHandlerWrapper extends SyncToolsFnHandler {
 
     public SyncConditionFncHandlerWrapper(){
-        this(SyncConditionFncHandlerWrapper.class.getName(), HandleType.CONDITION_HANDLE_WRAPPER_SYNC);
+        this(SyncConditionFncHandlerWrapper.class.getName(), HandlerType.CONDITION_HANDLE_WRAPPER_SYNC);
     }
 
-    private SyncConditionFncHandlerWrapper(String name, HandleType handleType) {
+    private SyncConditionFncHandlerWrapper(String name, HandlerType handleType) {
         super(name, handleType);
     }
 
@@ -22,10 +22,10 @@ public final class SyncConditionFncHandlerWrapper extends SyncToolsFnHandler {
 
 
         public ConditionHandler(String name) {
-            this(name, HandleType.CONDITION_HANDLE_SYNC);
+            this(name, HandlerType.CONDITION_HANDLE_SYNC);
         }
 
-        private ConditionHandler(String name, HandleType handleType) {
+        private ConditionHandler(String name, HandlerType handleType) {
             super(name, handleType);
         }
 
@@ -50,8 +50,8 @@ public final class SyncConditionFncHandlerWrapper extends SyncToolsFnHandler {
         }
         if(syncScheduler !=null){
             for (SyncFnHandler syncFnHandler : getSyncChildren()){
-                if(syncFnHandler.getType()!=HandleType.CONDITION_HANDLE_SYNC){
-                    throw new HandleUseException("当前应该使用sync模式的condtion handle ，但是但前为handle为："+ syncFnHandler.getName());
+                if(syncFnHandler.getType()!=HandlerType.CONDITION_HANDLE_SYNC){
+                    throw new HandlerUseException("当前应该使用sync模式的condtion handle ，但是但前为handle为："+ syncFnHandler.getName());
                 }
                 ConditionHandler conditionHandler = (ConditionHandler) syncFnHandler;
                 if(conditionHandler.condition(paramWrapper)){
