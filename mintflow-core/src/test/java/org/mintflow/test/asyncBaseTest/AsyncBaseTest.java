@@ -52,7 +52,8 @@ public class AsyncBaseTest {
      */
     @Test
     public void asyncBaseTest1(){
-        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_base_test1.fn").build();
+        MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build())
+                .addFnMapper("base_async_test/async_base_test1.fn").build();
         ParamWrapper paramWrapper = new ParamWrapper();
         paramWrapper.setParam(1);
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);

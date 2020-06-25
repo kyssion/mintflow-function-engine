@@ -25,6 +25,9 @@ public class Router implements Handler<HttpServerRequest> {
         RequestParam requestParam = getRequestParam(request);
         String url = request.path();
         RouterData routerData = routerDataMap.get(url);
+        if(routerData==null){
+            throw new RuntimeException("not find url map");
+        }
         request.bodyHandler(buf->{
             requestParam.setBody(buf.toString());
             ParamWrapper paramWrapper = routerData.getRequestParamAdapter().createParams(requestParam);

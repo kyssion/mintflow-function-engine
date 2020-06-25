@@ -2,7 +2,6 @@ package org.mintflow.param;
 
 public class CycleParam {
 
-
     private ParamWrapper startParamWrapper;
     private int cycleTimes;
 

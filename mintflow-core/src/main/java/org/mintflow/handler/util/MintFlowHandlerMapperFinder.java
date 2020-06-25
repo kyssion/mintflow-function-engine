@@ -49,7 +49,7 @@ public class MintFlowHandlerMapperFinder {
             if(MintFlowHandler ==null){
                 continue;
             }
-            String name = MintFlowHandler.name().equals("")?handlerClass.getName(): MintFlowHandler.name();
+            String name = MintFlowHandler.name().equals("")?handlerClass.getSimpleName(): MintFlowHandler.name();
             FnHandler fnHandler = handlerClass.getConstructor(String.class).newInstance(name);
 
             if(fnHandler instanceof AsyncFnHandler ){
