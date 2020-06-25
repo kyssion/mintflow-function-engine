@@ -1,8 +1,8 @@
-package org.mintflow.handle.sync;
+package org.mintflow.handler.sync;
 
-import org.mintflow.handle.HandlerType;
+import org.mintflow.handler.HandlerType;
 
-import static org.mintflow.handle.HandlerType.SAMPLE_HANDLE_SYNC;
+import static org.mintflow.handler.HandlerType.SAMPLE_HANDLE_SYNC;
 
 /**
  * Implementation class of abstract classes

@@ -1,6 +1,6 @@
 package org.mintflow.annotation;
 
-import org.mintflow.handle.HandlerType;
+import org.mintflow.handler.HandlerType;
 
 import java.lang.annotation.*;
 

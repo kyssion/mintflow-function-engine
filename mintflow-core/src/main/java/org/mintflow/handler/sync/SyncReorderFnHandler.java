@@ -1,6 +1,6 @@
-package org.mintflow.handle.sync;
+package org.mintflow.handler.sync;
 
-import org.mintflow.handle.HandlerType;
+import org.mintflow.handler.HandlerType;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncScheduler;
 

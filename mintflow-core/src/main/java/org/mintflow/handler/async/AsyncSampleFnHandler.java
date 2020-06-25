@@ -1,8 +1,8 @@
-package org.mintflow.handle.async;
+package org.mintflow.handler.async;
 
-import org.mintflow.handle.HandlerType;
+import org.mintflow.handler.HandlerType;
 
-import static org.mintflow.handle.HandlerType.SAMPLE_HANDLE_ASYNC;
+import static org.mintflow.handler.HandlerType.SAMPLE_HANDLE_ASYNC;
 
 /**
  * Implementation class of abstract classes

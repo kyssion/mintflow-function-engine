@@ -1,7 +1,7 @@
 package org.mintflow.builder;
 
-import org.mintflow.handle.HandlerDataMap;
-import org.mintflow.handle.MintFlowHandlerMapper;
+import org.mintflow.handler.HandlerDataMap;
+import org.mintflow.handler.MintFlowHandlerMapper;
 import org.mintflow.parsing.FnEngineDataStructureTool;
 import org.mintflow.parsing.WordParticipleTool;
 import org.mintflow.parsing.mark.Word;

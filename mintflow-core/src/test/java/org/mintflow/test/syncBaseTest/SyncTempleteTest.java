@@ -3,9 +3,8 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.MintFlowTemplate;
-import org.mintflow.handle.MintFlowHandlerMapper;
-import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
-import org.mintflow.handle.util.MintFlowHandlerMapperFinder;
+import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.util.MintFlowHandlerMapperFinder;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.templateFunction.Function1;
 

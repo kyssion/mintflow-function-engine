@@ -1,4 +1,4 @@
-package org.mintflow.handle;
+package org.mintflow.handler;
 
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
@@ -39,7 +39,7 @@ public abstract class FnHandler implements Cloneable{
 
     public abstract ParamWrapper handle(ParamWrapper params);
 
-    public abstract void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
+    public abstract void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 
     @Override
     public FnHandler clone() throws CloneNotSupportedException {

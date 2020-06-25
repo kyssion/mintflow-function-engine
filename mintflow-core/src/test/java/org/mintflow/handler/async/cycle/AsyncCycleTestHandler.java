@@ -1,7 +1,7 @@
 package org.mintflow.handler.async.cycle;
 
 import org.mintflow.annotation.MintFlowHandler;
-import org.mintflow.handle.async.AsyncCycleFnHandler;
+import org.mintflow.handler.async.AsyncCycleFnHandler;
 import org.mintflow.param.CycleParam;
 import org.mintflow.param.ParamWrapper;
 

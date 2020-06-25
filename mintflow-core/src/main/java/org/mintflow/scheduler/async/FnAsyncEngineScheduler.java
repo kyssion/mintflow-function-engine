@@ -3,8 +3,8 @@ package org.mintflow.scheduler.async;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
 import org.mintflow.exception.HandlerUseException;
-import org.mintflow.handle.FnHandler;
-import org.mintflow.handle.async.*;
+import org.mintflow.handler.FnHandler;
+import org.mintflow.handler.async.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,22 +30,22 @@ public class FnAsyncEngineScheduler implements AsyncScheduler {
         switch (asyncFnHandler.getType()){
             case SAMPLE_HANDLE_ASYNC:
                 AsyncSampleFnHandler asyncSampleFnHandler = (AsyncSampleFnHandler) asyncFnHandler;
-                asyncSampleFnHandler.asyncHandler(paramWrapper,asyncResult,this);
+                asyncSampleFnHandler.asyncHandle(paramWrapper,asyncResult,this);
                 break;
             case REORDER_HANDLE_ASYNC:
                 //强制转化为 同步组建类 handle
                 AsyncReorderFnHandler asyncReorderFnHandler = (AsyncReorderFnHandler) asyncFnHandler;
-                asyncReorderFnHandler.asyncHandler(paramWrapper,asyncResult,this);
+                asyncReorderFnHandler.asyncHandle(paramWrapper,asyncResult,this);
                 break;
             case CONDITION_HANDLE_WRAPPER_ASYNC:
                 //强制转化为 同步组建类 handle
                 AsyncConditionFncHandlerWrapper asyncConditionFncHandlerWrapper = (AsyncConditionFncHandlerWrapper) asyncFnHandler;
-                asyncConditionFncHandlerWrapper.asyncHandler(paramWrapper,asyncResult,this);
+                asyncConditionFncHandlerWrapper.asyncHandle(paramWrapper,asyncResult,this);
                 break;
             case CYCLE_HANDLE_ASYNC:
                 //强制转化为 同步组建类 handle
                 AsyncCycleFnHandler asyncCycleFnHandler = (AsyncCycleFnHandler) asyncFnHandler;
-                asyncCycleFnHandler.asyncHandler(paramWrapper,asyncResult,this);
+                asyncCycleFnHandler.asyncHandle(paramWrapper,asyncResult,this);
                 break;
             default:
                 throw new HandlerUseException("出现未知类型，不能在迭代器中运行，name："+asyncFnHandler.getName()+" type:"+asyncFnHandler.getType().getName());

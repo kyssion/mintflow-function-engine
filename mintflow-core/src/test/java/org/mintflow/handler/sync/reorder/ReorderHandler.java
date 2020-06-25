@@ -1,8 +1,8 @@
 package org.mintflow.handler.sync.reorder;
 
 import org.mintflow.annotation.MintFlowHandler;
-import org.mintflow.handle.sync.SyncFnHandler;
-import org.mintflow.handle.sync.SyncReorderFnHandler;
+import org.mintflow.handler.sync.SyncFnHandler;
+import org.mintflow.handler.sync.SyncReorderFnHandler;
 import org.mintflow.handler.sync.simple.ReorderSampleHandler;
 import org.mintflow.param.ParamWrapper;
 

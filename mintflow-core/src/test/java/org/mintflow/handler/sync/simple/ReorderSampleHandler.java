@@ -2,7 +2,7 @@ package org.mintflow.handler.sync.simple;
 
 import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.test.syncBaseTest.ReorderTest;
-import org.mintflow.handle.sync.SyncSampleFnHandler;
+import org.mintflow.handler.sync.SyncSampleFnHandler;
 import org.mintflow.param.ParamWrapper;
 
 @MintFlowHandler(name = "reorder_sample_handle")

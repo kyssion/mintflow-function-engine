@@ -1,9 +1,9 @@
-package org.mintflow.handle.async;
+package org.mintflow.handler.async;
 
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
 import org.mintflow.scheduler.async.AsyncScheduler;
-import org.mintflow.handle.HandlerType;
+import org.mintflow.handler.HandlerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public abstract class AsyncToolsFnHandler extends AsyncFnHandler {
         super(name, handleType);
     }
 
-    public abstract void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
+    public abstract void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler);
 
     public AsyncToolsFnHandler clone() throws CloneNotSupportedException {
         AsyncToolsFnHandler asyncToolsFnHandler = (AsyncToolsFnHandler) super.clone();

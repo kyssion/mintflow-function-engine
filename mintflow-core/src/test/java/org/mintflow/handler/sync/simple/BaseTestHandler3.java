@@ -1,7 +1,7 @@
 package org.mintflow.handler.sync.simple;
 
 import org.mintflow.annotation.MintFlowHandler;
-import org.mintflow.handle.sync.SyncSampleFnHandler;
+import org.mintflow.handler.sync.SyncSampleFnHandler;
 import org.mintflow.param.ParamWrapper;
 
 @MintFlowHandler(name = "base_test_handle3")

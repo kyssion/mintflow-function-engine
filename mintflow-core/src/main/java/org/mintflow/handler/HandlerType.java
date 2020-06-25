@@ -1,4 +1,4 @@
-package org.mintflow.handle;
+package org.mintflow.handler;
 
 /**
  * Used to describe the type that the current handler belongs to

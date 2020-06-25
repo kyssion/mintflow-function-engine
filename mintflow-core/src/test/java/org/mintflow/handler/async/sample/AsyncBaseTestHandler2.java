@@ -4,7 +4,7 @@ import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
 import org.mintflow.scheduler.async.AsyncScheduler;
-import org.mintflow.handle.async.AsyncSampleFnHandler;
+import org.mintflow.handler.async.AsyncSampleFnHandler;
 
 @MintFlowHandler(name = "async_base_test_handle2")
 public class AsyncBaseTestHandler2 extends AsyncSampleFnHandler {
@@ -13,7 +13,7 @@ public class AsyncBaseTestHandler2 extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         Integer item = params.getParam(Integer.class);
         params.setParam(item+2);
         asyncScheduler.next(params,asyncResult);

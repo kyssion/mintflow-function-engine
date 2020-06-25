@@ -1,11 +1,13 @@
-package org.mintflow.handle.util;
+package org.mintflow.handler.util;
 
 import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.exception.BaseRuntimeException;
 import org.mintflow.exception.HandlerRepeatRuntimeException;
-import org.mintflow.handle.*;
-import org.mintflow.handle.async.AsyncFnHandler;
-import org.mintflow.handle.sync.SyncFnHandler;
+import org.mintflow.handler.FnHandler;
+import org.mintflow.handler.HandlerType;
+import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.async.AsyncFnHandler;
+import org.mintflow.handler.sync.SyncFnHandler;
 import org.mintflow.util.ClassUtill;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +55,7 @@ public class MintFlowHandlerMapperFinder {
             if(fnHandler instanceof AsyncFnHandler ){
                 Map<String,AsyncFnHandler> asyncFnHandlerMap  = mapper.getAsyncFnHandlerMap();
                 if(!asyncFnHandlerMap.containsKey(name)){
-                    if(MintFlowHandler.type()!=HandlerType.UNDERFIND_HANDLE_SYNC){
+                    if(MintFlowHandler.type()!= HandlerType.UNDERFIND_HANDLE_SYNC){
                         fnHandler.setType(MintFlowHandler.type());
                     }
                     asyncFnHandlerMap.put(name, (AsyncFnHandler) fnHandler);

@@ -2,7 +2,7 @@ package org.mintflow.handler.sync.condition;
 
 import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.test.syncBaseTest.ConditionTest;
-import org.mintflow.handle.sync.SyncConditionFncHandlerWrapper;
+import org.mintflow.handler.sync.SyncConditionFncHandlerWrapper;
 import org.mintflow.param.ParamWrapper;
 
 @MintFlowHandler(name = "condition_handle_4")

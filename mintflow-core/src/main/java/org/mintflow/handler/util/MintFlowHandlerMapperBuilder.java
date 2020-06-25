@@ -1,10 +1,10 @@
-package org.mintflow.handle.util;
+package org.mintflow.handler.util;
 
 import org.mintflow.annotation.MintFlowHandler;
-import org.mintflow.handle.FnHandler;
-import org.mintflow.handle.MintFlowHandlerMapper;
-import org.mintflow.handle.async.AsyncFnHandler;
-import org.mintflow.handle.sync.SyncFnHandler;
+import org.mintflow.handler.FnHandler;
+import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.async.AsyncFnHandler;
+import org.mintflow.handler.sync.SyncFnHandler;
 
 
 public class MintFlowHandlerMapperBuilder {

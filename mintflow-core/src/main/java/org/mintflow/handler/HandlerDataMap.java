@@ -1,7 +1,7 @@
-package org.mintflow.handle;
+package org.mintflow.handler;
 
-import org.mintflow.handle.async.AsyncFnHandler;
-import org.mintflow.handle.sync.SyncFnHandler;
+import org.mintflow.handler.async.AsyncFnHandler;
+import org.mintflow.handler.sync.SyncFnHandler;
 
 import java.util.HashMap;
 import java.util.List;

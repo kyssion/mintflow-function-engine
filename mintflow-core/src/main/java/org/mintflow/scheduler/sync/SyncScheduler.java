@@ -1,6 +1,6 @@
 package org.mintflow.scheduler.sync;
 
-import org.mintflow.handle.sync.SyncFnHandler;
+import org.mintflow.handler.sync.SyncFnHandler;
 import org.mintflow.param.ParamWrapper;
 
 import java.util.List;

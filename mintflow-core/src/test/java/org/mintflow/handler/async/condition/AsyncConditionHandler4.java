@@ -1,7 +1,7 @@
 package org.mintflow.handler.async.condition;
 
 import org.mintflow.annotation.MintFlowHandler;
-import org.mintflow.handle.async.AsyncConditionFncHandlerWrapper;
+import org.mintflow.handler.async.AsyncConditionFncHandlerWrapper;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.test.syncBaseTest.ConditionTest;
 

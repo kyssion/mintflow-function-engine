@@ -4,7 +4,7 @@ import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.async.result.AsyncResult;
 import org.mintflow.scheduler.async.AsyncScheduler;
-import org.mintflow.handle.async.AsyncSampleFnHandler;
+import org.mintflow.handler.async.AsyncSampleFnHandler;
 
 @MintFlowHandler(name = "async_show_end_handle")
 public class AsyncShowEndHandler extends AsyncSampleFnHandler {
@@ -14,7 +14,7 @@ public class AsyncShowEndHandler extends AsyncSampleFnHandler {
     }
 
     @Override
-    public void asyncHandler(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
+    public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         params.setContextParam("show_end",true);
         asyncScheduler.next(params,asyncResult);
     }

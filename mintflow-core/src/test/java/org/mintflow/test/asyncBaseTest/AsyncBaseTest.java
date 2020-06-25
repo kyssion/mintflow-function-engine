@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handler.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.handler.async.sample.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;

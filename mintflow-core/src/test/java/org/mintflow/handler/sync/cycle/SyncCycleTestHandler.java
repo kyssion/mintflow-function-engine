@@ -1,7 +1,7 @@
 package org.mintflow.handler.sync.cycle;
 
 import org.mintflow.annotation.MintFlowHandler;
-import org.mintflow.handle.sync.SyncCycleFnHandler;
+import org.mintflow.handler.sync.SyncCycleFnHandler;
 import org.mintflow.param.CycleParam;
 import org.mintflow.param.ParamWrapper;
 

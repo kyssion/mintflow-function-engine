@@ -3,7 +3,7 @@ package org.mintflow.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
-import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handler.util.MintFlowHandlerMapperBuilder;
 import org.mintflow.handler.async.condition.AsyncConditionHandler1;
 import org.mintflow.handler.async.condition.AsyncConditionHandler2;
 import org.mintflow.handler.async.condition.AsyncConditionHandler3;

@@ -1,14 +1,15 @@
 package org.mintflow.parsing;
 
 import org.mintflow.exception.ParsingRuntimeException;
-import org.mintflow.handle.*;
-import org.mintflow.handle.async.AsyncConditionFncHandlerWrapper;
-import org.mintflow.handle.async.AsyncFnHandler;
-import org.mintflow.handle.async.AsyncToolsFnHandler;
-import org.mintflow.handle.sync.SyncConditionFncHandlerWrapper;
-import org.mintflow.handle.sync.SyncFnHandler;
-import org.mintflow.handle.sync.SyncToolsFnHandler;
-import org.mintflow.handle.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handler.HandlerDataMap;
+import org.mintflow.handler.HandlerType;
+import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.async.AsyncConditionFncHandlerWrapper;
+import org.mintflow.handler.async.AsyncFnHandler;
+import org.mintflow.handler.async.AsyncToolsFnHandler;
+import org.mintflow.handler.sync.SyncConditionFncHandlerWrapper;
+import org.mintflow.handler.sync.SyncFnHandler;
+import org.mintflow.handler.sync.SyncToolsFnHandler;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.parsing.mark.Word;
 import org.mintflow.parsing.mark.WordType;
@@ -152,7 +153,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()==HandlerType.SAMPLE_HANDLE_ASYNC){
+                        if(asyncFnHandler.getType()== HandlerType.SAMPLE_HANDLE_ASYNC){
                             try {
                                 fnHandlerList.add(asyncFnHandler.clone());
                             } catch (CloneNotSupportedException e) {
