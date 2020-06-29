@@ -10,7 +10,7 @@ import io.vertx.core.MultiMap;
  *         event.response().putHeader();
  *         event.response().write()
  */
-public class ResponseParams {
+public class ResponseParam {
     private String data;
     private MultiMap cookies;
     private boolean chunked;
