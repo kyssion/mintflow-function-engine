@@ -31,3 +31,4 @@ project/
 *.iml
 /target/
 */target/*
+target
