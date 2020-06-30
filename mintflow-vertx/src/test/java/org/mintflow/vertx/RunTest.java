@@ -5,7 +5,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.buffer.impl.BufferImpl;
 import io.vertx.core.http.HttpServer;
 import org.mintflow.MintFlow;
-import org.mintflow.vertx.route.Router;
+import org.mintflow.vertx.http.Router;
 
 public class RunTest {
     public static void main(String[] args) {

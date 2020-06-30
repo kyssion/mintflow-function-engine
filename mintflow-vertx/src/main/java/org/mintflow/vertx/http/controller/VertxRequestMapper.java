@@ -1,4 +1,4 @@
-package org.mintflow.vertx.controller;
+package org.mintflow.vertx.http.controller;
 
 import io.vertx.core.http.HttpMethod;
 

@@ -1,4 +1,4 @@
-package org.mintflow.vertx.param;
+package org.mintflow.vertx.http.param;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.Cookie;

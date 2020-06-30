@@ -1,4 +1,4 @@
-package org.mintflow.vertx.param;
+package org.mintflow.vertx.http.param;
 
 import io.vertx.core.MultiMap;
 
@@ -11,17 +11,34 @@ import io.vertx.core.MultiMap;
  *         event.response().write()
  */
 public class ResponseParam {
-    private String data;
+    private int statusCode;
+    private String statusMessage;
+    private Object data;
     private MultiMap cookies;
     private boolean chunked;
-    private int statusMessage;
     private MultiMap header;
 
-    public String getData() {
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -39,14 +56,6 @@ public class ResponseParam {
 
     public void setChunked(boolean chunked) {
         this.chunked = chunked;
-    }
-
-    public int getStatusMessage() {
-        return statusMessage;
-    }
-
-    public void setStatusMessage(int statusMessage) {
-        this.statusMessage = statusMessage;
     }
 
     public MultiMap getHeader() {
