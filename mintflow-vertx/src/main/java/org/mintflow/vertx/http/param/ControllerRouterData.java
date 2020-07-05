@@ -1,15 +1,15 @@
 package org.mintflow.vertx.http.param;
 
-import org.mintflow.vertx.http.adapter.ResponseParamAdapter;
+import org.mintflow.vertx.http.adapter.response.ResponseParamAdapter;
 
 import java.lang.reflect.Method;
 
-public class ControllerRouterData<T> {
+public class ControllerRouterData {
     private String nameSpace;
     private String process;
     private Method method;
     private Object item;
-    private ResponseParamAdapter<T> responseParamAdapter;
+    private ResponseParamAdapter responseParamAdapter;
 
     public Object getItem() {
         return item;

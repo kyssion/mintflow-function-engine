@@ -2,14 +2,11 @@ package org.mintflow.vertx.http;
 
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
-import org.mintflow.MintFlow;
-import org.mintflow.param.ParamWrapper;
 import org.mintflow.vertx.http.adapter.request.DefaultRequestParamAdapter;
 import org.mintflow.vertx.http.adapter.request.RequestParamAdapter;
 import org.mintflow.vertx.http.adapter.response.ResponseParamAdapter;
-import org.mintflow.vertx.http.param.ControllerRouterData;
-import org.mintflow.vertx.http.param.ResponseParam;
 import org.mintflow.vertx.http.adapter.response.DefaultResponseParamAdapter;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +14,21 @@ import java.util.Map;
 public class Router implements Handler<HttpServerRequest> {
 
     private static class RouterData{
+
         private String url;
         private String nameSpace;
         private String process;
+        private HttpMethod httpMethod;
         private RequestParamAdapter requestParamAdapter;
         private ResponseParamAdapter responseParamAdapter;
+
+        public HttpMethod getHttpMethod() {
+            return httpMethod;
+        }
+
+        public void setHttpMethod(HttpMethod httpMethod) {
+            this.httpMethod = httpMethod;
+        }
 
         public String getUrl() {
             return url;
@@ -69,7 +76,8 @@ public class Router implements Handler<HttpServerRequest> {
     private ResponseParamAdapter defaultResponseParamAdapter;
     private Vertx vertx;
 
-    public Router addRouter(String url , String nameSpace,String process,RequestParamAdapter requestParamAdapter,ResponseParamAdapter responseParamAdapter){
+    public Router addRouter(String url , String nameSpace,String process,
+                            RequestParamAdapter requestParamAdapter,ResponseParamAdapter responseParamAdapter){
         RouterData routerData = new RouterData();
         routerData.setNameSpace(nameSpace);
         routerData.setProcess(process);
@@ -78,7 +86,8 @@ public class Router implements Handler<HttpServerRequest> {
         routerDataMap.put(url,routerData);
         return this;
     }
-    public Router addRouter(String url , String nameSpace,String process){
+
+    public Router addRouter(String url , HttpMethod httpMethod, String nameSpace, String process){
         RouterData routerData = new RouterData();
         routerData.setNameSpace(nameSpace);
         routerData.setProcess(process);
@@ -87,7 +96,6 @@ public class Router implements Handler<HttpServerRequest> {
         routerDataMap.put(url,routerData);
         return this;
     }
-
 
     private Router(){
         super();
@@ -122,4 +130,5 @@ public class Router implements Handler<HttpServerRequest> {
         router.setDefaultResponseParamAdapter(new DefaultResponseParamAdapter());
         return router;
     }
+
 }
