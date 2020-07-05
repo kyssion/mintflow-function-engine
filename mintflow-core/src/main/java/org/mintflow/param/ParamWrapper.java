@@ -37,6 +37,10 @@ public class ParamWrapper {
         this.params.put(object.getClass(),object);
     }
 
+    public void setParam(Class<?> type , Object item){
+        this.params.put(type,item);
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T getParam(Class<?> type){
         return (T) params.get(type);

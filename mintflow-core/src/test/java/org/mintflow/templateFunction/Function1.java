@@ -15,8 +15,8 @@ public interface Function1 extends MintFlowTemplateFunction {
                       @MintFlowContextParam(key = "condition_4") String condition4,
                       @MintFlowContextParam(key = "show_start") boolean showStart,
                       @MintFlowContextParam(key = "show_end") boolean showEnd);
-    @MintFlowProcess(name="async_test_process")
     @AsyncSupport
+    @MintFlowProcess(name="async_test_process")
     void test(@MintFlowParam Integer num, @MintFlowParam String item,
               @MintFlowContextParam(key = "condition_1") String condition1,
               @MintFlowContextParam(key = "condition_2") String condition2,

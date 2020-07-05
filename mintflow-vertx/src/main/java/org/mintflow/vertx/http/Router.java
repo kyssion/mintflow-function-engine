@@ -76,8 +76,9 @@ public class Router implements Handler<HttpServerRequest> {
     private ResponseParamAdapter defaultResponseParamAdapter;
     private Vertx vertx;
 
-    public Router addRouter(String url , String nameSpace,String process,
-                            RequestParamAdapter requestParamAdapter,ResponseParamAdapter responseParamAdapter){
+    public Router addRouter(String url , String nameSpace , String process,
+                            RequestParamAdapter requestParamAdapter ,
+                            ResponseParamAdapter responseParamAdapter){
         RouterData routerData = new RouterData();
         routerData.setNameSpace(nameSpace);
         routerData.setProcess(process);
@@ -87,7 +88,8 @@ public class Router implements Handler<HttpServerRequest> {
         return this;
     }
 
-    public Router addRouter(String url , HttpMethod httpMethod, String nameSpace, String process){
+    public Router addRouter(String url ,
+                            HttpMethod httpMethod, String nameSpace, String process){
         RouterData routerData = new RouterData();
         routerData.setNameSpace(nameSpace);
         routerData.setProcess(process);
@@ -96,6 +98,8 @@ public class Router implements Handler<HttpServerRequest> {
         routerDataMap.put(url,routerData);
         return this;
     }
+
+
 
     private Router(){
         super();
