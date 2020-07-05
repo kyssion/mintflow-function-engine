@@ -5,7 +5,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.buffer.impl.BufferImpl;
 import io.vertx.core.http.HttpServer;
 import org.mintflow.MintFlow;
-import org.mintflow.vertx.http.Router;
+import org.mintflow.vertx.http.router.HttpRouter;
 
 public class RunTest {
     public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class RunTest {
 //            });
         });
 
-        server.requestHandler(new Router(MintFlow.newBuilder(null).build()));
+        server.requestHandler(new HttpRouter(MintFlow.newBuilder(null).build()));
 
         server.listen(8080,  res -> {
             if (res.succeeded()) {

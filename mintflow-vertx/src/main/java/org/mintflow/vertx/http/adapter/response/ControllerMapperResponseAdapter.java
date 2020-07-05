@@ -5,14 +5,21 @@ import org.mintflow.vertx.http.param.ResponseParam;
 
 public class ControllerMapperResponseAdapter extends DefaultResponseParamAdapter {
 
-    public Class<?> responseType;
-
     public ControllerMapperResponseAdapter(Class<?> type){
-        this.responseType = type;
+        super(type);
     }
 
     @Override
-    public <T> ResponseParam createResponseParams(ParamWrapper paramWrapper, Class<T> type) {
-        return super.createResponseParams(paramWrapper, type);
+    public <T> ResponseParam createResponseParams(ParamWrapper paramWrapper) {
+        if(type==ResponseParam.class){
+            return super.createResponseParams(paramWrapper);
+        }else{
+            T result = type == void.class ? null : paramWrapper.getParam(type);
+            ResponseParam responseParam = new ResponseParam();
+            responseParam.setData(result);
+            responseParam.setStatusCode(200);
+            responseParam.setStatusMessage("success");
+            return responseParam;
+        }
     }
 }

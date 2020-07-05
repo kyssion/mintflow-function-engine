@@ -11,18 +11,18 @@ import io.vertx.core.MultiMap;
  *         event.response().write()
  */
 public class ResponseParam {
-    private int statusCode;
+    private Integer statusCode;
     private String statusMessage;
     private Object data;
     private MultiMap cookies;
     private boolean chunked;
     private MultiMap header;
 
-    public int getStatusCode() {
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 
