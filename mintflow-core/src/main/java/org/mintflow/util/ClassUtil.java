@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class ClassUtill {
+public class ClassUtil {
 
-    private ClassUtill() {
+    private ClassUtil() {
         throw new IllegalStateException("Utility class");
     }
     public static ClassLoader getClassLoader() {

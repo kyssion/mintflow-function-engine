@@ -6,8 +6,8 @@ import org.mintflow.vertx.http.param.ResponseParam;
 public class DefaultResponseParamAdapter implements ResponseParamAdapter {
 
     @Override
-    public <T> ResponseParam createResponseParams(ParamWrapper paramWrapper,Class<T> type) {
-        T result = paramWrapper.getParam(type);
+    public <T> ResponseParam createResponseParams(ParamWrapper paramWrapper, Class<T> type) {
+        T result = type == void.class ? null : paramWrapper.getParam(type);
         ResponseParam responseParam = new ResponseParam();
         responseParam.setData(result);
         responseParam.setStatusCode(200);

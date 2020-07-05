@@ -2,7 +2,7 @@ package org.mintflow;
 
 import org.mintflow.template.MintFlowTemplateFunction;
 import org.mintflow.template.proxy.MintFlowTemplateFunctionProxy;
-import org.mintflow.util.ClassUtill;
+import org.mintflow.util.ClassUtil;
 
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class MintFlowTemplate {
             this.MintFlow = MintFlow;
             for (String pkgItem: pkgName){
                 Set<Class<?>> templateFunctionList =
-                        ClassUtill.getClassSet(pkgItem,MintFlowTemplateFunction.class);
+                        ClassUtil.getClassSet(pkgItem,MintFlowTemplateFunction.class);
                 for(Class<?> templateItem : templateFunctionList){
                     if(MintFlowTemplateFunction.class.isAssignableFrom(templateItem)){
                         addTemplateFunction((Class<? extends MintFlowTemplateFunction>)templateItem,MintFlow);

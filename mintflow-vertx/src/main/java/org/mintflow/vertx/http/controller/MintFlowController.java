@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @Inherited
-public @interface VertxController {
+public @interface MintFlowController {
     String url() default "";
     String nameSpace();
 }
