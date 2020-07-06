@@ -7,6 +7,7 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import org.mintflow.MintFlow;
 import org.mintflow.param.ParamWrapper;
+import org.mintflow.vertx.http.adapter.request.ControllerMapperParamAdapter;
 import org.mintflow.vertx.http.adapter.request.DefaultRequestParamAdapter;
 import org.mintflow.vertx.http.adapter.request.RequestParamAdapter;
 import org.mintflow.vertx.http.adapter.response.ResponseParamAdapter;
@@ -18,6 +19,7 @@ import org.mintflow.vertx.http.param.RequestParam;
 import org.mintflow.vertx.http.param.ResponseParam;
 import org.mintflow.vertx.http.util.HttpUtil;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +93,7 @@ public class HttpRouter implements Handler<HttpServerRequest> {
         RouterData routerData = new RouterData();
         routerData.setNameSpace(nameSpace);
         routerData.setProcess(process);
+        routerData.setHttpMethod(httpMethod);
         routerData.setRequestParamAdapter(requestParamAdapter);
         routerData.setResponseParamAdapter(responseParamAdapter);
         routerDataMap.put(url,routerData);
@@ -140,7 +143,7 @@ public class HttpRouter implements Handler<HttpServerRequest> {
     public void handle(HttpServerRequest event) {
         Buffer buffer = Buffer.buffer();
         event.handler(buffer::appendBuffer);
-        String url = event.host();
+        String url = event.path();
         event.endHandler(vo->{
             RequestParam requestParam = new RequestParam();
             requestParam.setBody(buffer.toString());
@@ -188,7 +191,7 @@ public class HttpRouter implements Handler<HttpServerRequest> {
         HttpRouter httpRouter = new HttpRouter();
         httpRouter.setMintFlow(mintFlow);
         httpRouter.setRouterDataMap(new HashMap<>());
-        httpRouter.setDefaultRequestParamAdapter(new DefaultRequestParamAdapter());
+        httpRouter.setDefaultRequestParamAdapter(new ControllerMapperParamAdapter());
         httpRouter.setDefaultResponseParamAdapter(new DefaultResponseParamAdapter());
         return httpRouter;
     }

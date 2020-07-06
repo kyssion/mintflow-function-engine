@@ -3,8 +3,8 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.MintFlowTemplate;
-import org.mintflow.handler.MintFlowHandlerMapper;
-import org.mintflow.handler.util.MintFlowHandlerMapperFinder;
+import org.mintflow.handler.MintFlowHandlerMap;
+import org.mintflow.handler.util.MintFlowHandlerMapFinder;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.templateFunction.Function1;
 
@@ -18,7 +18,7 @@ public class SyncTempleteTest {
 
     @Test
     public void test(){
-        MintFlowHandlerMapper dataMapper = MintFlowHandlerMapperFinder.findHandlerDataMap(
+        MintFlowHandlerMap dataMapper = MintFlowHandlerMapFinder.findHandlerDataMap(
                 "org.mintflow.handler"
         );
         MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_sync_test/sync_complex_test.fn").build();

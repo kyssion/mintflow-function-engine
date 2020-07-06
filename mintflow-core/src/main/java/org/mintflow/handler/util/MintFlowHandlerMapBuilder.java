@@ -2,17 +2,17 @@ package org.mintflow.handler.util;
 
 import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.handler.FnHandler;
-import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.MintFlowHandlerMap;
 import org.mintflow.handler.async.AsyncFnHandler;
 import org.mintflow.handler.sync.SyncFnHandler;
 
 
-public class MintFlowHandlerMapperBuilder {
+public class MintFlowHandlerMapBuilder {
 
-    private final MintFlowHandlerMapper handlemap;
+    private final MintFlowHandlerMap handlemap;
 
-    public MintFlowHandlerMapperBuilder(){
-        this.handlemap= new MintFlowHandlerMapper();
+    public MintFlowHandlerMapBuilder(){
+        this.handlemap= new MintFlowHandlerMap();
     }
 
     public void put(SyncFnHandler syncFnHandler){
@@ -41,7 +41,7 @@ public class MintFlowHandlerMapperBuilder {
     }
 
 
-    public MintFlowHandlerMapper build(){
+    public MintFlowHandlerMap build(){
         return handlemap;
     }
 }

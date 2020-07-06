@@ -3,7 +3,7 @@ package org.mintflow.parsing;
 import org.mintflow.exception.ParsingRuntimeException;
 import org.mintflow.handler.HandlerDataMap;
 import org.mintflow.handler.HandlerType;
-import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.MintFlowHandlerMap;
 import org.mintflow.handler.async.AsyncConditionFncHandlerWrapper;
 import org.mintflow.handler.async.AsyncFnHandler;
 import org.mintflow.handler.async.AsyncToolsFnHandler;
@@ -25,7 +25,7 @@ public class FnEngineDataStructureTool {
     private final Map<String, SyncFnHandler> syncHandlerDataMap;
     private final Map<String, AsyncFnHandler> asyncHandlerDataMap;
 
-    public FnEngineDataStructureTool(MintFlowHandlerMapper mapper) {
+    public FnEngineDataStructureTool(MintFlowHandlerMap mapper) {
         if (mapper == null) {
             syncHandlerDataMap = new HashMap<>();
             asyncHandlerDataMap = new HashMap<>();

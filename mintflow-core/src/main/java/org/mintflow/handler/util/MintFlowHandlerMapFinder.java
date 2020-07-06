@@ -5,7 +5,7 @@ import org.mintflow.exception.BaseRuntimeException;
 import org.mintflow.exception.HandlerRepeatRuntimeException;
 import org.mintflow.handler.FnHandler;
 import org.mintflow.handler.HandlerType;
-import org.mintflow.handler.MintFlowHandlerMapper;
+import org.mintflow.handler.MintFlowHandlerMap;
 import org.mintflow.handler.async.AsyncFnHandler;
 import org.mintflow.handler.sync.SyncFnHandler;
 import org.mintflow.util.ClassUtil;
@@ -18,12 +18,12 @@ import java.util.logging.Logger;
 /**
  * Scan all implementation classes of the handler interface and generate map mappings
  */
-public class MintFlowHandlerMapperFinder {
+public class MintFlowHandlerMapFinder {
 
-    private static final Logger logger = Logger.getLogger(MintFlowHandlerMapperFinder.class.getName());
+    private static final Logger logger = Logger.getLogger(MintFlowHandlerMapFinder.class.getName());
 
-    public static MintFlowHandlerMapper findHandlerDataMap(String...pkgNames){
-        MintFlowHandlerMapper mapper = new MintFlowHandlerMapper();
+    public static MintFlowHandlerMap findHandlerDataMap(String...pkgNames){
+        MintFlowHandlerMap mapper = new MintFlowHandlerMap();
         for (String pkgName : pkgNames){
             try {
                 addNewHandler(pkgName,mapper);
@@ -37,7 +37,7 @@ public class MintFlowHandlerMapperFinder {
     }
 
     @SuppressWarnings("unchecked")
-    private static void addNewHandler(String pkgName, MintFlowHandlerMapper mapper) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static void addNewHandler(String pkgName, MintFlowHandlerMap mapper) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Set<Class<?>> pkgClassSet = ClassUtil.getClassSet(pkgName, FnHandler.class);
         for(Class<?> itemClass : pkgClassSet){
 

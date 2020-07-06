@@ -3,8 +3,8 @@ package org.mintflow.test.asyncBaseTest;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.MintFlowTemplate;
-import org.mintflow.handler.MintFlowHandlerMapper;
-import org.mintflow.handler.util.MintFlowHandlerMapperFinder;
+import org.mintflow.handler.MintFlowHandlerMap;
+import org.mintflow.handler.util.MintFlowHandlerMapFinder;
 import org.mintflow.templateFunction.Function1;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,7 +20,7 @@ public class AsyncTempleteTest {
     @Test
     public void test(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        MintFlowHandlerMapper dataMapper = MintFlowHandlerMapperFinder.findHandlerDataMap(
+        MintFlowHandlerMap dataMapper = MintFlowHandlerMapFinder.findHandlerDataMap(
                 "org.mintflow.handler"
         );
         MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_async_test/async_complex_test.fn").build();

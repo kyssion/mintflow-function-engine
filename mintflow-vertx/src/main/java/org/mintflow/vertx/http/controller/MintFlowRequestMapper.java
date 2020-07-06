@@ -11,7 +11,7 @@ import org.mintflow.vertx.http.adapter.response.ResponseParamAdapter;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Documented
 @Inherited
 public @interface MintFlowRequestMapper {

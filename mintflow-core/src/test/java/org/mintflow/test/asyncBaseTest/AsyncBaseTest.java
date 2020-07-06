@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.handler.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handler.util.MintFlowHandlerMapBuilder;
 import org.mintflow.handler.async.sample.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,11 +17,11 @@ import static org.junit.Assert.assertTrue;
 public class AsyncBaseTest {
 
 
-    MintFlowHandlerMapperBuilder mapBuilder;
+    MintFlowHandlerMapBuilder mapBuilder;
 
     @Before
     public void initMaperData(){
-        mapBuilder = new MintFlowHandlerMapperBuilder();
+        mapBuilder = new MintFlowHandlerMapBuilder();
         mapBuilder.put("async_base_test_handle1",new AsyncBaseTestHandler1("async_base_test_handle1"));
         mapBuilder.put("async_base_test_handle2",new AsyncBaseTestHandler2("async_base_test_handle2"));
         mapBuilder.put("async_base_test_handle3",new AsyncBaseTestHandler3("async_base_test_handle3"));

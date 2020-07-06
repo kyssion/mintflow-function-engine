@@ -1,4 +1,4 @@
-package org.mintflow.vertx.controller.bean;
+package org.mintflow.vertx.http.controller.bean;
 
 public class DefaultResponseBean {
     private String name;

@@ -1,0 +1,5 @@
+namespace(test_controller){
+    async process(test_process){
+        ->handle(async_test_handle)
+    }
+}

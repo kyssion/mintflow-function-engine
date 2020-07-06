@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.handler.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handler.util.MintFlowHandlerMapBuilder;
 import org.mintflow.handler.async.condition.AsyncConditionHandler1;
 import org.mintflow.handler.async.condition.AsyncConditionHandler2;
 import org.mintflow.handler.async.condition.AsyncConditionHandler3;
@@ -25,10 +25,10 @@ public class AsyncComplexTest {
     /**
      * 初始化
      */
-    MintFlowHandlerMapperBuilder mapBuilder;
+    MintFlowHandlerMapBuilder mapBuilder;
     @Before
     public void initMapDate(){
-        mapBuilder = new MintFlowHandlerMapperBuilder();
+        mapBuilder = new MintFlowHandlerMapBuilder();
 
         mapBuilder.put("async_condition_handle_1",new AsyncConditionHandler1("async_condition_handle_1"));
         mapBuilder.put("async_condition_handle_2",new AsyncConditionHandler2("async_condition_handle_2"));

@@ -13,7 +13,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControllerMapperParamAdapter extends DefaultRequestParamAdapter {
+public class ControllerMapperParamAdapter implements RequestParamAdapter {
 
     List<MapperParamRule> types = new ArrayList<>();
 
@@ -124,7 +124,7 @@ public class ControllerMapperParamAdapter extends DefaultRequestParamAdapter {
 
     @Override
     public ParamWrapper createParams(RequestParam t) {
-        ParamWrapper paramWrapper = super.createParams(t);
+        ParamWrapper paramWrapper = new ParamWrapper();
         for (MapperParamRule mapperParamRule : types) {
             MapperParamRule mapper = new MapperParamRule();
             Object needItem = null;

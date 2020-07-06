@@ -6,7 +6,7 @@ import org.mintflow.handler.sync.SyncFnHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MintFlowHandlerMapper {
+public class MintFlowHandlerMap {
     private Map<String, AsyncFnHandler> asyncFnHandlerMap = new HashMap<>();
     private Map<String, SyncFnHandler> syncFnHandlerMap = new HashMap<>();
 

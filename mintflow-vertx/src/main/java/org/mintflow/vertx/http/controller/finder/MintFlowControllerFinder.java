@@ -53,7 +53,7 @@ public final class MintFlowControllerFinder {
         }
         String process = mapper.process();
         HttpMethod[] httpMethods = mapper.httpMethod();
-        RequestParamAdapter requestParamAdapter = getRequestParamAdapter(mapper);
+        RequestParamAdapter requestParamAdapter = getRequestParamAdapter(mapper,method);
         ResponseParamAdapter responseParamAdapter = new ControllerMapperResponseAdapter(method.getReturnType());
         FinderItem finderItem = new FinderItem();
         finderItem.setNameSpace(nameSpace);
@@ -65,11 +65,13 @@ public final class MintFlowControllerFinder {
         return finderItem;
     }
 
-    private static RequestParamAdapter getRequestParamAdapter(MintFlowRequestMapper mapper) {
+    private static RequestParamAdapter getRequestParamAdapter(MintFlowRequestMapper mapper, Method method) {
         Class<? extends RequestParamAdapter> paramAdapterClass =
                 mapper.requestParamAdapter();
         try {
-            return paramAdapterClass.getConstructor().newInstance();
+            RequestParamAdapter requestParamAdapter = paramAdapterClass.getConstructor().newInstance();
+            requestParamAdapter.initAdapter(method);
+            return requestParamAdapter;
         } catch (Exception e){
             e.printStackTrace();
             throw new MintFlowControllerError("请求参数处理器初始化失败："+paramAdapterClass.getName());

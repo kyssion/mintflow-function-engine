@@ -3,7 +3,7 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
-import org.mintflow.handler.util.MintFlowHandlerMapperBuilder;
+import org.mintflow.handler.util.MintFlowHandlerMapBuilder;
 import org.mintflow.handler.sync.condition.ConditionHandler1;
 import org.mintflow.handler.sync.condition.ConditionHandler2;
 import org.mintflow.handler.sync.condition.ConditionHandler3;
@@ -25,11 +25,11 @@ public class ReorderTest {
     /**
      * 初始化
      */
-    MintFlowHandlerMapperBuilder mapBuilder;
+    MintFlowHandlerMapBuilder mapBuilder;
 
     @Before
     public void initMapDate(){
-        mapBuilder = new MintFlowHandlerMapperBuilder();
+        mapBuilder = new MintFlowHandlerMapBuilder();
 
         mapBuilder.put("condition_handle_1",new ConditionHandler1("condition_handle_1"));
         mapBuilder.put("condition_handle_2",new ConditionHandler2("condition_handle_2"));
