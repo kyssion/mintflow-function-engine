@@ -1,6 +1,7 @@
 package org.mintflow.vertx.http.controller.finder;
 
 import io.vertx.core.http.HttpMethod;
+import org.mintflow.MintFlow;
 import org.mintflow.util.ClassUtil;
 import org.mintflow.util.MintFlowStrUtil;
 import org.mintflow.vertx.http.adapter.request.RequestParamAdapter;
@@ -46,11 +47,17 @@ public final class MintFlowControllerFinder {
         return finderItems;
     }
 
-    private static FinderItem createFinder(String url, String nameSpace, Method method) {
+    private static FinderItem createFinder(String parentUrl, String nameSpace, Method method) {
         MintFlowRequestMapper mapper = method.getAnnotation(MintFlowRequestMapper.class);
         if(mapper==null){
             return null;
         }
+        String url = mapper.url();
+        if(MintFlowStrUtil.isNullOrEmpty(url)){
+            throw new MintFlowControllerError("URL不可为空");
+        }
+        parentUrl = MintFlowStrUtil.dealWithUrl(parentUrl);
+        url = MintFlowStrUtil.dealWithUrl(url);
         String process = mapper.process();
         HttpMethod[] httpMethods = mapper.httpMethod();
         RequestParamAdapter requestParamAdapter = getRequestParamAdapter(mapper,method);
@@ -58,7 +65,7 @@ public final class MintFlowControllerFinder {
         FinderItem finderItem = new FinderItem();
         finderItem.setNameSpace(nameSpace);
         finderItem.setProcess(process);
-        finderItem.setUrl(url);
+        finderItem.setUrl(parentUrl+url);
         finderItem.setHttpMethod(httpMethods);
         finderItem.setRequestParamAdapter(requestParamAdapter);
         finderItem.setResponseParamAdapter(responseParamAdapter);

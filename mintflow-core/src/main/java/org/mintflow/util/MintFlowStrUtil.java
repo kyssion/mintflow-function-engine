@@ -18,4 +18,8 @@ public class MintFlowStrUtil {
         }
         return false;
     }
+
+    public static String dealWithUrl(String parentUrl) {
+        return parentUrl.startsWith("/")?parentUrl:"/"+parentUrl;
+    }
 }

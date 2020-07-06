@@ -126,28 +126,30 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
     public ParamWrapper createParams(RequestParam t) {
         ParamWrapper paramWrapper = new ParamWrapper();
         for (MapperParamRule mapperParamRule : types) {
-            MapperParamRule mapper = new MapperParamRule();
             Object needItem = null;
-            switch (mapper.fromRule) {
+            switch (mapperParamRule.fromRule) {
                 case FROM_BODY:
-                    needItem = Json.decodeValue(t.getBody(), mapper.toType);
+                    String body = t.getBody();
+                    if(!MintFlowStrUtil.isNullOrEmpty(body)){
+                        needItem = Json.decodeValue(t.getBody(), mapperParamRule.toType);
+                    }
                     break;
                 case FROM_FORM:
-                    needItem = t.getFormAttributes().get(mapper.getFromName());
+                    needItem = t.getFormAttributes().get(mapperParamRule.getFromName());
                     break;
                 case FROM_PARAMS:
-                    needItem = t.getParams().get(mapper.getFromName());
+                    needItem = t.getParams().get(mapperParamRule.getFromName());
                     break;
                 default:
                     break;
             }
 
-            switch (mapper.toRule) {
+            switch (mapperParamRule.toRule) {
                 case TO_NAME:
-                    paramWrapper.setContextParam(mapper.getToName(), needItem);
+                    paramWrapper.setContextParam(mapperParamRule.getToName(), needItem);
                     break;
                 case TO_TYPE:
-                    paramWrapper.setParam(mapper.toType, needItem);
+                    paramWrapper.setParam(mapperParamRule.toType, needItem);
                     break;
             }
 

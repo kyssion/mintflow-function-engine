@@ -144,14 +144,22 @@ public class HttpRouter implements Handler<HttpServerRequest> {
         Buffer buffer = Buffer.buffer();
         event.handler(buffer::appendBuffer);
         String url = event.path();
+
+        RouterData routerData = routerDataMap.get(url);
+
+        if(!checkRequest(routerData,event)){
+            event.response().setStatusCode(404).setStatusMessage("未发现对应地址").end();
+            return;
+        }
+
+        RequestParam requestParam = new RequestParam();
+        requestParam.setCookieMap(event.cookieMap());
+        requestParam.setFormAttributes(event.formAttributes());
+        requestParam.setHeaders(event.headers());
+        requestParam.setParams(event.params());
+
         event.endHandler(vo->{
-            RequestParam requestParam = new RequestParam();
             requestParam.setBody(buffer.toString());
-            requestParam.setCookieMap(event.cookieMap());
-            requestParam.setFormAttributes(event.formAttributes());
-            requestParam.setHeaders(event.headers());
-            requestParam.setParams(event.params());
-            RouterData routerData = routerDataMap.get(url);
             ParamWrapper paramWrapper = routerData.getRequestParamAdapter().createParams(requestParam);
             mintFlow.runAsync(routerData.getNameSpace(),routerData.getProcess(),paramWrapper,(params)->{
                 ResponseParam responseParam = routerData.getResponseParamAdapter().createResponseParams(paramWrapper);
@@ -172,6 +180,23 @@ public class HttpRouter implements Handler<HttpServerRequest> {
                 httpServerResponse.end();
             });
         });
+    }
+
+    private boolean checkRequest(RouterData routerData, HttpServerRequest event) {
+        if(routerData==null){
+            return false;
+        }
+
+        boolean isInMethod = false;
+        HttpMethod[] httpMethods = routerData.getHttpMethod();
+        HttpMethod nowHttpMethod = event.method();
+        for(HttpMethod itemMethod: httpMethods){
+            if(itemMethod.equals(nowHttpMethod)){
+                isInMethod=true;
+                break;
+            }
+        }
+        return isInMethod;
     }
 
 
