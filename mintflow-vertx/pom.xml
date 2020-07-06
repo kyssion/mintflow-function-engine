@@ -8,7 +8,9 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <properties>
+        <vertx.version>3.9.1</vertx.version>
+    </properties>
     <artifactId>mintflow-vertx</artifactId>
     <dependencies>
         <dependency>
@@ -19,6 +21,11 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-codegen</artifactId>
             <version>${vertx.version}</version>
         </dependency>
         <dependency>
