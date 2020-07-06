@@ -1,6 +1,7 @@
 package org.mintflow.vertx.controller.controllerInterface;
 
 import org.mintflow.vertx.controller.bean.DefaultResponseBean;
+import org.mintflow.vertx.http.adapter.request.ControllerMapperParamAdapter;
 import org.mintflow.vertx.http.controller.MintFlowController;
 import org.mintflow.vertx.http.controller.MintFlowMapperParam;
 
@@ -16,5 +17,5 @@ public interface TestController {
      * @return
      */
     DefaultResponseBean test(@MintFlowMapperParam(fromName = "name") String name,
-                             @MintFlowMapperParam() DefaultResponseBean defaultResponseBean);
+                             @MintFlowMapperParam(fromType = ControllerMapperParamAdapter.RuleType.FROM_BODY) DefaultResponseBean defaultResponseBean);
 }

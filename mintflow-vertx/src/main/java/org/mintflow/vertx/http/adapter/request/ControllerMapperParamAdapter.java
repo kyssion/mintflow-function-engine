@@ -1,9 +1,9 @@
 package org.mintflow.vertx.http.adapter.request;
 
 import io.vertx.core.json.Json;
-import org.mintflow.annotation.MintFlowParam;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.util.MintFlowStrUtil;
+import org.mintflow.vertx.http.controller.MintFlowMapperBody;
 import org.mintflow.vertx.http.controller.MintFlowMapperParam;
 import org.mintflow.vertx.http.exceptrion.MintFlowControllerError;
 import org.mintflow.vertx.http.param.RequestParam;
@@ -84,31 +84,40 @@ public class ControllerMapperParamAdapter extends DefaultRequestParamAdapter {
         for (Parameter parameter : parameters) {
             MintFlowMapperParam mintFlowParam =
                     parameter.getAnnotation(MintFlowMapperParam.class);
-            if (mintFlowParam == null) {
-                throw new MintFlowControllerError("参数必须要有MintFlowMapperParam");
-            }
+            MintFlowMapperBody mintFlowMapperBody =
+                    parameter.getAnnotation(MintFlowMapperBody.class);
 
+            if (mintFlowParam != null&&mintFlowMapperBody!=null) {
+                throw new MintFlowControllerError("MintFlowMapperParam和MintFlowMapperBody注解只能二选一");
+            }
             MapperParamRule mapperParamRule = new MapperParamRule();
-            RuleType fromRule = mintFlowParam.fromType();
-            String fromName = mintFlowParam.fromName();
+            if(mintFlowParam!=null) {
+                RuleType fromRule = mintFlowParam.fromType();
+                String fromName = mintFlowParam.fromName();
 
-            if (MintFlowStrUtil.isNullOrEmpty(fromName)&&fromRule!=RuleType.FROM_BODY) {
-                throw new MintFlowControllerError("MintFlowParam fromName 当是非body类型的时候,字段不可为空");
-            }
-            //init base params
-            mapperParamRule.setFromName(fromName);
-            mapperParamRule.setFromRule(fromRule);
-            mapperParamRule.setToType(parameter.getType());
+                if (MintFlowStrUtil.isNullOrEmpty(fromName) && fromRule != RuleType.FROM_BODY) {
+                    throw new MintFlowControllerError("MintFlowParam fromName 当是非body类型的时候,字段不可为空");
+                }
+                //init base params
+                mapperParamRule.setFromName(fromName);
+                mapperParamRule.setFromRule(fromRule);
+                mapperParamRule.setToType(parameter.getType());
 
-            String toName = mintFlowParam.toName();
-            mapperParamRule.setToName(toName);
-            //init to type
-            if (!MintFlowStrUtil.isNullOrEmpty(toName)) {
-                mapperParamRule.setToRule(RuleType.TO_NAME);
-            } else {
+                String toName = mintFlowParam.toName();
+                mapperParamRule.setToName(toName);
+                //init to type
+                if (!MintFlowStrUtil.isNullOrEmpty(toName)) {
+                    mapperParamRule.setToRule(RuleType.TO_NAME);
+                } else {
+                    mapperParamRule.setToRule(RuleType.TO_TYPE);
+                }
+            }else{
+                mapperParamRule.setFromName("");
+                mapperParamRule.setFromRule(RuleType.FROM_BODY);
+                mapperParamRule.setToType(parameter.getType());
                 mapperParamRule.setToRule(RuleType.TO_TYPE);
+                mapperParamRule.setToName("");
             }
-
             types.add(mapperParamRule);
         }
     }
