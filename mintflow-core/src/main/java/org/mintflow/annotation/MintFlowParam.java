@@ -7,4 +7,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface MintFlowParam {
+    String name() default "";
 }

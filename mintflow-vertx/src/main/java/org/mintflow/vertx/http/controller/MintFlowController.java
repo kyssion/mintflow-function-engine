@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface MintFlowController {
-    String url() default "";
+    String url() ;
     String nameSpace();
 }
