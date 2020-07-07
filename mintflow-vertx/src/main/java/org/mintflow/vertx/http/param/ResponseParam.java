@@ -1,6 +1,8 @@
 package org.mintflow.vertx.http.param;
 
 import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpServerResponse;
+import org.mintflow.vertx.http.util.HttpUtil;
 
 /**
  *         event.response().addCookie();
@@ -64,5 +66,22 @@ public class ResponseParam {
 
     public void setHeader(MultiMap header) {
         this.header = header;
+    }
+
+
+    public void addDataToHttpServerResponse(HttpServerResponse httpServerResponse){
+        if(this.getCookies()!=null){
+            HttpUtil.ResponseUtil.addCookies(this.getCookies(),httpServerResponse);
+        }
+        if(this.getHeader()!=null){
+            HttpUtil.ResponseUtil.addHeader(this.getHeader(),httpServerResponse);
+        }
+        if(this.getStatusCode()!=null){
+            HttpUtil.ResponseUtil.addStatusCode(this.getStatusCode(),httpServerResponse);
+        }
+        if(this.getStatusMessage()!=null){
+            HttpUtil.ResponseUtil.addStatusMessage(this.getStatusMessage(),httpServerResponse);
+        }
+        HttpUtil.ResponseUtil.addData(this.getData(),httpServerResponse);
     }
 }

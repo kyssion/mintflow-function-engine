@@ -32,9 +32,7 @@ public abstract class AsyncCycleFnHandler extends AsyncToolsFnHandler {
             cycleList.addAll(this.getAsyncChildren());
             times--;
         }
-        new FnAsyncEngineScheduler(cycleList).next(startParamWrapper,nextParams->{
-            asyncScheduler.next(nextParams,asyncResult);
-        });
+        new FnAsyncEngineScheduler(cycleList).next(startParamWrapper,nextParams-> asyncScheduler.next(nextParams,asyncResult));
     }
     /**
      * 使用递归调用性能太差，这里暂时使用copy方法来实现

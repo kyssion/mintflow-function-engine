@@ -8,7 +8,8 @@ import java.util.Map;
  * In the future, it will be a bridge for linking function parameters and process context data
  */
 public class ParamWrapper {
-
+    private boolean isSuccess = true;
+    private Exception exception = null;
     private Map<Class<?>,Object> params = new HashMap<>();
 
     private Map<String,Object> contextParams = new HashMap<>();
@@ -56,4 +57,19 @@ public class ParamWrapper {
         return (T) params.get(type);
     }
 
+    public void fail(){
+        this.isSuccess = false;
+    }
+
+    public boolean isSuccess(){
+        return this.isSuccess;
+    }
+
+    public void setException(Exception e){
+        this.exception = e;
+    }
+
+    public Exception getException(){
+        return exception;
+    }
 }

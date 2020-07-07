@@ -26,87 +26,31 @@ import java.util.Map;
 
 public class HttpRouter implements Handler<HttpServerRequest> {
 
-    private static class RouterData{
-        private String url;
-        private String nameSpace;
-        private String process;
-        private HttpMethod[] httpMethod;
-        private RequestParamAdapter requestParamAdapter;
-        private ResponseParamAdapter responseParamAdapter;
-        public HttpMethod[] getHttpMethod() {
-            return httpMethod;
-        }
-        public void setHttpMethod(HttpMethod[] httpMethod) {
-            this.httpMethod = httpMethod;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getNameSpace() {
-            return nameSpace;
-        }
-
-        public void setNameSpace(String nameSpace) {
-            this.nameSpace = nameSpace;
-        }
-
-        public String getProcess() {
-            return process;
-        }
-
-        public void setProcess(String process) {
-            this.process = process;
-        }
-
-        public RequestParamAdapter getRequestParamAdapter() {
-            return requestParamAdapter;
-        }
-
-        public void setRequestParamAdapter(RequestParamAdapter requestParamAdapter) {
-            this.requestParamAdapter = requestParamAdapter;
-        }
-
-        public ResponseParamAdapter getResponseParamAdapter() {
-            return responseParamAdapter;
-        }
-
-        public void setResponseParamAdapter(ResponseParamAdapter responseParamAdapter) {
-            this.responseParamAdapter = responseParamAdapter;
-        }
-    }
-
     private Map<String,RouterData> routerDataMap;
     private RequestParamAdapter defaultRequestParamAdapter;
     private ResponseParamAdapter defaultResponseParamAdapter;
     private  MintFlow mintFlow;
 
-    public HttpRouter addRouter(String url , HttpMethod[] httpMethod,
-                                String nameSpace , String process,
-                                RequestParamAdapter requestParamAdapter ,
-                                ResponseParamAdapter responseParamAdapter){
-        RouterData routerData = new RouterData();
-        routerData.setNameSpace(nameSpace);
-        routerData.setProcess(process);
-        routerData.setHttpMethod(httpMethod);
-        routerData.setRequestParamAdapter(requestParamAdapter);
-        routerData.setResponseParamAdapter(responseParamAdapter);
+    public static HttpRouter router(MintFlow mintFlow){
+        HttpRouter httpRouter = new HttpRouter();
+        httpRouter.setMintFlow(mintFlow);
+        httpRouter.setRouterDataMap(new HashMap<>());
+        httpRouter.setDefaultRequestParamAdapter(new ControllerMapperParamAdapter());
+        httpRouter.setDefaultResponseParamAdapter(new DefaultResponseParamAdapter());
+        return httpRouter;
+    }
+
+    public HttpRouter addRouter(String url , HttpMethod[] httpMethod, String nameSpace , String process, RequestParamAdapter requestParamAdapter , ResponseParamAdapter responseParamAdapter){
+        RouterData routerData = new RouterData(url,nameSpace,process,httpMethod,requestParamAdapter,responseParamAdapter);
+        if(routerDataMap.containsKey(url)){
+            throw new MintFlowControllerError("当前url地址已被使用："+url);
+        }
         routerDataMap.put(url,routerData);
         return this;
     }
 
     public HttpRouter addRouter(String url , HttpMethod[] httpMethod, String nameSpace, String process){
-        RouterData routerData = new RouterData();
-        routerData.setNameSpace(nameSpace);
-        routerData.setProcess(process);
-        routerData.setHttpMethod(httpMethod);
-        routerData.setRequestParamAdapter(this.defaultRequestParamAdapter);
-        routerData.setResponseParamAdapter(this.defaultResponseParamAdapter);
+        RouterData routerData = new RouterData(url,nameSpace,process,httpMethod,this.defaultRequestParamAdapter,this.defaultResponseParamAdapter);
         if(routerDataMap.containsKey(url)){
             throw new MintFlowControllerError("当前url地址已被使用："+url);
         }
@@ -116,9 +60,7 @@ public class HttpRouter implements Handler<HttpServerRequest> {
 
     public HttpRouter addRouter(List<FinderItem> finderItems){
         for(FinderItem finderItem: finderItems){
-            addRouter(finderItem.getUrl(),finderItem.getHttpMethod(),
-                    finderItem.getNameSpace(),finderItem.getProcess(),
-                    finderItem.getRequestParamAdapter(),finderItem.getResponseParamAdapter());
+            addRouter(finderItem.getUrl(),finderItem.getHttpMethod(),finderItem.getNameSpace(),finderItem.getProcess(),finderItem.getRequestParamAdapter(),finderItem.getResponseParamAdapter());
         }
         return this;
     }
@@ -142,63 +84,27 @@ public class HttpRouter implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest event) {
         Buffer buffer = Buffer.buffer();
-        event.handler(buffer::appendBuffer);
         String url = event.path();
 
         RouterData routerData = routerDataMap.get(url);
-
-        if(!checkRequest(routerData,event)){
+        if(!RouterData.checkRequest(routerData,event)){
             event.response().setStatusCode(404).setStatusMessage("未发现对应地址").end();
             return;
         }
+        RequestParam requestParam = new RequestParam(event.headers(),event.params(),event.formAttributes(),event.cookieMap(),null);
 
-        RequestParam requestParam = new RequestParam();
-        requestParam.setCookieMap(event.cookieMap());
-        requestParam.setFormAttributes(event.formAttributes());
-        requestParam.setHeaders(event.headers());
-        requestParam.setParams(event.params());
-
+        event.handler(buffer::appendBuffer);
         event.endHandler(vo->{
             requestParam.setBody(buffer.toString());
             ParamWrapper paramWrapper = routerData.getRequestParamAdapter().createParams(requestParam);
             mintFlow.runAsync(routerData.getNameSpace(),routerData.getProcess(),paramWrapper,(params)->{
                 ResponseParam responseParam = routerData.getResponseParamAdapter().createResponseParams(paramWrapper);
                 HttpServerResponse httpServerResponse = event.response();
-                if(responseParam.getCookies()!=null){
-                    HttpUtil.ResponseUtil.addCookies(responseParam.getCookies(),httpServerResponse);
-                }
-                if(responseParam.getHeader()!=null){
-                    HttpUtil.ResponseUtil.addHeader(responseParam.getHeader(),httpServerResponse);
-                }
-                if(responseParam.getStatusCode()!=null){
-                    HttpUtil.ResponseUtil.addStatusCode(responseParam.getStatusCode(),httpServerResponse);
-                }
-                if(responseParam.getStatusMessage()!=null){
-                    HttpUtil.ResponseUtil.addStatusMessage(responseParam.getStatusMessage(),httpServerResponse);
-                }
-                HttpUtil.ResponseUtil.addData(responseParam.getData(),httpServerResponse);
+                responseParam.addDataToHttpServerResponse(httpServerResponse);
                 httpServerResponse.end();
             });
         });
     }
-
-    private boolean checkRequest(RouterData routerData, HttpServerRequest event) {
-        if(routerData==null){
-            return false;
-        }
-
-        boolean isInMethod = false;
-        HttpMethod[] httpMethods = routerData.getHttpMethod();
-        HttpMethod nowHttpMethod = event.method();
-        for(HttpMethod itemMethod: httpMethods){
-            if(itemMethod.equals(nowHttpMethod)){
-                isInMethod=true;
-                break;
-            }
-        }
-        return isInMethod;
-    }
-
 
     private void setRouterDataMap(Map<String, RouterData> routerDataMap) {
         this.routerDataMap = routerDataMap;
@@ -211,14 +117,4 @@ public class HttpRouter implements Handler<HttpServerRequest> {
     public void setDefaultResponseParamAdapter(ResponseParamAdapter responseParamAdapter){
         this.defaultResponseParamAdapter=responseParamAdapter;
     }
-
-    public static HttpRouter router(MintFlow mintFlow){
-        HttpRouter httpRouter = new HttpRouter();
-        httpRouter.setMintFlow(mintFlow);
-        httpRouter.setRouterDataMap(new HashMap<>());
-        httpRouter.setDefaultRequestParamAdapter(new ControllerMapperParamAdapter());
-        httpRouter.setDefaultResponseParamAdapter(new DefaultResponseParamAdapter());
-        return httpRouter;
-    }
-
 }

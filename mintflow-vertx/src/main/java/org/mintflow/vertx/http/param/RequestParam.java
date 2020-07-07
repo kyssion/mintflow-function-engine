@@ -7,6 +7,18 @@ import java.util.Map;
 
 public class RequestParam {
 
+    public RequestParam(){
+        super();
+    }
+
+    public RequestParam(MultiMap headers,MultiMap params,MultiMap formAttributes,Map<String,Cookie> cookieMap,String body){
+        this.headers = headers;
+        this.params = params;
+        this.formAttributes = formAttributes;
+        this.cookieMap = cookieMap;
+        this.body = body;
+    }
+
     private String body;
     private MultiMap headers;
     private MultiMap params;
