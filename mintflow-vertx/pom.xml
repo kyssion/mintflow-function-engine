@@ -10,28 +10,33 @@
     <modelVersion>4.0.0</modelVersion>
     <properties>
         <vertx.version>3.9.1</vertx.version>
+        <core.version>1.0.0</core.version>
     </properties>
     <artifactId>mintflow-vertx</artifactId>
+    <version>1.0.0</version>
     <dependencies>
         <dependency>
             <groupId>org.func-engine</groupId>
             <artifactId>mintflow-core</artifactId>
-            <version>${version}</version>
+            <version>${core.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
             <version>${vertx.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-codegen</artifactId>
             <version>${vertx.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-mysql-client</artifactId>
             <version>${vertx.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
