@@ -19,7 +19,6 @@
     <modules>
         <module>mintflow-core</module>
         <module>mintflow-dev-tools</module>
-        <module>mintflow-spring</module>
         <module>mintflow-vertx</module>
         <module>mintflow-example</module>
     </modules>
