@@ -1,6 +1,6 @@
-namespace(test_namespace){
-    async process(async_test_process){
-        ->handle(async_show_start_handle)
+namespace(test_controller){
+    async process(test_process){
+        ->handle(async_start_handle)->handle(async_show_start_handle)
         ->handle(async_base_test_handle1)->handle(async_base_test_handle2)->handle(async_base_test_handle3)->if(async_condition_handle_1){
             ->if(async_condition_handle_3){
                 ->handle(async_base_test_handle1)
@@ -20,10 +20,10 @@ namespace(test_namespace){
                 ->handle(async_base_test_handle3)->handle(async_base_test_handle3)
             }
         }else{
-             ->handle(async_base_test_handle3)->handle(async_base_test_handle3)->handle(async_base_test_handle1)
+                ->handle(async_base_test_handle3)->handle(async_base_test_handle3)->handle(async_base_test_handle1)
         }->cycle(async_cycle_test){
-             ->handle(async_cycle_sample_handler)
-        }
-        ->handle(async_base_test_handle1)->handle(async_base_test_handle2)->handle(async_base_test_handle3)->handle(async_show_end_handle)
+              ->handle(async_cycle_sample_handler)
+         }
+        ->handle(async_base_test_handle1)->handle(async_base_test_handle2)->handle(async_base_test_handle3)->handle(async_show_end_handle)->handle(async_test_handle)
     }
 }

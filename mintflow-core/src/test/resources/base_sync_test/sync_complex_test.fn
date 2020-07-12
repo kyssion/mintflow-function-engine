@@ -21,6 +21,9 @@ namespace(test_namespace){
             }
         }else{
                 ->handle(base_test_handle3)->handle(base_test_handle3)->handle(base_test_handle1)
-        }->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->handle(show_end_handle)
+        }->cycle(sync_cycle_test){
+             ->handle(sync_cycle_sample_handler)
+         }
+        ->handle(base_test_handle1)->handle(base_test_handle2)->handle(base_test_handle3)->handle(show_end_handle)
     }
 }

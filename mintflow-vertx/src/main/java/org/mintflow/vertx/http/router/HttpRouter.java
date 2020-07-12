@@ -104,7 +104,7 @@ public class HttpRouter implements Handler<HttpServerRequest> {
                 if(!params.isSuccess()){
                     responseParam = this.routerExceptionHandler.handle(paramWrapper,params.getException());
                 }else{
-                    responseParam = routerData.getResponseParamAdapter().createResponseParams(paramWrapper);
+                    responseParam = routerData.getResponseParamAdapter().createResponseParams(params);
                 }
                 HttpServerResponse httpServerResponse = event.response();
                 if(responseParam!=null){

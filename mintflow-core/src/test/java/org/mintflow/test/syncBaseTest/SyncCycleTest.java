@@ -39,13 +39,13 @@ public class SyncCycleTest {
         mapBuilder.put("base_test_handle2",new BaseTestHandler2("base_test_handle2"));
         mapBuilder.put("base_test_handle3",new BaseTestHandler3("base_test_handle3"));
         mapBuilder.put("reorder_sample_handle",new ReorderSampleHandler("reorder_sample_handle"));
-        mapBuilder.put("sync_cycle_sample_handler",new CycleSampleHandler("sync_cycle_sample_handler"));
 
         mapBuilder.put("show_start_handle",new ShowStartHandler("show_start_handle"));
         mapBuilder.put("show_end_handle",new ShowEndHandler("show_end_handle"));
 
         mapBuilder.put("reorder_handle",new ReorderHandler("reorder_handle"));
 
+        mapBuilder.put("sync_cycle_sample_handler",new CycleSampleHandler("sync_cycle_sample_handler"));
         mapBuilder.put("sync_cycle_test",new SyncCycleTestHandler("sync_cycle_test"));
     }
 

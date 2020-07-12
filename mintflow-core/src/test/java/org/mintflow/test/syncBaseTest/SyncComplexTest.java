@@ -3,6 +3,7 @@ package org.mintflow.test.syncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
+import org.mintflow.handler.sync.cycle.SyncCycleTestHandler;
 import org.mintflow.handler.util.MintFlowHandlerMapBuilder;
 import org.mintflow.handler.sync.condition.ConditionHandler1;
 import org.mintflow.handler.sync.condition.ConditionHandler2;
@@ -46,6 +47,9 @@ public class SyncComplexTest {
 
         mapBuilder.put("reorder_handle",new ReorderHandler("reorder_handle"));
         mapBuilder.put("reorder_sample_handle",new ReorderSampleHandler("reorder_sample_handle"));
+
+        mapBuilder.put("sync_cycle_sample_handler",new CycleSampleHandler("sync_cycle_sample_handler"));
+        mapBuilder.put("sync_cycle_test",new SyncCycleTestHandler("sync_cycle_test"));
     }
 
     /**

@@ -11,9 +11,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mintflow.test.syncBaseTest.ConditionTest.CAN_GO;
-import static org.mintflow.test.syncBaseTest.ConditionTest.NO_GO;
-import static org.mintflow.test.syncBaseTest.ReorderTest.ADD_DATA;
+import static org.mintflow.handler.async.reorder.AsyncReorderHandler.random_number_reorder;
+import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.async_cycle_str;
+import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.async_reorder_str;
+import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.CAN_GO;
+import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.NO_GO;
+import static org.mintflow.test.asyncBaseTest.AsyncCycleTest.ADD_DATA_CYCLE;
+import static org.mintflow.test.asyncBaseTest.AsyncReorderTest.ADD_DATA_REORDER;
 
 public class AsyncTempleteTest {
 
@@ -23,19 +27,32 @@ public class AsyncTempleteTest {
         MintFlowHandlerMap dataMapper = MintFlowHandlerMapFinder.findHandlerDataMap(
                 "org.mintflow.handler"
         );
+        String itemCycle = "test1";
+        String itemReorder = "test1";
         MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("base_async_test/async_complex_test.fn").build();
         MintFlowTemplate mintFlowTemplate = MintFlowTemplate.newBuilder().addInterface(mintFlow,"org.mintflow.templateFunction").build();
         Function1 function1 = mintFlowTemplate.getTemplateFunction(Function1.class);
-        function1.test(1,"item",NO_GO,CAN_GO,NO_GO,CAN_GO,false,false,param -> {
+        function1.test(1,itemCycle,itemReorder,NO_GO,CAN_GO,NO_GO,CAN_GO,false,false,param -> {
             assertEquals(13, (int) param.getResult(Integer.class));
-            StringBuilder ans = new StringBuilder("item"+ ADD_DATA);
-            int num = param.getContextParam("random_number");
-            while(num>=0){
-                ans.append(ADD_DATA);
-                num--;
+            StringBuilder ansCycle = new StringBuilder(itemCycle);
+            StringBuilder ansReorder = new StringBuilder(itemReorder);
+
+            int numCycle = param.getContextParam("random_number_cycle");
+            while(numCycle>0){
+                ansCycle.append(ADD_DATA_CYCLE);
+                numCycle--;
             }
-            String item = param.getParam(String.class);
-            assertEquals(ans.toString(),item);
+            String nowCycleItem = param.getContextParam(async_cycle_str);
+            assertEquals(ansCycle.toString(),nowCycleItem);
+
+            int numReorder = param.getContextParam(random_number_reorder);
+            while(numReorder>0){
+                ansReorder.append(ADD_DATA_REORDER);
+                numReorder--;
+            }
+            String nowItem =  param.getContextParam(async_reorder_str);
+            assertEquals(ansReorder.toString(),nowItem);
+
 
             assertTrue(param.getContextParam("show_start"));
             assertTrue(param.getContextParam("show_end"));

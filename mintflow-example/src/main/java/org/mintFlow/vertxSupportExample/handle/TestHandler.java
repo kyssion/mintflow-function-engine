@@ -18,8 +18,8 @@ public class TestHandler extends AsyncSampleFnHandler {
     public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
         DefaultRequestBean defaultRequestBean =
                 params.getParam(DefaultRequestBean.class);
-        System.out.println(Json.encode(defaultRequestBean));
-        System.out.println((String)params.getParam(String.class));
+//        System.out.println(Json.encode(defaultRequestBean));
+//        System.out.println((String)params.getParam(String.class));
         DefaultResponseBean defaultResponseBean = new DefaultResponseBean();
         defaultResponseBean.setMessage("test is test");
         defaultResponseBean.setName("this is name");

@@ -1,9 +1,9 @@
-package org.mintflow.handler.async.condition;
+package org.mintFlow.vertxSupportExample.handle.async.condition;
 
+import org.mintFlow.vertxSupportExample.handle.async.AsyncConditionTest;
 import org.mintflow.annotation.MintFlowHandler;
 import org.mintflow.handler.async.AsyncConditionFncHandlerWrapper;
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.test.asyncBaseTest.AsyncConditionTest;
 
 @MintFlowHandler(name = "async_condition_handle_3")
 public class AsyncConditionHandler3 extends AsyncConditionFncHandlerWrapper.ConditionHandler {

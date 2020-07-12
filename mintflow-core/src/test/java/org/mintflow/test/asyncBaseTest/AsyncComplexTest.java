@@ -3,6 +3,7 @@ package org.mintflow.test.asyncBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mintflow.MintFlow;
+import org.mintflow.handler.async.cycle.AsyncCycleTestHandler;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.handler.util.MintFlowHandlerMapBuilder;
 import org.mintflow.handler.async.condition.AsyncConditionHandler1;
@@ -16,10 +17,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mintflow.handler.async.cycle.AsyncCycleTestHandler.random_number_cycle;
+import static org.mintflow.handler.async.reorder.AsyncReorderHandler.random_number_reorder;
+import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.async_cycle_str;
+import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.async_reorder_str;
 import static org.mintflow.test.BaseTestUtil.*;
-import static org.mintflow.test.syncBaseTest.ConditionTest.CAN_GO;
-import static org.mintflow.test.syncBaseTest.ConditionTest.NO_GO;
-import static org.mintflow.test.syncBaseTest.ReorderTest.ADD_DATA;
+import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.CAN_GO;
+import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.NO_GO;
+import static org.mintflow.test.asyncBaseTest.AsyncCycleTest.ADD_DATA_CYCLE;
+import static org.mintflow.test.asyncBaseTest.AsyncReorderTest.ADD_DATA_REORDER;
 
 public class AsyncComplexTest {
     /**
@@ -44,6 +50,9 @@ public class AsyncComplexTest {
 
         mapBuilder.put("async_reorder_handle",new AsyncReorderHandler("async_reorder_handle"));
         mapBuilder.put("async_reorder_sample_handle",new AsyncReorderSampleHandler("async_reorder_sample_handle"));
+        mapBuilder.put("async_cycle_test",new AsyncCycleTestHandler("async_cycle_test"));
+        mapBuilder.put("async_cycle_sample_handler",new AsyncCycleSampleHandler("async_cycle_sample_handler"));
+
     }
     /**
      * namespace(test_namespace){
@@ -77,27 +86,43 @@ public class AsyncComplexTest {
     @Test
     public void complexTest(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item + ADD_DATA);
         ParamWrapper paramWrapper= new ParamWrapper();
         paramWrapper.setParam(1);
-        paramWrapper.setParam(item);
         paramWrapper.setContextParam("condition_1",NO_GO);
         paramWrapper.setContextParam("condition_2",CAN_GO);
         paramWrapper.setContextParam("condition_3",NO_GO);
         paramWrapper.setContextParam("condition_4",CAN_GO);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
+
+        String itemCycle = "test1";
+        StringBuilder ansCycle = new StringBuilder(itemCycle);
+        paramWrapper.setContextParam(async_cycle_str,itemCycle);
+
+        String itemReorder = "test1";
+        StringBuilder ansReorder = new StringBuilder(itemReorder);
+        paramWrapper.setContextParam(async_reorder_str,itemReorder);
+
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_complex_test.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             assertEquals(13, (int) param.getResult(Integer.class));
-            int num = param.getContextParam("random_number");
-            while(num>=0){
-                ans.append(ADD_DATA);
-                num--;
+            int numCycle = param.getContextParam(random_number_cycle);
+            while(numCycle>0){
+                ansCycle.append(ADD_DATA_CYCLE);
+                numCycle--;
             }
-            String nowItem = param.getParam(String.class);
-            assertEquals(ans.toString(),nowItem);
+            String nowCycleItem = paramWrapper.getContextParam(async_cycle_str);
+            assertEquals(ansCycle.toString(),nowCycleItem);
+
+            int numReorder = param.getContextParam(random_number_reorder);
+            while(numReorder>0){
+                ansReorder.append(ADD_DATA_REORDER);
+                numReorder--;
+            }
+            String nowItem =  param.getContextParam(async_reorder_str);
+            assertEquals(ansReorder.toString(),nowItem);
+
+
             assertTrue(param.getContextParam("show_start"));
             assertTrue(param.getContextParam("show_end"));
             atomicBoolean.set(true);

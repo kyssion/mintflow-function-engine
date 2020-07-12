@@ -17,11 +17,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mintflow.handler.async.cycle.AsyncCycleTestHandler.random_number_cycle;
+import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.async_cycle_str;
 import static org.mintflow.test.BaseTestUtil.*;
 
 public class AsyncCycleTest {
 
-    public final static String ADD_DATA = "_cycle";
+    public final static String ADD_DATA_CYCLE = "_cycle";
 
     MintFlowHandlerMapBuilder mapBuilder;
 
@@ -52,19 +54,19 @@ public class AsyncCycleTest {
     @Test
     public void cycleTest1(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
+        String itemCycle = "test1";
+        StringBuilder ansCycle = new StringBuilder(itemCycle);
+        paramWrapper.setContextParam(async_cycle_str,itemCycle);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test1.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
-            int num = param.getContextParam("random_number");
-            while(num>0){
-                ans.append(ADD_DATA);
-                num--;
+            int numCycle = param.getContextParam(random_number_cycle);
+            while(numCycle>0){
+                ansCycle.append(ADD_DATA_CYCLE);
+                numCycle--;
             }
-            String nowitem = paramWrapper.getParam(String.class);
-            assertEquals(ans.toString(),nowitem);
+            String nowCycleItem = paramWrapper.getContextParam(async_cycle_str);
+            assertEquals(ansCycle.toString(),nowCycleItem);
             atomicBoolean.set(true);
         });
 
@@ -75,22 +77,21 @@ public class AsyncCycleTest {
     @Test
     public void cycleTest2(){
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item);
+        String itemCycle = "test1";
+        StringBuilder ansCycle = new StringBuilder(itemCycle);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
+        paramWrapper.setContextParam(async_cycle_str,itemCycle);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test2.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
-            int num = param.getContextParam("random_number");
-            System.out.println(num);
-            while(num>0){
-                ans.append(ADD_DATA);
-                num--;
+            int numCycle = param.getContextParam(random_number_cycle);
+            while(numCycle>0){
+                ansCycle.append(ADD_DATA_CYCLE);
+                numCycle--;
             }
-            String nowitem = paramWrapper.getParam(String.class);
-            assertEquals(ans.toString(),nowitem);
+            String nowCycleItem = paramWrapper.getContextParam(async_cycle_str);
+            assertEquals(ansCycle.toString(),nowCycleItem);
             atomicBoolean.set(true);
             assertTrue(paramWrapper.getContextParam("show_start"));
             assertTrue(paramWrapper.getContextParam("show_end"));

@@ -20,3 +20,11 @@ public class DefaultRequestBean {
         this.age = age;
     }
 }
+
+/**
+ {
+    "name":"kyssion",
+    "age":"123"
+ }
+
+ */
