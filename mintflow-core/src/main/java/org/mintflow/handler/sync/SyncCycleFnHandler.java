@@ -19,7 +19,7 @@ public abstract class SyncCycleFnHandler extends SyncToolsFnHandler {
         CycleParam cycleParam= cycleHandler(paramWrapper);
         int times = cycleParam.getCycleTimes();
         ParamWrapper startParam = cycleParam.getStartParamWrapper();
-        while(times>=0){
+        while(times>0){
             startParam = syncScheduler.run(startParam,getSyncChildren());
             times--;
         }

@@ -6,16 +6,18 @@ import org.mintflow.param.CycleParam;
 import org.mintflow.param.ParamWrapper;
 
 @MintFlowHandler(name = "sync_cycle_test")
-public class SyncCycleTestHandler extends SyncCycleFnHandler {
+public class SyncCycleHandler extends SyncCycleFnHandler {
 
-    public SyncCycleTestHandler(String name) {
+    private static final String random_number_cycle="random_number_cycle";
+
+    public SyncCycleHandler(String name) {
         super(name);
     }
 
     @Override
     public CycleParam cycleHandler(ParamWrapper paramWrapper) {
         int times = (int) (Math.random()*10);
-        paramWrapper.setContextParam("random_number",times);
+        paramWrapper.setContextParam(random_number_cycle,times);
         return new CycleParam(times,paramWrapper);
     }
 }

@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mintflow.handler.async.cycle.AsyncCycleTestHandler.random_number_cycle;
-import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.async_cycle_str;
+import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.ASYNC_CYCLE_STR;
 import static org.mintflow.test.BaseTestUtil.*;
 
 public class AsyncCycleTest {
@@ -57,7 +57,7 @@ public class AsyncCycleTest {
         ParamWrapper paramWrapper = new ParamWrapper();
         String itemCycle = "test1";
         StringBuilder ansCycle = new StringBuilder(itemCycle);
-        paramWrapper.setContextParam(async_cycle_str,itemCycle);
+        paramWrapper.setContextParam(ASYNC_CYCLE_STR,itemCycle);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test1.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int numCycle = param.getContextParam(random_number_cycle);
@@ -65,7 +65,7 @@ public class AsyncCycleTest {
                 ansCycle.append(ADD_DATA_CYCLE);
                 numCycle--;
             }
-            String nowCycleItem = paramWrapper.getContextParam(async_cycle_str);
+            String nowCycleItem = paramWrapper.getContextParam(ASYNC_CYCLE_STR);
             assertEquals(ansCycle.toString(),nowCycleItem);
             atomicBoolean.set(true);
         });
@@ -80,7 +80,7 @@ public class AsyncCycleTest {
         String itemCycle = "test1";
         StringBuilder ansCycle = new StringBuilder(itemCycle);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setContextParam(async_cycle_str,itemCycle);
+        paramWrapper.setContextParam(ASYNC_CYCLE_STR,itemCycle);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_cycle_test2.fn").build();
@@ -90,7 +90,7 @@ public class AsyncCycleTest {
                 ansCycle.append(ADD_DATA_CYCLE);
                 numCycle--;
             }
-            String nowCycleItem = paramWrapper.getContextParam(async_cycle_str);
+            String nowCycleItem = paramWrapper.getContextParam(ASYNC_CYCLE_STR);
             assertEquals(ansCycle.toString(),nowCycleItem);
             atomicBoolean.set(true);
             assertTrue(paramWrapper.getContextParam("show_start"));

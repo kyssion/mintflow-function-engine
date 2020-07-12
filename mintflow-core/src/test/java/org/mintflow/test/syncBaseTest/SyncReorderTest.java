@@ -8,19 +8,21 @@ import org.mintflow.handler.sync.condition.ConditionHandler1;
 import org.mintflow.handler.sync.condition.ConditionHandler2;
 import org.mintflow.handler.sync.condition.ConditionHandler3;
 import org.mintflow.handler.sync.condition.ConditionHandler4;
-import org.mintflow.handler.sync.reorder.ReorderHandler;
+import org.mintflow.handler.sync.reorder.SyncReorderHandler;
 import org.mintflow.handler.sync.simple.*;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mintflow.handler.async.reorder.AsyncReorderHandler.random_number_reorder;
+import static org.mintflow.handler.sync.simple.ReorderSampleHandler.SYNC_REORDER_STR;
 import static org.mintflow.test.BaseTestUtil.NAME_SPACE;
 import static org.mintflow.test.BaseTestUtil.SYNC_PROCESS_NAME;
 
-public class ReorderTest {
+public class SyncReorderTest {
 
-    public final static String ADD_DATA="__reorder_handler";
+    public final static String ADD_DATA_REORDER="__reorder_handler";
 
     /**
      * 初始化
@@ -45,7 +47,7 @@ public class ReorderTest {
         mapBuilder.put("show_start_handle",new ShowStartHandler("show_start_handle"));
         mapBuilder.put("show_end_handle",new ShowEndHandler("show_end_handle"));
 
-        mapBuilder.put("reorder_handle",new ReorderHandler("reorder_handle"));
+        mapBuilder.put("reorder_handle",new SyncReorderHandler("reorder_handle"));
         mapBuilder.put("reorder_sample_handle",new ReorderSampleHandler("reorder_sample_handle"));
     }
 
@@ -60,38 +62,40 @@ public class ReorderTest {
      */
     @Test
     public void reorderTest1(){
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item + ADD_DATA);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
+
+        String itemReorder = "test1";
+        StringBuilder ansReorder = new StringBuilder(itemReorder);
+        paramWrapper.setContextParam(SYNC_REORDER_STR,itemReorder);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test1.fn").build();
         paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
-        int num = paramWrapper.getContextParam("random_number");
-        while(num>=0){
-            ans.append(ADD_DATA);
-            num--;
+        int numReorder = paramWrapper.getContextParam(random_number_reorder);
+        while(numReorder>0){
+            ansReorder.append(ADD_DATA_REORDER);
+            numReorder--;
         }
-        item = paramWrapper.getParam(String.class);
-        assertEquals(ans.toString(),item);
+        itemReorder = paramWrapper.getContextParam(SYNC_REORDER_STR);
+        assertEquals(ansReorder.toString(),itemReorder);
     }
 
     @Test
     public void reorderTest2(){
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item + ADD_DATA);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
+
+        String itemReorder = "test1";
+        StringBuilder ansReorder = new StringBuilder(itemReorder);
+        paramWrapper.setContextParam(SYNC_REORDER_STR,itemReorder);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_reorder_test2.fn").build();
         paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
-        int num = paramWrapper.getContextParam("random_number");
-        while(num>=0){
-            ans.append(ADD_DATA);
-            num--;
+        int numReorder = paramWrapper.getContextParam(random_number_reorder);
+        while(numReorder>0){
+            ansReorder.append(ADD_DATA_REORDER);
+            numReorder--;
         }
-        item = paramWrapper.getParam(String.class);
-        assertEquals(ans.toString(),item);
+        itemReorder = paramWrapper.getContextParam(SYNC_REORDER_STR);
+        assertEquals(ansReorder.toString(),itemReorder);
         assertTrue(paramWrapper.getContextParam("show_start"));
         assertTrue(paramWrapper.getContextParam("show_end"));
     }

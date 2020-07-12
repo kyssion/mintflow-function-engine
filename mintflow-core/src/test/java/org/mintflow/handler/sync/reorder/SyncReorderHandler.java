@@ -9,16 +9,19 @@ import org.mintflow.param.ParamWrapper;
 import java.util.List;
 
 @MintFlowHandler(name = "reorder_handle")
-public class ReorderHandler extends SyncReorderFnHandler {
-    public ReorderHandler(String name) {
+public class SyncReorderHandler extends SyncReorderFnHandler {
+
+    private static final String random_number_reorder="random_number_reorder";
+    public SyncReorderHandler(String name) {
         super(name);
     }
 
     @Override
     public void reorderHandlerList(ParamWrapper paramWrapper, List<SyncFnHandler> fnHandlers) {
         int num= (int) (Math.random()*10);
-        paramWrapper.setContextParam("random_number",num);
-        while(num>=0) {
+        paramWrapper.setContextParam(random_number_reorder,num);
+        fnHandlers.clear();
+        while(num>0) {
             fnHandlers.add(new ReorderSampleHandler("reorder_handle"));
             num--;
         }

@@ -19,8 +19,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mintflow.handler.async.cycle.AsyncCycleTestHandler.random_number_cycle;
 import static org.mintflow.handler.async.reorder.AsyncReorderHandler.random_number_reorder;
-import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.async_cycle_str;
-import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.async_reorder_str;
+import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.ASYNC_CYCLE_STR;
+import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.ASYNC_REORDER_STR;
 import static org.mintflow.test.BaseTestUtil.*;
 import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.CAN_GO;
 import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.NO_GO;
@@ -97,11 +97,11 @@ public class AsyncComplexTest {
 
         String itemCycle = "test1";
         StringBuilder ansCycle = new StringBuilder(itemCycle);
-        paramWrapper.setContextParam(async_cycle_str,itemCycle);
+        paramWrapper.setContextParam(ASYNC_CYCLE_STR,itemCycle);
 
         String itemReorder = "test1";
         StringBuilder ansReorder = new StringBuilder(itemReorder);
-        paramWrapper.setContextParam(async_reorder_str,itemReorder);
+        paramWrapper.setContextParam(ASYNC_REORDER_STR,itemReorder);
 
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_complex_test.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
@@ -111,7 +111,7 @@ public class AsyncComplexTest {
                 ansCycle.append(ADD_DATA_CYCLE);
                 numCycle--;
             }
-            String nowCycleItem = paramWrapper.getContextParam(async_cycle_str);
+            String nowCycleItem = paramWrapper.getContextParam(ASYNC_CYCLE_STR);
             assertEquals(ansCycle.toString(),nowCycleItem);
 
             int numReorder = param.getContextParam(random_number_reorder);
@@ -119,7 +119,7 @@ public class AsyncComplexTest {
                 ansReorder.append(ADD_DATA_REORDER);
                 numReorder--;
             }
-            String nowItem =  param.getContextParam(async_reorder_str);
+            String nowItem =  param.getContextParam(ASYNC_REORDER_STR);
             assertEquals(ansReorder.toString(),nowItem);
 
 

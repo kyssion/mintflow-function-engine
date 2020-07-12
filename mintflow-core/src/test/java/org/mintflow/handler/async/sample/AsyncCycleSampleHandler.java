@@ -11,7 +11,7 @@ import static org.mintflow.test.asyncBaseTest.AsyncCycleTest.ADD_DATA_CYCLE;
 @MintFlowHandler(name = "async_cycle_sample_handler")
 public class AsyncCycleSampleHandler extends AsyncSampleFnHandler {
 
-    public static final   String async_cycle_str = "async_cycle_str";
+    public static final   String ASYNC_CYCLE_STR = "async_cycle_str";
 
     public AsyncCycleSampleHandler(String name) {
         super(name);
@@ -19,8 +19,8 @@ public class AsyncCycleSampleHandler extends AsyncSampleFnHandler {
 
     @Override
     public void asyncHandle(ParamWrapper params, AsyncResult asyncResult, AsyncScheduler asyncScheduler) {
-        String item = params.getContextParam(async_cycle_str);
-        params.setContextParam(async_cycle_str,item+ADD_DATA_CYCLE);
+        String item = params.getContextParam(ASYNC_CYCLE_STR);
+        params.setContextParam(ASYNC_CYCLE_STR,item+ADD_DATA_CYCLE);
         asyncScheduler.next(params,asyncResult);
     }
 

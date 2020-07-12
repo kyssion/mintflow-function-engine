@@ -8,20 +8,22 @@ import org.mintflow.handler.sync.condition.ConditionHandler1;
 import org.mintflow.handler.sync.condition.ConditionHandler2;
 import org.mintflow.handler.sync.condition.ConditionHandler3;
 import org.mintflow.handler.sync.condition.ConditionHandler4;
-import org.mintflow.handler.sync.cycle.SyncCycleTestHandler;
-import org.mintflow.handler.sync.reorder.ReorderHandler;
+import org.mintflow.handler.sync.cycle.SyncCycleHandler;
+import org.mintflow.handler.sync.reorder.SyncReorderHandler;
 import org.mintflow.handler.sync.simple.*;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mintflow.handler.async.cycle.AsyncCycleTestHandler.random_number_cycle;
+import static org.mintflow.handler.sync.simple.CycleSampleHandler.SYNC_CYCLE_STR;
 import static org.mintflow.test.BaseTestUtil.NAME_SPACE;
 import static org.mintflow.test.BaseTestUtil.SYNC_PROCESS_NAME;
 
 public class SyncCycleTest {
 
-    public final static String ADD_DATA = "_cycle";
+    public final static String ADD_DATA_CYCLE = "_cycle";
 
     MintFlowHandlerMapBuilder mapBuilder;
 
@@ -43,46 +45,49 @@ public class SyncCycleTest {
         mapBuilder.put("show_start_handle",new ShowStartHandler("show_start_handle"));
         mapBuilder.put("show_end_handle",new ShowEndHandler("show_end_handle"));
 
-        mapBuilder.put("reorder_handle",new ReorderHandler("reorder_handle"));
+        mapBuilder.put("reorder_handle",new SyncReorderHandler("reorder_handle"));
 
         mapBuilder.put("sync_cycle_sample_handler",new CycleSampleHandler("sync_cycle_sample_handler"));
-        mapBuilder.put("sync_cycle_test",new SyncCycleTestHandler("sync_cycle_test"));
+        mapBuilder.put("sync_cycle_test",new SyncCycleHandler("sync_cycle_test"));
     }
 
     @Test
     public void cycleTest1(){
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
+        String itemCycle = "test1";
+        StringBuilder ansCycle = new StringBuilder(itemCycle);
+        paramWrapper.setContextParam(SYNC_CYCLE_STR,itemCycle);
+
+
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_cycle_test1.fn").build();
         paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
-        int num = paramWrapper.getContextParam("random_number");
-        while(num>=0){
-            ans.append(ADD_DATA);
-            num--;
+        int numCycle = paramWrapper.getContextParam(random_number_cycle);
+        while(numCycle>0){
+            ansCycle.append(ADD_DATA_CYCLE);
+            numCycle--;
         }
-        item = paramWrapper.getParam(String.class);
-        assertEquals(ans.toString(),item);
+        itemCycle = paramWrapper.getContextParam(SYNC_CYCLE_STR);
+        assertEquals(ansCycle.toString(),itemCycle);
     }
 
     @Test
     public void cycleTest2(){
-        String item = "test1";
-        StringBuilder ans = new StringBuilder(item);
         ParamWrapper paramWrapper = new ParamWrapper();
-        paramWrapper.setParam(item);
+
+        String itemCycle = "test1";
+        StringBuilder ansCycle = new StringBuilder(itemCycle);
+        paramWrapper.setContextParam(SYNC_CYCLE_STR,itemCycle);
         paramWrapper.setContextParam("show_start",false);
         paramWrapper.setContextParam("show_end",false);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_sync_test/sync_cycle_test2.fn").build();
         paramWrapper = mintFlow.runSync(NAME_SPACE,SYNC_PROCESS_NAME,paramWrapper,new SyncFnEngineSyncScheduler());
-        int num = paramWrapper.getContextParam("random_number");
-        while(num>=0){
-            ans.append(ADD_DATA);
-            num--;
+        int numCycle = paramWrapper.getContextParam(random_number_cycle);
+        while(numCycle>0){
+            ansCycle.append(ADD_DATA_CYCLE);
+            numCycle--;
         }
-        item = paramWrapper.getParam(String.class);
-        assertEquals(ans.toString(),item);
+        itemCycle = paramWrapper.getContextParam(SYNC_CYCLE_STR);
+        assertEquals(ansCycle.toString(),itemCycle);
         assertTrue(paramWrapper.getContextParam("show_start"));
         assertTrue(paramWrapper.getContextParam("show_end"));
     }

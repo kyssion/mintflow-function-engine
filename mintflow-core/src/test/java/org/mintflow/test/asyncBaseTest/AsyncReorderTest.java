@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mintflow.handler.async.reorder.AsyncReorderHandler.random_number_reorder;
-import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.async_reorder_str;
+import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.ASYNC_REORDER_STR;
 import static org.mintflow.test.BaseTestUtil.*;
 
 public class AsyncReorderTest {
@@ -64,7 +64,7 @@ public class AsyncReorderTest {
         ParamWrapper paramWrapper = new ParamWrapper();
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         StringBuilder ansReorder = new StringBuilder(itemReorder);
-        paramWrapper.setContextParam(async_reorder_str,itemReorder);
+        paramWrapper.setContextParam(ASYNC_REORDER_STR,itemReorder);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_reorder_test1.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int numReorder = param.getContextParam(random_number_reorder);
@@ -72,7 +72,7 @@ public class AsyncReorderTest {
                 ansReorder.append(ADD_DATA_REORDER);
                 numReorder--;
             }
-            String nowItemReorder =  param.getContextParam(async_reorder_str);
+            String nowItemReorder =  param.getContextParam(ASYNC_REORDER_STR);
             assertEquals(ansReorder.toString(),nowItemReorder);
             atomicBoolean.set(true);
         });
@@ -86,7 +86,7 @@ public class AsyncReorderTest {
         ParamWrapper paramWrapper = new ParamWrapper();
 
         StringBuilder ansReorder = new StringBuilder(itemReorder);
-        paramWrapper.setContextParam(async_reorder_str,itemReorder);
+        paramWrapper.setContextParam(ASYNC_REORDER_STR,itemReorder);
         MintFlow mintFlow = MintFlow.newBuilder(mapBuilder.build()).addFnMapper("base_async_test/async_reorder_test2.fn").build();
         mintFlow.runAsync(NAME_SPACE,ASYNC_PROCESS_NAME,paramWrapper,param->{
             int numReorder = param.getContextParam(random_number_reorder);
@@ -94,7 +94,7 @@ public class AsyncReorderTest {
                 ansReorder.append(ADD_DATA_REORDER);
                 numReorder--;
             }
-            String nowItem =  param.getContextParam(async_reorder_str);
+            String nowItem =  param.getContextParam(ASYNC_REORDER_STR);
             assertEquals(ansReorder.toString(),nowItem);
             assertTrue(paramWrapper.getContextParam("show_start"));
             assertTrue(paramWrapper.getContextParam("show_end"));

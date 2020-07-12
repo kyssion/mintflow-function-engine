@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mintflow.handler.async.reorder.AsyncReorderHandler.random_number_reorder;
-import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.async_cycle_str;
-import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.async_reorder_str;
+import static org.mintflow.handler.async.sample.AsyncCycleSampleHandler.ASYNC_CYCLE_STR;
+import static org.mintflow.handler.async.sample.AsyncReorderSampleHandler.ASYNC_REORDER_STR;
 import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.CAN_GO;
 import static org.mintflow.test.asyncBaseTest.AsyncConditionTest.NO_GO;
 import static org.mintflow.test.asyncBaseTest.AsyncCycleTest.ADD_DATA_CYCLE;
@@ -42,7 +42,7 @@ public class AsyncTempleteTest {
                 ansCycle.append(ADD_DATA_CYCLE);
                 numCycle--;
             }
-            String nowCycleItem = param.getContextParam(async_cycle_str);
+            String nowCycleItem = param.getContextParam(ASYNC_CYCLE_STR);
             assertEquals(ansCycle.toString(),nowCycleItem);
 
             int numReorder = param.getContextParam(random_number_reorder);
@@ -50,7 +50,7 @@ public class AsyncTempleteTest {
                 ansReorder.append(ADD_DATA_REORDER);
                 numReorder--;
             }
-            String nowItem =  param.getContextParam(async_reorder_str);
+            String nowItem =  param.getContextParam(ASYNC_REORDER_STR);
             assertEquals(ansReorder.toString(),nowItem);
 
 
