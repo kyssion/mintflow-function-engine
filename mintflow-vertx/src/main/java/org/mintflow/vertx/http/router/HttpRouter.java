@@ -6,6 +6,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import org.mintflow.MintFlow;
+import org.mintflow.exception.UseMintFlowException;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.vertx.http.adapter.request.ControllerMapperParamAdapter;
 import org.mintflow.vertx.http.adapter.request.DefaultRequestParamAdapter;
@@ -99,19 +100,23 @@ public class HttpRouter implements Handler<HttpServerRequest> {
         event.endHandler(vo->{
             requestParam.setBody(buffer.toString());
             ParamWrapper paramWrapper = routerData.getRequestParamAdapter().createParams(requestParam);
-            mintFlow.runAsync(routerData.getNameSpace(),routerData.getProcess(),paramWrapper,(params)->{
-                ResponseParam responseParam = null;
-                if(!params.isSuccess()){
-                    responseParam = this.routerExceptionHandler.handle(paramWrapper,params.getException());
-                }else{
-                    responseParam = routerData.getResponseParamAdapter().createResponseParams(params);
-                }
-                HttpServerResponse httpServerResponse = event.response();
-                if(responseParam!=null){
-                    responseParam.addDataToHttpServerResponse(httpServerResponse);
-                }
+            HttpServerResponse httpServerResponse = event.response();
+            try {
+                mintFlow.runAsync(routerData.getNameSpace(), routerData.getProcess(), paramWrapper, (params) -> {
+                    ResponseParam responseParam = null;
+                    if (!params.isSuccess()) {
+                        responseParam = this.routerExceptionHandler.handle(paramWrapper, params.getException());
+                    } else {
+                        responseParam = routerData.getResponseParamAdapter().createResponseParams(params);
+                    }
+                    if (responseParam != null) {
+                        responseParam.addDataToHttpServerResponse(httpServerResponse);
+                    }
+                    httpServerResponse.end();
+                });
+            }catch (UseMintFlowException e){
                 httpServerResponse.end();
-            });
+            }
         });
     }
 

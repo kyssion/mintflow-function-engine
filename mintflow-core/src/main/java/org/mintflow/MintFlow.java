@@ -10,7 +10,7 @@ import org.mintflow.scheduler.async.AsyncScheduler;
 import org.mintflow.scheduler.async.FnAsyncEngineScheduler;
 import org.mintflow.builder.FnMapperBuilder;
 import org.mintflow.exception.InitMintFlowException;
-import org.mintflow.exception.UserMintFlowException;
+import org.mintflow.exception.UseMintFlowException;
 import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
 import org.mintflow.scheduler.sync.SyncScheduler;
 
@@ -77,7 +77,7 @@ public class MintFlow {
         HandlerDataMap.ProcessDataMap processDataMap = this.handlerDataMap.getHandlerNamespaceMap().get(namespace);
         List<SyncFnHandler> syncFnHandlerList = processDataMap.getSyncFnDataMap().get(process);
         if (syncFnHandlerList == null) {
-            throw new UserMintFlowException("未发现指定的process流程信息....");
+            throw new UseMintFlowException("未发现指定的process流程信息....");
         }
         return syncFnHandlerList;
     }
@@ -87,18 +87,18 @@ public class MintFlow {
         HandlerDataMap.ProcessDataMap processDataMap = this.handlerDataMap.getHandlerNamespaceMap().get(namespace);
         List<AsyncFnHandler> asyncFnHandlerList = processDataMap.getAsyncFnDataMap().get(process);
         if (asyncFnHandlerList == null) {
-            throw new UserMintFlowException("未发现指定的process流程信息....");
+            throw new UseMintFlowException("未发现指定的process流程信息....");
         }
         return asyncFnHandlerList;
     }
 
     private void checkNamespaceInfo(String namespace){
         if (this.handlerDataMap == null) {
-            throw new UserMintFlowException("fnMapper没有初始化,请使用initFnMapper方法初始化....");
+            throw new UseMintFlowException("fnMapper没有初始化,请使用initFnMapper方法初始化....");
         }
         HandlerDataMap.ProcessDataMap namespaceItem = this.handlerDataMap.getHandlerNamespaceMap().get(namespace);
         if (namespaceItem == null) {
-            throw new UserMintFlowException("未发现指定的namespace信息....");
+            throw new UseMintFlowException("未发现指定的namespace信息....");
         }
     }
 

@@ -14,8 +14,11 @@ public class MintFlowVertxSupportExample {
         MintFlowHandlerMap dataMapper = MintFlowHandlerMapFinder.findHandlerDataMap(
                 "org.mintFlow.vertxSupportExample.handle"
         );
-        HttpRouter httpRouter = HttpRouter.router(MintFlow.newBuilder(dataMapper).addFnMapper("async/async_complex_test.fn").build())
+        MintFlow mintFlow = MintFlow.newBuilder(dataMapper).addFnMapper("async/async_complex_test.fn").build();
+
+        HttpRouter httpRouter = HttpRouter.router(mintFlow)
                 .addRouter("org.mintFlow.vertxSupportExample.controller.controllerInterface");
+
         server.requestHandler(httpRouter);
         server.listen(8080,  res -> {
             if (res.succeeded()) {
