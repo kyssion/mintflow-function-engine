@@ -1,5 +1,6 @@
 package org.mintflow.vertx.sql.mysql;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SqlBase extends SqlSymbol{
@@ -10,20 +11,39 @@ public class SqlBase extends SqlSymbol{
         this.sqlType = sqlType;
     }
 
-    protected StringBuilder createParamsArrays(String...params){
+    protected StringBuilder createParamsArrays(List<Object> params){
         StringBuilder arrays = new StringBuilder();
-        if(params==null||params.length==0){
+        if(params==null||params.size()==0){
             return arrays;
         }
 
         boolean isStart=true;
-        for(String str : params){
+        for(Object str : params){
             if(isStart){
                 arrays.append(TAG).append(str).append(TAG);
                 isStart = false;
                 continue;
             }
-            arrays.append(",").append(str);
+            arrays.append(COMMA).append(str);
+        }
+        return arrays;
+    }
+
+    protected StringBuilder createParamsArrays(Object...params){
+        return createParamsArrays(Arrays.asList(params));
+    }
+
+    protected StringBuilder createPlaceholderArrays(int length){
+        StringBuilder arrays = new StringBuilder();
+        boolean isStart = true;
+        while(length>=0){
+            if(isStart){
+                isStart = false;
+                arrays.append(PLACEHOLDER);
+                continue;
+            }
+            arrays.append(COMMA).append(PLACEHOLDER);
+            length--;
         }
         return arrays;
     }
