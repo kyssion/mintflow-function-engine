@@ -5,6 +5,8 @@ import java.util.List;
 
 public class SqlBase extends SqlSymbol{
     protected StringBuilder sql;
+    protected StringBuilder conditionSql;
+
     protected List<Object> paramList;
     protected SqlType sqlType;
     protected SqlBase(SqlType sqlType){
@@ -24,7 +26,7 @@ public class SqlBase extends SqlSymbol{
                 isStart = false;
                 continue;
             }
-            arrays.append(COMMA).append(str);
+            arrays.append(COMMA).append(TAG).append(str).append(TAG);
         }
         return arrays;
     }
@@ -68,6 +70,11 @@ public class SqlBase extends SqlSymbol{
     }
 
     public Sql build(){
+
+        if(this.conditionSql!=null&&this.conditionSql.length()>0){
+            this.sql.append(SPLIT).append(WHERE).append(SPLIT).append(this.conditionSql);
+        }
+
         return new Sql(this.sql.toString(),this.paramList);
     }
 }
