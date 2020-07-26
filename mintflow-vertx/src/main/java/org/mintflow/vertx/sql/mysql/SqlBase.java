@@ -2,12 +2,13 @@ package org.mintflow.vertx.sql.mysql;
 
 import java.util.List;
 
-public class SqlBase {
+public class SqlBase extends SqlSymbol{
     protected StringBuilder sql;
     protected List<Object> paramList;
-    protected static final String SPLIT = " ";
-    protected static final String TAG = "`";
-    protected static final char UNDERLINE = '_';
+    protected SqlType sqlType;
+    protected SqlBase(SqlType sqlType){
+        this.sqlType = sqlType;
+    }
 
     protected StringBuilder createParamsArrays(String...params){
         StringBuilder arrays = new StringBuilder();

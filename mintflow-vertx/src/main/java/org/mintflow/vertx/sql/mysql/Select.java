@@ -8,17 +8,20 @@ public class Select extends ConditionSqlBase {
 
     private static final String SELECT ="select";
 
-    public Select(){
+    private Select(SqlType sqlType){
+        super(sqlType);
         this.sql = new StringBuilder();
         this.paramList = new ArrayList<>();
     }
 
+    public static Select sql(){
+        return new Select(SqlType.SELECT);
+    }
+
     public Select selectFrom(String tableName,String...params){
-        StringBuilder str = new StringBuilder();
-        str.append(SELECT).append(SPLIT).
-                append(createParamsArrays(params)).append(SPLIT).
+        this.sql.append(SELECT).append(SPLIT)
+                .append(createParamsArrays(params)).append(SPLIT).
                 append(TAG).append(tableName).append(TAG);
-        this.sql.append(str);
         return this;
     }
 
