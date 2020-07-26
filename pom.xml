@@ -21,6 +21,7 @@
         <module>mintflow-dev-tools</module>
         <module>mintflow-vertx</module>
         <module>mintflow-example</module>
+        <module>mintflow-reflection</module>
     </modules>
       <dependencyManagement>
           <dependencies>

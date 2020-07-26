@@ -21,6 +21,11 @@
             <version>${core.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.func-engine</groupId>
+            <artifactId>mintflow-reflection</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
             <version>${vertx.version}</version>
