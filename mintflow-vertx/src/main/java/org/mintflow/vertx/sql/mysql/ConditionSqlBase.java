@@ -1,8 +1,13 @@
 package org.mintflow.vertx.sql.mysql;
 
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 public class ConditionSqlBase extends SqlBase {
+
+    public interface ChildCondition{
+        StringBuilder condition(ConditionSqlBase conditionSqlBase);
+    }
 
     private final StringBuilder conditionSql;
 
@@ -132,11 +137,49 @@ public class ConditionSqlBase extends SqlBase {
         return this;
     }
 
-    public ConditionSqlBase AND(){
+    public ConditionSqlBase and(){
         conditionSql.append(AND).append(SPLIT);
         return this;
     }
 
+    public ConditionSqlBase or(ChildCondition childCondition){
+        conditionSql.append(OR).append(SPLIT).append(LEFT_PARENTHESIS).append(SPLIT)
+                .append(childCondition.condition(this))
+                .append(RIGHT_PARENTHESIS).append(SPLIT);
+        return this;
+    }
+
+    public ConditionSqlBase and(ChildCondition childCondition){
+        conditionSql.append(AND).append(SPLIT).append(LEFT_PARENTHESIS).append(SPLIT)
+                .append(childCondition.condition(this))
+                .append(RIGHT_PARENTHESIS).append(SPLIT);
+        return this;
+    }
+
+    public ConditionSqlBase groupBy(String...paramNames){
+        return this;
+    }
+
+    public ConditionSqlBase orderByDesc(String...paramNames){
+        return this;
+    }
+
+    public ConditionSqlBase orderByAsc(String...paramNames){
+        return this;
+    }
+
+    public ConditionSqlBase limit(int num){
+        conditionSql.append(LIMIT).append(SPLIT).append(PLACEHOLDER);
+        paramList.add(num);
+        return this;
+    }
+
+    public ConditionSqlBase limit(int start,int num){
+        conditionSql.append(LIMIT).append(SPLIT).append(PLACEHOLDER).append(COMMA).append(PLACEHOLDER);
+        paramList.add(start);
+        paramList.add(num);
+        return this;
+    }
 
     /**
      * use subqueries
