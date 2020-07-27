@@ -19,23 +19,17 @@ public class MirrorObject {
     private final Object originalObject;
     private final ObjectWrapper objectWrapper;
     private static final ObjectFactory objectFactory = new DefaultObjectFactory();
-    private static final ObjectWrapperFactory objectWrapperFactory=new DefaultObjectWrapperFactory();
     private static final ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
 
     @SuppressWarnings("unchecked")
-    private MirrorObject(Object object, ObjectFactory objectFactory,
-                         ObjectWrapperFactory objectWrapperFactory, ReflectorFactory reflectorFactory) {
-
+    private MirrorObject(Object object) {
         this.originalObject = object;
-
         if (object instanceof ObjectWrapper) {
             this.objectWrapper = (ObjectWrapper) object;
-        } else if (objectWrapperFactory.hasWrapperFor(object)) {
-            this.objectWrapper = objectWrapperFactory.getWrapperFor(this, object);
         } else if (object instanceof Map) {
             this.objectWrapper = new MapWrapper(this, (Map<String, Object>) object);
         } else if (object instanceof Collection) {
-            this.objectWrapper = new CollectionWrapper(this, (Collection) object);
+            this.objectWrapper = new CollectionWrapper(this, (Collection<Object>) object);
         } else {
             this.objectWrapper = new BeanWrapper(this, object);
         }
@@ -46,25 +40,16 @@ public class MirrorObject {
     }
 
     public static MirrorObject forObject(Object object) {
-        return forObject(object,objectFactory,objectWrapperFactory,reflectorFactory);
-    }
-
-    public static MirrorObject forObject(Object object, ObjectFactory objectFactory,
-                                         ObjectWrapperFactory objectWrapperFactory,
-                                         ReflectorFactory reflectorFactory) {
         if (object == null) {
             return SystemMirrorObject.NULL_META_OBJECT;
         } else {
-            return new MirrorObject(object, objectFactory, objectWrapperFactory, reflectorFactory);
+            return new MirrorObject(object);
         }
     }
 
+
     public ObjectFactory getObjectFactory() {
         return objectFactory;
-    }
-
-    public ObjectWrapperFactory getObjectWrapperFactory() {
-        return objectWrapperFactory;
     }
 
     public ReflectorFactory getReflectorFactory() {
@@ -165,7 +150,7 @@ public class MirrorObject {
 
     public MirrorObject mirrorObjectForProperty(String name) {
         Object value = getValue(name);
-        return MirrorObject.forObject(value, objectFactory, objectWrapperFactory, reflectorFactory);
+        return MirrorObject.forObject(value);
     }
 
     public ObjectWrapper getObjectWrapper() {

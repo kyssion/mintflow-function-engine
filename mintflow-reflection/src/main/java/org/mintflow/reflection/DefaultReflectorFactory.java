@@ -11,6 +11,7 @@ public class DefaultReflectorFactory implements ReflectorFactory {
     private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
 
     public DefaultReflectorFactory() {
+        super();
     }
 
     @Override
