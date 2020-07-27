@@ -23,7 +23,7 @@ public class SelectSqlTest {
     }
 
     @Test
-    public void ConditionSelectTest(){
+    public void conditionSelectTest(){
         List<Object> params = new ArrayList<>();
         params.add("jack");
         params.add(1);
@@ -32,7 +32,6 @@ public class SelectSqlTest {
         params.add(4);
         params.add(5);
         params.add(6);
-
         Sql sql= Select.sql().selectFrom("test_table","name","age","num","bookNum")
                 .eq("name",params.get(0)).and()
                 .between("age",params.get(1),params.get(2)).and()
@@ -43,5 +42,24 @@ public class SelectSqlTest {
                 .build();
         Assert.assertEquals(sql.getSql(),"select `name`,`age`,`num`,`bookNum` from `test_table` where `name` = ? AND (`age` between ? AND ? ) AND `num` > ? AND `num` < ? AND `bookNum` >= ? AND `bookNum` <= ? ");
         Assert.assertArrayEquals(createArrays(params),createArrays(sql.getParamsList()));
+    }
+
+    @Test
+    public void conditionSelectGroupBy(){
+          List<Object> params = new ArrayList<>();
+          params.add("jack");
+          params.add("bookNum");
+          params.add("name");
+          params.add("age");
+          params.add(1);
+          params.add(2);
+          Select select = Select.sql();
+          select.selectFrom("test_table","name","age","num","bookNum");
+          select.eq("name",params.get(0));
+          select.groupBy((String) params.get(1));
+          select.orderByAsc((String) params.get(2));
+          select.orderByDesc((String) params.get(3));
+          select.limit((int)params.get(4),(int)params.get(5));
+        System.out.println(select.build().getSql());
     }
 }
