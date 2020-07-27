@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mintflow-fn-engine</artifactId>
+        <groupId>org.func-engine</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <properties>
+        <mintflow-reflection>1.0.0</mintflow-reflection>
+    </properties>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mintflow-sql</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.func-engine</groupId>
+            <artifactId>mintflow-reflection</artifactId>
+            <version>${mintflow-reflection}</version>
+        </dependency>
+    </dependencies>
+
+</project>

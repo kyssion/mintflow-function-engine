@@ -22,6 +22,7 @@
         <module>mintflow-vertx</module>
         <module>mintflow-example</module>
         <module>mintflow-reflection</module>
+        <module>mintflow-sql</module>
     </modules>
       <dependencyManagement>
           <dependencies>
