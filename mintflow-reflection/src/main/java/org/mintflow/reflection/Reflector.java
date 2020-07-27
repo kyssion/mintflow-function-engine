@@ -18,7 +18,6 @@ import java.util.Map.Entry;
  * 相当一层代理,将所有的class类(非集合数组类型)抽象成Reflector
  */
 public class Reflector {
-
     private final Class<?> type;
     private final String[] readablePropertyNames;
     private final String[] writeablePropertyNames;

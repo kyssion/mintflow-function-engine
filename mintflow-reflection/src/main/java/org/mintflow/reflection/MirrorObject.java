@@ -18,18 +18,15 @@ public class MirrorObject {
 
     private final Object originalObject;
     private final ObjectWrapper objectWrapper;
-    private final ObjectFactory objectFactory;
-    private final ObjectWrapperFactory objectWrapperFactory;
-    private final ReflectorFactory reflectorFactory;
+    private static final ObjectFactory objectFactory = new DefaultObjectFactory();
+    private static final ObjectWrapperFactory objectWrapperFactory=new DefaultObjectWrapperFactory();
+    private static final ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
 
     @SuppressWarnings("unchecked")
     private MirrorObject(Object object, ObjectFactory objectFactory,
                          ObjectWrapperFactory objectWrapperFactory, ReflectorFactory reflectorFactory) {
 
         this.originalObject = object;
-        this.objectFactory = objectFactory;
-        this.objectWrapperFactory = objectWrapperFactory;
-        this.reflectorFactory = reflectorFactory;
 
         if (object instanceof ObjectWrapper) {
             this.objectWrapper = (ObjectWrapper) object;
@@ -49,7 +46,7 @@ public class MirrorObject {
     }
 
     public static MirrorObject forObject(Object object) {
-        return forObject(object, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+        return forObject(object,objectFactory,objectWrapperFactory,reflectorFactory);
     }
 
     public static MirrorObject forObject(Object object, ObjectFactory objectFactory,

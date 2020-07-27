@@ -42,7 +42,8 @@ public class SqlSymbol {
     public static final String DELETE = "delete";
     public static final String WHERE = "where";
     public static final String FROM = "from";
-
+    public static final String SET = "SET";
     public static final String BEAN_END_WITH = "DTO";
+    public static final String INTO = "INTO";
 
 }
