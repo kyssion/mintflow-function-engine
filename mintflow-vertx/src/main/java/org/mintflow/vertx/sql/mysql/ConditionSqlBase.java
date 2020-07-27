@@ -9,8 +9,6 @@ public class ConditionSqlBase extends SqlBase {
         StringBuilder condition(ConditionSqlBase conditionSqlBase);
     }
 
-    private final StringBuilder conditionSql;
-
     protected ConditionSqlBase(SqlType sqlType) {
         super(sqlType);
         conditionSql = new StringBuilder();
@@ -123,11 +121,11 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     private void betweenCondition(String paramName,Object start,Object end,String type){
-        conditionSql.append(TAG).append(paramName).append(TAG).append(SPLIT)
+        conditionSql.append(LEFT_PARENTHESIS).append(TAG).append(paramName).append(TAG).append(SPLIT)
                 .append(type).append(SPLIT)
                 .append(PLACEHOLDER).append(SPLIT)
                 .append(AND).append(SPLIT)
-                .append(PLACEHOLDER).append(SPLIT);
+                .append(PLACEHOLDER).append(SPLIT).append(RIGHT_PARENTHESIS).append(SPLIT);
         this.paramList.add(start);
         this.paramList.add(end);
     }
@@ -157,24 +155,51 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase groupBy(String...paramNames){
+        StringBuilder paramsArrays = createParamsArrays((Object[]) paramNames);
+        conditionSql.append(GROUP_BY).append(SPLIT).append(paramsArrays).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase orderByDesc(String...paramNames){
-        return this;
+        return createOrderBy(false,paramNames);
     }
 
     public ConditionSqlBase orderByAsc(String...paramNames){
+        return createOrderBy(true,paramNames);
+    }
+
+    private ConditionSqlBase createOrderBy(boolean isAsc , String...paramNames){
+        if(this.sqlType!=SqlType.SELECT){
+            return this;
+        }
+        StringBuilder paramStr = new StringBuilder();
+        for(int a=0;a<paramNames.length;a++){
+            if(a!=0){
+                paramStr.append(",");
+            }
+            if(isAsc){
+                paramStr.append(TAG).append(paramNames[a]).append(TAG).append(SPLIT).append(ASC);
+            }else{
+                paramStr.append(TAG).append(paramNames[a]).append(TAG).append(SPLIT).append(DESC);
+            }
+        }
+        conditionSql.append(ORDER_BY).append(SPLIT).append(paramStr).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase limit(int num){
+        if(this.sqlType!=SqlType.SELECT){
+            return this;
+        }
         conditionSql.append(LIMIT).append(SPLIT).append(PLACEHOLDER);
         paramList.add(num);
         return this;
     }
 
     public ConditionSqlBase limit(int start,int num){
+        if(this.sqlType!=SqlType.SELECT){
+            return this;
+        }
         conditionSql.append(LIMIT).append(SPLIT).append(PLACEHOLDER).append(COMMA).append(PLACEHOLDER);
         paramList.add(start);
         paramList.add(num);

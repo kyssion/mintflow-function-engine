@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Select extends ConditionSqlBase {
 
-    private static final String SELECT ="select";
 
     private Select(SqlType sqlType){
         super(sqlType);
@@ -20,8 +19,9 @@ public class Select extends ConditionSqlBase {
 
     public Select selectFrom(String tableName,String...params){
         this.sql.append(SELECT).append(SPLIT)
-                .append(createParamsArrays(params)).append(SPLIT).
-                append(TAG).append(tableName).append(TAG);
+                .append(createParamsArrays(params)).append(SPLIT)
+                .append(FROM).append(SPLIT)
+                .append(TAG).append(tableName).append(TAG);
         return this;
     }
 
@@ -41,7 +41,7 @@ public class Select extends ConditionSqlBase {
                 return new StringBuilder("*");
             }
         }
-        return super.createParamsArrays(params);
+        return super.createParamsArrays((Object[])params);
     }
 
 }

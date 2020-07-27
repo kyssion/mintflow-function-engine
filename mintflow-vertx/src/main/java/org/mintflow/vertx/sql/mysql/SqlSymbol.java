@@ -32,4 +32,14 @@ public class SqlSymbol {
     public static final String ORDER_BY="ORDER BY";
     public static final String GROUP_BY = "GROUP_BY";
 
+    public static final String DESC="DESC";
+    public static final String ASC = "ASC";
+
+    public static final String SELECT ="select";
+    public static final String UPDATE = "update";
+    public static final String INSERT = "insert";
+    public static final String DELETE = "delete";
+    public static final String WHERE = "where";
+    public static final String FROM = "from";
+
 }
