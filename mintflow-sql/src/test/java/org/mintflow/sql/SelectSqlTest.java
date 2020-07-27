@@ -1,9 +1,7 @@
-package org.mintflow.vertx.sql.mysqltest;
+package org.mintflow.sql;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mintflow.vertx.sql.mysql.Select;
-import org.mintflow.vertx.sql.mysql.Sql;
 
 import java.util.ArrayList;
 import java.util.List;

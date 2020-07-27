@@ -1,4 +1,4 @@
-package org.mintflow.vertx.sql.mysql;
+package org.mintflow.sql.basis;
 
 public class SqlSymbol {
     public static final String SPLIT = " ";
@@ -6,6 +6,7 @@ public class SqlSymbol {
     public static final char UNDERLINE = '_';
     public static final String BLURRY="%";
     public static final String COMMA=",";
+    public static final String ALL="*";
 
     public static final String EQUAL="=";
     public static final String NOT_EQUAL="!=";
@@ -41,5 +42,7 @@ public class SqlSymbol {
     public static final String DELETE = "delete";
     public static final String WHERE = "where";
     public static final String FROM = "from";
+
+    public static final String BEAN_END_WITH = "DTO";
 
 }

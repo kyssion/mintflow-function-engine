@@ -1,11 +1,12 @@
-package org.mintflow.vertx.sql.mysql;
+package org.mintflow.sql;
 
 import org.mintflow.reflection.MirrorObject;
+import org.mintflow.sql.basis.ConditionSqlBase;
+import org.mintflow.sql.type.SqlType;
 
 import java.util.ArrayList;
 
 public class Select extends ConditionSqlBase {
-
 
     private Select(SqlType sqlType){
         super(sqlType);
@@ -31,14 +32,14 @@ public class Select extends ConditionSqlBase {
         for(int a=0;a<names.length;a++){
             names[a] = underlineToCamel(names[a]);
         }
-        String tableName = underlineToCamel(templateData.getClass().getName());
+        String tableName = getTableName(templateData.getClass().getName());
         return selectFrom(tableName,names);
     }
 
     protected StringBuilder createParamsArrays(String...params){
         if(params.length==1){
-            if("*".equals(params[0])){
-                return new StringBuilder("*");
+            if(ALL.equals(params[0])){
+                return new StringBuilder(ALL);
             }
         }
         return super.createParamsArrays((Object[])params);

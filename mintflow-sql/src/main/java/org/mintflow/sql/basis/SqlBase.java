@@ -1,4 +1,7 @@
-package org.mintflow.vertx.sql.mysql;
+package org.mintflow.sql.basis;
+
+import org.mintflow.sql.Sql;
+import org.mintflow.sql.type.SqlType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -70,11 +73,18 @@ public class SqlBase extends SqlSymbol{
     }
 
     public Sql build(){
-
         if(this.conditionSql!=null&&this.conditionSql.length()>0){
             this.sql.append(SPLIT).append(WHERE).append(SPLIT).append(this.conditionSql);
         }
 
         return new Sql(this.sql.toString(),this.paramList);
+    }
+
+    public String getTableName(String name){
+        String tableName = underlineToCamel(name);
+        if(tableName.endsWith(BEAN_END_WITH)){
+            tableName = tableName.substring(0,tableName.length()-3);
+        }
+        return tableName;
     }
 }

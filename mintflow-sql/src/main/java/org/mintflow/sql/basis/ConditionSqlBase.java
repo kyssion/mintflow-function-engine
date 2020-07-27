@@ -1,7 +1,10 @@
-package org.mintflow.vertx.sql.mysql;
+package org.mintflow.sql.basis;
+
+import org.mintflow.sql.Select;
+import org.mintflow.sql.Sql;
+import org.mintflow.sql.type.SqlType;
 
 import java.util.List;
-import java.util.concurrent.locks.Condition;
 
 public class ConditionSqlBase extends SqlBase {
 
