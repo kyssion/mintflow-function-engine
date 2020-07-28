@@ -46,11 +46,11 @@ public class MapWrapper extends BaseWrapper {
             map.put(prop.getName(), value);
         }
     }
-
-    @Override
-    public String findProperty(String name, boolean useCamelCaseMapping) {
-        return name;
-    }
+//
+//    @Override
+//    public String findProperty(String name, boolean useCamelCaseMapping) {
+//        return name;
+//    }
 
     @Override
     public String[] getGetterNames() {

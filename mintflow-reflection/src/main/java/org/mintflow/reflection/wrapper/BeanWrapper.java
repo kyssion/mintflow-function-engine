@@ -51,10 +51,10 @@ public class BeanWrapper extends BaseWrapper {
         }
     }
 
-    @Override
-    public String findProperty(String name, boolean useCamelCaseMapping) {
-        return mirrorClass.findProperty(name, useCamelCaseMapping);
-    }
+//    @Override
+//    public String findProperty(String name, boolean useCamelCaseMapping) {
+//        return mirrorClass.findProperty(name, useCamelCaseMapping);
+//    }
 
     @Override
     public String[] getGetterNames() {

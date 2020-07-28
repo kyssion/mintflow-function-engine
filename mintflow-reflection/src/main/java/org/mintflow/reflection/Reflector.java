@@ -15,7 +15,12 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * 相当一层代理,将所有的class类(非集合数组类型)抽象成Reflector
+ * Reflector 这个对象维护了一个
+ * 1. 所有的get 和 set 方法, 并且对应的Field参数
+ * 2. 所有的方法 , 包括子类的接口的
+ * 3. 代理所有的构造方法
+ * 4. 所有可以调用set的变量名称
+ * 5. 所有可以调用get的变量名称
  */
 public class Reflector {
     private final Class<?> type;
@@ -23,47 +28,46 @@ public class Reflector {
     private final String[] writeablePropertyNames;
     private final Map<String, List<MethodAgent>> allMethodMap = new HashMap<>();
     private final List<MethodAgent> allMethodArr = new ArrayList<>();
-    private final Map<String, Agent> setMethods = new HashMap<>();
-    private final Map<String, Agent> getMethods = new HashMap<>();
-    private final Map<String, Class<?>> setTypes = new HashMap<>();
-    private final Map<String, Class<?>> getTypes = new HashMap<>();
+    private final Map<String, Agent> setMethods = new HashMap<>();//变量名对应的set方法
+    private final Map<String, Agent> getMethods = new HashMap<>();//变量名对应的get方法
+    private final Map<String, Class<?>> setTypes = new HashMap<>();//变量名对应set方法类型
+    private final Map<String, Class<?>> getTypes = new HashMap<>();//变量名对应get方法类型
     private Constructor<?> defaultConstructor;
     private Constructor<?>[] otherConstructor;
-    private final Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
+
+    //------------------------------------------------------------
 
     public Reflector(Class<?> clazz) {
         type = clazz;
         //添加这个class的0参数构造方法
-        addDefaultConstructor(clazz);
+        addConstructor(clazz);
         addGetMethods(clazz);
         addSetMethods(clazz);
         addFields(clazz);
         addAllMethods(clazz);
         readablePropertyNames = getMethods.keySet().toArray(new String[0]);
         writeablePropertyNames = setMethods.keySet().toArray(new String[0]);
-
-        //将可以进行代理的参数列表统统的整理起来
-
-        for (String propName : readablePropertyNames) {
-            caseInsensitivePropertyMap.put(propName.toUpperCase(Locale.ENGLISH), propName);
-        }
-        for (String propName : writeablePropertyNames) {
-            caseInsensitivePropertyMap.put(propName.toUpperCase(Locale.ENGLISH), propName);
-        }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Annotation> T getAnnotation(Class<T> annotation) {
-        return this.type.getAnnotation(annotation);
+    /**
+     * 判断是否是一个有效的变量名称 $ 表示内部类
+     *
+     * @param name
+     * @return
+     */
+    private boolean isValidPropertyName(String name) {
+        return !(name.startsWith("$") || "serialVersionUID".equals(name) || "class".equals(name));
     }
 
+
+    //------------------------------------------------------------
 
     /**
      * 初始化这个class的0 参数构造方法
      *
      * @param clazz
      */
-    private void addDefaultConstructor(Class<?> clazz) {
+    private void addConstructor(Class<?> clazz) {
         Constructor<?>[] consts = clazz.getDeclaredConstructors();
         for (Constructor<?> constructor : consts) {
             if (constructor.getParameterTypes().length == 0) {
@@ -88,7 +92,7 @@ public class Reflector {
      */
     private void addGetMethods(Class<?> cls) {
         Map<String, List<Method>> conflictingGetters = new HashMap<>();
-        //这里的处理方法江湖导致如果返回参数,函数名称,参数名称相同的时候
+        //这里的处理方法导致如果返回参数,函数名称,参数名称相同的时候
         Method[] methods = getClassMethods(cls);
         for (Method method : methods) {
             if (method.getParameterTypes().length > 0) {
@@ -106,7 +110,6 @@ public class Reflector {
 
     /**
      * 过滤方法,当一个值子类重写了父类的get方法.并且返回值使用的是父类的子类(发生了桥接方法)的时候
-     *
      * @param conflictingGetters
      */
     private void resolveGetterConflicts(Map<String, List<Method>> conflictingGetters) {
@@ -153,11 +156,12 @@ public class Reflector {
     private void addGetMethod(String name, Method method) {
         if (isValidPropertyName(name)) {
             getMethods.put(name, new MethodAgent(method));
-            //TODO 以后细看,这个东西涉及到java的类型体系,一篇博客https://www.jianshu.com/p/e8eeff12c306
             Type returnType = TypeParameterProcessor.processorReturnType(method, type);
             getTypes.put(name, typeToClass(returnType));
         }
     }
+
+    //------------------------------------------------------------
 
     /**
      * 添加所有可用的set方法
@@ -180,26 +184,6 @@ public class Reflector {
         resolveSetterConflicts(conflictingSetters);
     }
 
-    private void addAllMethods(Class<?> cls) {
-        Method[] methods = getClassMethods(cls);
-        for (Method method : methods) {
-            String name = method.getName();
-            addInvoice(allMethodMap, name, method);
-        }
-        for (Entry<String,List<MethodAgent>> item : allMethodMap.entrySet()){
-            this.allMethodArr.addAll(item.getValue());
-        }
-    }
-
-    private void addInvoice(Map<String, List<MethodAgent>> conflictingSetters, String name, Method method) {
-        if (!conflictingSetters.containsKey(name)) {
-            conflictingSetters.put(name, new ArrayList<>());
-        }
-        MethodAgent agent = new MethodAgent(method);
-        conflictingSetters.get(name).add(agent);
-    }
-
-
     /**
      * 筛选出这一个参数名称中对应的所有方法列表
      *
@@ -208,14 +192,11 @@ public class Reflector {
      * @param method
      */
     private void addMethodConflict(Map<String, List<Method>> conflictingMethods, String name, Method method) {
-        //筛选出所有的名称是name的方法
         List<Method> list = conflictingMethods.computeIfAbsent(name, k -> new ArrayList<>());
         list.add(method);
     }
 
     /**
-     * 校验setter参数的各种属性是否真的可靠,符合javabean的标准,并且处理了如果参数是子类型的情况
-     *
      * @param conflictingSetters
      */
     private void resolveSetterConflicts(Map<String, List<Method>> conflictingSetters) {
@@ -288,6 +269,8 @@ public class Reflector {
             setTypes.put(name, typeToClass(paramTypes[0]));
         }
     }
+
+    //------------------------------------------------------------
 
     /**
      * 将type转化成class对象,重点处理泛型相关的问题
@@ -367,20 +350,12 @@ public class Reflector {
         }
     }
 
-    /**
-     * 判断是否是一个有效的变量名称 $ 表示内部类
-     *
-     * @param name
-     * @return
-     */
-    private boolean isValidPropertyName(String name) {
-        return !(name.startsWith("$") || "serialVersionUID".equals(name) || "class".equals(name));
-    }
+    //------------------------------------------------------------
 
     /**
-     * 此方法返回一个数组，其中包含此类和任何超类中声明的所有方法。
+     *  此方法返回一个数组，其中包含此类和任何超类中声明的所有方法。
      *  我们使用此方法，而不是更简单的Class.getMethods（），因为我们也想查找私有方法。
-     *
+     *  todo method 全局缓存
      * @param cls The class
      * @return An array containing all methods in this class
      */
@@ -393,7 +368,6 @@ public class Reflector {
             for (Class<?> anInterface : interfaces) {
                 addUniqueMethods(uniqueMethods, anInterface.getMethods());
             }
-
             currentClass = currentClass.getSuperclass();
         }
 
@@ -403,8 +377,7 @@ public class Reflector {
     }
 
     /**
-     * 以优先为上的原则,添加新的反方法进合并map
-     *
+     * 去除桥接方法 , 只记录第一次出现的方法(方法继承覆盖问题)
      * @param uniqueMethods
      * @param methods
      */
@@ -442,44 +415,7 @@ public class Reflector {
         return sb.toString();
     }
 
-    /**
-     * 检查jvm环境,反射功能是否可以对所有的类型开放
-     *
-     * @return If can control member accessible, it return {@literal true}
-     * @since 3.5.0
-     */
-    public static boolean canControlMemberAccessible() {
-        try {
-            SecurityManager securityManager = System.getSecurityManager();
-            if (null != securityManager) {
-                securityManager.checkPermission(new ReflectPermission("suppressAccessChecks"));
-            }
-        } catch (SecurityException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 获取当前reflector对应的class类型
-     *
-     * @return The class name
-     */
-    public Class<?> getType() {
-        return type;
-    }
-
-    public Constructor<?> getDefaultConstructor() {
-        if (defaultConstructor != null) {
-            return defaultConstructor;
-        } else {
-            throw new ReflectionException("There is no default constructor for " + type);
-        }
-    }
-
-    public boolean hasDefaultConstructor() {
-        return defaultConstructor != null;
-    }
+    //------------------------------------------------------------
 
     /**
      * 获得set方法封装
@@ -535,7 +471,6 @@ public class Reflector {
         return readablePropertyNames;
     }
 
-
     public String[] getSetablePropertyNames() {
         return writeablePropertyNames;
     }
@@ -544,13 +479,8 @@ public class Reflector {
         return setMethods.containsKey(propertyName);
     }
 
-
     public boolean hasGetter(String propertyName) {
         return getMethods.containsKey(propertyName);
-    }
-
-    public String findPropertyName(String name) {
-        return caseInsensitivePropertyMap.get(name.toUpperCase(Locale.ENGLISH));
     }
 
     public Constructor<?>[] getOtherConstructor() {
@@ -575,5 +505,64 @@ public class Reflector {
 
     public String getClassName() {
         return this.type.getName();
+    }
+
+    /**
+     * 检查jvm环境,反射功能是否可以对所有的类型开放
+     *
+     * @return If can control member accessible, it return {@literal true}
+     * @since 3.5.0
+     */
+    public static boolean canControlMemberAccessible() {
+        try {
+            SecurityManager securityManager = System.getSecurityManager();
+            if (null != securityManager) {
+                securityManager.checkPermission(new ReflectPermission("suppressAccessChecks"));
+            }
+        } catch (SecurityException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 获取当前reflector对应的class类型
+     *
+     * @return The class name
+     */
+    public Class<?> getType() {
+        return type;
+    }
+
+    public Constructor<?> getDefaultConstructor() {
+        if (defaultConstructor != null) {
+            return defaultConstructor;
+        } else {
+            throw new ReflectionException("There is no default constructor for " + type);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Annotation> T getAnnotation(Class<T> annotation) {
+        return this.type.getAnnotation(annotation);
+    }
+
+    private void addAllMethods(Class<?> cls) {
+        Method[] methods = getClassMethods(cls);
+        for (Method method : methods) {
+            String name = method.getName();
+            addMethodInvoice(allMethodMap, name, method);
+        }
+        for (Entry<String,List<MethodAgent>> item : allMethodMap.entrySet()){
+            this.allMethodArr.addAll(item.getValue());
+        }
+    }
+
+    private void addMethodInvoice(Map<String, List<MethodAgent>> conflictingSetters, String name, Method method) {
+        if (!conflictingSetters.containsKey(name)) {
+            conflictingSetters.put(name, new ArrayList<>());
+        }
+        MethodAgent agent = new MethodAgent(method);
+        conflictingSetters.get(name).add(agent);
     }
 }

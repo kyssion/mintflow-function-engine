@@ -6,6 +6,7 @@ import org.mintflow.reflection.object.ObjectFactory;
 import org.mintflow.reflection.property.PropertyTokenizer;
 import org.mintflow.reflection.wrapper.*;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -60,9 +61,9 @@ public class MirrorObject {
         return originalObject;
     }
 
-    public String findProperty(String propName, boolean useCamelCaseMapping) {
-        return objectWrapper.findProperty(propName, useCamelCaseMapping);
-    }
+//    public String findProperty(String propName, boolean useCamelCaseMapping) {
+//        return objectWrapper.findProperty(propName, useCamelCaseMapping);
+//    }
 
     public String[] getGetterNames() {
         return objectWrapper.getGetterNames();
@@ -168,5 +169,4 @@ public class MirrorObject {
     public <E> void addAll(List<E> list) {
         objectWrapper.addAll(list);
     }
-
 }

@@ -48,25 +48,25 @@ public class MirrorClass {
         return MirrorClass.forClass(propType, reflectorFactory);
     }
 
-    //支持xxx.xxx.xxx这种格式
-    public String findProperty(String name) {
-        StringBuilder prop = buildProperty(name, new StringBuilder());
-        return prop.length() > 0 ? prop.toString() : null;
-    }
+//    //支持xxx.xxx.xxx这种格式
+//    public String findProperty(String name) {
+//        StringBuilder prop = buildProperty(name, new StringBuilder());
+//        return prop.length() > 0 ? prop.toString() : null;
+//    }
 
-    /**
-     * 添加驼峰写法的过滤
-     *
-     * @param name
-     * @param useCamelCaseMapping
-     * @return
-     */
-    public String findProperty(String name, boolean useCamelCaseMapping) {
-        if (useCamelCaseMapping) {
-            name = name.replace("_", "");
-        }
-        return findProperty(name);
-    }
+//    /**
+//     * 添加驼峰写法的过滤
+//     *
+//     * @param name
+//     * @param useCamelCaseMapping
+//     * @return
+//     */
+//    public String findProperty(String name, boolean useCamelCaseMapping) {
+//        if (useCamelCaseMapping) {
+//            name = name.replace("_", "");
+//        }
+//        return findProperty(name);
+//    }
 
     public String[] getGetterNames() {
         return reflector.getGetablePropertyNames();
@@ -226,27 +226,23 @@ public class MirrorClass {
         return newTypes;
     }
 
-    private StringBuilder buildProperty(String name, StringBuilder builder) {
-        PropertyTokenizer prop = new PropertyTokenizer(name);
-        String propertyName = reflector.findPropertyName(prop.getName());
-        if (prop.hasNext()) {
-            if (propertyName != null) {
-                builder.append(propertyName);
-                builder.append(".");
-                MirrorClass metaProp = metaClassForProperty(propertyName);
-                metaProp.buildProperty(prop.getChildren(), builder);
-            }
-        } else {
-            if (propertyName != null) {
-                builder.append(propertyName);
-            }
-        }
-        return builder;
-    }
-
-    public boolean hasDefaultConstructor() {
-        return reflector.hasDefaultConstructor();
-    }
+//    private StringBuilder buildProperty(String name, StringBuilder builder) {
+//        PropertyTokenizer prop = new PropertyTokenizer(name);
+//        String propertyName = reflector.findPropertyName(prop.getName());
+//        if (prop.hasNext()) {
+//            if (propertyName != null) {
+//                builder.append(propertyName);
+//                builder.append(".");
+//                MirrorClass metaProp = metaClassForProperty(propertyName);
+//                metaProp.buildProperty(prop.getChildren(), builder);
+//            }
+//        } else {
+//            if (propertyName != null) {
+//                builder.append(propertyName);
+//            }
+//        }
+//        return builder;
+//    }
 
     public Class<?> getType() {
         return this.reflector.getType();
