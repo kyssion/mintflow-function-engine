@@ -9,6 +9,7 @@
     </parent>
 
     <properties>
+        <vertx.version>3.9.1</vertx.version>
         <mintflow-reflection>1.0.0</mintflow-reflection>
     </properties>
 
@@ -21,6 +22,12 @@
             <groupId>org.func-engine</groupId>
             <artifactId>mintflow-reflection</artifactId>
             <version>${mintflow-reflection}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-mysql-client</artifactId>
+            <version>${vertx.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
