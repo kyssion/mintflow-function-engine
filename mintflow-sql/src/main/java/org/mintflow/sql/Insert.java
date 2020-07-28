@@ -7,6 +7,7 @@ import org.mintflow.sql.type.SqlType;
 import java.util.List;
 
 public class Insert extends SqlBase {
+
     private Insert(SqlType sqlType) {
         super(sqlType);
     }
@@ -21,15 +22,14 @@ public class Insert extends SqlBase {
         return this;
     }
 
-
     public <T> Insert insert(String tableName, T params){
 
         return this;
     }
 
-
     public <T> Insert insert(T params){
 
         return this;
     }
+
 }

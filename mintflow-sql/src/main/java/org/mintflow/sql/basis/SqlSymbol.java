@@ -1,6 +1,7 @@
 package org.mintflow.sql.basis;
 
 public class SqlSymbol {
+
     public static final String SPLIT = " ";
     public static final String TAG = "`";
     public static final char UNDERLINE = '_';
