@@ -4,6 +4,7 @@ import org.mintflow.sql.Select;
 import org.mintflow.sql.Sql;
 import org.mintflow.sql.type.SqlType;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ConditionSqlBase extends SqlBase {
@@ -158,21 +159,35 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase groupBy(String...paramNames){
+        if(groupBySql.length()!=0){
+            return this;
+        }
         StringBuilder paramsArrays = createParamsArrays((Object[]) paramNames);
-        conditionSql.append(GROUP_BY).append(SPLIT).append(paramsArrays).append(SPLIT);
+        groupBySql.append(GROUP_BY).append(SPLIT).append(paramsArrays).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase orderByDesc(String...paramNames){
-        return createOrderBy(false,paramNames);
+        boolean[] isAscArr = new boolean[paramNames.length];
+        Arrays.fill(isAscArr,false);
+        return createOrderBy(isAscArr,paramNames);
     }
 
     public ConditionSqlBase orderByAsc(String...paramNames){
-        return createOrderBy(true,paramNames);
+        boolean[] isAscArr = new boolean[paramNames.length];
+        Arrays.fill(isAscArr,true);
+        return createOrderBy(isAscArr,paramNames);
     }
 
-    private ConditionSqlBase createOrderBy(boolean isAsc , String...paramNames){
+
+    public ConditionSqlBase createOrderBy(boolean[] isAsc , String[] paramNames){
         if(this.sqlType!=SqlType.SELECT){
+            return this;
+        }
+        if(orderBySql.length()!=0){
+            return this;
+        }
+        if(isAsc.length!=paramNames.length){
             return this;
         }
         StringBuilder paramStr = new StringBuilder();
@@ -180,13 +195,13 @@ public class ConditionSqlBase extends SqlBase {
             if(a!=0){
                 paramStr.append(",");
             }
-            if(isAsc){
+            if(isAsc[a]){
                 paramStr.append(TAG).append(paramNames[a]).append(TAG).append(SPLIT).append(ASC);
             }else{
                 paramStr.append(TAG).append(paramNames[a]).append(TAG).append(SPLIT).append(DESC);
             }
         }
-        conditionSql.append(ORDER_BY).append(SPLIT).append(paramStr).append(SPLIT);
+        orderBySql.append(ORDER_BY).append(SPLIT).append(paramStr).append(SPLIT);
         return this;
     }
 
@@ -194,7 +209,10 @@ public class ConditionSqlBase extends SqlBase {
         if(this.sqlType!=SqlType.SELECT){
             return this;
         }
-        conditionSql.append(LIMIT).append(SPLIT).append(PLACEHOLDER);
+        if(limitSql.length()!=0){
+            return this;
+        }
+        limitSql.append(LIMIT).append(SPLIT).append(PLACEHOLDER);
         paramList.add(num);
         return this;
     }

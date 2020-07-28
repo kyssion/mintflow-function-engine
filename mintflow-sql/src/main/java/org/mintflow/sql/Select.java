@@ -4,14 +4,10 @@ import org.mintflow.reflection.MirrorObject;
 import org.mintflow.sql.basis.ConditionSqlBase;
 import org.mintflow.sql.type.SqlType;
 
-import java.util.ArrayList;
-
 public class Select extends ConditionSqlBase {
 
     private Select(SqlType sqlType){
         super(sqlType);
-        this.sql = new StringBuilder();
-        this.paramList = new ArrayList<>();
     }
 
     public static Select sql(){
