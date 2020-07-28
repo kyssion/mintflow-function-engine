@@ -5,6 +5,7 @@ import org.mintflow.vertx.http.adapter.request.RequestParamAdapter;
 import org.mintflow.vertx.http.adapter.response.ResponseParamAdapter;
 
 public class FinderItem {
+    
     private String url;
     private String nameSpace;
     private String process;

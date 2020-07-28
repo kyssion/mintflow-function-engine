@@ -2,19 +2,12 @@ package org.mintflow.sql;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mintflow.sql.base.SqlTestBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectSqlTest {
-
-    public Object[] createArrays(List<Object> list) {
-        Object[] objects = new Object[list.size()];
-        for (int a = 0; a < objects.length; a++) {
-            objects[a] = list.get(a);
-        }
-        return objects;
-    }
+public class SelectSqlTest extends SqlTestBase {
 
     @Test
     public void SampleSelectTest() {

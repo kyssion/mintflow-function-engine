@@ -159,6 +159,9 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase groupBy(String... paramNames) {
+        if (this.sqlType != SqlType.SELECT) {
+            return this;
+        }
         if (groupBySql.length() != 0) {
             return this;
         }

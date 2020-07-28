@@ -9,7 +9,7 @@ public class Delete extends ConditionSqlBase {
         super(sqlType);
     }
 
-    public Delete sql() {
+    public static Delete sql() {
         return new Delete(SqlType.DELETE);
     }
 
