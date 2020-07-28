@@ -60,4 +60,9 @@ public class GetFieldAgent implements Agent {
     public Annotation[] getAllAnnotation() {
         return this.annotations;
     }
+
+    @Override
+    public <T extends Annotation> Annotation getAnnotation(Class<T> type) {
+        return this.field.getAnnotation(type);
+    }
 }

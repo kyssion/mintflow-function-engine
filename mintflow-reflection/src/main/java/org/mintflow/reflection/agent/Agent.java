@@ -15,4 +15,5 @@ public interface Agent {
 
     Annotation[] getAllAnnotation();
 
+    <T extends Annotation> Annotation getAnnotation(Class<T> type);
 }

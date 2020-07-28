@@ -75,9 +75,9 @@ public class MethodAgent implements Agent {
         return this.annotations;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T getAnnotation(Class<T> typeClass) {
-        return (T) this.annotationMap.get(typeClass);
+    @Override
+    public <T extends Annotation> Annotation getAnnotation(Class<T> type) {
+        return this.method.getAnnotation(type);
     }
 
     public boolean hasAnnotation(Class<?> typeClass) {
@@ -92,11 +92,11 @@ public class MethodAgent implements Agent {
         return this.method.getName();
     }
 
-    public int getMethodParamCount(){
+    public int getMethodParamCount() {
         return this.method.getParameterCount();
     }
 
-    public Parameter[] getParams(){
+    public Parameter[] getParams() {
         return this.method.getParameters();
     }
 }
