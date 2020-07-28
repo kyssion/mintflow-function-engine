@@ -10,8 +10,7 @@ import org.mintflow.reflection.wrapper.ObjectWrapperFactory;
 public final class SystemMirrorObject {
 
     public static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
-    public static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
-    public static final MirrorObject NULL_META_OBJECT = MirrorObject.forObject(NullObject.class, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, new DefaultReflectorFactory());
+    public static final MirrorObject NULL_META_OBJECT = MirrorObject.forObject(NullObject.class);
 
     private SystemMirrorObject() {
         // Prevent Instantiation of Static Class
@@ -21,7 +20,7 @@ public final class SystemMirrorObject {
     }
 
     public static MirrorObject forObject(Object object) {
-        return MirrorObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY, new DefaultReflectorFactory());
+        return MirrorObject.forObject(object);
     }
 
 }

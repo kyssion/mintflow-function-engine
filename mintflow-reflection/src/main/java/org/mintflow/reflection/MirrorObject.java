@@ -19,7 +19,7 @@ public class MirrorObject {
     private final Object originalObject;
     private final ObjectWrapper objectWrapper;
     private static final ObjectFactory objectFactory = new DefaultObjectFactory();
-    private static final ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+    private static final ReflectorFactory reflectorFactory = DefaultReflectorFactory.getReflectorFactory();
 
     @SuppressWarnings("unchecked")
     private MirrorObject(Object object) {

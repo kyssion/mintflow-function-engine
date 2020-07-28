@@ -9,9 +9,17 @@ import java.util.concurrent.ConcurrentMap;
 public class DefaultReflectorFactory implements ReflectorFactory {
     private boolean classCacheEnabled = true;
     private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
+    private static ReflectorFactory defaultReflectorFactoryFactory;
 
-    public DefaultReflectorFactory() {
+    private DefaultReflectorFactory() {
         super();
+    }
+
+    public static synchronized ReflectorFactory getReflectorFactory(){
+        if(defaultReflectorFactoryFactory==null){
+            defaultReflectorFactoryFactory = new DefaultReflectorFactory();
+        }
+        return defaultReflectorFactoryFactory;
     }
 
     @Override
@@ -32,7 +40,6 @@ public class DefaultReflectorFactory implements ReflectorFactory {
     @Override
     public Reflector findForClass(Class<?> type) {
         if (classCacheEnabled) {
-            // synchronized (type) removed see issue #461
             return reflectorMap.computeIfAbsent(type, Reflector::new);
         } else {
             return new Reflector(type);

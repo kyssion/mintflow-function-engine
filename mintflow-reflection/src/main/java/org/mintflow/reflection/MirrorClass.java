@@ -35,7 +35,7 @@ public class MirrorClass {
         return new MirrorClass(type, reflectorFactory);
     }
     public static MirrorClass forClass(Class<?> type) {
-        return new MirrorClass(type, new DefaultReflectorFactory());
+        return new MirrorClass(type, DefaultReflectorFactory.getReflectorFactory());
     }
 
     public <T extends Annotation> T getAnnotation(Class<T> annotation){
