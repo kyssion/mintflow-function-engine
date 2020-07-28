@@ -76,19 +76,36 @@ public class TypeParameterProcessor {
     private static ParameterizedType resolveParameterizedType(ParameterizedType parameterizedType, Type srcType, Class<?> declaringClass) {
         Class<?> rawType = (Class<?>) parameterizedType.getRawType();
         Type[] typeArgs = parameterizedType.getActualTypeArguments();
-        Type[] args = new Type[typeArgs.length];
+//        Type[] result = new Type[typeArgs.length];
+//        for (int i = 0; i < typeArgs.length; i++) {
+//            if (typeArgs[i] instanceof TypeVariable) {
+//                result[i] = resolveTypeVar((TypeVariable<?>) typeArgs[i], srcType, declaringClass);
+//            } else if (typeArgs[i] instanceof ParameterizedType) {
+//                result[i] = resolveParameterizedType((ParameterizedType) typeArgs[i], srcType, declaringClass);
+//            } else if (typeArgs[i] instanceof WildcardType) {
+//                result[i] = resolveWildcardType((WildcardType) typeArgs[i], srcType, declaringClass);
+//            } else {
+//                result[i] = typeArgs[i];
+//            }
+//        }
+        Type[] result = resolveWildcardTypeBounds(typeArgs,srcType,declaringClass);
+        return new ParameterizedTypeImpl(rawType, null, result);
+    }
+
+    private static Type[] resolveWildcardTypeBounds(Type[] typeArgs, Type srcType, Class<?> declaringClass) {
+        Type[] result = new Type[typeArgs.length];
         for (int i = 0; i < typeArgs.length; i++) {
             if (typeArgs[i] instanceof TypeVariable) {
-                args[i] = resolveTypeVar((TypeVariable<?>) typeArgs[i], srcType, declaringClass);
+                result[i] = resolveTypeVar((TypeVariable<?>) typeArgs[i], srcType, declaringClass);
             } else if (typeArgs[i] instanceof ParameterizedType) {
-                args[i] = resolveParameterizedType((ParameterizedType) typeArgs[i], srcType, declaringClass);
+                result[i] = resolveParameterizedType((ParameterizedType) typeArgs[i], srcType, declaringClass);
             } else if (typeArgs[i] instanceof WildcardType) {
-                args[i] = resolveWildcardType((WildcardType) typeArgs[i], srcType, declaringClass);
+                result[i] = resolveWildcardType((WildcardType) typeArgs[i], srcType, declaringClass);
             } else {
-                args[i] = typeArgs[i];
+                result[i] = typeArgs[i];
             }
         }
-        return new ParameterizedTypeImpl(rawType, null, args);
+        return result;
     }
 
     private static Type resolveWildcardType(WildcardType wildcardType, Type srcType, Class<?> declaringClass) {
@@ -97,21 +114,6 @@ public class TypeParameterProcessor {
         return new WildcardTypeImpl(lowerBounds, upperBounds);
     }
 
-    private static Type[] resolveWildcardTypeBounds(Type[] bounds, Type srcType, Class<?> declaringClass) {
-        Type[] result = new Type[bounds.length];
-        for (int i = 0; i < bounds.length; i++) {
-            if (bounds[i] instanceof TypeVariable) {
-                result[i] = resolveTypeVar((TypeVariable<?>) bounds[i], srcType, declaringClass);
-            } else if (bounds[i] instanceof ParameterizedType) {
-                result[i] = resolveParameterizedType((ParameterizedType) bounds[i], srcType, declaringClass);
-            } else if (bounds[i] instanceof WildcardType) {
-                result[i] = resolveWildcardType((WildcardType) bounds[i], srcType, declaringClass);
-            } else {
-                result[i] = bounds[i];
-            }
-        }
-        return result;
-    }
 
     private static Type resolveTypeVar(TypeVariable<?> typeVar, Type srcType, Class<?> declaringClass) {
         Type result = null;

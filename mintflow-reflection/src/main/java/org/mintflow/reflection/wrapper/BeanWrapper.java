@@ -140,7 +140,7 @@ public class BeanWrapper extends BaseWrapper {
         Class<?> type = getSetterType(prop.getName());
         try {
             Object newObject = objectFactory.create(type);
-            metaValue = MirrorObject.forObject(newObject, mirrorObject.getObjectFactory(), mirrorObject.getObjectWrapperFactory(), mirrorObject.getReflectorFactory());
+            metaValue = MirrorObject.forObject(newObject);
             set(prop, newObject);
         } catch (Exception e) {
             throw new ReflectionException("Cannot set value of property '" + name + "' because '" + name + "' is null and cannot be instantiated on instance of " + type.getName() + ". Cause:" + e.toString(), e);

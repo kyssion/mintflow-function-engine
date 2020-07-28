@@ -18,19 +18,18 @@ import java.util.Map.Entry;
  * 相当一层代理,将所有的class类(非集合数组类型)抽象成Reflector
  */
 public class Reflector {
-
     private final Class<?> type;
     private final String[] readablePropertyNames;
     private final String[] writeablePropertyNames;
     private final Map<String, List<MethodAgent>> allMethodMap = new HashMap<>();
-    private final List<MethodAgent> allmethodArr = new ArrayList<>();
+    private final List<MethodAgent> allMethodArr = new ArrayList<>();
     private final Map<String, Agent> setMethods = new HashMap<>();
     private final Map<String, Agent> getMethods = new HashMap<>();
     private final Map<String, Class<?>> setTypes = new HashMap<>();
     private final Map<String, Class<?>> getTypes = new HashMap<>();
     private Constructor<?> defaultConstructor;
     private Constructor<?>[] otherConstructor;
-    private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
+    private final Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
     public Reflector(Class<?> clazz) {
         type = clazz;
@@ -40,8 +39,8 @@ public class Reflector {
         addSetMethods(clazz);
         addFields(clazz);
         addAllMethods(clazz);
-        readablePropertyNames = getMethods.keySet().toArray(new String[getMethods.keySet().size()]);
-        writeablePropertyNames = setMethods.keySet().toArray(new String[setMethods.keySet().size()]);
+        readablePropertyNames = getMethods.keySet().toArray(new String[0]);
+        writeablePropertyNames = setMethods.keySet().toArray(new String[0]);
 
         //将可以进行代理的参数列表统统的整理起来
 
@@ -188,7 +187,7 @@ public class Reflector {
             addInvoice(allMethodMap, name, method);
         }
         for (Entry<String,List<MethodAgent>> item : allMethodMap.entrySet()){
-            this.allmethodArr.addAll(item.getValue());
+            this.allMethodArr.addAll(item.getValue());
         }
     }
 
@@ -245,7 +244,7 @@ public class Reflector {
                 }
             }
             if (match == null) {
-                throw exception;
+                throw Objects.requireNonNull(exception);
             } else {
                 addSetMethod(propName, match);
             }
@@ -326,9 +325,6 @@ public class Reflector {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             if (!setMethods.containsKey(field.getName())) {
-                // issue #379 - removed the check for final because JDK 1.5 allows
-                // modification of final fields through reflection (JSR-133). (JGB)
-                // pr #16 - final static can only be set by the classloader
                 int modifiers = field.getModifiers();//返回语言修饰符号
                 //final和static修饰的符号不做反射逻辑
                 if (!(Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers))) {
@@ -393,9 +389,6 @@ public class Reflector {
         Class<?> currentClass = cls;
         while (currentClass != null && currentClass != Object.class) {
             addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
-
-            // we also need to look for interface methods -
-            // because the class may be abstract
             Class<?>[] interfaces = currentClass.getInterfaces();
             for (Class<?> anInterface : interfaces) {
                 addUniqueMethods(uniqueMethods, anInterface.getMethods());
@@ -419,9 +412,6 @@ public class Reflector {
         for (Method currentMethod : methods) {
             if (!currentMethod.isBridge()) {
                 String signature = getSignature(currentMethod);
-                // check to see if the method is already known
-                // if it is known, then an extended class must have
-                // overridden a method
                 if (!uniqueMethods.containsKey(signature)) {
                     uniqueMethods.put(signature, currentMethod);
                 }
@@ -438,9 +428,7 @@ public class Reflector {
     private String getSignature(Method method) {
         StringBuilder sb = new StringBuilder();
         Class<?> returnType = method.getReturnType();
-        if (returnType != null) {
-            sb.append(returnType.getName()).append('#');
-        }
+        sb.append(returnType.getName()).append('#');
         sb.append(method.getName());
         Class<?>[] parameters = method.getParameterTypes();
         for (int i = 0; i < parameters.length; i++) {
@@ -553,12 +541,12 @@ public class Reflector {
     }
 
     public boolean hasSetter(String propertyName) {
-        return setMethods.keySet().contains(propertyName);
+        return setMethods.containsKey(propertyName);
     }
 
 
     public boolean hasGetter(String propertyName) {
-        return getMethods.keySet().contains(propertyName);
+        return getMethods.containsKey(propertyName);
     }
 
     public String findPropertyName(String name) {
@@ -578,7 +566,7 @@ public class Reflector {
     }
 
     public List<MethodAgent> getAllMethod(){
-        return this.allmethodArr;
+        return this.allMethodArr;
     }
 
     public boolean isInterface() {

@@ -128,7 +128,7 @@ public class MapWrapper extends BaseWrapper {
     public MirrorObject instantiatePropertyValue(String name, PropertyTokenizer prop, ObjectFactory objectFactory) {
         HashMap<String, Object> map = new HashMap<>();
         set(prop, map);
-        return MirrorObject.forObject(map, mirrorObject.getObjectFactory(), mirrorObject.getObjectWrapperFactory(), mirrorObject.getReflectorFactory());
+        return MirrorObject.forObject(map);
     }
 
     @Override

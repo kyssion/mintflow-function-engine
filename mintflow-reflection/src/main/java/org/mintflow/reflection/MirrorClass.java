@@ -35,7 +35,7 @@ public class MirrorClass {
         return new MirrorClass(type, reflectorFactory);
     }
     public static MirrorClass forClass(Class<?> type) {
-        return new MirrorClass(type, new DefaultReflectorFactory());
+        return new MirrorClass(type, DefaultReflectorFactory.getReflectorFactory());
     }
 
     public <T extends Annotation> T getAnnotation(Class<T> annotation){
@@ -228,8 +228,8 @@ public class MirrorClass {
 
     private StringBuilder buildProperty(String name, StringBuilder builder) {
         PropertyTokenizer prop = new PropertyTokenizer(name);
+        String propertyName = reflector.findPropertyName(prop.getName());
         if (prop.hasNext()) {
-            String propertyName = reflector.findPropertyName(prop.getName());
             if (propertyName != null) {
                 builder.append(propertyName);
                 builder.append(".");
@@ -237,7 +237,6 @@ public class MirrorClass {
                 metaProp.buildProperty(prop.getChildren(), builder);
             }
         } else {
-            String propertyName = reflector.findPropertyName(prop.getName());
             if (propertyName != null) {
                 builder.append(propertyName);
             }
@@ -253,10 +252,9 @@ public class MirrorClass {
         return this.reflector.getType();
     }
 
-    public boolean isInferface(){
+    public boolean isInterface(){
         return this.reflector.isInterface();
     }
-
 
     public String getClassName() {
         return this.reflector.getClassName();

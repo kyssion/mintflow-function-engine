@@ -13,8 +13,6 @@ import java.util.*;
  */
 public class DefaultObjectFactory implements ObjectFactory, Serializable {
 
-    private static final long serialVersionUID = -8855120656740914948L;
-
     @Override
     public <T> T create(Class<T> type) {
         return create(type, null, null);
