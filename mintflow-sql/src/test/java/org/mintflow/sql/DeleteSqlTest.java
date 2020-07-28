@@ -27,7 +27,6 @@ public class DeleteSqlTest extends SqlTestBase {
                 .build();
         Assert.assertEquals(sql.getSql(), "delete from`test_table` where `name` = ? AND (`age` between ? AND ? ) AND `num` > ? AND `num` < ? AND `bookNum` >= ? AND `bookNum` <= ? ");
         Assert.assertArrayEquals(createArrays(params), createArrays(sql.getParamsList()));
-
     }
 
 }
