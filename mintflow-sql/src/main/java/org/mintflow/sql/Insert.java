@@ -16,7 +16,7 @@ public class Insert extends SqlBase {
     public static Insert sql() {
         return new Insert(SqlType.INSERT);
     }
-s
+
     public <T> Insert insert(String tableName, List<T> dateList) {
 
         if(dateList==null||dateList.size()==0){
@@ -25,7 +25,7 @@ s
 
         T defaultOne = dateList.get(0);
 
-        List<String> insertParamList = findParamsList(defaultOne);
+        List<Object> insertParamList = findParamsList(defaultOne);
 
         StringBuilder paramStr = createParamsArrays(insertParamList);
 
@@ -70,8 +70,8 @@ s
         return this;
     }
 
-    private <T> List<String> findParamsList(T defaultOne) {
-        List<String> ans = new ArrayList<>();
+    private <T> List<Object> findParamsList(T defaultOne) {
+        List<Object> ans = new ArrayList<>();
         MirrorObject mirrorObject = MirrorObject.forObject(defaultOne);
         String[] paramsName = mirrorObject.getGetterNames();
         for(String name : paramsName){
@@ -91,7 +91,7 @@ s
     }
 
     public <T> Insert insert(T params) {
-        return insert(getTableName(params.getClass().getName()),params);
+        return insert(getTableName(params.getClass().getSimpleName()),params);
     }
 
 }
