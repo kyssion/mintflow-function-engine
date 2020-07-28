@@ -3,17 +3,27 @@ package org.mintflow.sql.basis;
 import org.mintflow.sql.Sql;
 import org.mintflow.sql.type.SqlType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SqlBase extends SqlSymbol{
     protected StringBuilder sql;
     protected StringBuilder conditionSql;
+    protected StringBuilder groupBySql;
+    protected StringBuilder orderBySql;
+    protected StringBuilder limitSql;
 
     protected List<Object> paramList;
     protected SqlType sqlType;
     protected SqlBase(SqlType sqlType){
         this.sqlType = sqlType;
+        this.paramList = new ArrayList<>();
+        this.sql = new StringBuilder();
+        this.conditionSql = new StringBuilder();
+        this.groupBySql = new StringBuilder();
+        this.orderBySql = new StringBuilder();
+        this.limitSql = new StringBuilder();
     }
 
     protected StringBuilder createParamsArrays(List<Object> params){
@@ -73,8 +83,17 @@ public class SqlBase extends SqlSymbol{
     }
 
     public Sql build(){
-        if(this.conditionSql!=null&&this.conditionSql.length()>0){
+
+        if(this.conditionSql.length()>0){
             this.sql.append(SPLIT).append(WHERE).append(SPLIT).append(this.conditionSql);
+        }
+
+        if(this.groupBySql.length()>0){
+            this.sql.append(SPLIT).append(this.groupBySql);
+        }
+
+        if(this.orderBySql.length()>0){
+            this.sql.append(SPLIT).append(this.groupBySql);
         }
 
         return new Sql(this.sql.toString(),this.paramList);
