@@ -8,7 +8,7 @@ public class Sql {
 
     private List<Object> paramsList;
 
-    public Sql(String sql,List<Object> paramsList){
+    public Sql(String sql, List<Object> paramsList) {
         this.sql = sql;
         this.paramsList = paramsList;
     }

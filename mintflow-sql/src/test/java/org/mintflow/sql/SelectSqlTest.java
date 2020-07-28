@@ -59,7 +59,7 @@ public class SelectSqlTest {
         select.limit((int) params.get(1), (int) params.get(2));
 
         Sql sql = select.build();
-        Assert.assertEquals(sql.getSql(),"select `name`,`age`,`num`,`bookNum` from `test_table` where `name` = ? GROUP_BY `bookNum` ORDER BY `name` ASC ORDER BY `age` DESC LIMIT ?,?");
+        Assert.assertEquals(sql.getSql(),"select `name`,`age`,`num`,`bookNum` from `test_table` where `name` = ? GROUP_BY `name` ORDER BY `age` ASC,`num` DESC LIMIT ?,? ");
         Assert.assertArrayEquals(createArrays(params),createArrays(sql.getParamsList()));
     }
 }

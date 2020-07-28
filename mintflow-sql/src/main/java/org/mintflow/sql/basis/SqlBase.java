@@ -31,7 +31,6 @@ public class SqlBase extends SqlSymbol{
         if(params==null||params.size()==0){
             return arrays;
         }
-
         boolean isStart=true;
         for(Object str : params){
             if(isStart){
@@ -83,19 +82,18 @@ public class SqlBase extends SqlSymbol{
     }
 
     public Sql build(){
-
         if(this.conditionSql.length()>0){
-            this.sql.append(SPLIT).append(WHERE).append(SPLIT).append(this.conditionSql);
+            this.sql.append(WHERE).append(SPLIT).append(this.conditionSql);
         }
-
         if(this.groupBySql.length()>0){
-            this.sql.append(SPLIT).append(this.groupBySql);
+            this.sql.append(GROUP_BY).append(SPLIT).append(this.groupBySql).append(SPLIT);
         }
-
         if(this.orderBySql.length()>0){
-            this.sql.append(SPLIT).append(this.groupBySql);
+            this.sql.append(ORDER_BY).append(SPLIT).append(this.orderBySql).append(SPLIT);
         }
-
+        if(this.limitSql.length()>0){
+            this.sql.append(limitSql);
+        }
         return new Sql(this.sql.toString(),this.paramList);
     }
 

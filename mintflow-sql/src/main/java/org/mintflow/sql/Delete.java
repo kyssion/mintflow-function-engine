@@ -9,11 +9,11 @@ public class Delete extends ConditionSqlBase {
         super(sqlType);
     }
 
-    public Delete sql(){
+    public Delete sql() {
         return new Delete(SqlType.DELETE);
     }
 
-    public Delete delete(String tableName){
+    public Delete delete(String tableName) {
         this.sql.append(DELETE).append(SPLIT).append(FROM).append(TAG).append(tableName).append(TAG).append(SPLIT);
         return this;
     }
