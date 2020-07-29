@@ -63,9 +63,6 @@ public class Reflector {
     }
     /**
      * 判断是否是一个有效的变量名称 $ 表示内部类
-     *
-     * @param name
-     * @return
      */
     private boolean isValidPropertyName(String name) {
         return !(name.startsWith("$") || "serialVersionUID".equals(name) || "class".equals(name));
@@ -76,8 +73,6 @@ public class Reflector {
 
     /**
      * 初始化这个class的0 参数构造方法
-     *
-     * @param clazz
      */
     private void addConstructor(Class<?> clazz) {
         Constructor<?>[] consts = clazz.getDeclaredConstructors();
@@ -99,8 +94,6 @@ public class Reflector {
 
     /**
      * 简单点说就是拿到了当前类所有参数的getter方法
-     *
-     * @param cls
      */
     private void addGetMethods(Class<?> cls) {
         Map<String, List<Method>> conflictingGetters = new HashMap<>();
@@ -122,7 +115,6 @@ public class Reflector {
 
     /**
      * 过滤方法,当一个值子类重写了父类的get方法.并且返回值使用的是父类的子类(发生了桥接方法)的时候
-     * @param conflictingGetters
      */
     private void resolveGetterConflicts(Map<String, List<Method>> conflictingGetters) {
         for (Entry<String, List<Method>> entry : conflictingGetters.entrySet()) {
@@ -161,9 +153,6 @@ public class Reflector {
 
     /**
      * 添加所有可用的get方法
-     *
-     * @param name
-     * @param method
      */
     private void addGetMethod(String name, Method method) {
         if (isValidPropertyName(name)) {
@@ -177,8 +166,6 @@ public class Reflector {
 
     /**
      * 添加所有可用的set方法
-     *
-     * @param cls
      */
     private void addSetMethods(Class<?> cls) {
         Map<String, List<Method>> conflictingSetters = new HashMap<>();
@@ -198,19 +185,12 @@ public class Reflector {
 
     /**
      * 筛选出这一个参数名称中对应的所有方法列表
-     *
-     * @param conflictingMethods
-     * @param name
-     * @param method
      */
     private void addMethodConflict(Map<String, List<Method>> conflictingMethods, String name, Method method) {
         List<Method> list = conflictingMethods.computeIfAbsent(name, k -> new ArrayList<>());
         list.add(method);
     }
 
-    /**
-     * @param conflictingSetters
-     */
     private void resolveSetterConflicts(Map<String, List<Method>> conflictingSetters) {
         for (String propName : conflictingSetters.keySet()) {
             List<Method> setters = conflictingSetters.get(propName);
@@ -246,11 +226,6 @@ public class Reflector {
 
     /**
      * 选择一个更好的setter方法,何为更好,越是子类越好
-     *
-     * @param setter1
-     * @param setter2
-     * @param property
-     * @return
      */
     private Method pickBetterSetter(Method setter1, Method setter2, String property) {
         if (setter1 == null) {
@@ -270,9 +245,6 @@ public class Reflector {
 
     /**
      * 添加参数对应的setter方法
-     *
-     * @param name
-     * @param method
      */
     private void addSetMethod(String name, Method method) {
         if (isValidPropertyName(name)) {
@@ -287,8 +259,6 @@ public class Reflector {
     /**
      * 将type转化成class对象,重点处理泛型相关的问题
      *
-     * @param src
-     * @return
      */
     private Class<?> typeToClass(Type src) {
         Class<?> result = null;
@@ -313,8 +283,6 @@ public class Reflector {
 
     /**
      * 添加所有没有getter或者setter的变量
-     *
-     * @param clazz
      */
     private void addFields(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
@@ -338,8 +306,6 @@ public class Reflector {
 
     /**
      * 添加setter的方法
-     *
-     * @param field
      */
     private void addSetField(Field field) {
         if (isValidPropertyName(field.getName())) {
@@ -351,8 +317,6 @@ public class Reflector {
 
     /**
      * 添加getter的方法
-     *
-     * @param field
      */
     private void addGetField(Field field) {
         if (isValidPropertyName(field.getName())) {
@@ -390,8 +354,6 @@ public class Reflector {
 
     /**
      * 去除桥接方法 , 只记录第一次出现的方法(方法继承覆盖问题)
-     * @param uniqueMethods
-     * @param methods
      */
     private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
         for (Method currentMethod : methods) {
@@ -406,9 +368,6 @@ public class Reflector {
 
     /**
      * 获得我们自己定义的一组method方法标签 返回值#方法名称:参数1,参数2,....
-     *
-     * @param method
-     * @return
      */
     private String getSignature(Method method) {
         StringBuilder sb = new StringBuilder();
@@ -431,9 +390,6 @@ public class Reflector {
 
     /**
      * 获得set方法封装
-     *
-     * @param propertyName
-     * @return
      */
     public Agent getSetAgent(String propertyName) {
         Agent method = setMethods.get(propertyName);
@@ -445,9 +401,6 @@ public class Reflector {
 
     /**
      * 获得get方法封装
-     *
-     * @param propertyName
-     * @return
      */
     public Agent getGetAgent(String propertyName) {
         Agent method = getMethods.get(propertyName);
