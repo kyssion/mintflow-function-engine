@@ -37,6 +37,9 @@ public class Reflector {
     private final Map<String, Class<?>> setTypes = new HashMap<>();//变量名对应set方法类型
     private final Map<String, Class<?>> getTypes = new HashMap<>();//变量名对应get方法类型
 
+    private final Map<String, Agent> canGetFiled = new HashMap<>(); //拥有get方法的变量field引用
+    private final Map<String,Agent> canSetFiled = new HashMap<>(); //拥有set方法的变量field 引用
+
     private Constructor<?> defaultConstructor;
     private Constructor<?>[] otherConstructor;
 
@@ -273,21 +276,24 @@ public class Reflector {
         return result;
     }
 
+    //------------------------------------------------------------
+
     /**
      * 添加所有没有getter或者setter的变量
      */
     private void addFields(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            if (!setMethods.containsKey(field.getName())) {
+            String fieldName = field.getName();
+            if (!canSetFiled.containsKey(fieldName)&&setMethods.containsKey(fieldName)) {
                 int modifiers = field.getModifiers();//返回语言修饰符号
                 //final和static修饰的符号不做反射逻辑
                 if (!(Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers))) {
-                    addSetField(field);
+                    addSetField(field,setMethods.get(fieldName));
                 }
             }
-            if (!getMethods.containsKey(field.getName())) {
-                addGetField(field);
+            if (!canGetFiled.containsKey(fieldName)&&getMethods.containsKey(fieldName)) {
+                addGetField(field,getMethods.get(fieldName));
             }
         }
         //递归遍历父元素的相关信息
@@ -299,22 +305,18 @@ public class Reflector {
     /**
      * 添加setter的方法
      */
-    private void addSetField(Field field) {
+    private void addSetField(Field field, Agent agent) {
         if (isValidPropertyName(field.getName())) {
-            setMethods.put(field.getName(), new SetFieldAgent(field));
-            Type fieldType = TypeParameterProcessor.processorFieldType(field, type);
-            setTypes.put(field.getName(), typeToClass(fieldType));
+            canSetFiled.put(field.getName(), new SetFieldAgent(field,agent));
         }
     }
 
     /**
      * 添加getter的方法
      */
-    private void addGetField(Field field) {
+    private void addGetField(Field field, Agent agent) {
         if (isValidPropertyName(field.getName())) {
-            getMethods.put(field.getName(), new GetFieldAgent(field));
-            Type fieldType = TypeParameterProcessor.processorFieldType(field, type);
-            getTypes.put(field.getName(), typeToClass(fieldType));
+            canGetFiled.put(field.getName(), new GetFieldAgent(field,agent));
         }
     }
 

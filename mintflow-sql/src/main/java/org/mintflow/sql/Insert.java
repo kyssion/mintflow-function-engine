@@ -1,9 +1,9 @@
 package org.mintflow.sql;
 
-import org.mintflow.reflection.MirrorObject;
 import org.mintflow.reflection.Reflector;
 import org.mintflow.reflection.SampleMirrorObject;
 import org.mintflow.reflection.agent.Agent;
+import org.mintflow.sql.annotation.TableField;
 import org.mintflow.sql.basis.SqlBase;
 import org.mintflow.sql.type.SqlType;
 
@@ -34,8 +34,9 @@ public class Insert extends SqlBase {
         int defaultLength= insertParamList.size();
         boolean allStart = true;
         for (T t : dateList) {
-            MirrorObject mirrorObject = MirrorObject.forObject(t);
-            String[] nameList = mirrorObject.getFiledMirrorObject().getGetterNames();
+            SampleMirrorObject mirrorObject = SampleMirrorObject.forObject(t);
+            Reflector reflector = mirrorObject.getReflector();
+            String[] nameList = reflector.getGetablePropertyNames();
             if(allStart){
                 dataArray.append(LEFT_PARENTHESIS);
                 allStart = false;
@@ -72,8 +73,16 @@ public class Insert extends SqlBase {
         Reflector reflector = sampleMirrorObject.getReflector();
         String[] getterNames = reflector.getGetablePropertyNames();
         for(String name : getterNames){
-            Agent field = reflector.getGetAgent(name);
-
+            Agent fieldAgent = reflector.getGetAgent(name);
+            TableField tableField = fieldAgent.getAnnotation(TableField.class);
+            Object item = sampleMirrorObject.getValue(name);
+            if(item!=null){
+                String tableFieldName = tableField.value();
+                if("".equals(tableFieldName)){
+                    tableFieldName = fieldAgent.getName();
+                }
+                ans.add(tableFieldName);
+            }
         }
         return ans;
     }

@@ -1,9 +1,8 @@
 package org.mintflow.vertx.http.controller.finder;
 
 import io.vertx.core.http.HttpMethod;
-import org.mintflow.MintFlow;
 import org.mintflow.util.ClassUtil;
-import org.mintflow.util.MintFlowStrUtil;
+import org.mintflow.util.StringUtil;
 import org.mintflow.vertx.http.adapter.request.RequestParamAdapter;
 import org.mintflow.vertx.http.adapter.response.ControllerMapperResponseAdapter;
 import org.mintflow.vertx.http.adapter.response.ResponseParamAdapter;
@@ -32,7 +31,7 @@ public final class MintFlowControllerFinder {
             }
             String url = controller.url();
             String nameSpace = controller.nameSpace();
-            if(MintFlowStrUtil.isNullOrEmpty(url,nameSpace)){
+            if(StringUtil.isNullOrEmpty(url,nameSpace)){
                 continue;
             }
             Method[] methods = cls.getMethods();
@@ -53,11 +52,11 @@ public final class MintFlowControllerFinder {
             return null;
         }
         String url = mapper.url();
-        if(MintFlowStrUtil.isNullOrEmpty(url)){
+        if(StringUtil.isNullOrEmpty(url)){
             throw new MintFlowControllerError("URL不可为空");
         }
-        parentUrl = MintFlowStrUtil.dealWithUrl(parentUrl);
-        url = MintFlowStrUtil.dealWithUrl(url);
+        parentUrl = StringUtil.dealWithUrl(parentUrl);
+        url = StringUtil.dealWithUrl(url);
         String process = mapper.process();
         HttpMethod[] httpMethods = mapper.httpMethod();
         RequestParamAdapter requestParamAdapter = getRequestParamAdapter(mapper,method);

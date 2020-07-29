@@ -2,7 +2,7 @@ package org.mintflow.vertx.http.adapter.request;
 
 import io.vertx.core.json.Json;
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.util.MintFlowStrUtil;
+import org.mintflow.util.StringUtil;
 import org.mintflow.vertx.http.controller.MintFlowMapperBody;
 import org.mintflow.vertx.http.controller.MintFlowMapperParam;
 import org.mintflow.vertx.http.exceptrion.MintFlowControllerError;
@@ -95,7 +95,7 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
                 RuleType fromRule = mintFlowParam.fromType();
                 String fromName = mintFlowParam.fromName();
 
-                if (MintFlowStrUtil.isNullOrEmpty(fromName) && fromRule != RuleType.FROM_BODY) {
+                if (StringUtil.isNullOrEmpty(fromName) && fromRule != RuleType.FROM_BODY) {
                     throw new MintFlowControllerError("MintFlowParam fromName 当是非body类型的时候,字段不可为空");
                 }
                 //init base params
@@ -106,7 +106,7 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
                 String toName = mintFlowParam.toName();
                 mapperParamRule.setToName(toName);
                 //init to type
-                if (!MintFlowStrUtil.isNullOrEmpty(toName)) {
+                if (!StringUtil.isNullOrEmpty(toName)) {
                     mapperParamRule.setToRule(RuleType.TO_NAME);
                 } else {
                     mapperParamRule.setToRule(RuleType.TO_TYPE);
@@ -130,7 +130,7 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
             switch (mapperParamRule.fromRule) {
                 case FROM_BODY:
                     String body = t.getBody();
-                    if(!MintFlowStrUtil.isNullOrEmpty(body)){
+                    if(!StringUtil.isNullOrEmpty(body)){
                         needItem = Json.decodeValue(t.getBody(), mapperParamRule.toType);
                     }
                     break;

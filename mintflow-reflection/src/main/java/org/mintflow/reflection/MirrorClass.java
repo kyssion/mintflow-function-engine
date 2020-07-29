@@ -1,7 +1,6 @@
 package org.mintflow.reflection;
 
 import org.mintflow.reflection.agent.Agent;
-import org.mintflow.reflection.agent.GetAndSetFieldAgent;
 import org.mintflow.reflection.agent.GetFieldAgent;
 import org.mintflow.reflection.agent.MethodAgent;
 import org.mintflow.reflection.exception.ReflectionException;
@@ -170,13 +169,6 @@ public class MirrorClass {
         }else {
             return reflector.getSetAgent(name);
         }
-    }
-
-    public GetAndSetFieldAgent getGetAndSetAgent(String name){
-        if(reflector.getRwPropertyNames().contains(name)){
-            return new GetAndSetFieldAgent(getGetAgent(name),getSetAgent(name));
-        }
-        return null;
     }
 
     public Agent getMethod(String name, Class<?>[] paramType) {

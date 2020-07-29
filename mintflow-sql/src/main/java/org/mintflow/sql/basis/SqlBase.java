@@ -1,7 +1,6 @@
 package org.mintflow.sql.basis;
 
-import org.mintflow.reflection.MirrorClass;
-import org.mintflow.reflection.MirrorObject;
+import org.mintflow.reflection.Reflector;
 import org.mintflow.reflection.SampleMirrorObject;
 import org.mintflow.sql.Sql;
 import org.mintflow.sql.annotation.TableField;
@@ -103,8 +102,9 @@ public class SqlBase extends SqlSymbol{
 
     public String getTableName(Object itemObject){
         SampleMirrorObject sampleMirrorObject = SampleMirrorObject.forObject(itemObject);
+        Reflector reflector = sampleMirrorObject.getReflector();
         String tableName = itemObject.getClass().getSimpleName();
-        TableField tableField = sampleMirrorObject.getAnnotation(TableField.class);
+        TableField tableField = reflector.getAnnotation(TableField.class);
         if(tableField!=null){
             tableName = tableField.value();
         }

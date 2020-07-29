@@ -3,6 +3,7 @@ package org.mintflow.reflection.agent;
 import org.mintflow.reflection.Reflector;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -42,10 +43,10 @@ public class MethodAgent implements Agent {
      * @throws IllegalAccessException
      */
     @Override
-    public Object invoke(Object target, Object... args) throws IllegalAccessException, InvocationTargetException {
+    public Object invoke(Object target, Object... args) throws InvocationTargetException, IllegalAccessException {
         try {
             return method.invoke(target, args);
-        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             if (Reflector.canControlMemberAccessible()) {
                 method.setAccessible(true);
                 return method.invoke(target, args);
@@ -76,8 +77,18 @@ public class MethodAgent implements Agent {
     }
 
     @Override
-    public <T extends Annotation> Annotation getAnnotation(Class<T> type) {
+    public <T extends Annotation> T getAnnotation(Class<T> type) {
         return this.method.getAnnotation(type);
+    }
+
+    @Override
+    public AccessibleObject getAccessibleObject() {
+        return this.method;
+    }
+
+    @Override
+    public String getName() {
+        return this.method.getName();
     }
 
     public boolean hasAnnotation(Class<?> typeClass) {
