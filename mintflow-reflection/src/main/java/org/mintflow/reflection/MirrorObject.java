@@ -1,5 +1,7 @@
 package org.mintflow.reflection;
 
+import org.mintflow.reflection.mirror.FiledMirrorObject;
+import org.mintflow.reflection.mirror.MethodMirrorObject;
 import org.mintflow.reflection.mirror.SystemMirrorObject;
 import org.mintflow.reflection.object.DefaultObjectFactory;
 import org.mintflow.reflection.object.ObjectFactory;
@@ -17,27 +19,34 @@ import java.util.Map;
  */
 public class MirrorObject {
 
+    private final MirrorClass mirrorClass;
+    private final FiledMirrorObject filedMirrorObject;
+    private final MethodMirrorObject methodMirrorObject;
+
     private final Object originalObject;
-    private final ObjectWrapper objectWrapper;
     private static final ObjectFactory objectFactory = new DefaultObjectFactory();
     private static final ReflectorFactory reflectorFactory = DefaultReflectorFactory.getReflectorFactory();
 
     @SuppressWarnings("unchecked")
     private MirrorObject(Object object) {
         this.originalObject = object;
+        ObjectWrapper objectWrapper = null;
         if (object instanceof ObjectWrapper) {
-            this.objectWrapper = (ObjectWrapper) object;
+            objectWrapper = (ObjectWrapper) object;
         } else if (object instanceof Map) {
-            this.objectWrapper = new MapWrapper(this, (Map<String, Object>) object);
+            objectWrapper = new MapWrapper(this, (Map<String, Object>) object);
         } else if (object instanceof Collection) {
-            this.objectWrapper = new CollectionWrapper(this, (Collection<Object>) object);
+            objectWrapper= new CollectionWrapper(this, (Collection<Object>) object);
         } else {
-            this.objectWrapper = new BeanWrapper(this, object);
+            objectWrapper = new BeanWrapper(this, object);
         }
+        this.filedMirrorObject = new FiledMirrorObject(objectWrapper);
+        this.methodMirrorObject = new MethodMirrorObject(objectWrapper);
+        this.mirrorClass = MirrorClass.forClass(this.originalObject.getClass(),reflectorFactory);
     }
 
     public Class<?> getType() {
-        return this.objectWrapper.getType();
+        return this.mirrorClass.getType();
     }
 
     public static MirrorObject forObject(Object object) {
@@ -48,40 +57,8 @@ public class MirrorObject {
         }
     }
 
-    public ObjectFactory getObjectFactory() {
-        return objectFactory;
-    }
-
-    public ReflectorFactory getReflectorFactory() {
-        return reflectorFactory;
-    }
-
     public Object getOriginalObject() {
         return originalObject;
-    }
-
-    public String[] getGetterNames() {
-        return objectWrapper.getGetterNames();
-    }
-
-    public String[] getSetterNames() {
-        return objectWrapper.getSetterNames();
-    }
-
-    public Class<?> getSetterType(String name) {
-        return objectWrapper.getSetterType(name);
-    }
-
-    public Class<?> getGetterType(String name) {
-        return objectWrapper.getGetterType(name);
-    }
-
-    public boolean hasSetter(String name) {
-        return objectWrapper.hasSetter(name);
-    }
-
-    public boolean hasGetter(String name) {
-        return objectWrapper.hasGetter(name);
     }
 
     @SuppressWarnings("unchecked")
@@ -99,7 +76,7 @@ public class MirrorObject {
                 return metaValue.getValue(prop.getChildren());
             }
         } else {
-            return objectWrapper.get(prop);
+            return this.filedMirrorObject.get(prop);
         }
     }
 
@@ -112,18 +89,18 @@ public class MirrorObject {
                     // don't instantiate child path if value is null
                     return;
                 } else {
-                    metaValue = objectWrapper.instantiatePropertyValue(name, prop, objectFactory);
+                    metaValue = this.filedMirrorObject.instantiatePropertyValue(name, prop, objectFactory);
                 }
             }
             metaValue.setValue(prop.getChildren(), value);
         } else {
-            objectWrapper.set(prop, value);
+            this.filedMirrorObject.set(prop, value);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T invoke(String name, Class<T> item, Object... params) {
-        if (item == null) {
+    public <T> T invoke(String name, Class<T> returnType, Object... params) {
+        if (returnType == null) {
             invoke(name, params);
             return null;
         }
@@ -140,7 +117,7 @@ public class MirrorObject {
                 return metaValue.invoke(prop.getChildren(), params);
             }
         } else {
-            return objectWrapper.invoke(name, params);
+            return methodMirrorObject.invoke(name, params);
         }
     }
 
@@ -149,19 +126,15 @@ public class MirrorObject {
         return MirrorObject.forObject(value);
     }
 
-    public ObjectWrapper getObjectWrapper() {
-        return objectWrapper;
+    public MirrorClass getMirrorClass() {
+        return mirrorClass;
     }
 
-    public boolean isCollection() {
-        return objectWrapper.isCollection();
+    public FiledMirrorObject getFiledMirrorObject() {
+        return filedMirrorObject;
     }
 
-    public void add(Object element) {
-        objectWrapper.add(element);
-    }
-
-    public <E> void addAll(List<E> list) {
-        objectWrapper.addAll(list);
+    public MethodMirrorObject getMethodMirrorObject() {
+        return methodMirrorObject;
     }
 }

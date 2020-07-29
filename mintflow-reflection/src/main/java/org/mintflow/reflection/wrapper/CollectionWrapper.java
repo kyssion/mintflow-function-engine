@@ -1,5 +1,6 @@
 package org.mintflow.reflection.wrapper;
 
+import org.mintflow.reflection.MirrorClass;
 import org.mintflow.reflection.MirrorObject;
 import org.mintflow.reflection.object.ObjectFactory;
 import org.mintflow.reflection.property.PropertyTokenizer;
@@ -9,18 +10,18 @@ import java.util.List;
 
 public class CollectionWrapper implements ObjectWrapper {
 
-    private final Class<?> type;
-
     private final Collection<Object> object;
+
+    private final MirrorObject mirrorObject;
 
     public CollectionWrapper(MirrorObject mirrorObject, Collection<Object> object) {
         this.object = object;
-        this.type=object.getClass();
+        this.mirrorObject = mirrorObject;
     }
 
     @Override
     public Class<?> getType() {
-        return this.type;
+        return this.mirrorObject.getType();
     }
 
     @Override

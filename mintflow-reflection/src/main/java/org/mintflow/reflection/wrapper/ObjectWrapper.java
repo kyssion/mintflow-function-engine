@@ -27,6 +27,13 @@ public interface ObjectWrapper {
 
     boolean hasGetter(String name);
 
+    /**
+     * 初始化 name 对应的 mirrorObject 对象
+     * @param name
+     * @param prop
+     * @param objectFactory
+     * @return
+     */
     MirrorObject instantiatePropertyValue(String name, PropertyTokenizer prop, ObjectFactory objectFactory);
 
     boolean isCollection();

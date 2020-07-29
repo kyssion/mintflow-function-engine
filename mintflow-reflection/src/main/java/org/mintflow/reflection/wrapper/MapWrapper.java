@@ -12,20 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class MapWrapper extends BaseWrapper {
-
     private final Map<String, Object> map;
-
-    private final Class<?> type;
-
     public MapWrapper(MirrorObject mirrorObject, Map<String, Object> map) {
         super(mirrorObject);
         this.map = map;
-        this.type= map.getClass();
     }
 
     @Override
     public Class<?> getType() {
-        return this.type;
+        return this.mirrorObject.getType();
     }
 
     @Override
@@ -66,7 +61,7 @@ public class MapWrapper extends BaseWrapper {
             if (metaValue == SystemMirrorObject.NULL_META_OBJECT) {
                 return Object.class;
             } else {
-                return metaValue.getSetterType(prop.getChildren());
+                return metaValue.getFiledMirrorObject().getSetterType(prop.getChildren());
             }
         } else {
             if (map.get(name) != null) {
@@ -85,7 +80,7 @@ public class MapWrapper extends BaseWrapper {
             if (metaValue == SystemMirrorObject.NULL_META_OBJECT) {
                 return Object.class;
             } else {
-                return metaValue.getGetterType(prop.getChildren());
+                return metaValue.getFiledMirrorObject().getGetterType(prop.getChildren());
             }
         } else {
             if (map.get(name) != null) {
@@ -110,7 +105,7 @@ public class MapWrapper extends BaseWrapper {
                 if (metaValue == SystemMirrorObject.NULL_META_OBJECT) {
                     return true;
                 } else {
-                    return metaValue.hasGetter(prop.getChildren());
+                    return metaValue.getFiledMirrorObject().hasGetter(prop.getChildren());
                 }
             } else {
                 return false;
@@ -144,11 +139,6 @@ public class MapWrapper extends BaseWrapper {
 
     @Override
     public Object invoke(String name, Object[] params) {
-        return null;
-    }
-
-    @Override
-    public MirrorClass getMirrorClass() {
         return null;
     }
 }

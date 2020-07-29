@@ -1,6 +1,7 @@
 package org.mintflow.reflection.wrapper;
 
 
+import org.mintflow.reflection.DefaultReflectorFactory;
 import org.mintflow.reflection.MirrorClass;
 import org.mintflow.reflection.MirrorObject;
 import org.mintflow.reflection.property.CollectionTypeParameterProcessor;
@@ -11,10 +12,8 @@ public abstract class BaseWrapper implements ObjectWrapper {
 
     protected static final Object[] NO_ARGUMENTS = new Object[0];
     protected final MirrorObject mirrorObject;
-    protected final MirrorClass mirrorClass;
     protected BaseWrapper(MirrorObject mirrorObject) {
         this.mirrorObject = mirrorObject;
-        this.mirrorClass = MirrorClass.forClass(mirrorObject.getType(), mirrorObject.getReflectorFactory());
     }
 
     protected Object resolveCollection(PropertyTokenizer prop, Object object) {
@@ -44,10 +43,6 @@ public abstract class BaseWrapper implements ObjectWrapper {
     @SuppressWarnings("unchecked")
     protected void setCollectionValue(PropertyTokenizer prop, Object collection, Object value) {
         CollectionTypeParameterProcessor.setValueToCollection(prop.getIndex(),collection,value);
-    }
-
-    public MirrorClass getMirrorClass(){
-        return this.mirrorClass;
     }
 
 }
