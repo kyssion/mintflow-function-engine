@@ -385,7 +385,7 @@ public class Reflector {
     /**
      * 获得set方法封装
      */
-    public Agent getSetAgent(String propertyName) {
+    public Agent getSetMethodAgent(String propertyName) {
         Agent method = setMethods.get(propertyName);
         if (method == null) {
             throw new ReflectionException("There is no setter for property named '" + propertyName + "' in '" + type + "'");
@@ -396,12 +396,20 @@ public class Reflector {
     /**
      * 获得get方法封装
      */
-    public Agent getGetAgent(String propertyName) {
+    public Agent getGetMethodAgent(String propertyName) {
         Agent method = getMethods.get(propertyName);
         if (method == null) {
             throw new ReflectionException("There is no getter for property named '" + propertyName + "' in '" + type + "'");
         }
         return method;
+    }
+
+    public Agent getGetFieldAgent(String propertyName){
+        return canGetFiled.get(propertyName);
+    }
+
+    public Agent getSetFieldAgent(String propertyName){
+        return canSetFiled.get(propertyName);
     }
 
     /**
