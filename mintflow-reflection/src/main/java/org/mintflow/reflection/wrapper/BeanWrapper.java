@@ -18,12 +18,9 @@ public class BeanWrapper extends BaseWrapper {
 
     private final Object object;
 
-    private final MirrorClass mirrorClass;
-
     public BeanWrapper(MirrorObject mirrorObject, Object object) {
         super(mirrorObject);
         this.object = object;
-        this.mirrorClass = MirrorClass.forClass(object.getClass(), mirrorObject.getReflectorFactory());
     }
 
     @Override
@@ -50,11 +47,6 @@ public class BeanWrapper extends BaseWrapper {
             setBeanProperty(prop, object, value);
         }
     }
-
-//    @Override
-//    public String findProperty(String name, boolean useCamelCaseMapping) {
-//        return mirrorClass.findProperty(name, useCamelCaseMapping);
-//    }
 
     @Override
     public String[] getGetterNames() {

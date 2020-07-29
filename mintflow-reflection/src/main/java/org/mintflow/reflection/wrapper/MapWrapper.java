@@ -1,6 +1,7 @@
 package org.mintflow.reflection.wrapper;
 
 
+import org.mintflow.reflection.MirrorClass;
 import org.mintflow.reflection.MirrorObject;
 import org.mintflow.reflection.mirror.SystemMirrorObject;
 import org.mintflow.reflection.object.ObjectFactory;
@@ -46,11 +47,6 @@ public class MapWrapper extends BaseWrapper {
             map.put(prop.getName(), value);
         }
     }
-//
-//    @Override
-//    public String findProperty(String name, boolean useCamelCaseMapping) {
-//        return name;
-//    }
 
     @Override
     public String[] getGetterNames() {
@@ -151,4 +147,8 @@ public class MapWrapper extends BaseWrapper {
         return null;
     }
 
+    @Override
+    public MirrorClass getMirrorClass() {
+        return null;
+    }
 }

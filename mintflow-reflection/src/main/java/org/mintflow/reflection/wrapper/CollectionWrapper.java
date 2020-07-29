@@ -33,11 +33,6 @@ public class CollectionWrapper implements ObjectWrapper {
         throw new UnsupportedOperationException();
     }
 
-//    @Override
-//    public String findProperty(String name, boolean useCamelCaseMapping) {
-//        throw new UnsupportedOperationException();
-//    }
-
     @Override
     public String[] getGetterNames() {
         throw new UnsupportedOperationException();

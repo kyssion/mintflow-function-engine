@@ -1,5 +1,6 @@
 package org.mintflow.reflection.wrapper;
 
+import org.mintflow.reflection.MirrorClass;
 import org.mintflow.reflection.MirrorObject;
 import org.mintflow.reflection.object.ObjectFactory;
 import org.mintflow.reflection.property.PropertyTokenizer;

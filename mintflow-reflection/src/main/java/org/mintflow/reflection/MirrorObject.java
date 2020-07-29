@@ -48,7 +48,6 @@ public class MirrorObject {
         }
     }
 
-
     public ObjectFactory getObjectFactory() {
         return objectFactory;
     }
@@ -60,10 +59,6 @@ public class MirrorObject {
     public Object getOriginalObject() {
         return originalObject;
     }
-
-//    public String findProperty(String propName, boolean useCamelCaseMapping) {
-//        return objectWrapper.findProperty(propName, useCamelCaseMapping);
-//    }
 
     public String[] getGetterNames() {
         return objectWrapper.getGetterNames();
