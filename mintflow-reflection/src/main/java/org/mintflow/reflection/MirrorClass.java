@@ -191,10 +191,6 @@ public class MirrorClass {
         }
     }
 
-    public List<MethodAgent> getAllMethod() {
-        return reflector.getAllMethod();
-    }
-
     private boolean isInMethod(Agent invokers, Class<?>[] paramType) {
 
         Class<?>[] params = invokers.getParamType();
@@ -212,17 +208,5 @@ public class MirrorClass {
             newTypes[index] = TypeEnum.getType(types[index]);
         }
         return newTypes;
-    }
-
-    public Class<?> getType() {
-        return this.reflector.getType();
-    }
-
-    public boolean isInterface(){
-        return this.reflector.isInterface();
-    }
-
-    public String getClassName() {
-        return this.reflector.getClassName();
     }
 }

@@ -23,19 +23,25 @@ import java.util.Map.Entry;
  * 5. 所有可以调用get的变量名称
  */
 public class Reflector {
+
     private final Class<?> type;
+
     private final String[] readablePropertyNames;
     private final String[] writeablePropertyNames;
+
     private final Map<String, List<MethodAgent>> allMethodMap = new HashMap<>();
+
     private final List<MethodAgent> allMethodArr = new ArrayList<>();
     private final Map<String, Agent> setMethods = new HashMap<>();//变量名对应的set方法
     private final Map<String, Agent> getMethods = new HashMap<>();//变量名对应的get方法
     private final Map<String, Class<?>> setTypes = new HashMap<>();//变量名对应set方法类型
     private final Map<String, Class<?>> getTypes = new HashMap<>();//变量名对应get方法类型
+
     private Constructor<?> defaultConstructor;
     private Constructor<?>[] otherConstructor;
 
     private final Set<String> rwPropertyNames;
+
     //------------------------------------------------------------
 
     public Reflector(Class<?> clazz) {
