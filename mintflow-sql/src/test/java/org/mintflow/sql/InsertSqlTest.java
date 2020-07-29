@@ -8,7 +8,7 @@ public class InsertSqlTest extends SqlTestBase {
     @Test
     public void insertTest(){
         ItemTableDTO itemTableDTO = new ItemTableDTO();
-        Sql sql = Insert.sql().insert(itemTableDTO).build();
+        Sql sql = Insert.sql().insert(Insert.insertParams(itemTableDTO,itemTableDTO,itemTableDTO)).build();
         System.out.println();
     }
 }

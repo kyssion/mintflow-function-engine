@@ -6,7 +6,7 @@ public class Test {
     @org.junit.Test
     public void test() {
         MirrorObject mirrorObject = MirrorObject.forObject(new Item());
-        String[] name = mirrorObject.getGetterNames();
+        String[] name = mirrorObject.getFiledMirrorObject().getGetterNames();
         for (String str : name) {
             System.out.println(str);
         }

@@ -8,6 +8,7 @@ import org.mintflow.sql.basis.SqlBase;
 import org.mintflow.sql.type.SqlType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Insert extends SqlBase {
@@ -20,13 +21,16 @@ public class Insert extends SqlBase {
         return new Insert(SqlType.INSERT);
     }
 
-    public <T> Insert insert(String tableName, List<T> dateList) {
+    public <T> Insert insert(List<T> dateList) {
         if(dateList==null||dateList.size()==0){
             throw  new RuntimeException();
         }
         T defaultOne = dateList.get(0);
         List<Object> insertParamList = findParamsList(defaultOne);
         StringBuilder paramStr = createParamsArrays(insertParamList);
+
+        String tableName = getTableName(defaultOne);
+
         this.sql.append(INSERT).append(SPLIT).append(INTO).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT).append(LEFT_PARENTHESIS)
                 .append(paramStr)
                 .append(RIGHT_PARENTHESIS).append(SPLIT);
@@ -87,15 +91,7 @@ public class Insert extends SqlBase {
         return ans;
     }
 
-
-    public <T> Insert insert(String tableName, T params) {
-        List<T> paramList = new ArrayList<>();
-        paramList.add(params);
-        return insert(tableName,paramList);
+    public static  <T> List<T> insertParams(T...params){
+        return new ArrayList<>(Arrays.asList(params));
     }
-
-    public <T> Insert insert(T params) {
-        return insert(getTableName(params),params);
-    }
-
 }
