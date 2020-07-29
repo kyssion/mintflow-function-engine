@@ -22,7 +22,7 @@ public class SampleMirrorObject {
     }
 
     public void setValue(String name,Object value){
-        Agent setFiled = reflector.getSetAgent(name);
+        Agent setFiled = reflector.getSetMethodAgent(name);
         if(setFiled!=null){
             try {
                 setFiled.invoke(originObjectItem,value);
@@ -33,10 +33,10 @@ public class SampleMirrorObject {
     }
 
     public Object getValue(String name){
-        Agent getFiled = reflector.getGetAgent(name);
+        Agent getFiled = reflector.getGetMethodAgent(name);
         if(getFiled!=null){
             try {
-                getFiled.invoke(originObjectItem);
+                return getFiled.invoke(originObjectItem);
             } catch (Exception e) {
                 throw new ReflectionException("Could not get property '" + name + "' of '" + originObjectItem  + "' Cause: " +e.toString(), e);
             }

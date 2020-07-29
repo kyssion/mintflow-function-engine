@@ -106,7 +106,7 @@ public class MirrorClass {
 
     private Type getGenericGetterType(String propertyName) {
         try {
-            Agent agent = reflector.getGetAgent(propertyName);
+            Agent agent = reflector.getGetMethodAgent(propertyName);
             if (agent instanceof MethodAgent) {
                 Field _method = MethodAgent.class.getDeclaredField("method");
                 _method.setAccessible(true);
@@ -157,7 +157,7 @@ public class MirrorClass {
             MirrorClass mirrorProp = metaClassForProperty(prop);
             return mirrorProp.getGetAgent(prop.getChildren());
         }else {
-            return reflector.getGetAgent(name);
+            return reflector.getGetMethodAgent(name);
         }
     }
 
@@ -167,7 +167,7 @@ public class MirrorClass {
             MirrorClass mirrorProp = metaClassForProperty(prop);
             return mirrorProp.getSetAgent(prop.getChildren());
         }else {
-            return reflector.getSetAgent(name);
+            return reflector.getSetMethodAgent(name);
         }
     }
 

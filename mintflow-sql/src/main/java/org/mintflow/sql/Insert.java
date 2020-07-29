@@ -20,11 +20,12 @@ public class Insert extends SqlBase {
         return new Insert(SqlType.INSERT);
     }
 
-    public <T> Insert insert(String tableName, List<T> dateList) {
+    public <T> Insert insert(List<T> dateList) {
         if(dateList==null||dateList.size()==0){
             throw  new RuntimeException();
         }
         T defaultOne = dateList.get(0);
+        String tableName = getTableName(defaultOne);
         List<Object> insertParamList = findParamsList(defaultOne);
         StringBuilder paramStr = createParamsArrays(insertParamList);
         this.sql.append(INSERT).append(SPLIT).append(INTO).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT).append(LEFT_PARENTHESIS)
@@ -73,7 +74,7 @@ public class Insert extends SqlBase {
         Reflector reflector = sampleMirrorObject.getReflector();
         String[] getterNames = reflector.getGetablePropertyNames();
         for(String name : getterNames){
-            Agent fieldAgent = reflector.getGetAgent(name);
+            Agent fieldAgent = reflector.getGetFieldAgent(name);
             TableField tableField = fieldAgent.getAnnotation(TableField.class);
             Object item = sampleMirrorObject.getValue(name);
             if(item!=null){
@@ -87,15 +88,10 @@ public class Insert extends SqlBase {
         return ans;
     }
 
-
-    public <T> Insert insert(String tableName, T params) {
+    public <T> Insert insert( T params) {
         List<T> paramList = new ArrayList<>();
         paramList.add(params);
-        return insert(tableName,paramList);
-    }
-
-    public <T> Insert insert(T params) {
-        return insert(getTableName(params),params);
+        return insert(paramList);
     }
 
 }
