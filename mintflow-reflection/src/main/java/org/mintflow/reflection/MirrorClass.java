@@ -49,6 +49,10 @@ public class MirrorClass {
         return MirrorClass.forClass(propType, reflectorFactory);
     }
 
+    public Class<?> getType(){
+        return this.reflector.getType();
+    }
+
     public String[] getGetterNames() {
         return reflector.getGetablePropertyNames();
     }

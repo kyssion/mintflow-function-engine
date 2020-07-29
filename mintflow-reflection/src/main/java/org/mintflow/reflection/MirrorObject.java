@@ -137,4 +137,8 @@ public class MirrorObject {
     public MethodMirrorObject getMethodMirrorObject() {
         return methodMirrorObject;
     }
+
+    public <T extends Annotation> T getAnnotation(Class<T> annotation){
+        return this.getMirrorClass().getAnnotation(annotation);
+    }
 }

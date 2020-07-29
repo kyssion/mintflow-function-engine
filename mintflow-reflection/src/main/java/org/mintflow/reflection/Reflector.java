@@ -40,8 +40,6 @@ public class Reflector {
     private Constructor<?> defaultConstructor;
     private Constructor<?>[] otherConstructor;
 
-    private final Set<String> rwPropertyNames;
-
     //------------------------------------------------------------
 
     public Reflector(Class<?> clazz) {
@@ -54,20 +52,14 @@ public class Reflector {
         addAllMethods(clazz);
         readablePropertyNames = getMethods.keySet().toArray(new String[0]);
         writeablePropertyNames = setMethods.keySet().toArray(new String[0]);
-        rwPropertyNames = new HashSet<>();
-        for(String readProperty: readablePropertyNames){
-            if(setMethods.containsKey(readProperty)){
-                rwPropertyNames.add(readProperty);
-            }
-        }
     }
+
     /**
      * 判断是否是一个有效的变量名称 $ 表示内部类
      */
     private boolean isValidPropertyName(String name) {
         return !(name.startsWith("$") || "serialVersionUID".equals(name) || "class".equals(name));
     }
-
 
     //------------------------------------------------------------
 
@@ -510,10 +502,6 @@ public class Reflector {
     @SuppressWarnings("unchecked")
     public <T extends Annotation> T getAnnotation(Class<T> annotation) {
         return this.type.getAnnotation(annotation);
-    }
-
-    public Set<String> getRwPropertyNames() {
-        return rwPropertyNames;
     }
 
     private void addAllMethods(Class<?> cls) {

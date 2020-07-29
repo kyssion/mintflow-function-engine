@@ -16,7 +16,7 @@ public class Update extends ConditionSqlBase {
 
     public Update update(String tableName, Object item) {
         MirrorObject mirrorObject = MirrorObject.forObject(item);
-        String[] names = mirrorObject.getGetterNames();
+        String[] names = mirrorObject.getFiledMirrorObject().getGetterNames();
         this.sql.append(UPDATE).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT);
         StringBuilder setData = new StringBuilder();
         boolean isStart = true;
@@ -41,8 +41,8 @@ public class Update extends ConditionSqlBase {
         return this;
     }
 
-    public Update update(Object object) {
-        return update(getTableName(object.getClass().getName()), object);
+    public Update update(Object templateData) {
+        return update(getTableName(templateData), templateData);
     }
 
 }

@@ -24,11 +24,11 @@ public class Select extends ConditionSqlBase {
 
     public Select selectFrom(Object templateData) {
         MirrorObject mirrorObject = MirrorObject.forObject(templateData);
-        String[] names = mirrorObject.getGetterNames();
+        String[] names = mirrorObject.getFiledMirrorObject().getGetterNames();
         for (int a = 0; a < names.length; a++) {
             names[a] = underlineToCamel(names[a]);
         }
-        String tableName = getTableName(templateData.getClass().getName());
+        String tableName = getTableName(templateData);
         return selectFrom(tableName, names);
     }
 

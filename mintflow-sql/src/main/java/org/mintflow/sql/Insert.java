@@ -1,6 +1,9 @@
 package org.mintflow.sql;
 
 import org.mintflow.reflection.MirrorObject;
+import org.mintflow.reflection.Reflector;
+import org.mintflow.reflection.SampleMirrorObject;
+import org.mintflow.reflection.agent.Agent;
 import org.mintflow.sql.basis.SqlBase;
 import org.mintflow.sql.type.SqlType;
 
@@ -18,28 +21,21 @@ public class Insert extends SqlBase {
     }
 
     public <T> Insert insert(String tableName, List<T> dateList) {
-
         if(dateList==null||dateList.size()==0){
             throw  new RuntimeException();
         }
-
         T defaultOne = dateList.get(0);
-
         List<Object> insertParamList = findParamsList(defaultOne);
-
         StringBuilder paramStr = createParamsArrays(insertParamList);
-
         this.sql.append(INSERT).append(SPLIT).append(INTO).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT).append(LEFT_PARENTHESIS)
                 .append(paramStr)
                 .append(RIGHT_PARENTHESIS).append(SPLIT);
         StringBuilder dataArray = new StringBuilder();
-
         int defaultLength= insertParamList.size();
-
         boolean allStart = true;
         for (T t : dateList) {
             MirrorObject mirrorObject = MirrorObject.forObject(t);
-            String[] nameList = mirrorObject.getGetterNames();
+            String[] nameList = mirrorObject.getFiledMirrorObject().getGetterNames();
             if(allStart){
                 dataArray.append(LEFT_PARENTHESIS);
                 allStart = false;
@@ -72,13 +68,12 @@ public class Insert extends SqlBase {
 
     private <T> List<Object> findParamsList(T defaultOne) {
         List<Object> ans = new ArrayList<>();
-        MirrorObject mirrorObject = MirrorObject.forObject(defaultOne);
-        String[] paramsName = mirrorObject.getGetterNames();
-        for(String name : paramsName){
-            Object value = mirrorObject.getValue(name);
-            if(value!=null){
-                ans.add(name);
-            }
+        SampleMirrorObject sampleMirrorObject = SampleMirrorObject.forObject(defaultOne);
+        Reflector reflector = sampleMirrorObject.getReflector();
+        String[] getterNames = reflector.getGetablePropertyNames();
+        for(String name : getterNames){
+            Agent field = reflector.getGetAgent(name);
+
         }
         return ans;
     }
@@ -91,7 +86,7 @@ public class Insert extends SqlBase {
     }
 
     public <T> Insert insert(T params) {
-        return insert(getTableName(params.getClass().getSimpleName()),params);
+        return insert(getTableName(params),params);
     }
 
 }
