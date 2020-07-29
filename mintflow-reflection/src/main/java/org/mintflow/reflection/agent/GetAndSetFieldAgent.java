@@ -3,8 +3,8 @@ package org.mintflow.reflection.agent;
 import java.lang.annotation.Annotation;
 
 public class GetAndSetFieldAgent {
-    private Agent getFieldAgent;
-    private Agent setFieldAgent;
+    private final Agent getFieldAgent;
+    private final Agent setFieldAgent;
     public GetAndSetFieldAgent(Agent getFieldAgent,Agent setFieldAgent){
         this.getFieldAgent = getFieldAgent;
         this.setFieldAgent = setFieldAgent;
