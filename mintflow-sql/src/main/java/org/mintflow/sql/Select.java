@@ -1,8 +1,11 @@
 package org.mintflow.sql;
 
 import org.mintflow.reflection.MirrorObject;
+import org.mintflow.reflection.SampleMirrorObject;
 import org.mintflow.sql.basis.ConditionSqlBase;
 import org.mintflow.sql.type.SqlType;
+
+import java.util.List;
 
 public class Select extends ConditionSqlBase {
 
@@ -23,13 +26,16 @@ public class Select extends ConditionSqlBase {
     }
 
     public Select selectFrom(Object templateData) {
-        MirrorObject mirrorObject = MirrorObject.forObject(templateData);
-        String[] names = mirrorObject.getFiledMirrorObject().getGetterNames();
-        for (int a = 0; a < names.length; a++) {
-            names[a] = underlineToCamel(names[a]);
+        List<String> names = findParamsList(templateData);
+        for (int a = 0; a < names.size(); a++) {
+            names.set(a,underlineToCamel(names.get(a)));
         }
         String tableName = getTableName(templateData);
-        return selectFrom(tableName, names);
+        String[] params = new String[names.size()];
+        for(int a=0;a< params.length;a++){
+            params[a] = names.get(a);
+        }
+        return selectFrom(tableName, params);
     }
 
     protected StringBuilder createParamsArrays(String... params) {

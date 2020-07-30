@@ -2,6 +2,7 @@ package org.mintflow.sql.basis;
 
 import org.mintflow.reflection.Reflector;
 import org.mintflow.reflection.SampleMirrorObject;
+import org.mintflow.reflection.agent.Agent;
 import org.mintflow.sql.Sql;
 import org.mintflow.sql.annotation.TableField;
 import org.mintflow.sql.type.SqlType;
@@ -29,7 +30,7 @@ public class SqlBase extends SqlSymbol{
         this.limitSql = new StringBuilder();
     }
 
-    protected StringBuilder createParamsArrays(List<Object> params){
+    protected StringBuilder createParamsArrays(List<?> params){
         StringBuilder arrays = new StringBuilder();
         if(params==null||params.size()==0){
             return arrays;
@@ -45,6 +46,27 @@ public class SqlBase extends SqlSymbol{
         }
         return arrays;
     }
+
+    protected <T> List<String> findParamsList(T defaultOne) {
+        List<String> ans = new ArrayList<>();
+        SampleMirrorObject sampleMirrorObject = SampleMirrorObject.forObject(defaultOne);
+        Reflector reflector = sampleMirrorObject.getReflector();
+        String[] getterNames = reflector.getGetablePropertyNames();
+        for(String name : getterNames){
+            Agent fieldAgent = reflector.getGetFieldAgent(name);
+            TableField tableField = fieldAgent.getAnnotation(TableField.class);
+            Object item = sampleMirrorObject.getValue(name);
+            if(item!=null){
+                String tableFieldName = tableField.value();
+                if("".equals(tableFieldName)){
+                    tableFieldName = fieldAgent.getName();
+                }
+                ans.add(tableFieldName);
+            }
+        }
+        return ans;
+    }
+
 
     protected StringBuilder createParamsArrays(Object...params){
         return createParamsArrays(Arrays.asList(params));

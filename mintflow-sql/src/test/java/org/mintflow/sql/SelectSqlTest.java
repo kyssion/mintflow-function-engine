@@ -12,7 +12,7 @@ public class SelectSqlTest extends SqlTestBase {
     @Test
     public void SampleSelectTest() {
         Sql sql = Select.sql().selectFrom("test_table", "name", "age").build();
-        Assert.assertEquals(sql.getSql(), "select `name`,`age` from `test_table`");
+        Assert.assertEquals(sql.getSql(), "select `name`,`age` from `test_table` ");
     }
 
     @Test

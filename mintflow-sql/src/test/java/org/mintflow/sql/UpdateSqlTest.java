@@ -19,7 +19,7 @@ public class UpdateSqlTest extends SqlTestBase {
         defaultValue.add("age");
         defaultValue.add("num");
         defaultValue.add("num1");
-        Sql sql = Update.sql().update("test_table", new ItemTableDTO()).build();
+        Sql sql = Update.sql().update(new ItemTableDTO()).build();
         Assert.assertEquals(sql.getSql(), "update `test_table` SET `num`=?,`name`=?,`num1`=?,`age`=? ");
         Assert.assertArrayEquals(createArrays(defaultValue), createArrays(sql.getParamsList()));
     }
@@ -33,7 +33,7 @@ public class UpdateSqlTest extends SqlTestBase {
         defaultValue.add("num1");
         ItemTableDTO itemTableDTO = new ItemTableDTO();
         itemTableDTO.setAge(null);
-        Sql sql = Update.sql().update("test_table", itemTableDTO).build();
+        Sql sql = Update.sql().update(itemTableDTO).build();
         Assert.assertEquals(sql.getSql(), "update `test_table` SET `num`=?,`num1`=?,`name`=? ");
         Assert.assertArrayEquals(createArrays(defaultValue), createArrays(sql.getParamsList()));
     }
@@ -49,7 +49,7 @@ public class UpdateSqlTest extends SqlTestBase {
         params.add(4);
         params.add(5);
         params.add(6);
-        Sql sql = Update.sql().update("test_table", new ItemTableDTO())
+        Sql sql = Update.sql().update(new ItemTableDTO())
                 .eq("name", params.get(0)).and()
                 .between("age", params.get(1), params.get(2)).and()
                 .gt("num", params.get(3)).and()
@@ -75,7 +75,7 @@ public class UpdateSqlTest extends SqlTestBase {
         params.add(1);
         params.add(2);
         Update update = Update.sql();
-        update.update("test_table", new ItemTableDTO());
+        update.update(new ItemTableDTO());
         update.eq("name", params.get(0));
         update.groupBy("name");
         update.orderByAsc("age");

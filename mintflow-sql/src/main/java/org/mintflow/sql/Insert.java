@@ -27,7 +27,12 @@ public class Insert extends SqlBase {
         }
         T defaultOne = dateList.get(0);
         String tableName = getTableName(defaultOne);
-        List<Object> insertParamList = findParamsList(defaultOne);
+        List<String> insertParamList = findParamsList(defaultOne);
+
+        if(insertParamList.size()==0){
+            throw new RuntimeException();
+        }
+
         StringBuilder paramStr = createParamsArrays(insertParamList);
         this.sql.append(INSERT).append(SPLIT).append(INTO).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT).append(LEFT_PARENTHESIS)
                 .append(paramStr)
@@ -68,31 +73,7 @@ public class Insert extends SqlBase {
         this.sql.append(VALUES).append(SPLIT).append(dataArray).append(SPLIT);
         return this;
     }
-
-    private <T> List<Object> findParamsList(T defaultOne) {
-        List<Object> ans = new ArrayList<>();
-        SampleMirrorObject sampleMirrorObject = SampleMirrorObject.forObject(defaultOne);
-        Reflector reflector = sampleMirrorObject.getReflector();
-        String[] getterNames = reflector.getGetablePropertyNames();
-        for(String name : getterNames){
-            Agent fieldAgent = reflector.getGetFieldAgent(name);
-            TableField tableField = fieldAgent.getAnnotation(TableField.class);
-            Object item = sampleMirrorObject.getValue(name);
-            if(item!=null){
-                String tableFieldName = tableField.value();
-                if("".equals(tableFieldName)){
-                    tableFieldName = fieldAgent.getName();
-                }
-                ans.add(tableFieldName);
-            }
-        }
-        return ans;
+    public static List<Object> createParams(Object...item){
+        return new ArrayList<>(Arrays.asList(item));
     }
-
-    public <T> Insert insert( T params) {
-        List<T> paramList = new ArrayList<>();
-        paramList.add(params);
-        return insert(paramList);
-    }
-
 }
