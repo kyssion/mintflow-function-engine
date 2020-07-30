@@ -18,28 +18,58 @@ public class Update extends ConditionSqlBase {
 
     public Update update(Object item) {
         String tableName = getTableName(item);
+
         SampleMirrorObject sampleMirrorObject = SampleMirrorObject.forObject(item);
+
         List<String> names = findParamsList(item);
+
         this.sql.append(UPDATE).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT);
+
         StringBuilder setData = new StringBuilder();
+
         boolean isStart = true;
+
         for (String paramName : names) {
             Object paramValue = sampleMirrorObject.getValue(paramName);
             if (paramValue != null) {
                 if (isStart) {
                     setData.append(TAG).append(paramName).append(TAG).append(EQUAL).append(PLACEHOLDER);
                     isStart = false;
-                }else{
+                } else {
                     setData.append(COMMA).append(TAG).append(paramName).append(TAG).append(EQUAL).append(PLACEHOLDER);
                 }
                 this.paramList.add(paramValue);
             }
         }
+
         if (setData.length() > 0) {
             this.sql.append(SET).append(SPLIT).append(setData).append(SPLIT);
-        }else{
-            throw  new RuntimeException();
+        } else {
+            throw new RuntimeException();
         }
+        return this;
+    }
+
+    public Update update(String tableName, String[] paramsNames, Object[] params) {
+        if (paramsNames.length != params.length) {
+            throw new RuntimeException();
+        }
+        this.sql.append(UPDATE).append(SPLIT).append(TAG).append(tableName).append(TAG).append(SPLIT);
+        StringBuilder setData = new StringBuilder();
+        boolean isStart = true;
+        for (int a = 0; a < params.length; a++) {
+            if (params[a] == null) {
+                throw new RuntimeException();
+            }
+            if (isStart) {
+                setData.append(paramsNames[a]).append(SPLIT).append(EQUAL).append(PLACEHOLDER);
+                isStart = false;
+            } else {
+                setData.append(COMMA).append(paramsNames[a]).append(SPLIT).append(EQUAL).append(PLACEHOLDER);
+            }
+            this.paramList.add(params[a]);
+        }
+        this.sql.append(setData);
         return this;
     }
 
