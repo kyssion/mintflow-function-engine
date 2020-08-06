@@ -9,16 +9,24 @@ import java.util.List;
 
 public class ConditionSqlBase extends SqlBase {
 
+    private int CONDITION_NUM = 0;
+
     public interface ChildCondition {
         StringBuilder condition(ConditionSqlBase conditionSqlBase);
     }
 
     protected ConditionSqlBase(SqlType sqlType) {
         super(sqlType);
+        this.CONDITION_NUM = 0;
         conditionSql = new StringBuilder();
     }
 
+    private void addCondition() {
+        this.CONDITION_NUM++;
+    }
+
     public ConditionSqlBase eq(String params, Object item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(EQUAL).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item);
@@ -26,6 +34,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase notEq(String params, Object item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(NOT_EQUAL).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item);
@@ -33,6 +42,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase gt(String params, Object item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(GREATER_THAN).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item);
@@ -40,6 +50,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase gte(String params, Object item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(GREATER_THAN_AND_EQUAL_TO).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item);
@@ -47,6 +58,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase lt(String params, Object item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(LESS_THAN).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item);
@@ -54,6 +66,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase ltq(String params, Object item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(LESS_THAN_AND_EQUAL_TO).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item);
@@ -61,6 +74,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase like(String params, String item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(LIKE).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(BLURRY + item + BLURRY);
@@ -68,6 +82,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase notLike(String params, String item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(NOT_LIKE).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(BLURRY + item + BLURRY);
@@ -75,6 +90,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase likeLeft(String params, String item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(NOT_LIKE).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(BLURRY + item);
@@ -82,6 +98,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase likeRight(String params, String item) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(NOT_LIKE).append(SPLIT).
                 append(PLACEHOLDER).append(SPLIT);
         this.paramList.add(item + BLURRY);
@@ -89,16 +106,19 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase isNull(String params) {
+        addCondition();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(IS_NULL).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase isNotNull(String paramName) {
+        addCondition();
         conditionSql.append(TAG).append(paramName).append(TAG).append(SPLIT).append(IS_NOT_NULL).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase in(String paramName, List<Object> itemList) {
+        addCondition();
         StringBuilder paramsStr = createPlaceholderArrays(itemList.size());
         conditionSql.append(TAG).append(paramName).append(TAG).append(SPLIT).append(IN).append(SPLIT)
                 .append(LEFT_PARENTHESIS).append(paramsStr).append(RIGHT_PARENTHESIS).append(SPLIT);
@@ -107,6 +127,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase notIn(String paramName, List<Object> itemList) {
+        addCondition();
         StringBuilder paramsStr = createPlaceholderArrays(itemList.size());
         conditionSql.append(TAG).append(paramName).append(TAG).append(SPLIT).append(NOT_IN).append(SPLIT)
                 .append(LEFT_PARENTHESIS).append(paramsStr).append(RIGHT_PARENTHESIS).append(SPLIT);
@@ -115,16 +136,19 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase between(String paramName, Object start, Object end) {
+        addCondition();
         betweenCondition(paramName, start, end, BETWEEN);
         return this;
     }
 
     public ConditionSqlBase notBetween(String paramName, Object start, Object end) {
+        addCondition();
         betweenCondition(paramName, start, end, NOT_BETWEEN);
         return this;
     }
 
     private void betweenCondition(String paramName, Object start, Object end, String type) {
+        addCondition();
         conditionSql.append(LEFT_PARENTHESIS).append(TAG).append(paramName).append(TAG).append(SPLIT)
                 .append(type).append(SPLIT)
                 .append(PLACEHOLDER).append(SPLIT)
@@ -135,30 +159,44 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase or() {
-        conditionSql.append(OR).append(SPLIT);
+        if (this.CONDITION_NUM > 0) {
+            conditionSql.append(OR).append(SPLIT);
+        }
         return this;
     }
 
     public ConditionSqlBase and() {
-        conditionSql.append(AND).append(SPLIT);
+        if (this.CONDITION_NUM > 0) {
+            conditionSql.append(AND).append(SPLIT);
+        }
         return this;
     }
 
     public ConditionSqlBase or(ChildCondition childCondition) {
-        conditionSql.append(OR).append(SPLIT).append(LEFT_PARENTHESIS).append(SPLIT)
+        if (this.CONDITION_NUM > 0) {
+            conditionSql.append(OR).append(SPLIT);
+        }
+        conditionSql.append(LEFT_PARENTHESIS).append(SPLIT)
                 .append(childCondition.condition(this))
                 .append(RIGHT_PARENTHESIS).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase and(ChildCondition childCondition) {
-        conditionSql.append(AND).append(SPLIT).append(LEFT_PARENTHESIS).append(SPLIT)
+        if(this.CONDITION_NUM>0){
+            conditionSql.append(AND).append(SPLIT).append(LEFT_PARENTHESIS).append(SPLIT)
+                    .append(childCondition.condition(this))
+                    .append(RIGHT_PARENTHESIS).append(SPLIT);
+        }
+        conditionSql.append(LEFT_PARENTHESIS).append(SPLIT)
+                    .append(childCondition.condition(this))
                 .append(childCondition.condition(this))
                 .append(RIGHT_PARENTHESIS).append(SPLIT);
         return this;
     }
 
     public ConditionSqlBase groupBy(String... paramNames) {
+        addCondition();
         if (this.sqlType != SqlType.SELECT) {
             return this;
         }
@@ -168,19 +206,21 @@ public class ConditionSqlBase extends SqlBase {
         StringBuilder paramsArrays = createParamsArrays((Object[]) paramNames);
         if (groupBySql.length() != 0) {
             groupBySql.append(COMMA).append(paramsArrays);
-        }else{
+        } else {
             groupBySql.append(paramsArrays);
         }
         return this;
     }
 
     public ConditionSqlBase orderByDesc(String... paramNames) {
+        addCondition();
         boolean[] isAscArr = new boolean[paramNames.length];
         Arrays.fill(isAscArr, false);
         return createOrderBy(isAscArr, paramNames);
     }
 
     public ConditionSqlBase orderByAsc(String... paramNames) {
+        addCondition();
         boolean[] isAscArr = new boolean[paramNames.length];
         Arrays.fill(isAscArr, true);
         return createOrderBy(isAscArr, paramNames);
@@ -188,6 +228,7 @@ public class ConditionSqlBase extends SqlBase {
 
 
     public ConditionSqlBase createOrderBy(boolean[] isAsc, String[] paramNames) {
+        addCondition();
         if (this.sqlType != SqlType.SELECT) {
             return this;
         }
@@ -208,6 +249,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase limit(int num) {
+        addCondition();
         if (this.sqlType != SqlType.SELECT) {
             return this;
         }
@@ -220,6 +262,7 @@ public class ConditionSqlBase extends SqlBase {
     }
 
     public ConditionSqlBase limit(int start, int num) {
+        addCondition();
         if (this.sqlType != SqlType.SELECT) {
             return this;
         }
@@ -238,46 +281,55 @@ public class ConditionSqlBase extends SqlBase {
 
 
     public ConditionSqlBase in(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, IN);
         return this;
     }
 
     public ConditionSqlBase notIn(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, NOT_IN);
         return this;
     }
 
     public ConditionSqlBase ltq(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, LESS_THAN_AND_EQUAL_TO);
         return this;
     }
 
     public ConditionSqlBase eq(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, EQUAL);
         return this;
     }
 
     public ConditionSqlBase notEq(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, NOT_EQUAL);
         return this;
     }
 
     public ConditionSqlBase gte(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, GREATER_THAN_AND_EQUAL_TO);
         return this;
     }
 
     public ConditionSqlBase gt(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, GREATER_THAN);
         return this;
     }
 
     public ConditionSqlBase lt(String params, Select childSqlBase) {
+        addCondition();
         useSubqueries(params, childSqlBase, LESS_THAN);
         return this;
     }
 
     private void useSubqueries(String params, Select childSqlBase, String type) {
+        addCondition();
         Sql childSql = childSqlBase.build();
         conditionSql.append(TAG).append(params).append(TAG).append(SPLIT).append(type).append(SPLIT).
                 append(LEFT_PARENTHESIS).append(childSql.getSql()).append(RIGHT_PARENTHESIS).append(SPLIT);

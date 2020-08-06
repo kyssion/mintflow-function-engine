@@ -13,6 +13,22 @@ public class SelectSqlTest extends SqlTestBase {
     public void SampleSelectTest() {
         Sql sql = Select.sql().selectFrom("test_table", "name", "age").build();
         Assert.assertEquals(sql.getSql(), "select `name`,`age` from `test_table` ");
+
+
+
+        Select select = Select.sql().selectFrom("table",Select.ALL);
+        String name = null;
+        if(name!=null){
+            select.eq("name",name);
+        }
+        Integer age =123;
+        if(age>0){
+            select.eq("age",age);
+        }
+        Sql sql1 = select.build();
+        String sqlStr = sql1.getSql();
+        List<Object> params = sql1.getParamsList();
+        System.out.println(sqlStr);
     }
 
     @Test
