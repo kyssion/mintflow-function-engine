@@ -7,9 +7,9 @@ public enum WordType {
     HANDLE("handle"),
     REORDER_HANDLE("reorder handle"),
     CYCLE_HANDLE("cycle handle"),
-    CONDITION_IF_HANDLE("IF handle"),
-    CONDITION_ELSE_IF_HANDLE("ELSE IF handle"),
-    CONDITION_ELSE_HANDLE("ELSE handle"),
+    CONDITION_IF_HANDLE("if handle"),
+    CONDITION_ELSE_IF_HANDLE("else if handle"),
+    CONDITION_ELSE_HANDLE("else handle"),
     NAME_SPLIT_START_KEY("("),NAME_SPLIT_END_KEY(")"),
     BLOCKE_START_KEY("{"),
     BLOCKE_END_KEY("}"),
@@ -17,7 +17,8 @@ public enum WordType {
     VALUE("value"),
     ASYNC("async"),
     SPLICE_I(":"),
-    SYNC("SYNC");
+    SYNC("sync"),
+    VAR("var");
 
     WordType(String name) {
         this.name = name;

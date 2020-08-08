@@ -325,7 +325,6 @@ public class Reflector {
     /**
      *  此方法返回一个数组，其中包含此类和任何超类中声明的所有方法。
      *  我们使用此方法，而不是更简单的Class.getMethods（），因为我们也想查找私有方法。
-     *  todo method 全局缓存
      * @param cls The class
      * @return An array containing all methods in this class
      */

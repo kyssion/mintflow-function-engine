@@ -37,6 +37,11 @@ public class WordParticipleTool {
                 if (i == ' ' || i == '\n' || i == '\t') {
                     continue;
                 }
+
+                if(i=='#'){
+                    break;
+                }
+
                 if (KeyworkItem.isNameStartKey(i)) {
                     int b = a + 1;
                     for (; b < itemFile.length(); b++) {

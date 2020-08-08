@@ -26,7 +26,6 @@ public class MintFlowTemplateFunctionProxy<T> implements InvocationHandler {
         }
     }
 
-    //todo 使用method name 缓存状态 不需要每次都进行反射
     @Override
     public Object invoke(Object o, Method method, Object[] objects){
         AsyncSupport asyncSupport = method.getAnnotation(AsyncSupport.class);
