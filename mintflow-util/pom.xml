@@ -8,13 +8,9 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>mintflow-reflection</artifactId>
+
+    <artifactId>mintflow-util</artifactId>
     <version>1.0.0</version>
-    <dependencies>
-        <dependency>
-            <groupId>org.func-engine</groupId>
-            <artifactId>mintflow-util</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
+
+
 </project>

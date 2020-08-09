@@ -34,9 +34,8 @@ public class FnEngineDataStructureTool {
         this.asyncHandlerDataMap = mapper.getAsyncFnHandlerMap();
     }
 
-    
 
-    public HandlerDataMap runGrammarAnalysisTool(List<Word> list) {
+    public HandlerDataMap runGrammarAnalysisTool( List<Word> list) {
         HandlerDataMap dataStructureMap = new HandlerDataMap();
         int start = 0;
         int end = list.size() - 1;
@@ -84,7 +83,7 @@ public class FnEngineDataStructureTool {
             } else if (list.get(start).getType() == WordType.BLOCKE_END_KEY) {
                 blockStartNum--;
             }
-            if(blockStartNum==0){
+            if (blockStartNum == 0) {
                 break;
             }
             start++;
@@ -100,7 +99,7 @@ public class FnEngineDataStructureTool {
         while (start <= end) {
             boolean isAsync = false;
             Word processword = list.get(start);
-            switch (processword.getType()){
+            switch (processword.getType()) {
                 case SYNC:
                     processword = list.get(++start);
                     if (processword.getType() != WordType.PROCESS) {
@@ -123,13 +122,13 @@ public class FnEngineDataStructureTool {
             //+3 是因为 词法在这个位置是 （name） 会被分成3个词
             // processBlockEnd 为当前process 会映射到的最后一个位置（包括这个位置）
             //+4 是因为 词法在这个位置是 （processName）{ 会被分成4个词
-            if(isAsync){
-                Map<String ,List<AsyncFnHandler>> listMap = processMap.getAsyncFnDataMap();
+            if (isAsync) {
+                Map<String, List<AsyncFnHandler>> listMap = processMap.getAsyncFnDataMap();
                 List<AsyncFnHandler> asyncFnHandlerList = new ArrayList<>();
                 listMap.put(processName, asyncFnHandlerList);
-                asyncFnHandlerList.addAll(handleListBuildAsync(list,start+4,processBlockEnd-1));
-            }else{
-                Map<String ,List<SyncFnHandler>> listMap = processMap.getSyncFnDataMap();
+                asyncFnHandlerList.addAll(handleListBuildAsync(list, start + 4, processBlockEnd - 1));
+            } else {
+                Map<String, List<SyncFnHandler>> listMap = processMap.getSyncFnDataMap();
                 List<SyncFnHandler> syncFnHandlerList = new ArrayList<>();
                 listMap.put(processName, syncFnHandlerList);
                 syncFnHandlerList.addAll(handleListBuildSync(list, start + 4, processBlockEnd - 1));
@@ -155,14 +154,14 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()== HandlerType.SAMPLE_HANDLE_ASYNC){
+                        if (asyncFnHandler.getType() == HandlerType.SAMPLE_HANDLE_ASYNC) {
                             try {
                                 fnHandlerList.add(asyncFnHandler.clone());
                             } catch (CloneNotSupportedException e) {
-                                throw new ParsingRuntimeException("当前handle初始化失败 , handle 名称 :"+handleName + "类型: 异步", handlerWord);
+                                throw new ParsingRuntimeException("当前handle初始化失败 , handle 名称 :" + handleName + "类型: 异步", handlerWord);
                             }
-                        }else{
-                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为samplehandler"+ "  类型: " + "类型: 异步", handlerWord);
+                        } else {
+                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为samplehandler" + "  类型: " + "类型: 异步", handlerWord);
                         }
                     } else {
                         throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "  类型: " + "类型: 异步", handlerWord);
@@ -173,7 +172,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()==HandlerType.REORDER_HANDLE_ASYNC) {
+                        if (asyncFnHandler.getType() == HandlerType.REORDER_HANDLE_ASYNC) {
                             AsyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((AsyncToolsFnHandler) asyncFnHandler).clone();
@@ -185,8 +184,7 @@ public class FnEngineDataStructureTool {
                             reorderHandler.addChildren(childs);
                             fnHandlerList.add(reorderHandler);
                             start = reorderEnd + 1;
-                        }
-                        else{
+                        } else {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为AsyncReorder子类型handler" + "类型: 异步", handlerWord);
                         }
                         break;
@@ -197,7 +195,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     asyncFnHandler = asyncHandlerDataMap.get(handleName);
                     if (asyncFnHandler != null) {
-                        if(asyncFnHandler.getType()==HandlerType.CYCLE_HANDLE_ASYNC) {
+                        if (asyncFnHandler.getType() == HandlerType.CYCLE_HANDLE_ASYNC) {
                             AsyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((AsyncToolsFnHandler) asyncFnHandler).clone();
@@ -209,8 +207,7 @@ public class FnEngineDataStructureTool {
                             reorderHandler.addChildren(childs);
                             fnHandlerList.add(reorderHandler);
                             start = reorderEnd + 1;
-                        }
-                        else{
+                        } else {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为AsycnCycle类型handler" + "类型: 异步", handlerWord);
                         }
                         break;
@@ -245,17 +242,17 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     syncFnHandler = syncHandlerDataMap.get(handleName);
                     if (syncFnHandler != null) {
-                        if(syncFnHandler.getType()==HandlerType.SAMPLE_HANDLE_SYNC){
+                        if (syncFnHandler.getType() == HandlerType.SAMPLE_HANDLE_SYNC) {
                             try {
                                 fnHandlerList.add(syncFnHandler.clone());
                             } catch (CloneNotSupportedException e) {
-                                throw new ParsingRuntimeException("当前handle初始化失败 , handle 名称 :"+handleName + "类型: 同步", handlerWord);
+                                throw new ParsingRuntimeException("当前handle初始化失败 , handle 名称 :" + handleName + "类型: 同步", handlerWord);
                             }
-                        }else{
-                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为samplehandler"+ "  类型: "+ "类型: 同步", handlerWord);
+                        } else {
+                            throw new ParsingRuntimeException("当前handle类型不正确,此处应为samplehandler" + "  类型: " + "类型: 同步", handlerWord);
                         }
                     } else {
-                        throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "  类型: "+ "类型: 同步", handlerWord);
+                        throw new ParsingRuntimeException("当前handler未找到,handler 名称" + handleName + "  类型: " + "类型: 同步", handlerWord);
                     }
                     start = start + 4;
                     break;
@@ -263,7 +260,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     syncFnHandler = syncHandlerDataMap.get(handleName);
                     if (syncFnHandler != null) {
-                        if(syncFnHandler.getType()==HandlerType.REORDER_HANDLE_SYNC) {
+                        if (syncFnHandler.getType() == HandlerType.REORDER_HANDLE_SYNC) {
                             SyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((SyncToolsFnHandler) syncFnHandler).clone();
@@ -275,8 +272,7 @@ public class FnEngineDataStructureTool {
                             reorderHandler.addChildren(childs);
                             fnHandlerList.add(reorderHandler);
                             start = reorderEnd + 1;
-                        }
-                        else{
+                        } else {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为syncReorder类型handler" + "类型: 异步", handlerWord);
                         }
                         break;
@@ -287,7 +283,7 @@ public class FnEngineDataStructureTool {
                     handleName = findName(list, start + 1);
                     syncFnHandler = syncHandlerDataMap.get(handleName);
                     if (syncFnHandler != null) {
-                        if(syncFnHandler.getType()==HandlerType.CYCLE_HANDLE_SYNC) {
+                        if (syncFnHandler.getType() == HandlerType.CYCLE_HANDLE_SYNC) {
                             SyncToolsFnHandler reorderHandler = null;
                             try {
                                 reorderHandler = ((SyncToolsFnHandler) syncFnHandler).clone();
@@ -299,8 +295,7 @@ public class FnEngineDataStructureTool {
                             reorderHandler.addChildren(childs);
                             fnHandlerList.add(reorderHandler);
                             start = reorderEnd + 1;
-                        }
-                        else{
+                        } else {
                             throw new ParsingRuntimeException("当前handle类型不正确,此处应为syncCycle类型handler" + "类型: 异步", handlerWord);
                         }
                         break;
@@ -318,6 +313,7 @@ public class FnEngineDataStructureTool {
         }
         return fnHandlerList;
     }
+
     private int conditionHandlerListBuildAsync(List<Word> list, int start, int end, AsyncConditionFncHandlerWrapper wrapper) {
         boolean findIf = false;
         String handlerName;
@@ -340,7 +336,7 @@ public class FnEngineDataStructureTool {
                         try {
                             conditionHander = (AsyncToolsFnHandler) asyncFnHandler.clone();
                         } catch (CloneNotSupportedException e) {
-                            throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :"+handlerName, wordKey);
+                            throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :" + handlerName, wordKey);
                         }
                         int endIndex = findBlockEndIndex(list, start + 4, end);
                         List<AsyncFnHandler> childers = handleListBuildAsync(list, start + 5, endIndex - 1);
@@ -373,6 +369,7 @@ public class FnEngineDataStructureTool {
         }
         return start;
     }
+
     private int conditionHandlerListBuildSync(List<Word> list, int start, int end, SyncConditionFncHandlerWrapper wrapper) {
         boolean findIf = false;
         String handlerName;
@@ -395,7 +392,7 @@ public class FnEngineDataStructureTool {
                         try {
                             conditionHander = (SyncToolsFnHandler) syncFnHandler.clone();
                         } catch (CloneNotSupportedException e) {
-                            throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :"+handlerName, wordKey);
+                            throw new ParsingRuntimeException("当前handle 初始化失败 , handle 名称 :" + handlerName, wordKey);
                         }
                         int endIndex = findBlockEndIndex(list, start + 4, end);
                         List<SyncFnHandler> childers = handleListBuildSync(list, start + 5, endIndex - 1);

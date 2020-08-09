@@ -13,7 +13,9 @@ import org.mintflow.exception.InitMintFlowException;
 import org.mintflow.exception.UseMintFlowException;
 import org.mintflow.scheduler.sync.SyncFnEngineSyncScheduler;
 import org.mintflow.scheduler.sync.SyncScheduler;
+import org.mintflow.util.ResourceFindUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MintFlow {
@@ -41,7 +43,17 @@ public class MintFlow {
         }
 
         public MintFlowBuilder addFnMapperByDirectory(String directory){
-
+            try {
+                List<String> fileList = ResourceFindUtil.getFileListByPath(directory);
+                for(String path : fileList){
+                    if(path.endsWith(".fn")){
+                        this.addFnMapper(path);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return this;
         }
 
         public MintFlow build(){

@@ -18,7 +18,8 @@ public enum WordType {
     ASYNC("async"),
     SPLICE_I(":"),
     SYNC("sync"),
-    VAR("var");
+    VAR("var"),
+    EXPORT("export");
 
     WordType(String name) {
         this.name = name;

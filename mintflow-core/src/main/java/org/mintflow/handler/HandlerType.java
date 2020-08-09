@@ -12,16 +12,17 @@ public enum  HandlerType {
     CONDITION_HANDLE_WRAPPER_SYNC("condition handle wrapper sync",4),
     CYCLE_HANDLE_SYNC("cycle handle sync",5),
     CYCLE_HANDLE_WRAPPER_SYNC("cycle handle wrapper sync",6),
+    VAR_HANDLE_SYNC("var handle sync",7),
 
-    UNDERFIND_HANDLE_ASYNC("underfind handle async",7),
-    SAMPLE_HANDLE_ASYNC("sample handle async",8),
-    CONDITION_HANDLE_ASYNC("condition handle async",9),
-    REORDER_HANDLE_ASYNC("reorder handle async",10),
-    CONDITION_HANDLE_WRAPPER_ASYNC("condition handle wrapper async",11),
-    CYCLE_HANDLE_ASYNC("cycle handle async",12),
-    CYCLE_HANDLE_WRAPPER_ASYNC("cycle handle wrapper async",13),
-    ASYNC_HANDLE("ASYNC_HANDLE",14),
-    SYNC_HANDLE("SYNC_HANDLE",15);
+    UNDERFIND_HANDLE_ASYNC("underfind handle async",8),
+    SAMPLE_HANDLE_ASYNC("sample handle async",9),
+    CONDITION_HANDLE_ASYNC("condition handle async",10),
+    REORDER_HANDLE_ASYNC("reorder handle async",11),
+    CONDITION_HANDLE_WRAPPER_ASYNC("condition handle wrapper async",12),
+    CYCLE_HANDLE_ASYNC("cycle handle async",13),
+    CYCLE_HANDLE_WRAPPER_ASYNC("cycle handle wrapper async",14),
+    ASYNC_HANDLE("ASYNC_HANDLE",15),
+    SYNC_HANDLE("SYNC_HANDLE",16);
 
     HandlerType(String name,int code){
         this.name = name;

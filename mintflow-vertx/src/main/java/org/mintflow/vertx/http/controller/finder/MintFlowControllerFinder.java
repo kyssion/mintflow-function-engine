@@ -1,7 +1,7 @@
 package org.mintflow.vertx.http.controller.finder;
 
 import io.vertx.core.http.HttpMethod;
-import org.mintflow.util.ClassUtil;
+import org.mintflow.util.ClassFindUtil;
 import org.mintflow.util.StringUtil;
 import org.mintflow.vertx.http.adapter.request.RequestParamAdapter;
 import org.mintflow.vertx.http.adapter.response.ControllerMapperResponseAdapter;
@@ -21,7 +21,7 @@ public final class MintFlowControllerFinder {
         List<FinderItem> finderItems = new ArrayList<>();
         Set<Class<?>> classSet = new HashSet<>();
         for(String pkName:pkNames){
-            classSet.addAll(ClassUtil.getClassSet(pkName));
+            classSet.addAll(ClassFindUtil.getClassSet(pkName));
         }
         for(Class<?> cls : classSet){
             MintFlowController controller =

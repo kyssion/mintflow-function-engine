@@ -23,6 +23,7 @@
         <module>mintflow-example</module>
         <module>mintflow-reflection</module>
         <module>mintflow-sql</module>
+        <module>mintflow-util</module>
     </modules>
       <dependencyManagement>
           <dependencies>

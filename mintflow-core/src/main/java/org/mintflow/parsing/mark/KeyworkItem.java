@@ -33,6 +33,8 @@ public class KeyworkItem extends Word {
         keyworkItemMap.put("async",new KeyworkItem("async",WordType.ASYNC));
         keyworkItemMap.put(":",new KeyworkItem(":",WordType.SPLICE_I));
         keyworkItemMap.put("->", new KeyworkItem("->", WordType.HANDLE_LINK_KEY));
+        keyworkItemMap.put("export",new KeyworkItem("export",WordType.EXPORT));
+        keyworkItemMap.put("var",new KeyworkItem("var",WordType.VAR));
     }
 
     public static boolean isNameStartKey(String key) {

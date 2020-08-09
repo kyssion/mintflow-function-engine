@@ -8,7 +8,7 @@ import org.mintflow.handler.HandlerType;
 import org.mintflow.handler.MintFlowHandlerMap;
 import org.mintflow.handler.async.AsyncFnHandler;
 import org.mintflow.handler.sync.SyncFnHandler;
-import org.mintflow.util.ClassUtil;
+import org.mintflow.util.ClassFindUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class MintFlowHandlerMapFinder {
 
     @SuppressWarnings("unchecked")
     private static void addNewHandler(String pkgName, MintFlowHandlerMap mapper) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Set<Class<?>> pkgClassSet = ClassUtil.getClassSet(pkgName, FnHandler.class);
+        Set<Class<?>> pkgClassSet = ClassFindUtil.getClassSet(pkgName, FnHandler.class);
         for(Class<?> itemClass : pkgClassSet){
 
             if(!FnHandler.class.isAssignableFrom(itemClass)){

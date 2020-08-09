@@ -10,12 +10,12 @@ import java.util.List;
 
 public class FnMapperBuilder {
 
-    public static HandlerDataMap build(MintFlowHandlerMap handlerDataMap, String...paths) throws Exception {
+    public static HandlerDataMap build(MintFlowHandlerMap handlerDataMap, String... paths) throws Exception {
         FnEngineDataStructureTool fnEngineDataStructureTool = new FnEngineDataStructureTool(handlerDataMap);
         HandlerDataMap dataMap = new HandlerDataMap();
-        for(String path : paths){
-                List<Word> words =
-                        WordParticipleTool.createWordParticipleListByFile(path);
+        for (String path : paths) {
+            List<Word> words =
+                    WordParticipleTool.createWordParticipleListByFile(path);
             dataMap.addAll(fnEngineDataStructureTool.runGrammarAnalysisTool(words));
         }
         return dataMap;
