@@ -1,0 +1,10 @@
+namespace(user-server){
+    async process(user-login){
+        # 参数校验
+        ->handle(login-params-verification)
+        # 用户信息是否存在
+        ->if(use-can-login)
+            ->handle(save-user-history)
+        ->handle(login-result)
+    }
+}

@@ -5,6 +5,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.mysqlclient.MySQLConnectOptions;
+import io.vertx.mysqlclient.MySQLPool;
 import org.mintflow.MintFlow;
 import org.mintflow.exception.UseMintFlowException;
 import org.mintflow.param.ParamWrapper;
@@ -34,6 +36,10 @@ public class HttpRouter implements Handler<HttpServerRequest> {
     private ResponseParamAdapter defaultResponseParamAdapter;
     private  MintFlow mintFlow;
     private RouterExceptionHandler routerExceptionHandler = new DefaultRouterExceptionHandler();
+
+    private boolean supportMysql= false;
+    private MySQLPool mySQLPool = null;
+
     public static HttpRouter router(MintFlow mintFlow){
         HttpRouter httpRouter = new HttpRouter();
         httpRouter.setMintFlow(mintFlow);
@@ -100,6 +106,9 @@ public class HttpRouter implements Handler<HttpServerRequest> {
         event.endHandler(vo->{
             requestParam.setBody(buffer.toString());
             ParamWrapper paramWrapper = routerData.getRequestParamAdapter().createParams(requestParam);
+            if(this.supportMysql){
+                paramWrapper.setParam(MySQLPool.class,this.mySQLPool);
+            }
             HttpServerResponse httpServerResponse = event.response();
             try {
                 mintFlow.runAsync(routerData.getNameSpace(), routerData.getProcess(), paramWrapper, (params) -> {
@@ -134,5 +143,11 @@ public class HttpRouter implements Handler<HttpServerRequest> {
 
     public void setRouterExceptionHandler(RouterExceptionHandler routerExceptionHandler){
         this.routerExceptionHandler  = routerExceptionHandler;
+    }
+
+
+    public void supportMysql(MySQLPool client){
+        this.mySQLPool = client;
+        this.supportMysql = true;
     }
 }

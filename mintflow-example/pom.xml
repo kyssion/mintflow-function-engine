@@ -9,6 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>mintflow-example</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>mintflow-example-user-server</module>
+    </modules>
     <properties>
         <mintFlow.vertx.version>1.0.0</mintFlow.vertx.version>
         <vertx.version>3.9.1</vertx.version>
