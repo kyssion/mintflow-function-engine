@@ -30,14 +30,18 @@ public class MintFlow {
             this.handlerDataMap= new HandlerDataMap();
         }
 
-        public MintFlowBuilder addFnMapper(String fnFilePath){
+        public MintFlowBuilder addFnMapper(String fnFile){
             try {
-                this.handlerDataMap.addAll(FnMapperBuilder.build(handlerDataMapper, fnFilePath));
+                this.handlerDataMap.addAll(FnMapperBuilder.build(handlerDataMapper, fnFile));
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new InitMintFlowException("初始化FnMapper失败....");
             }
             return this;
+        }
+
+        public MintFlowBuilder addFnMapperByDirectory(String directory){
+
         }
 
         public MintFlow build(){
