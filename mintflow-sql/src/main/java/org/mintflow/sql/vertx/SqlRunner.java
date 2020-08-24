@@ -6,8 +6,11 @@ import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlConnection;
 import io.vertx.sqlclient.Tuple;
 import org.mintflow.sql.Sql;
+import org.mintflow.util.CollectionUtils;
+import org.mintflow.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SqlRunner {
@@ -15,28 +18,36 @@ public class SqlRunner {
         Sql doResult(RowSet<Row> rows);
     }
 
-    private List<Result> results;
-    private List<Sql> sqlList;
-    int index = 0;
     boolean isStart;
     private MySQLPool mySQLPool;
     private boolean useTransaction = false;
+    private Sql sql;
+    private List<Result> results;
+    int index=0;
 
-    public SqlRunner(MySQLPool mySQLPool){
+
+    public static SqlRunner create(MySQLPool mySQLPool,Sql initStart,boolean useTransaction){
+        SqlRunner sqlRunner = new SqlRunner(mySQLPool);
+        sqlRunner.useTransaction = useTransaction;
+        sqlRunner.results = new ArrayList<>();
+        sqlRunner.sql = initStart;
+        sqlRunner.index = 0;
+        return sqlRunner;
+    }
+
+    public static SqlRunner create(MySQLPool mySQLPool,Sql initStart){
+        return create(mySQLPool,initStart,false);
+    }
+
+
+    private SqlRunner(MySQLPool mySQLPool){
         this.mySQLPool = mySQLPool;
-        this.results = new ArrayList<>();
-        this.sqlList = new ArrayList<>();
         this.isStart = false;
     }
 
-    public SqlRunner addSql(Sql sql,Result runner){
-        this.sqlList.add(sql);
-        this.results.add(runner);
-        return this;
-    }
 
-    public SqlRunner transaction(){
-        this.useTransaction = true;
+    public SqlRunner result(Result result){
+        this.results.add(result);
         return this;
     }
 
@@ -53,21 +64,21 @@ public class SqlRunner {
     }
 
     private void doRun(SqlConnection sqlConnection){
-        if(index>=this.sqlList.size()||index>=this.results.size()){
+        if(index>=this.results.size()){
             sqlConnection.close();
             return;
         }
-        Sql sql = this.sqlList.get(index);
         Result result = this.results.get(index);
         index++;
-        sqlConnection.preparedQuery(sql.getSql()).execute(
-                Tuple.tuple(sql.getParamsList()),
+        sqlConnection.preparedQuery(this.sql.getSql()).execute(
+                Tuple.tuple(this.sql.getParamsList()),
                 res->{
                     if(res.succeeded()){
-                        result.doResult(res.result());
+                        this.sql = result.doResult(res.result());
                         doRun(sqlConnection);
                     }
                 }
         );
     }
+
 }

@@ -27,7 +27,6 @@ public class AysncLoginParamsVerificationHander extends AsyncSampleFnHandler {
         mySQLPool.preparedQuery(sql.getSql()).execute(
                 Tuple.tuple(sql.getParamsList()),
                 res->{
-                    res.
                 }
         );
     }
