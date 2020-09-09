@@ -29,4 +29,5 @@ public class DeleteSqlTest extends SqlTestBase {
         Assert.assertArrayEquals(createArrays(params), createArrays(sql.getParamsList()));
     }
 
+
 }
