@@ -7,6 +7,5 @@ public class UserServer {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         HttpServer server = vertx.createHttpServer();
-
     }
 }
