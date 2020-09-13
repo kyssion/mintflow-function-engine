@@ -22,8 +22,8 @@ import static org.mintflow.handler.sync.simple.CycleSampleHandler.SYNC_CYCLE_STR
 import static org.mintflow.handler.sync.simple.ReorderSampleHandler.SYNC_REORDER_STR;
 import static org.mintflow.test.BaseTestUtil.NAME_SPACE;
 import static org.mintflow.test.BaseTestUtil.SYNC_PROCESS_NAME;
-import static org.mintflow.test.syncBaseTest.ConditionTest.CAN_GO;
-import static org.mintflow.test.syncBaseTest.ConditionTest.NO_GO;
+import static org.mintflow.test.syncBaseTest.SyncConditionTest.CAN_GO;
+import static org.mintflow.test.syncBaseTest.SyncConditionTest.NO_GO;
 import static org.mintflow.test.syncBaseTest.SyncCycleTest.ADD_DATA_CYCLE;
 import static org.mintflow.test.syncBaseTest.SyncReorderTest.ADD_DATA_REORDER;
 
