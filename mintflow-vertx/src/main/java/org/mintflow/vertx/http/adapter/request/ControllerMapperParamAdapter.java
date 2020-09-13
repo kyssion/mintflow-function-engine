@@ -28,7 +28,6 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
         private RuleType toRule;
         //与From_name配套，描述获取的表单数据
         private String fromName;
-
         //param中的类型
         private String toName;
         private Class<?> toType;
