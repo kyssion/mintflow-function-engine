@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mintflow-example-user-server</module>
+        <module>mintflow-example-simple-server</module>
     </modules>
     <properties>
         <mintFlow.vertx.version>1.0.0</mintFlow.vertx.version>

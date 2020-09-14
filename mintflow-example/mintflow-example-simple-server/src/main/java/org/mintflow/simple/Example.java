@@ -1,23 +1,22 @@
-package org.mintflow.vertx.http.router;
-
+package org.mintflow.simple;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
-import org.junit.Test;
 import org.mintflow.MintFlow;
 import org.mintflow.handler.MintFlowHandlerMap;
 import org.mintflow.handler.util.MintFlowHandlerMapFinder;
+import org.mintflow.vertx.http.router.HttpRouter;
 
-public class RouterTest {
+public class Example {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         HttpServer server = vertx.createHttpServer();
         MintFlowHandlerMap dataMapper = MintFlowHandlerMapFinder.findHandlerDataMap(
-                "org.mintflow.vertx.http.handle"
+                "org.mintflow.simple.handle"
         );
-        HttpRouter httpRouter = HttpRouter.router(MintFlow.newBuilder(dataMapper)
-                .addFnMapper("async/httpControllerProcess.fn").build())
-                .addRouter("org.mintflow.vertx.http.controller.controllerInterface");
+        HttpRouter httpRouter = HttpRouter.router(MintFlow.newBuilder(dataMapper).
+                addFnMapper("async/test_async.fn").build())
+                .addRouter("org.mintflow.simple.controller");
         server.requestHandler(httpRouter);
         server.listen(8080,  res -> {
             if (res.succeeded()) {

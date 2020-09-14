@@ -1,0 +1,10 @@
+namespace(buy){
+    async process(buy_process){
+        ->handle(price_calculation_async_handle)
+        ->if(is_girl_async_handle){
+            ->if(can_get_gift_async_handle){
+                ->handle(get_gift_async_handle)
+            }->handle(preferential_actuator_async_handle)
+        }->handle(end_async_handle)
+    }
+}
