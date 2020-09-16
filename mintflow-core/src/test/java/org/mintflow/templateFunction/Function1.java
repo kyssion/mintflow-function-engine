@@ -13,6 +13,7 @@ import static org.mintflow.handler.sync.simple.ReorderSampleHandler.SYNC_REORDER
 
 @MintFlowNameSpace(name = "test_namespace")
 public interface Function1 extends MintFlowTemplateFunction {
+
     @MintFlowProcess(name = "sync_test_process",type = ProcessType.SYNC)
     ParamWrapper test(@MintFlowParam Integer num, @ContextParam(key=SYNC_CYCLE_STR) String itemCycle,
                       @ContextParam(key=SYNC_REORDER_STR) String itemReorder,
@@ -22,6 +23,7 @@ public interface Function1 extends MintFlowTemplateFunction {
                       @ContextParam(key = "condition_4") String condition4,
                       @ContextParam(key = "show_start") boolean showStart,
                       @ContextParam(key = "show_end") boolean showEnd);
+
     @MintFlowProcess(name="async_test_process",type = ProcessType.ASYNC)
     void test(@MintFlowParam Integer num, @ContextParam(key= ASYNC_CYCLE_STR) String itemCycle,
               @ContextParam(key= ASYNC_REORDER_STR) String itemReorder,
