@@ -7,7 +7,7 @@ import org.mintflow.scheduler.sync.SyncScheduler;
 
 public abstract class SyncCycleFnHandler extends SyncToolsFnHandler {
 
-    protected SyncCycleFnHandler(String name) {
+    public SyncCycleFnHandler(String name) {
         this(name, HandlerType.CYCLE_HANDLE_SYNC);
     }
 
