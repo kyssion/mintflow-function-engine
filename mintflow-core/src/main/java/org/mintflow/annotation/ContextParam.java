@@ -3,8 +3,9 @@ package org.mintflow.annotation;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Documented
 @Inherited
-public @interface AsyncSupport {
+public @interface ContextParam {
+    String key();
 }

@@ -28,11 +28,14 @@ public class MintFlowTemplateFunctionProxy<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object o, Method method, Object[] objects){
-        AsyncSupport asyncSupport = method.getAnnotation(AsyncSupport.class);
-        if(asyncSupport!=null){
-            return runAsync(method,objects);
-        }else{
-            return runSync(method,objects);
+        MintFlowProcess process = method.getAnnotation(MintFlowProcess.class);
+        switch (process.type()){
+            case SYNC:
+                return runSync(method,objects);
+            case ASYNC:
+                return runAsync(method,objects);
+            default:
+                throw new HandlerUseException("当前handle使用非法定义， method:"+method.getName());
         }
     }
 
@@ -78,8 +81,8 @@ public class MintFlowTemplateFunctionProxy<T> implements InvocationHandler {
                     paramWrapper.getParams().put(objects[a].getClass(),objects[a]);
                     break;
                 }
-                if(annotation instanceof MintFlowContextParam){
-                    String key = ((MintFlowContextParam) annotation).key();
+                if(annotation instanceof ContextParam){
+                    String key = ((ContextParam) annotation).key();
                     paramWrapper.getContextParams().put(key,objects[a]);
                     break;
                 }

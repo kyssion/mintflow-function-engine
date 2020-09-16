@@ -1,5 +1,7 @@
 package org.mintflow.annotation;
 
+import org.mintflow.process.ProcessType;
+
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -8,4 +10,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface MintFlowProcess {
     String name();
+    ProcessType type() default ProcessType.SYNC;
 }
