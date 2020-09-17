@@ -9,6 +9,10 @@ public class ControllerMapperResponseAdapter extends DefaultResponseParamAdapter
         super(type);
     }
 
+    private ControllerMapperResponseAdapter(){
+        super();
+    }
+
     @Override
     public <T> ResponseParam createResponseParams(ParamWrapper paramWrapper) {
         if(type==ResponseParam.class){

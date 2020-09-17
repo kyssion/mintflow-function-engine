@@ -3,8 +3,7 @@ package org.mintflow.vertx.http.adapter.request;
 import io.vertx.core.json.Json;
 import org.mintflow.param.ParamWrapper;
 import org.mintflow.util.StringUtil;
-import org.mintflow.vertx.http.controller.MintFlowMapperBody;
-import org.mintflow.vertx.http.controller.MintFlowMapperParam;
+import org.mintflow.vertx.http.controller.*;
 import org.mintflow.vertx.http.exceptrion.MintFlowControllerError;
 import org.mintflow.vertx.http.param.RequestParam;
 
@@ -18,34 +17,43 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
     List<MapperParamRule> types = new ArrayList<>();
 
     public enum RuleType {
-        FROM_PARAMS, FROM_FORM, FROM_BODY, TO_NAME, TO_TYPE
+        FROM_PARAMS, FROM_FORM, FROM_BODY
     }
 
     public static class MapperParamRule {
         //数据的获取途径
         private RuleType fromRule;
-        //数据的存入Param的途径
-        private RuleType toRule;
         //与From_name配套，描述获取的表单数据
         private String fromName;
         //param中的类型
         private String toName;
-        private Class<?> toType;
+
+        private boolean toType;
+        private Class<?> itemClass;
+
 
         public RuleType getFromRule() {
             return fromRule;
         }
 
+        public boolean isToType() {
+            return toType;
+        }
+
+        public void setToType(boolean toType) {
+            this.toType = toType;
+        }
+
+        public Class<?> getItemClass() {
+            return itemClass;
+        }
+
+        public void setItemClass(Class<?> itemClass) {
+            this.itemClass = itemClass;
+        }
+
         public void setFromRule(RuleType fromRule) {
             this.fromRule = fromRule;
-        }
-
-        public RuleType getToRule() {
-            return toRule;
-        }
-
-        public void setToRule(RuleType toRule) {
-            this.toRule = toRule;
         }
 
         public String getFromName() {
@@ -64,13 +72,6 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
             this.toName = toName;
         }
 
-        public Class<?> getToType() {
-            return toType;
-        }
-
-        public void setToType(Class<?> toType) {
-            this.toType = toType;
-        }
     }
 
     public void addTypes(MapperParamRule mapperParamRule) {
@@ -81,44 +82,78 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
     public void initAdapter(Method method) {
         Parameter[] parameters = method.getParameters();
         for (Parameter parameter : parameters) {
-            MintFlowMapperParam mintFlowParam =
-                    parameter.getAnnotation(MintFlowMapperParam.class);
-            MintFlowMapperBody mintFlowMapperBody =
-                    parameter.getAnnotation(MintFlowMapperBody.class);
-
-            if (mintFlowParam != null&&mintFlowMapperBody!=null) {
-                throw new MintFlowControllerError("MintFlowMapperParam和MintFlowMapperBody注解只能二选一");
+            ParamFromBody paramFromBody = parameter.getAnnotation(ParamFromBody.class);
+            ParamFromForm paramFromForm = parameter.getAnnotation(ParamFromForm.class);
+            ParamFromUrl paramFromUrl = parameter.getAnnotation(ParamFromUrl.class);
+            if(!isOnly(paramFromForm,paramFromBody,paramFromUrl)){
+                throw new MintFlowControllerError("方法"+method.getName()+",参数"+parameter.getName()+"中,  ParamFromBody ParamFromForm ParamFromUrl 注解, 有且只能唯一");
             }
             MapperParamRule mapperParamRule = new MapperParamRule();
-            if(mintFlowParam!=null) {
-                RuleType fromRule = mintFlowParam.fromType();
-                String fromName = mintFlowParam.fromName();
+            mapperParamRule.setItemClass(parameter.getType());
 
-                if (StringUtil.isNullOrEmpty(fromName) && fromRule != RuleType.FROM_BODY) {
-                    throw new MintFlowControllerError("MintFlowParam fromName 当是非body类型的时候,字段不可为空");
-                }
-                //init base params
-                mapperParamRule.setFromName(fromName);
-                mapperParamRule.setFromRule(fromRule);
-                mapperParamRule.setToType(parameter.getType());
-
-                String toName = mintFlowParam.toName();
-                mapperParamRule.setToName(toName);
-                //init to type
-                if (!StringUtil.isNullOrEmpty(toName)) {
-                    mapperParamRule.setToRule(RuleType.TO_NAME);
-                } else {
-                    mapperParamRule.setToRule(RuleType.TO_TYPE);
-                }
-            }else{
+            if(paramFromBody!=null){
                 mapperParamRule.setFromName("");
                 mapperParamRule.setFromRule(RuleType.FROM_BODY);
-                mapperParamRule.setToType(parameter.getType());
-                mapperParamRule.setToRule(RuleType.TO_TYPE);
-                mapperParamRule.setToName("");
+                if(paramFromBody.toTyp()){
+                    mapperParamRule.setToName("");
+                    mapperParamRule.setToType(true);
+                }else{
+                    String name = paramFromBody.toName();
+                    if(StringUtil.isNullOrEmpty(name)){
+                        throw new MintFlowControllerError("方法"+method.getName()+",参数"+parameter.getName()+"中,ParamFromBody注解 toName 参数不可为空  或者 toType = true" );
+                    }
+                    mapperParamRule.setToName(name);
+                }
             }
+
+            if(paramFromForm!=null){
+                mapperParamRule.setFromName(paramFromForm.fromName());
+                mapperParamRule.setFromRule(RuleType.FROM_FORM);
+                if(paramFromForm.toTyp()){
+                    mapperParamRule.setToName("");
+                    mapperParamRule.setToType(true);
+                }else{
+                    String name = paramFromForm.toName();
+                    if(StringUtil.isNullOrEmpty(name)){
+                        throw new MintFlowControllerError("方法"+method.getName()+",参数"+parameter.getName()+"中,ParamFromBody注解 toName 参数不可为空  或者 toType = true" );
+                    }
+                    mapperParamRule.setToName(name);
+                }
+            }
+
+            if(paramFromUrl !=null){
+                mapperParamRule.setFromName(paramFromUrl.fromName());
+                mapperParamRule.setFromRule(RuleType.FROM_PARAMS);
+                if(paramFromUrl.toTyp()){
+                    mapperParamRule.setToName("");
+                    mapperParamRule.setToType(true);
+                }else{
+                    String name = paramFromUrl.toName();
+                    if(StringUtil.isNullOrEmpty(name)){
+                        throw new MintFlowControllerError("方法"+method.getName()+",参数"+parameter.getName()+"中,ParamFromBody注解 toName 参数不可为空 或者 toType = true" );
+                    }
+                    mapperParamRule.setToName(name);
+                }
+            }
+
+
             types.add(mapperParamRule);
         }
+    }
+
+    private boolean isOnly(ParamFromForm paramFromForm,ParamFromBody paramFromBody,ParamFromUrl paramFromUrl){
+        int index = 0;
+        if(paramFromBody!=null){
+            index++;
+        }
+        if(paramFromForm!=null){
+            index++;
+        }
+        if(paramFromUrl!=null){
+            index++;
+        }
+
+        return index==1;
     }
 
     @Override
@@ -130,7 +165,7 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
                 case FROM_BODY:
                     String body = t.getBody();
                     if(!StringUtil.isNullOrEmpty(body)){
-                        needItem = Json.decodeValue(t.getBody(), mapperParamRule.toType);
+                        needItem = Json.decodeValue(t.getBody(), mapperParamRule.getItemClass());
                     }
                     break;
                 case FROM_FORM:
@@ -142,17 +177,11 @@ public class ControllerMapperParamAdapter implements RequestParamAdapter {
                 default:
                     break;
             }
-
-            switch (mapperParamRule.toRule) {
-                case TO_NAME:
-                    paramWrapper.setContextParam(mapperParamRule.getToName(), needItem);
-                    break;
-                case TO_TYPE:
-                    paramWrapper.setParam(mapperParamRule.toType, needItem);
-                    break;
+            if(mapperParamRule.isToType()){
+                paramWrapper.setParam(mapperParamRule.getItemClass(), needItem);
+            }else{
+                paramWrapper.setContextParam(mapperParamRule.getToName(), needItem);
             }
-
-
         }
         return paramWrapper;
     }

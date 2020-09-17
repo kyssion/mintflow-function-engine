@@ -1,7 +1,6 @@
 package org.mintflow.vertx.http.adapter.response;
 
 import org.mintflow.param.ParamWrapper;
-import org.mintflow.vertx.http.adapter.request.DefaultRequestParamAdapter;
 import org.mintflow.vertx.http.param.ResponseParam;
 
 public class DefaultResponseParamAdapter implements ResponseParamAdapter {
