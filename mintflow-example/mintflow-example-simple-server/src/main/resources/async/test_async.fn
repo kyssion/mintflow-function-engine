@@ -5,6 +5,6 @@ namespace(buy){
             ->if(can_get_gift_async_handle){
                 ->handle(get_gift_async_handle)
             }->handle(preferential_actuator_async_handle)
-        }->handle(end_async_handle)
+        }
     }
 }
